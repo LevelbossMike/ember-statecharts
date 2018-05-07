@@ -1,4 +1,4 @@
-ember-statecharts
+ember-statecharts [![Build Status](https://travis-ci.org/LevelbossMike/ember-statecharts.svg?branch=master)](https://travis-ci.org/LevelbossMike/ember-statecharts)
 ==============================================================================
 
 [Short description of the addon.]
