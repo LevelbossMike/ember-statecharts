@@ -1,0 +1,9 @@
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  {{#if isBusy}}
+    <div data-test-loading>loading</div>
+  {{else}}
+    {{text}}
+  {{/if}}
+{{/if}}
