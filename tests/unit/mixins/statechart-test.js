@@ -21,7 +21,7 @@ module('Unit | Mixin | statechart', function() {
             events: {
               woot() {
                 assert.ok(true, 'event was called');
-                this.goToState('foo', testData);
+                return this.goToState('foo', testData);
               }
             }
           },
