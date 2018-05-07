@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, waitFor } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { Promise } from 'rsvp';
+import { Promise, resolve, reject } from 'rsvp';
 
 module('Integration | Component | x-button', function(hooks) {
   setupRenderingTest(hooks);
@@ -68,5 +68,66 @@ module('Integration | Component | x-button', function(hooks) {
     await click('[data-test-button]');
 
     assert.dom('[data-test-button]').hasAttribute('disabled');
+  });
+
+  test("when passing the disabled property the button is disabled and won't trigger its action", async function(assert) {
+    this.set('onClick', function() {
+      assert.ok(false, 'onClick should not be triggered');
+    });
+
+    await render(hbs`
+      {{x-button
+        data-test-button=true
+        disabled=true
+        text="click me"
+        onClick=(action onClick)
+      }}
+    `);
+
+    await click('[data-test-button]');
+
+    assert.dom('[data-test-button]').hasAttribute('disabled');
+  });
+
+  test('when the triggered action resolves the `onSuccess` handler is triggered', async function(assert) {
+    this.set('onClick', function() {
+      return resolve();
+    });
+
+    this.set('onSuccess', function() {
+      assert.ok(true, '`onSuccess` was triggered');
+    });
+
+    await render(hbs`
+      {{x-button
+        data-test-button=true
+        text="click me"
+        onClick=(action onClick)
+        onSuccess=(action onSuccess)
+      }}
+    `)
+
+    await click('[data-test-button]');
+  });
+
+  test('when the triggered action rejects the `onError` handler is triggered', async function(assert) {
+    this.set('onClick', function() {
+      return reject();
+    });
+
+    this.set('onError', function() {
+      assert.ok(true, '`onError` was triggered');
+    });
+
+    await render(hbs`
+      {{x-button
+        data-test-button=true
+        text="click me"
+        onClick=(action onClick)
+        onError=(action onError)
+      }}
+    `)
+
+    await click('[data-test-button]');
   });
 });
