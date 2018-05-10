@@ -164,4 +164,366 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
 
     await stateChart.send('woot');
   });
+
+  test('StateCharts can be nested', async function(assert) {
+    let stateChart = new StateChart({
+      initialState: 'off',
+      states: {
+        off: {
+          events: {
+            power() {
+              return this.goToState('on');
+            }
+          }
+        },
+        on: {
+          initialState: 'stopped',
+          states: {
+            stopped: {},
+            playing: {},
+            paused: {}
+          }
+        }
+      }
+    });
+
+    assert.equal(stateChart.currentState.name, 'off');
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.name, 'on.stopped');
+  });
+
+  test('StateChart transitions in nested states work', async function(assert) {
+    let stateChart = new StateChart({
+      initialState: 'on',
+      states: {
+        off: {
+          events: {
+            power() {
+              return this.goToState('on');
+            }
+          }
+        },
+        on: {
+          initialState: 'stopped',
+          states: {
+            stopped: {
+              events: {
+                play() {
+                  return this.goToState('playing');
+                }
+              }
+            },
+            playing: {},
+            paused: {}
+          },
+          events: {
+            power() {
+              return this.goToState('off');
+            }
+          }
+        }
+      }
+    });
+
+    assert.equal(stateChart.currentState.name, 'on.stopped');
+
+    await stateChart.send('play');
+
+    assert.equal(stateChart.currentState.name, 'on.playing');
+  });
+
+  test('nested statecharts can handle events themselves', async function(assert) {
+    let stateChart = new StateChart({
+      initialState: 'on',
+      states: {
+        off: {
+          events: {
+            power() {
+              return this.goToState('on');
+            }
+          }
+        },
+        on: {
+          initialState: 'stopped',
+          states: {
+            stopped: {},
+            playing: {},
+            paused: {}
+          },
+          events: {
+            power() {
+              return this.goToState('off');
+            }
+          }
+        },
+      }
+    });
+
+    assert.equal(stateChart.currentState.name, 'on.stopped');
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.name, 'off');
+  });
+  test('nested statecharts have access to the top-level context object', async function(assert) {
+    assert.expect(8);
+
+    let testContext = {
+      name: 'lol'
+    };
+
+    let stateChart = new StateChart({
+      initialState: 'off',
+      context: testContext,
+
+      states: {
+        off: {
+          events: {
+            power() {
+              return this.goToState('on');
+            }
+          }
+        },
+        on: {
+          initialState: 'stopped',
+          states: {
+            stopped: {
+              enterState() {
+                assert.equal(this.context.name, 'lol', 'context is available as expected');
+              },
+              exitState() {
+                assert.equal(this.context.name, 'lol');
+              },
+              events: {
+                play() {
+                  assert.equal(this.context.name, 'lol');
+                  return this.goToState('playing');
+                }
+              }
+            },
+            playing: {},
+            paused: {}
+          },
+          events: {
+            power() {
+              assert.equal(this.context.name, 'lol');
+              return this.goToState('off');
+            },
+          }
+        },
+      }
+    });
+
+    assert.equal(stateChart.currentState.name, 'off');
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.name, 'on.stopped');
+
+    await stateChart.send('play');
+
+    assert.equal(stateChart.currentState.name, 'on.playing');
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.name, 'off');
+  });
+
+  test('nested statecharts will execute enterState handlers for the chart first and then for the initialState of the nested chart', async function(assert) {
+    assert.expect(5);
+
+    let testContext = {
+      executionOrder: []
+    };
+
+    let testData = {
+      wat: 'lol'
+    };
+
+    let stateChart = new StateChart({
+      initialState: 'off',
+      context: testContext,
+
+      states: {
+        off: {
+          events: {
+            power() {
+              return this.goToState('on', testData);
+            }
+          }
+        },
+        on: {
+          initialState: 'stopped',
+          states: {
+            stopped: {
+              enterState(data) {
+                assert.deepEqual(data, testData, 'data passed via topLevel goToState will be available in substates as well');
+                this.context.executionOrder.push('stopped')
+              }
+            },
+            playing: {
+              enterState() {
+                this.context.executionOrder.push('wat');
+              }
+            }
+          },
+          enterState(data) {
+            assert.deepEqual(data, testData, 'data passed from goToState wil be available in enterState');
+            this.context.executionOrder.push('on');
+          }
+        }
+      }
+    });
+
+    assert.equal(stateChart.currentState.name, 'off');
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(testContext.executionOrder, ['on', 'stopped']);
+  });
+
+  test('nested statecharts will execute exitState handlers for substate first and then for the chart', async function(assert) {
+    assert.expect(3);
+
+    let testContext = {
+      executionOrder: []
+    };
+
+    let stateChart = new StateChart({
+      initialState: 'on',
+      context: testContext,
+
+      states: {
+        off: {},
+        on: {
+          initialState: 'stopped',
+          states: {
+            stopped: {
+              exitState() {
+                this.context.executionOrder.push('stopped')
+              }
+            },
+            playing: {
+              exitState() {
+                this.context.executionOrder.push('wat');
+              }
+            }
+          },
+          exitState() {
+            this.context.executionOrder.push('on');
+          },
+          events: {
+            power() {
+              return this.goToState('off');
+            }
+          }
+        }
+      }
+    });
+
+    assert.equal(stateChart.currentState.name, 'on.stopped');
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.name, 'off');
+    assert.deepEqual(testContext.executionOrder, ['stopped', 'on']);
+  });
+});
+
+test('when exiting a nested states and entering again we will start out in the default initial state again', async function(assert) {
+  let stateChart = new StateChart({
+    initialState: 'on',
+    states: {
+      off: {
+        events: {
+          power() {
+            return this.goToState('on');
+          }
+        }
+      },
+      on: {
+        initialState: 'stopped',
+        states: {
+          stopped: {
+            events: {
+              play() {
+                return this.goToState('playing');
+              }
+            }
+          },
+          playing: {}
+        },
+        events: {
+          power() {
+            return this.goToState('off');
+          }
+        }
+      }
+    }
+  });
+
+  assert.equal(stateChart.currentState.name, 'on.stopped');
+
+  await stateChart.send('play');
+
+  assert.equal(stateChart.currentState.name, 'on.playing');
+
+  await stateChart.send('power');
+
+  assert.equal(stateChart.currentState.name, 'off');
+
+  await stateChart.send('power');
+
+  assert.equal(stateChart.currentState.name, 'on.stopped');
+});
+
+test('statecharts can be nested multiple levels deep', async function(assert) {
+  let stateChart = new StateChart({
+    initialState: 'a',
+    states: {
+      a: {
+        initialState: 'aa',
+        states: {
+          aa: {
+            initialState: 'aaa',
+            states: {
+              aaa: {
+                initialState: 'aaaa',
+                states: {
+                  aaaa: {
+                    events: {
+                      aaab() {
+                        return this.goToState('aaab');
+                      }
+                    }
+                  },
+                  aaab: {}
+                }
+              },
+              aab: {}
+            },
+            events: {
+              ab() {
+                return this.goToState('ab');
+              }
+            }
+          },
+          ab: {}
+        }
+      }
+    }
+  });
+
+  assert.equal(stateChart.currentState.name, 'a.aa.aaa.aaaa');
+
+  await stateChart.send('aaab');
+
+  assert.equal(stateChart.currentState.name, 'a.aa.aaa.aaab');
+
+  await stateChart.send('ab');
+
+  assert.equal(stateChart.currentState.name, 'a.ab');
 });
