@@ -1,8 +1,9 @@
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
-import { equal, or } from '@ember/object/computed';
+import { or } from '@ember/object/computed';
 import StateChart from 'ember-statecharts/mixins/statechart';
 import { resolve } from 'rsvp';
+import { matchesState } from 'xstate';
 
 export default Component.extend(StateChart, {
   tagName: 'button',
@@ -15,48 +16,51 @@ export default Component.extend(StateChart, {
 
   isDisabled: or('isBusy', 'isInDisabledState'),
 
-  isBusy: equal('currentState.name', 'busy'),
-  isInDisabledState: equal('currentState.name', 'disabled'),
+  isBusy: computed('currentState', function() {
+    let currentState = get(this, 'currentState.value')
+
+    return matchesState('busy', currentState);
+  }),
+
+  isInDisabledState: computed('currentState', function() {
+    let currentState = get(this, 'currentState.value');
+
+    return matchesState('disabled', currentState);
+  }),
 
   statechart: computed('disabled', function() {
     let disabled = get(this, 'disabled');
 
     return {
-      initialState: disabled ? 'disabled' : 'idle',
+      initial: disabled ? 'disabled' : 'idle',
 
       states: {
         idle: {
-          events: {
-            click() {
-              return this.goToState('busy');
-            }
+          on: {
+            click: 'busy'
           }
         },
         disabled: {},
         busy: {
-          enterState() {
+          onEntry(data, context) {
             return resolve()
-              .then(this.context.onClick)
-              .then(() => this.context.resolve())
-              .catch(() => this.context.reject());
+              .then(context.onClick)
+              .then(() => context.resolve())
+              .catch(() => context.reject());
           },
-          events: {
-            resolve() {
-              return this.goToState('success');
-            },
-            reject() {
-              return this.goToState('error');
-            }
+          on: {
+            resolve: 'success',
+            reject: 'error'
           }
         },
         success: {
-          enterState() {
-            return this.context.onSuccess();
+          onEntry(data, context) {
+            return context.onSuccess();
           }
         },
         error: {
-          enterState() {
-            return this.context.onError();
+          onEntry(data, context) {
+            return context.onError();
           }
         }
       }

@@ -12,21 +12,26 @@ module('Unit | Mixin | statechart', function() {
 
     let subject = StatechartObject.create({
       statechart: {
-        initialState: 'new',
+        initial: 'new',
         states: {
           new: {
-            exitState() {
+            onExit() {
               assert.ok(true, 'exitState was called');
             },
-            events: {
-              woot() {
-                assert.ok(true, 'event was called');
-                return this.goToState('foo', testData);
+            on: {
+              woot: {
+                foo: {
+                  actions: [
+                    () => {
+                      assert.ok(true, 'event was called');
+                    }
+                  ]
+                }
               }
             }
           },
           foo: {
-            enterState(data) {
+            onEntry(data) {
               assert.deepEqual(data, testData);
             }
           }
@@ -34,10 +39,10 @@ module('Unit | Mixin | statechart', function() {
       }
     });
 
-    assert.equal(get(subject, 'states.currentState.name'), 'new');
+    assert.equal(get(subject, 'states.currentState.value'), 'new');
 
-    await get(subject, 'states').send('woot');
+    await get(subject, 'states').send('woot', testData);
 
-    assert.equal(get(subject, 'states.currentState.name'), 'foo');
+    assert.equal(get(subject, 'states.currentState.value'), 'foo');
   });
 });
