@@ -1,39 +1,73 @@
-import StateChart from 'dummy/utils/statechart';
+import Statechart from 'dummy/utils/statechart';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | statechart', function(/*hooks*/) {
 
   test('it starts with an initial state', function(assert) {
-    let result = new StateChart({
-      initialState: 'new',
+    let result = new Statechart({
+      initial: 'new',
       states: {
         new: {}
       }
     });
 
-    assert.equal(result.currentState.name, 'new');
+    assert.equal(result.currentState.value, 'new');
   });
 
-  test('the statechart can send events to its states', function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'new',
+  test('the statechart can send events to its states which will be handled by actions', function(assert) {
+    let stateChart = new Statechart({
+      initial: 'new',
       states: {
         new: {
-          events: {
-            woot() {
-              assert.ok(true, 'stateChart forwarded event to its currentState');
+          on: {
+            woot: {
+              next: {
+                actions: [
+                  () => {
+                    assert.ok(true, 'stateChart forwarded event to its currentState which handled it via an action');
+                  }
+                ]
+              }
             }
           }
-        }
+        },
+        next: {}
       }
     });
 
     stateChart.send('woot');
   });
 
+  test('it is possible to pass data when sending events', function(assert) {
+    let data = {
+      name: 'Tomster'
+    };
+    let stateChart = new Statechart({
+      initial: 'new',
+      states: {
+        new: {
+          on: {
+            woot: {
+              next: {
+                actions: [
+                  (eventData) => {
+                    assert.deepEqual(eventData, data, 'passing data works as expected');
+                  }
+                ]
+              }
+            }
+          }
+        },
+        next: {}
+      }
+    });
+
+    stateChart.send('woot', data);
+  });
+
   test('if the currentState does not implement the sent event it does not break', function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'new',
+    let stateChart = new Statechart({
+      initial: 'new',
       states: {
         new: {}
       }
@@ -41,143 +75,178 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
 
     stateChart.send('wat');
 
-    assert.equal(stateChart.currentState.name, 'new');
+    assert.equal(stateChart.currentState.value, 'new');
   });
 
   test('state event handlers can transition to other states of the stateChart', async function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'new',
+    let stateChart = new Statechart({
+      initial: 'new',
       states: {
         new: {
-          events: {
-            woot() {
-              return this.goToState('foo');
-            }
+          on: {
+            woot: 'next'
           }
         },
-        foo: {}
+        next: {}
       }
     });
 
-    assert.equal(stateChart.currentState.name, 'new', 'initial state was setup correctly');
+    assert.equal(stateChart.currentState, 'new', 'initial state was setup correctly');
 
     await stateChart.send('woot');
 
-    assert.equal(stateChart.currentState.name, 'foo', 'successfully transitioned into the new state');
+    assert.equal(stateChart.currentState.value, 'next', 'successfully transitioned into the new state');
   });
 
-  test('state event handlers can be passed data', async function(assert) {
-    let eventData = {
-      woot: 'works'
-    };
-
-    let stateChart = new StateChart({
-      initialState: 'new',
-      states: {
-        new: {
-          events: {
-            woot(data) {
-              assert.deepEqual(data, eventData, 'correct data passed to eventHandler');
-            }
-          }
-        }
-      }
-    });
-
-    stateChart.send('woot', eventData);
-  });
-
-  test("when a new state is entered the old state's `exitState` function will be called and after that the newState's `enterState` function`", async function(assert) {
+  test("when a new state is entered the old state's `onExit` function will be called and after that the newState's `onEntry` function`", async function(assert) {
     assert.expect(4);
 
     let someData = { woot: 'lol' };
     let functionOrder = [];
 
-    let stateChart = new StateChart({
-      initialState: 'new',
+    let stateChart = new Statechart({
+      initial: 'new',
       states: {
         new: {
-          exitState() {
-            functionOrder.push('exitState');
-            assert.equal(this.name, 'new',  'exitState was called');
+          on: {
+            woot: 'next'
           },
-          events: {
-            woot() {
-              return this.goToState('foo', someData);
-            }
+          onExit(data) {
+            functionOrder.push('exitState');
+            assert.deepEqual(data, someData, 'states can pass data when they transition');
           }
         },
-        foo: {
-          enterState(data) {
+        next: {
+          onEntry(data) {
             functionOrder.push('enterState');
-            assert.deepEqual(data, someData, 'states can pass data when the transition');
+            assert.deepEqual(data, someData, 'states can pass data when they transition');
           }
         }
       }
     });
 
-    await stateChart.send('woot')
+    await stateChart.send('woot', someData);
 
-    assert.equal(stateChart.currentState.name, 'foo', 'entered correct state');
+    assert.equal(stateChart.currentState.value, 'next', 'entered correct state');
     assert.deepEqual(functionOrder, ['exitState', 'enterState'], 'exit and enter functions called in right order');
   });
 
   test("after a new state has been entered the stateChart's `didChangeState` function is called", async function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'new',
+    let stateChart = new Statechart({
+      initial: 'new',
       states: {
         new: {
-          events: {
-            woot() {
-              return this.goToState('foo');
-            }
+          on: {
+            woot: 'next'
           }
         },
-        foo: {}
+        next: {}
       },
       didChangeState(newState) {
-        assert.equal(newState.name, 'foo', 'new State passed to `didChangeState`');
+        assert.equal(newState.value, 'next', 'new State passed to `didChangeState`');
       }
     });
 
     await stateChart.send('woot');
   });
 
-  test('StateCharts can be passed a context that the states have access to in their event-handlers', async function(assert) {
+  test('StateCharts can be passed a context that the states have access to in their actions', async function(assert) {
     let testContext = {
       name: 'test context'
     };
 
-    let stateChart = new StateChart({
+    let stateChart = new Statechart({
       context: testContext,
-      initialState: 'new',
+      initial: 'new',
       states: {
         new: {
-          events: {
-            woot() {
-              assert.deepEqual(this.context, testContext, 'context is accessible in event handlers');
+          on: {
+            woot: {
+              next: {
+                actions: [
+                  (data, context) => {
+                    assert.deepEqual(context, testContext, 'context is accessible in action handlers');
+                  }
+                ]
+              }
             }
           }
-        }
+        },
+        next: {}
       }
     });
 
     await stateChart.send('woot');
   });
 
-  test('StateCharts can be nested', async function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'off',
+  test('Statecharts can implement guards to determine if a transition should occur between states', async function(assert) {
+    assert.expect(6);
+
+    let testData = {
+      name: 'Tomster'
+    };
+
+    let testContext = {
+      name: 'test context'
+    };
+
+    let stateChart = new Statechart({
+      initial: 'new',
+      context: testContext,
       states: {
-        off: {
-          events: {
-            power() {
-              return this.goToState('on');
+        new: {
+          on: {
+            woot: {
+              next: {
+                cond: (extendedState, eventObject) => {
+                  let { type, data } = eventObject;
+                  assert.equal(type, 'woot', 'eventName is accessible in condition');
+                  assert.deepEqual(data, testData, 'passed event data is available in condition');
+                  assert.deepEqual(extendedState, testContext, "the statechart's context is available in condition");
+
+                  return false;
+                },
+                actions: [
+                  () => assert.ok(false, "no action will be called as we won't transition because of `woot`-event")
+                ]
+              }
+            },
+            foo: {
+              next: {
+                cond: () => {
+                  return true;
+                },
+                actions: [
+                  () => assert.ok(true, 'returning `true` from a condition will trigger a transition')
+                ]
+              }
             }
           }
         },
+        next: {}
+      }
+    });
+
+    await stateChart.send('woot', testData);
+
+    assert.equal(stateChart.currentState.value, 'new', 'woot did not trigger a transition');
+
+    await stateChart.send('foo', testData);
+
+    assert.equal(stateChart.currentState.value, 'next', 'foo did trigger a transition');
+  });
+
+  test('StateCharts can be nested', async function(assert) {
+    let stateChart = new Statechart({
+      initial: 'off',
+      states: {
+        off: {
+          on: {
+            power: 'on'
+          }
+        },
         on: {
-          initialState: 'stopped',
+          initial: 'stopped',
           states: {
             stopped: {},
             playing: {},
@@ -187,86 +256,52 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       }
     });
 
-    assert.equal(stateChart.currentState.name, 'off');
+    assert.equal(stateChart.currentState.value, 'off');
 
     await stateChart.send('power');
 
-    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' }, 'nested states will return an object as their `value`');
   });
 
-  test('StateChart transitions in nested states work', async function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'on',
+  test('Statechart transitions in nested states work', async function(assert) {
+    assert.expect(3);
+    let stateChart = new Statechart({
+      initial: 'on',
       states: {
         off: {
-          events: {
-            power() {
-              return this.goToState('on');
-            }
+          on: {
+            power: 'on'
           }
         },
         on: {
-          initialState: 'stopped',
+          initial: 'stopped',
           states: {
             stopped: {
-              events: {
-                play() {
-                  return this.goToState('playing');
-                }
+              on: {
+                play: 'playing'
               }
             },
             playing: {},
             paused: {}
           },
-          events: {
-            power() {
-              return this.goToState('off');
-            }
+          on: {
+            power: 'off'
           }
         }
       }
     });
 
-    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' });
 
     await stateChart.send('play');
 
-    assert.equal(stateChart.currentState.name, 'on.playing');
-  });
-
-  test('nested statecharts can handle events themselves', async function(assert) {
-    let stateChart = new StateChart({
-      initialState: 'on',
-      states: {
-        off: {
-          events: {
-            power() {
-              return this.goToState('on');
-            }
-          }
-        },
-        on: {
-          initialState: 'stopped',
-          states: {
-            stopped: {},
-            playing: {},
-            paused: {}
-          },
-          events: {
-            power() {
-              return this.goToState('off');
-            }
-          }
-        },
-      }
-    });
-
-    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(stateChart.currentState.value, { on: 'playing' });
 
     await stateChart.send('power');
 
-    assert.equal(stateChart.currentState.name, 'off');
+    assert.deepEqual(stateChart.currentState.value, 'off');
   });
+
   test('nested statecharts have access to the top-level context object', async function(assert) {
     assert.expect(8);
 
@@ -274,64 +309,68 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       name: 'lol'
     };
 
-    let stateChart = new StateChart({
-      initialState: 'off',
+    let stateChart = new Statechart({
+      initial: 'off',
       context: testContext,
 
       states: {
         off: {
-          events: {
-            power() {
-              return this.goToState('on');
-            }
+          on: {
+            power: 'on'
           }
         },
         on: {
-          initialState: 'stopped',
+          initial: 'stopped',
           states: {
             stopped: {
-              enterState() {
-                assert.equal(this.context.name, 'lol', 'context is available as expected');
+              onEntry(data, context) {
+                assert.deepEqual(context, testContext, 'context is available as expected');
               },
-              exitState() {
-                assert.equal(this.context.name, 'lol');
+              onExit(data, context) {
+                assert.equal(context.name, 'lol');
               },
-              events: {
-                play() {
-                  assert.equal(this.context.name, 'lol');
-                  return this.goToState('playing');
+              on: {
+                play: {
+                  playing: {
+                    actions: [
+                      (data, context) => { assert.deepEqual(context, testContext) }
+                    ]
+                  }
                 }
               }
             },
             playing: {},
             paused: {}
           },
-          events: {
-            power() {
-              assert.equal(this.context.name, 'lol');
-              return this.goToState('off');
-            },
+          on: {
+            power: {
+              off: {
+                actions: [
+                  (data, context) => { assert.deepEqual(context, testContext) }
+                ]
+              }
+            }
           }
-        },
+        }
       }
     });
 
-    assert.equal(stateChart.currentState.name, 'off');
+    assert.equal(stateChart.currentState.value, 'off');
 
     await stateChart.send('power');
 
-    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' });
 
     await stateChart.send('play');
 
-    assert.equal(stateChart.currentState.name, 'on.playing');
+    assert.deepEqual(stateChart.currentState.value, { on: 'playing' });
 
     await stateChart.send('power');
 
-    assert.equal(stateChart.currentState.name, 'off');
+    assert.equal(stateChart.currentState.value, 'off');
   });
 
-  test('nested statecharts will execute enterState handlers for the chart first and then for the initialState of the nested chart', async function(assert) {
+  test('nested statecharts will execute onEntry handlers for the chart first and then for the initial state of the nested chart', async function(assert) {
     assert.expect(5);
 
     let testContext = {
@@ -342,46 +381,44 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       wat: 'lol'
     };
 
-    let stateChart = new StateChart({
-      initialState: 'off',
+    let stateChart = new Statechart({
+      initial: 'off',
       context: testContext,
 
       states: {
         off: {
-          events: {
-            power() {
-              return this.goToState('on', testData);
-            }
+          on: {
+            power: 'on'
           }
         },
         on: {
-          initialState: 'stopped',
+          initial: 'stopped',
           states: {
             stopped: {
-              enterState(data) {
-                assert.deepEqual(data, testData, 'data passed via topLevel goToState will be available in substates as well');
-                this.context.executionOrder.push('stopped')
+              onEntry(data, context) {
+                assert.deepEqual(data, testData, 'data passed via send will be available in substates as well');
+                context.executionOrder.push('stopped')
               }
             },
             playing: {
-              enterState() {
-                this.context.executionOrder.push('wat');
+              onEntry(data, context) {
+                context.executionOrder.push('wat');
               }
             }
           },
-          enterState(data) {
+          onEntry(data, context) {
             assert.deepEqual(data, testData, 'data passed from goToState wil be available in enterState');
-            this.context.executionOrder.push('on');
+            context.executionOrder.push('on');
           }
         }
       }
     });
 
-    assert.equal(stateChart.currentState.name, 'off');
+    assert.equal(stateChart.currentState.value, 'off');
 
-    await stateChart.send('power');
+    await stateChart.send('power', testData);
 
-    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' });
     assert.deepEqual(testContext.executionOrder, ['on', 'stopped']);
   });
 
@@ -392,138 +429,140 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       executionOrder: []
     };
 
-    let stateChart = new StateChart({
-      initialState: 'on',
+    let stateChart = new Statechart({
+      initial: 'on',
       context: testContext,
 
       states: {
         off: {},
         on: {
-          initialState: 'stopped',
+          initial: 'stopped',
           states: {
             stopped: {
-              exitState() {
-                this.context.executionOrder.push('stopped')
+              onExit(data, context) {
+                context.executionOrder.push('stopped')
               }
             },
             playing: {
-              exitState() {
-                this.context.executionOrder.push('wat');
+              onExit(data, context) {
+                context.executionOrder.push('wat');
               }
             }
           },
-          exitState() {
-            this.context.executionOrder.push('on');
+          onExit(data, context) {
+            context.executionOrder.push('on');
           },
-          events: {
-            power() {
-              return this.goToState('off');
-            }
+          on: {
+            power: 'off'
           }
         }
       }
     });
 
-    assert.equal(stateChart.currentState.name, 'on.stopped');
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' });
 
     await stateChart.send('power');
 
-    assert.equal(stateChart.currentState.name, 'off');
+    assert.equal(stateChart.currentState.value, 'off');
     assert.deepEqual(testContext.executionOrder, ['stopped', 'on']);
   });
-});
 
-test('when exiting a nested states and entering again we will start out in the default initial state again', async function(assert) {
-  let stateChart = new StateChart({
-    initialState: 'on',
-    states: {
-      off: {
-        events: {
-          power() {
-            return this.goToState('on');
+  test('when exiting a nested states and entering again we will start out in the default initial state again', async function(assert) {
+    let stateChart = new Statechart({
+      initial: 'on',
+      states: {
+        off: {
+          on: {
+            power: 'on'
           }
-        }
-      },
-      on: {
-        initialState: 'stopped',
-        states: {
-          stopped: {
-            events: {
-              play() {
-                return this.goToState('playing');
-              }
-            }
-          },
-          playing: {}
         },
-        events: {
-          power() {
-            return this.goToState('off');
+        on: {
+          initial: 'stopped',
+          states: {
+            stopped: {
+              on: {
+                play: 'playing'
+              }
+            },
+            playing: {}
+          },
+          on: {
+            power: 'off'
           }
         }
       }
-    }
+    });
+
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' });
+
+    await stateChart.send('play');
+
+    assert.deepEqual(stateChart.currentState.value, { on: 'playing' });
+
+    await stateChart.send('power');
+
+    assert.equal(stateChart.currentState.value, 'off');
+
+    await stateChart.send('power');
+
+    assert.deepEqual(stateChart.currentState.value, { on: 'stopped' });
   });
 
-  assert.equal(stateChart.currentState.name, 'on.stopped');
-
-  await stateChart.send('play');
-
-  assert.equal(stateChart.currentState.name, 'on.playing');
-
-  await stateChart.send('power');
-
-  assert.equal(stateChart.currentState.name, 'off');
-
-  await stateChart.send('power');
-
-  assert.equal(stateChart.currentState.name, 'on.stopped');
-});
-
-test('statecharts can be nested multiple levels deep', async function(assert) {
-  let stateChart = new StateChart({
-    initialState: 'a',
-    states: {
-      a: {
-        initialState: 'aa',
-        states: {
-          aa: {
-            initialState: 'aaa',
-            states: {
-              aaa: {
-                initialState: 'aaaa',
-                states: {
-                  aaaa: {
-                    events: {
-                      aaab() {
-                        return this.goToState('aaab');
+  test('statecharts can be nested multiple levels deep', async function(assert) {
+    let stateChart = new Statechart({
+      initial: 'a',
+      states: {
+        a: {
+          initial: 'aa',
+          states: {
+            aa: {
+              initial: 'aaa',
+              states: {
+                aaa: {
+                  initial: 'aaaa',
+                  states: {
+                    aaaa: {
+                      on: {
+                        aaab: 'aaab'
                       }
-                    }
-                  },
-                  aaab: {}
-                }
+                    },
+                    aaab: {}
+                  }
+                },
+                aab: {}
               },
-              aab: {}
-            },
-            events: {
-              ab() {
-                return this.goToState('ab');
+              on: {
+                ab: 'ab'
               }
-            }
-          },
-          ab: {}
+            },
+            ab: {}
+          }
         }
       }
-    }
+    });
+
+    assert.deepEqual(stateChart.currentState.value, {
+      a: {
+        aa: {
+          aaa: 'aaaa'
+        }
+      }
+    });
+
+    await stateChart.send('aaab');
+
+    assert.deepEqual(stateChart.currentState.value, {
+      a: {
+        aa: {
+          aaa: 'aaab'
+        }
+      }
+    });
+
+    await stateChart.send('ab');
+
+    assert.deepEqual(stateChart.currentState.value, {
+      a: 'ab'
+    });
   });
-
-  assert.equal(stateChart.currentState.name, 'a.aa.aaa.aaaa');
-
-  await stateChart.send('aaab');
-
-  assert.equal(stateChart.currentState.name, 'a.aa.aaa.aaab');
-
-  await stateChart.send('ab');
-
-  assert.equal(stateChart.currentState.name, 'a.ab');
 });
