@@ -1,6 +1,6 @@
 {
   "name": "ember-statecharts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Statecharts for Ember.js applications",
   "keywords": [
     "ember-addon"
@@ -11,7 +11,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "https://github.com/LevelbossMike/ember-statecharts",
   "scripts": {
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app blueprints config lib server test-support tests",
