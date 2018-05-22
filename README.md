@@ -52,36 +52,59 @@ obvious on how to implement behaviour like this - here's a statechart that
 describes the behaviour of the button component:
 
 ![x-button-statechart](https://user-images.githubusercontent.com/242299/40376466-b388246e-5dee-11e8-8eb8-165956c3affb.png)
+
 And here's how you can model this behaviour with `ember-statecharts`:
 
 ```js
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { or } from '@ember/object/computed';
+import StateChart from 'ember-statecharts/mixins/statechart';
+import { resolve } from 'rsvp';
+import { matchesState } from 'xstate';
+
 export default Component.extend(StateChart, {
   tagName: 'button',
 
   onClick() {},
+  onSuccess() {},
+  onError() {},
 
-  attributeBindings: ['isBusy:disabled'],
+  attributeBindings: ['isDisabled:disabled'],
 
-  isBusy: equal('currentState.name', 'busy'),
+  isDisabled: or('isBusy', 'isInDisabledState'),
 
-  statechart: computed(function() {
+  isBusy: computed('currentState', function() {
+    let currentState = get(this, 'currentState.value')
+
+    return matchesState('busy', currentState);
+  }),
+
+  isInDisabledState: computed('currentState', function() {
+    let currentState = get(this, 'currentState.value');
+
+    return matchesState('disabled', currentState);
+  }),
+
+  statechart: computed('disabled', function() {
+    let disabled = get(this, 'disabled');
+
     return {
-      initial: 'idle',
+      initial: disabled ? 'disabled' : 'idle',
 
       states: {
         idle: {
           on: {
             click: 'busy'
-          },
-          onExit(data, context) {
-            // onExit will be called when a state is exited
           }
         },
         disabled: {},
         busy: {
-          onEntry(_data, context) {
-            // onEntry will be called when a state is entered
-            return context.onClick();
+          onEntry(data, context) {
+            return resolve()
+              .then(context.onClick)
+              .then(() => context.resolve())
+              .catch(() => context.reject());
           },
           on: {
             resolve: 'success',
@@ -89,41 +112,29 @@ export default Component.extend(StateChart, {
           }
         },
         success: {
-          on: {
-            activate: {
-              idle: {
-                // specify actions that will be triggered when `success`
-                // transitions to `idle`. You can pass multiple actions
-                // if you feel the need to do so
-                actions: [
-                  (data, context) => { /* ... */ },
-
-                  // you can also pass strings as actions which will execute on
-                  // the object that implements the statechart
-                  'notifyActivation'
-                ]
-              }
-            }
+          onEntry(data, context) {
+            return context.onSuccess();
           }
         },
         error: {
-          // ...
+          onEntry(data, context) {
+            return context.onError();
+          }
         }
       }
     }
   }),
 
   click() {
-    // you can pass an object to send
-    let data = {
-      name: 'tomster'
-    };
-
-    get(this, 'states').send('click', data);
+    get(this, 'states').send('click');
   },
 
-  notifyActivation(/* data */) {
-    // ...
+  resolve() {
+    get(this, 'states').send('resolve');
+  },
+
+  reject() {
+    get(this, 'states').send('reject');
   }
 });
 ```
