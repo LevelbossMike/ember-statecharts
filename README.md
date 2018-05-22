@@ -51,8 +51,7 @@ this button? did you think about a success state? Statecharts make it super
 obvious on how to implement behaviour like this - here's a statechart that
 describes the behaviour of the button component:
 
-![x-button-statechart](https://user-images.githubusercontent.com/242299/39698810-a7c1f96a-51f6-11e8-982d-927559a1364e.png)
-
+![x-button-statechart](https://user-images.githubusercontent.com/242299/40376466-b388246e-5dee-11e8-8eb8-165956c3affb.png)
 And here's how you can model this behaviour with `ember-statecharts`:
 
 ```js
@@ -67,30 +66,64 @@ export default Component.extend(StateChart, {
 
   statechart: computed(function() {
     return {
-      initialState: 'idle',
+      initial: 'idle',
 
       states: {
         idle: {
-          events: {
-            click() {
-              return this.goToState('busy');
-            }
+          on: {
+            click: 'busy'
+          },
+          onExit(data, context) {
+            // onExit will be called when a state is exited
           }
         },
         disabled: {},
         busy: {
-          enterState() {
-            return this.context.onClick();
+          onEntry(_data, context) {
+            // onEntry will be called when a state is entered
+            return context.onClick();
+          },
+          on: {
+            resolve: 'success',
+            reject: 'error'
           }
         },
-        success: {},
-        error: {}
+        success: {
+          on: {
+            activate: {
+              idle: {
+                // specify actions that will be triggered when `success`
+                // transitions to `idle`. You can pass multiple actions
+                // if you feel the need to do so
+                actions: [
+                  (data, context) => { /* ... */ },
+
+                  // you can also pass strings as actions which will execute on
+                  // the object that implements the statechart
+                  'notifyActivation'
+                ]
+              }
+            }
+          }
+        },
+        error: {
+          // ...
+        }
       }
     }
   }),
 
   click() {
-    get(this, 'states').send('click');
+    // you can pass an object to send
+    let data = {
+      name: 'tomster'
+    };
+
+    get(this, 'states').send('click', data);
+  },
+
+  notifyActivation(/* data */) {
+    // ...
   }
 });
 ```
@@ -98,7 +131,14 @@ export default Component.extend(StateChart, {
 The important part being that you trigger behaviour only by sending events to
 the `Object`'s states property.
 
-__TODO__ better documentation.
+Inside of the `statechart`-configuration you have access to the whole power of
+[xstate](https://github.com/davidkpiano/xstate). This means that you can
+implement [guards](http://davidkpiano.github.io/xstate/docs/#/guides/guards),
+[nested statecharts](http://davidkpiano.github.io/xstate/docs/#/guides/hierarchical) and [orthogonal
+states](http://davidkpiano.github.io/xstate/docs/#/guides/parallel) in addition
+to basic statecharts like shown in the example code.
+
+Please refer to [xstate's excellent documentation](http://davidkpiano.github.io/xstate/docs/#/) until more docs are available for this addon.
 
 Contributing
 ------------------------------------------------------------------------------
@@ -131,10 +171,8 @@ For more information on using ember-cli, visit [https://ember-cli.com/](https://
 TODOs
 ----------
 
-- [ ] implement nested statecharts
 - [ ] figure out a nice way to visualize states in your application
 - [ ] provide a statechart component that can be included in styleguides
-- [ ] Rewrite the addon in typescript
 
 License
 ------------------------------------------------------------------------------
