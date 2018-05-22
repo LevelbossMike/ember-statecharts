@@ -19,12 +19,21 @@ export default class Statechart {
 
     this.didChangeState(newState);
 
-    let chain = actions.reduce((acc, action) => {
+    let _actions = actions.map(this._functionForAction.bind(this));
+
+    let chain = _actions.reduce((acc, action) => {
       return acc.then(() => {
         return action(data, this.context);
       });
     }, resolve());
 
     return chain;
+  }
+  _functionForAction(action) {
+    if (typeof action === 'string') {
+      return (this.context && this.context[action] && this.context[action].bind(this.context)) || function() {};
+    }
+
+    return action;
   }
 }

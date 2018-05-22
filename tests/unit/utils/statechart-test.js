@@ -179,6 +179,63 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
     await stateChart.send('woot');
   });
 
+  test('when providing action names in the actions array they are executed on the passed context', async function(assert) {
+    assert.expect(3);
+
+    let testContext = {
+      woot(data, context) {
+        assert.deepEqual(data, testData, 'action executed with data passed');
+        assert.deepEqual(context, testContext, 'action executed with data passed');
+        assert.deepEqual(this, testContext, 'string actions executed on the context have the context set as `this`');
+      }
+    };
+
+    let testData = {
+      name: 'Tomster'
+    };
+
+    let stateChart = new Statechart({
+      context: testContext,
+      initial: 'new',
+      states: {
+        new: {
+          on: {
+            woot: {
+              next: {
+                actions: ['woot']
+              }
+            }
+          }
+        },
+        next: {}
+      }
+    });
+
+    await stateChart.send('woot', testData);
+  });
+
+  test('when providing action names in the actions array and no context exists it does not break', async function(assert) {
+    let stateChart = new Statechart({
+      initial: 'new',
+      states: {
+        new: {
+          on: {
+            woot: {
+              next: {
+                actions: ['woot']
+              }
+            }
+          }
+        },
+        next: {}
+      }
+    });
+
+    await stateChart.send('woot');
+
+    assert.equal(stateChart.currentState.value, 'next');
+  });
+
   test('Statecharts can implement guards to determine if a transition should occur between states', async function(assert) {
     assert.expect(6);
 
@@ -567,10 +624,14 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
   });
 
   test('statecharts can have orthogonal states', async function(assert) {
-    assert.expect(8);
+    assert.expect(10);
 
     let testContext = {
-      name: 'wat'
+      name: 'wat',
+      woot(data, context) {
+        assert.deepEqual(data, testData, 'passing data works in string actions');
+        assert.deepEqual(context, testContext, 'context is passed in string actions');
+      }
     };
 
     let testData = {
@@ -611,7 +672,11 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
           states: {
             idle: {
               on: {
-                INIT_DOWNLOAD: 'pending'
+                INIT_DOWNLOAD: {
+                  pending: {
+                    actions: ['woot']
+                  }
+                }
               }
             },
             pending: {
