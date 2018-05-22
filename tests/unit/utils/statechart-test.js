@@ -565,4 +565,94 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       a: 'ab'
     });
   });
+
+  test('statecharts can have orthogonal states', async function(assert) {
+    assert.expect(8);
+
+    let testContext = {
+      name: 'wat'
+    };
+
+    let testData = {
+      message: 'success!'
+    };
+
+    let stateChart = new Statechart({
+      parallel: true,
+      context: testContext,
+      states: {
+        upload: {
+          initial: 'idle',
+          states: {
+            idle: {
+              on: {
+                INIT_UPLOAD: 'pending'
+              }
+            },
+            pending: {
+              on: {
+                UPLOAD_COMPLETE: {
+                  success: {
+                    actions: [
+                      (data, context) => {
+                        assert.deepEqual(data, testData, 'passing data works');
+                        assert.deepEqual(context, testContext, 'context is passed as expected');
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            success: {}
+          }
+        },
+        download: {
+          initial: 'idle',
+          states: {
+            idle: {
+              on: {
+                INIT_DOWNLOAD: 'pending'
+              }
+            },
+            pending: {
+              onEntry(data, context) {
+                assert.deepEqual(data, testData, 'passing data works');
+                assert.deepEqual(context, testContext, 'context is passed as expected');
+              },
+              on: {
+                DOWNLOAD_COMPLETE: 'success'
+              }
+            },
+            success: {}
+          }
+        }
+      }
+    });
+
+    assert.deepEqual(stateChart.currentState.value, {
+      upload: 'idle',
+      download: 'idle'
+    }, 'parallel/orthogonal states work as expected');
+
+    await stateChart.send('INIT_UPLOAD');
+
+    assert.deepEqual(stateChart.currentState.value, {
+      upload: 'pending',
+      download: 'idle'
+    }, 'parallel states can handle events');
+
+    await stateChart.send('INIT_DOWNLOAD', testData);
+
+    assert.deepEqual(stateChart.currentState.value, {
+      upload: 'pending',
+      download: 'pending'
+    }, 'second parallel state can handle events');
+
+    await stateChart.send('UPLOAD_COMPLETE', testData);
+
+    assert.deepEqual(stateChart.currentState.value, {
+      upload: 'success',
+      download: 'pending'
+    }, 'parallel states have expected end states');
+  });
 });
