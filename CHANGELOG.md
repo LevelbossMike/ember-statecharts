@@ -1,5 +1,9 @@
 # Change Log
 
+## [v.0.1.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.1.0) (2018-07-05)
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.1.0-beta.0...v0.1.0)
+- no changes since v0.1.0-beta.0
+
 ## [v.0.1.0-beta.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.1.0-beta.0) (2018-05-22)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.0.2...v0.1.0-beta.0)
 - Support passing strings in actions [\#3](https://github.com/LevelbossMike/ember-statecharts/pull/3) ([LevelbossMike](https://github.com/levelbossmike))
