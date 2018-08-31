@@ -1,5 +1,11 @@
 # Change Log
 
+## [v.0.2.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.2.0) (2018-08-31)
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.1.0...v0.2.0)
+- Ember-cli-update to 3.3.0 [8152d68](https://github.com/LevelbossMike/ember-statecharts/commit/8152d68) ([LevelbossMike](https://github.com/levelbossmike))
+- Add ember-cli-update for easier upgrades [1e24188](https://github.com/LevelbossMike/ember-statecharts/commit/1e24188) ([LevelbossMike](https://github.com/levelbossmike))
+- Upgrade xstate to 3.3.3 [472e1df](https://github.com/LevelbossMike/ember-statecharts/commit/472e1df) ([LevelbossMike](https://github.com/levelbossmike))
+
 ## [v.0.1.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.1.0) (2018-07-05)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.1.0-beta.0...v0.1.0)
 - no changes since v0.1.0-beta.0
