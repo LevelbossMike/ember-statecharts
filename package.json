@@ -20,6 +20,7 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "ember-auto-import": "^1.2.13",
     "ember-cli-babel": "^6.6.0",
     "xstate": "^3.3.3"
   },
