@@ -20,6 +20,8 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "cytoscape": "^3.2.16",
+    "cytoscape-cose-bilkent": "^4.0.0",
     "ember-auto-import": "^1.2.13",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.1",
