@@ -24,6 +24,10 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
+"@sphinxxxx/color-conversion@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@sphinxxxx/color-conversion/-/color-conversion-2.1.1.tgz#da281a9641eb3f699979432fe531bba520e3ffbb"
+
 "@webassemblyjs/ast@1.5.13":
   version "1.5.13"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.5.13.tgz#81155a570bd5803a30ec31436bc2c9c0ede38f25"
@@ -226,14 +230,7 @@ ajv-keywords@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.2.0.tgz#e86b819c602cf8821ad637413698f1dec021847a"
 
-ajv@^4.9.1:
-  version "4.11.8"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
-  dependencies:
-    co "^4.6.0"
-    json-stable-stringify "^1.0.1"
-
-ajv@^5.2.3, ajv@^5.3.0:
+ajv@5.5.2, ajv@^5.2.3, ajv@^5.3.0:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
   dependencies:
@@ -241,6 +238,13 @@ ajv@^5.2.3, ajv@^5.3.0:
     fast-deep-equal "^1.0.0"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
+
+ajv@^4.9.1:
+  version "4.11.8"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.8.tgz#82ffb02b29e662ae53bdc20af15947706739c536"
+  dependencies:
+    co "^4.6.0"
+    json-stable-stringify "^1.0.1"
 
 ajv@^6.1.0:
   version "6.5.3"
@@ -543,7 +547,7 @@ babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     esutils "^2.0.2"
     js-tokens "^3.0.2"
 
-babel-core@^6.14.0, babel-core@^6.26.0, babel-core@^6.26.3:
+babel-core@^6.14.0, babel-core@^6.24.1, babel-core@^6.26.0, babel-core@^6.26.3:
   version "6.26.3"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-6.26.3.tgz#b2e2f09e342d0f0c88e2f02e067794125e75c207"
   dependencies:
@@ -1180,6 +1184,10 @@ brace-expansion@^1.1.7:
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
+
+brace@0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/brace/-/brace-0.11.1.tgz#4896fcc9d544eef45f4bb7660db320d3b379fe58"
 
 braces@^1.8.2:
   version "1.8.5"
@@ -2575,6 +2583,10 @@ dotenv@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
 
+drag-tracker@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/drag-tracker/-/drag-tracker-1.0.0.tgz#9bd33d380bc3056db69bd5b3cf6e062fec58bd64"
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -2732,6 +2744,13 @@ ember-cli-inject-live-reload@^1.4.1:
 ember-cli-is-package-missing@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-is-package-missing/-/ember-cli-is-package-missing-1.0.0.tgz#6e6184cafb92635dd93ca6c946b104292d4e3390"
+
+ember-cli-jsoneditor@cygnusroboticus/ember-cli-jsoneditor#upgrade-3.3:
+  version "0.1.4"
+  resolved "https://codeload.github.com/cygnusroboticus/ember-cli-jsoneditor/tar.gz/f5432ef6f8b7e76f0eb6226c7ba33a0a8d730769"
+  dependencies:
+    ember-cli-babel "^6.6.0"
+    jsoneditor "^5.2.0"
 
 ember-cli-lodash-subset@^1.0.7:
   version "1.0.12"
@@ -2923,6 +2942,14 @@ ember-cli@~3.3.0:
     watch-detector "^0.1.0"
     yam "^0.0.24"
 
+ember-concurrency@^0.8.21:
+  version "0.8.21"
+  resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-0.8.21.tgz#23263e00455d32bb7f5b1b344376143019796ac6"
+  dependencies:
+    babel-core "^6.24.1"
+    ember-cli-babel "^6.8.2"
+    ember-maybe-import-regenerator "^0.1.5"
+
 ember-disable-prototype-extensions@^1.1.2:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/ember-disable-prototype-extensions/-/ember-disable-prototype-extensions-1.1.3.tgz#1969135217654b5e278f9fe2d9d4e49b5720329e"
@@ -2939,7 +2966,7 @@ ember-load-initializers@^1.1.0:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-maybe-import-regenerator@^0.1.6:
+ember-maybe-import-regenerator@^0.1.5, ember-maybe-import-regenerator@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/ember-maybe-import-regenerator/-/ember-maybe-import-regenerator-0.1.6.tgz#35d41828afa6d6a59bc0da3ce47f34c573d776ca"
   dependencies:
@@ -4884,6 +4911,14 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+javascript-natural-sort@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/javascript-natural-sort/-/javascript-natural-sort-0.7.1.tgz#f9e2303d4507f6d74355a73664d1440fb5a0ef59"
+
+jmespath@0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
+
 jquery@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
@@ -4947,6 +4982,10 @@ json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
 
+json-source-map@0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/json-source-map/-/json-source-map-0.4.0.tgz#eea837fe3ce2f2bfd5b13687779406354423c355"
+
 json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
@@ -4968,6 +5007,19 @@ json3@3.3.2:
 json5@^0.5.0, json5@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
+
+jsoneditor@^5.2.0, jsoneditor@^5.24.6:
+  version "5.24.6"
+  resolved "https://registry.yarnpkg.com/jsoneditor/-/jsoneditor-5.24.6.tgz#58e07477bc7e3d9bd6b16dfb166436b3ec3d7893"
+  dependencies:
+    ajv "5.5.2"
+    brace "0.11.1"
+    javascript-natural-sort "0.7.1"
+    jmespath "0.15.0"
+    json-source-map "0.4.0"
+    mobius1-selectr "2.4.2"
+    picomodal "3.0.0"
+    vanilla-picker "2.4.2"
 
 jsonfile@^2.1.0:
   version "2.4.0"
@@ -5890,6 +5942,10 @@ mktemp@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/mktemp/-/mktemp-0.4.0.tgz#6d0515611c8a8c84e484aa2000129b98e981ff0b"
 
+mobius1-selectr@2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/mobius1-selectr/-/mobius1-selectr-2.4.2.tgz#b8a619c8a0ed6234590e5e5a9e979e15d9b4b89a"
+
 mocha@^3.2.0:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-3.5.3.tgz#1e0480fe36d2da5858d1eb6acc38418b26eaa20d"
@@ -6701,6 +6757,10 @@ performance-now@^0.2.0:
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
+
+picomodal@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/picomodal/-/picomodal-3.0.0.tgz#facd30f4fbf34a809c1e04ea525f004f399c0b82"
 
 pify@^2.0.0:
   version "2.3.0"
@@ -8582,6 +8642,13 @@ validate-npm-package-name@^3.0.0, validate-npm-package-name@~3.0.0:
   resolved "https://registry.yarnpkg.com/validate-npm-package-name/-/validate-npm-package-name-3.0.0.tgz#5fa912d81eb7d0c74afc140de7317f0ca7df437e"
   dependencies:
     builtins "^1.0.3"
+
+vanilla-picker@2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/vanilla-picker/-/vanilla-picker-2.4.2.tgz#830f1d23934c5eb25fc7b1d667aa8c21260f041c"
+  dependencies:
+    "@sphinxxxx/color-conversion" "^2.1.1"
+    drag-tracker "^1.0.0"
 
 vary@~1.1.2:
   version "1.1.2"

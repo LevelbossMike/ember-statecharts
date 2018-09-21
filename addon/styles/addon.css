@@ -1,0 +1,35 @@
+.est-h-screen {
+  height: 100vh;
+}
+
+.est-w-screen {
+  width: 100vw;
+}
+
+.est-bg-red {
+  background: red;
+}
+
+.est-flex {
+  display: flex;
+}
+
+.est-flex-column {
+  flex-direction: column;
+}
+
+.est-flex-grow {
+  flex-grow: 1;
+}
+
+.est-text-green {
+  color: green;
+}
+
+.est-text-blue {
+  color: blue;
+}
+
+.est-flex-basis-33 {
+  flex-basis: 33%;
+}

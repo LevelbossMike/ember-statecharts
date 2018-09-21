@@ -1,3 +1,9 @@
-<div data-test-statecharts>
-  <h1>Hello statecharts</h1>
+<div data-test-statecharts class="est-h-screen est-w-screen est-flex">
+  {{statecharts-visualizer machine=machine class="est-flex-grow"}}
+  {{json-editor
+    json=json
+    onChange=(action 'updateConfig')
+    mode='code'
+    class="est-flex-basis-33"
+  }}
 </div>
