@@ -2,8 +2,8 @@ import { resolve } from 'rsvp';
 import { Machine } from 'xstate';
 
 export default class Statechart {
-  constructor(config) {
-    this.machine = Machine(config);
+  constructor(config, options) {
+    this.machine = Machine(config, options);
 
     this.didChangeState = config.didChangeState || function() {};
     this.context = config.context;
