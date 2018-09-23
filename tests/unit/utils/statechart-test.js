@@ -720,4 +720,50 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       download: 'pending'
     }, 'parallel states have expected end states');
   });
+
+  test('it supports strings as guard conditions', async function(assert) {
+    let testContext = {
+      name: 'Tomster'
+    };
+
+    let testData = {
+      canTransition: true
+    };
+
+    let stateChart = new Statechart({
+      context: testContext,
+      initial: 'powerOff',
+      states: {
+        powerOff: {
+          on: {
+            power: {
+              powerOn: {
+                cond: 'canTransition'
+              }
+            }
+          }
+        },
+        powerOn: {}
+      }
+    }, {
+      guards: {
+        canTransition: (extendedState, eventObject) => {
+          assert.equal(extendedState.name, 'Tomster', 'machine guard functions can access the statecharts context');
+
+          let { type, data: eventData } = eventObject;
+
+          assert.equal(type, 'power', 'eventObject contains name of event that was sent');
+          assert.deepEqual(eventData, testData, 'data passed to event is available in guards');
+
+          return eventData.canTransition;
+        }
+      }
+    });
+
+    assert.equal(stateChart.currentState.value, 'powerOff');
+
+    await stateChart.send('power', testData);
+
+    assert.equal(stateChart.currentState.value, 'powerOn');
+  });
 });
