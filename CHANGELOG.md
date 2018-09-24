@@ -1,8 +1,13 @@
 # Change Log
 
+## [v0.4.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.4.0) (2018-09-24)
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.3.0...v0.4.0)
+- Allow strings in guard conditions [\#9](https://github.com/LevelbossMike/ember-statecharts/pull/9) ([LevelbossMike](https://github.com/levelbossmike))
+- Add matcheState and debugState computeds [\#6](https://github.com/LevelbossMike/ember-statecharts/pull/6) ([LevelbossMike](https://github.com/levelbossmike))
+
 ## [v0.3.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.3.0) (2018-09-03)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.2.0...v0.3.0)
-- Use ember-auto-import to bundle xstate [0c06c5a](https://github.com/LevelbossMike/ember-statecharts/commit/0c06c5a) ([LevelbossMike]((https://github.com/levelbossmike)))
+- Use ember-auto-import to bundle xstate [0c06c5a](https://github.com/LevelbossMike/ember-statecharts/commit/0c06c5a) ([LevelbossMike](https://github.com/levelbossmike))
 
 ## [v0.2.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.2.0) (2018-08-31)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.1.0...v0.2.0)
