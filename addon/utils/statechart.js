@@ -1,5 +1,6 @@
 import { resolve } from 'rsvp';
 import { Machine } from 'xstate';
+import { set } from '@ember/object';
 
 export default class Statechart {
   constructor(config, options) {
@@ -13,7 +14,7 @@ export default class Statechart {
   send(eventName, data = {}) {
     let newState = this.machine.transition(this.currentState, { type: eventName, data }, this.context);
 
-    this.currentState = newState;
+    set(this, 'currentState', newState);
 
     let { actions } = newState;
 

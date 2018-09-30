@@ -1,24 +1,33 @@
 import { computed, get } from '@ember/object';
 import { matchesState } from 'xstate';
 import { A, makeArray } from '@ember/array';
+import Statechart from './utils/statechart';
+import { assign } from '@ember/polyfills';
 
 function matchesStateComputed(states) {
-  return computed('currentState', function() {
+  return computed('statechart.currentState', function() {
     const _states = A(makeArray(states));
 
     return _states.any(state => {
-      return matchesState(state, get(this, 'currentState.value'));
+      return matchesState(state, get(this, 'statechart.currentState.value'));
     });
   });
 }
 
 function debugState() {
-  return computed('currentState', function() {
-    return JSON.stringify(get(this, 'currentState.value'));
+  return computed('statechart.currentState', function() {
+    return JSON.stringify(get(this, 'statechart.currentState.value'));
+  });
+}
+
+function statechart(statechartConfig, statechartOptions) {
+  return computed(function() {
+    return new Statechart(assign(statechartConfig, { context: this }), statechartOptions);
   });
 }
 
 export {
   matchesStateComputed as matchesState,
-  debugState
+  debugState,
+  statechart
  };
