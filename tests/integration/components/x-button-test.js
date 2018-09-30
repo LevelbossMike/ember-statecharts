@@ -44,7 +44,7 @@ module('Integration | Component | x-button', function(hooks) {
 
     await render(hbs`{{x-button onClick=(action wat)}}`);
 
-    click(this.element.querySelector('button'));
+    await click(this.element.querySelector('button'));
   });
 
   test("when the action triggered by the button clicked gets fired and takes time it's not possible to trigger it again", async function(assert) {

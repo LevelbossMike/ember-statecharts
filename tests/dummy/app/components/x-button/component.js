@@ -1,11 +1,11 @@
 import Component from '@ember/component';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 import { or } from '@ember/object/computed';
-import StateChart from 'ember-statecharts/mixins/statechart';
-import { resolve } from 'rsvp';
-import { matchesState } from 'xstate';
+import { statechart, matchesState } from 'ember-statecharts/computed';
+import { task } from 'ember-concurrency';
+import Evented, { on } from '@ember/object/evented';
 
-export default Component.extend(StateChart, {
+export default Component.extend(Evented, {
   tagName: 'button',
 
   onClick() {},
@@ -16,59 +16,112 @@ export default Component.extend(StateChart, {
 
   isDisabled: or('isBusy', 'isInDisabledState'),
 
-  isBusy: computed('currentState', function() {
-    let currentState = get(this, 'currentState.value')
-
-    return matchesState('busy', currentState);
+  isBusy: matchesState({
+    initialized: {
+      activity: 'busy'
+    }
   }),
 
-  isInDisabledState: computed('currentState', function() {
-    let currentState = get(this, 'currentState.value');
-
-    return matchesState('disabled', currentState);
+  isInDisabledState: matchesState({
+    initialized: {
+      interactivity: 'disabled'
+    }
   }),
 
-  statechart: computed('disabled', function() {
-    let disabled = get(this, 'disabled');
-
-    return {
-      initial: disabled ? 'disabled' : 'idle',
-
-      states: {
-        idle: {
-          on: {
-            click: 'busy'
-          }
-        },
-        disabled: {},
-        busy: {
-          onEntry(data, context) {
-            return resolve()
-              .then(context.onClick)
-              .then(() => context.resolve())
-              .catch(() => context.reject());
+  statechart: statechart({
+    initial: 'init',
+    states: {
+      init: {
+        on: {
+          init: 'initialized'
+        }
+      },
+      initialized: {
+        parallel: true,
+        states: {
+          interactivity: {
+            initial: 'unknown',
+            states: {
+              unknown: {
+                onEntry: ['_checkDisabled'],
+                on: {
+                  disable: 'disabled'
+                }
+              },
+              enabled: {},
+              disabled: {}
+            }
           },
-          on: {
-            resolve: 'success',
-            reject: 'error'
-          }
-        },
-        success: {
-          onEntry(data, context) {
-            return context.onSuccess();
-          }
-        },
-        error: {
-          onEntry(data, context) {
-            return context.onError();
+          activity: {
+            initial: 'idle',
+            states: {
+              idle: {
+                on: {
+                  click: 'busy'
+                },
+              },
+              busy: {
+                onEntry: ['_triggerAction'],
+                on: {
+                  success: 'success',
+                  error: 'error'
+                }
+              },
+              success: {
+                onEntry: ['_triggerSuccess']
+              },
+              error: {
+                onEntry: ['_triggerError']
+              }
+            }
           }
         }
       }
     }
   }),
 
+  init() {
+    this._super(...arguments);
+
+    this.get('statechart').send('init');
+  },
+
+  onClickTask: task(function*() {
+    const result = yield this.onClick();
+
+    return result;
+  }).drop().evented(),
+
+  // eslint-disable-next-line ember/no-on-calls-in-components
+  handleOnClickSuccess: on('onClickTask:succeeded', function() {
+    this.get('statechart').send('success');
+  }),
+
+  // eslint-disable-next-line ember/no-on-calls-in-components
+  handleOnClickError: on('onClickTask:errored', function() {
+    this.get('statechart').send('error');
+  }),
+
+  _triggerAction() {
+    this.get('onClickTask').perform()
+  },
+
+  _triggerSuccess() {
+    this.get('onSuccess')();
+  },
+
+  _triggerError() {
+    this.get('onError')();
+  },
+
+  _checkDisabled() {
+    if (this.get('disabled')) {
+      this.get('statechart').send('disable');
+    }
+  },
+
   click() {
-    get(this, 'states').send('click');
+    return get(this, 'statechart').send('click');
   },
 
   resolve() {
