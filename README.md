@@ -2,7 +2,7 @@ ember-statecharts [![Build Status](https://travis-ci.org/LevelbossMike/ember-sta
 ==============================================================================
 
 This addon provides a statechart abstraction for adding statecharts to your
-`Ember.Object`s via a mixin. Statecharts can be used to describe complex
+`Ember.Object`s. Statecharts can be used to describe complex
 behaviour of your objects and separate ui-concern from functional concerns in
 your applications. This is especially useful in `Ember.Component`-architecture
 but can be used across all layers of your application (e.g. when implementing
@@ -51,19 +51,19 @@ this button? did you think about a success state? Statecharts make it super
 obvious on how to implement behaviour like this - here's a statechart that
 describes the behaviour of the button component:
 
-![x-button-statechart](https://user-images.githubusercontent.com/242299/40376466-b388246e-5dee-11e8-8eb8-165956c3affb.png)
+<p align="center">
+  <img width="435" alt="bildschirmfoto 2018-10-01 um 12 17 09" src="https://user-images.githubusercontent.com/242299/46283582-0fb27800-c575-11e8-8c8e-c132e9f8f77a.png">
+</p>
 
 And here's how you can model this behaviour with `ember-statecharts`:
 
 ```js
 import Component from '@ember/component';
-import { computed, get } from '@ember/object';
 import { or } from '@ember/object/computed';
-import StateChart from 'ember-statecharts/mixins/statechart';
 import { resolve } from 'rsvp';
-import { matchesState } from 'xstate';
+import { statechart, matchesState } from 'ember-statecharts/computed';
 
-export default Component.extend(StateChart, {
+export default Component.extend({
   tagName: 'button',
 
   onClick() {},
@@ -74,73 +74,75 @@ export default Component.extend(StateChart, {
 
   isDisabled: or('isBusy', 'isInDisabledState'),
 
-  isBusy: computed('currentState', function() {
-    let currentState = get(this, 'currentState.value')
+  isBusy: matchesState('busy'),
 
-    return matchesState('busy', currentState);
-  }),
+  isInDisabledState: matchesState('disabled'),
 
-  isInDisabledState: computed('currentState', function() {
-    let currentState = get(this, 'currentState.value');
+  statechart: statechart({
+    initial: 'idle',
 
-    return matchesState('disabled', currentState);
-  }),
-
-  statechart: computed('disabled', function() {
-    let disabled = get(this, 'disabled');
-
-    return {
-      initial: disabled ? 'disabled' : 'idle',
-
-      states: {
-        idle: {
-          on: {
-            click: 'busy'
-          }
-        },
-        disabled: {},
-        busy: {
-          onEntry(data, context) {
-            return resolve()
-              .then(context.onClick)
-              .then(() => context.resolve())
-              .catch(() => context.reject());
-          },
-          on: {
-            resolve: 'success',
-            reject: 'error'
-          }
-        },
-        success: {
-          onEntry(data, context) {
-            return context.onSuccess();
-          }
-        },
-        error: {
-          onEntry(data, context) {
-            return context.onError();
-          }
+    states: {
+      idle: {
+        on: {
+          click: 'busy',
+          disable: 'disabled',
         }
+      },
+      disabled: {
+        on: {
+          enable: 'idle'
+        }
+      },
+      busy: {
+        onEntry: ['_handleClick'],
+        },
+        on: {
+          resolve: 'success',
+          reject: 'error'
+        }
+      },
+      success: {
+        onEntry: ['_handleSuccess'],
+      },
+      error: {
+        onEntry: ['_handleError'],
       }
     }
   }),
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    if (this.disabled) {
+      this.statechart.send('disable');
+    } else {
+      this.statechart.send('enable');
+    }
+  },
+
+  _handleClick() {
+    return resolve()
+      .then(() => this.onClick())
+      .then(() => this.statechart.send('resolve'))
+      .catch(() => this.statechart.send('reject'))
+  },
+
+  _handleSuccess() {
+    return this.onSuccess();
+  },
+
+  _handleError() {
+    return this.onError();
+  },
+
   click() {
-    get(this, 'states').send('click');
+    return this.statechart.send('click');
   },
-
-  resolve() {
-    get(this, 'states').send('resolve');
-  },
-
-  reject() {
-    get(this, 'states').send('reject');
-  }
 });
 ```
 
 The important part being that you trigger behaviour only by sending events to
-the `Object`'s states property.
+the `Object`'s `statechart`-property.
 
 Inside of the `statechart`-configuration you have access to the whole power of
 [xstate](https://github.com/davidkpiano/xstate). This means that you can
