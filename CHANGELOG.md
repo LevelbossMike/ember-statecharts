@@ -1,5 +1,9 @@
 # Change Log
 
+## [v0.5.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.4.0) (2018-10-01)
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.4.0...v0.5.0)
+- Get rid of statechart-mixin [\#10](https://github.com/LevelbossMike/ember-statecharts/pull/10) ([LevelbossMike](https://github.com/levelbossmike))
+
 ## [v0.4.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.4.0) (2018-09-24)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.3.0...v0.4.0)
 - Allow strings in guard conditions [\#9](https://github.com/LevelbossMike/ember-statecharts/pull/9) ([LevelbossMike](https://github.com/levelbossmike))
