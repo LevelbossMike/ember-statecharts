@@ -95,7 +95,6 @@ export default Component.extend({
       },
       busy: {
         onEntry: ['_handleClick'],
-        },
         on: {
           resolve: 'success',
           reject: 'error'
