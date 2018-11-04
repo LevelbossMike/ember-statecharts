@@ -22,7 +22,11 @@ function debugState() {
 
 function statechart(statechartConfig, statechartOptions) {
   return computed(function() {
-    return new Statechart(assign(statechartConfig, { context: this }), statechartOptions);
+    const statechart = new Statechart(assign(statechartConfig, { context: this }), statechartOptions);
+
+    statechart.start();
+
+    return statechart;
   });
 }
 

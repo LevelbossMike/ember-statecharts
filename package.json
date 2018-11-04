@@ -22,7 +22,7 @@
   "dependencies": {
     "ember-auto-import": "^1.2.13",
     "ember-cli-babel": "^6.6.0",
-    "xstate": "^3.3.3"
+    "xstate": "^4.0.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.7.0",

@@ -94,17 +94,33 @@ export default Component.extend({
         }
       },
       busy: {
-        onEntry: ['_handleClick'],
+        onEntry: ['executeOnClick'],
         on: {
           resolve: 'success',
           reject: 'error'
         }
       },
       success: {
-        onEntry: ['_handleSuccess'],
+        onEntry: ['handleSuccess'],
       },
       error: {
-        onEntry: ['_handleError'],
+        onEntry: ['handleError'],
+      }
+    }
+  }, {
+    actions: {
+      executeOnClick(/* data, context */) {
+        // `this` references the object that includes the statechart
+        return resolve()
+          .then(() => this.onClick())
+          .then(() => this.statechart.send('resolve'))
+          .catch(() => this.statechart.send('reject'))
+      },
+      handleSuccess() {
+        return this.onSuccess();
+      },
+      handleError() {
+        return this.onError();
       }
     }
   }),
@@ -117,21 +133,6 @@ export default Component.extend({
     } else {
       this.statechart.send('enable');
     }
-  },
-
-  _handleClick() {
-    return resolve()
-      .then(() => this.onClick())
-      .then(() => this.statechart.send('resolve'))
-      .catch(() => this.statechart.send('reject'))
-  },
-
-  _handleSuccess() {
-    return this.onSuccess();
-  },
-
-  _handleError() {
-    return this.onError();
   },
 
   click() {

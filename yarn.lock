@@ -8819,9 +8819,10 @@ xregexp@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-4.0.0.tgz#e698189de49dd2a18cc5687b05e17c8e43943020"
 
-xstate@^3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/xstate/-/xstate-3.3.3.tgz#64177cd4473d4c2424b3df7d2434d835404b09a9"
+xstate@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.0.1.tgz#a9d415280605ccc8c5b9442a87511eeb1d34eee3"
+  integrity sha512-NYC4iCj+i2I3yA7qvFk7SMOEfzqUmoBo2imHyZL4OJtTZojy8P60zbWgVL0+8GjoaqCnyNilUUjmT0RFqcPXIg==
 
 "xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
