@@ -16,13 +16,8 @@ module('Unit | computed | statechart', function() {
             },
             on: {
               woot: {
-                foo: {
-                  actions: [
-                    () => {
-                      assert.ok(true, 'event was called');
-                    }
-                  ]
-                }
+                target: 'foo',
+                actions: ['handleFoo']
               }
             }
           },
@@ -30,6 +25,12 @@ module('Unit | computed | statechart', function() {
             onEntry(data) {
               assert.deepEqual(data, testData);
             }
+          }
+        }
+      }, {
+        actions: {
+          handleFoo() {
+            assert.ok(true, 'event was called');
           }
         }
       }),
@@ -61,9 +62,8 @@ module('Unit | computed | statechart', function() {
             powerOff: {
               on: {
                 power: {
-                  powerOn: {
-                    cond: 'enoughPowerIsAvailable'
-                  }
+                  target: 'powerOn',
+                  cond: 'enoughPowerIsAvailable'
                 }
               }
             },

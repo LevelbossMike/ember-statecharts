@@ -37,13 +37,13 @@ export default Component.extend(Evented, {
         }
       },
       initialized: {
-        parallel: true,
+        type: 'parallel',
         states: {
           interactivity: {
             initial: 'unknown',
             states: {
               unknown: {
-                onEntry: ['_checkDisabled'],
+                onEntry: ['checkDisabled'],
                 on: {
                   disable: 'disabled'
                 }
@@ -61,22 +61,40 @@ export default Component.extend(Evented, {
                 },
               },
               busy: {
-                onEntry: ['_triggerAction'],
+                onEntry: ['triggerAction'],
                 on: {
                   success: 'success',
                   error: 'error'
                 }
               },
               success: {
-                onEntry: ['_triggerSuccess']
+                onEntry: ['triggerSuccess']
               },
               error: {
-                onEntry: ['_triggerError']
+                onEntry: ['triggerError']
               }
             }
           }
         }
       }
+    }
+  }, {
+    actions: {
+      checkDisabled() {
+        if (this.get('disabled')) {
+          this.get('statechart').send('disable');
+        }
+      },
+      triggerAction() {
+        this.get('onClickTask').perform();
+      },
+      triggerSuccess() {
+        this.get('onSuccess')();
+      },
+      triggerError() {
+        this.get('onError')();
+      }
+
     }
   }),
 
@@ -101,24 +119,6 @@ export default Component.extend(Evented, {
   handleOnClickError: on('onClickTask:errored', function() {
     this.get('statechart').send('error');
   }),
-
-  _triggerAction() {
-    this.get('onClickTask').perform()
-  },
-
-  _triggerSuccess() {
-    this.get('onSuccess')();
-  },
-
-  _triggerError() {
-    this.get('onError')();
-  },
-
-  _checkDisabled() {
-    if (this.get('disabled')) {
-      this.get('statechart').send('disable');
-    }
-  },
 
   click() {
     return get(this, 'statechart').send('click');
