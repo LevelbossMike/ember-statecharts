@@ -1,6 +1,10 @@
 # Change Log
 
-## [v0.5.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.4.0) (2018-10-01)
+## [v0.6.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.6.0) (2018-11-05)
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.5.0...v0.6.0)
+- Update to xstate 4.0.x [\#11](https://github.com/LevelbossMike/ember-statecharts/pull/11) ([LevelbossMike](https://github.com/levelbossmike))
+
+## [v0.5.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.5.0) (2018-10-01)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.4.0...v0.5.0)
 - Get rid of statechart-mixin [\#10](https://github.com/LevelbossMike/ember-statecharts/pull/10) ([LevelbossMike](https://github.com/levelbossmike))
 
