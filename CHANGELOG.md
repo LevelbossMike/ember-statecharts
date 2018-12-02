@@ -1,5 +1,9 @@
 # Change Log
 
+## [v0.6.1](https://github.com/LevelbossMike/ember-statecharts/tree/v0.6.1) (2018-12-02)
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.6.0...v0.6.1)
+- Update to Ember 3.5 [\#12](https://github.com/LevelbossMike/ember-statecharts/pull/12) ([loganrosen](https://github.com/loganrosen))
+
 ## [v0.6.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.6.0) (2018-11-05)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.5.0...v0.6.0)
 - Update to xstate 4.0.x [\#11](https://github.com/LevelbossMike/ember-statecharts/pull/11) ([LevelbossMike](https://github.com/levelbossmike))
