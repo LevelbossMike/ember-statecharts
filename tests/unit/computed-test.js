@@ -1,6 +1,10 @@
 import EmberObject, { get } from '@ember/object';
 import { module, test } from 'qunit';
-import { statechart, matchesState, debugState } from 'ember-statecharts/computed';
+import {
+  statechart,
+  matchesState,
+  debugState
+} from 'ember-statecharts/computed';
 
 module('Unit | statechart computeds', function(hooks) {
   hooks.beforeEach(function() {
