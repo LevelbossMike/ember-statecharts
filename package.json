@@ -23,7 +23,7 @@
   "dependencies": {
     "ember-auto-import": "^1.2.13",
     "ember-cli-babel": "^6.16.0",
-    "xstate": "^4.0.0"
+    "xstate": "^4.2.3"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
