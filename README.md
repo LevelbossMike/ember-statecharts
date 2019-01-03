@@ -153,41 +153,6 @@ to basic statecharts like shown in the example code.
 
 Please refer to [xstate's excellent documentation](http://davidkpiano.github.io/xstate/docs/#/) until more docs are available for this addon.
 
-Contributing
-------------------------------------------------------------------------------
-
-### Installation
-
-* for this repository
-* `git clone git@github.com/[your-name]/ember-statecharts.git`
-* `cd ember-statecharts`
-* `yarn install`
-
-### Linting
-
-* `yarn lint:hbs`
-* `yarn lint:js`
-* `yarn lint:js --fix`
-
-### Running tests
-
-* `ember test` – Runs the test suite on the current Ember version
-* `ember test --server` – Runs the test suite in "watch mode"
-* `ember try:each` – Runs the test suite against multiple Ember versions
-
-### Running the dummy application
-
-* `ember serve`
-* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
-
-TODOs
-----------
-
-- [ ] figure out a nice way to visualize states in your application
-- [ ] provide a statechart component that can be included in styleguides
-
 License
 ------------------------------------------------------------------------------
 
