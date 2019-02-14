@@ -8,6 +8,14 @@ your applications. This is especially useful in `Ember.Component`-architecture
 but can be used across all layers of your application (e.g. when implementing
 global application state).
 
+
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
+
+
 Installation
 ------------------------------------------------------------------------------
 
