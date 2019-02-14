@@ -86,7 +86,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['checkA', 'checkB'], 'onEntry functions are executed in the correct order');
     });
 
-    test('specifying onEntry actions via a mixed array of strings and functions will only execute the string functions', async function(assert) {
+    test('specifying onEntry actions via a mixed array of strings and functions will execute both versions of functions', async function(assert) {
       let result = new Statechart({
         initial: 'new',
         states: {
@@ -106,7 +106,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
 
       assert.equal(result.currentState.value, 'new');
 
-      assert.verifySteps(['checkCond']);
+      assert.verifySteps(['inlineCheck', 'checkCond']);
     });
   });
 
@@ -162,7 +162,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
 
       await statechart.send('woot');
 
-      assert.verifySteps(['wat'], 'functions as actions will be ignored because xstate >4.x does not support them');
+      assert.verifySteps(['inlineAction', 'wat'], 'functions as actions will not be ignored');
     });
 
     test('it is possible to pass data when sending events', async function(assert) {
@@ -178,7 +178,6 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
               woot: {
                 target: 'next',
                 actions: [
-                  () => { assert.step('inlineAction'); },
                   'wat'
                 ]
               }
