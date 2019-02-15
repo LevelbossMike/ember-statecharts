@@ -8,7 +8,7 @@ export default Component.extend(ResizeAware, {
 
   onDidResize() {},
 
-  timeout: 300,
+  timeout: 0,
 
   onDidResizeTask: task(function*() {
     yield timeout(this.timeout);

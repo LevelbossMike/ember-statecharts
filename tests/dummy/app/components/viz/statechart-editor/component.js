@@ -3,14 +3,14 @@ import { computed } from '@ember/object';
 import { statechart, matchesState } from 'ember-statecharts/computed';
 import { task, timeout } from 'ember-concurrency';
 import { Machine } from 'xstate';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
   tagName: '',
 
-  value: computed(function() {
-    // const machine = this.get('statechart.machine');
+  notifications: service(),
 
-    // return JSON.stringify(assign({}, { initial: machine.config.initial, states: machine.config.states }), null, 2);
+  value: computed(function() {
     return JSON.stringify({
       id: "light",
       initial: "green",
@@ -103,8 +103,9 @@ export default Component.extend({
 
       this.get('statechart').send('type', { config: string });
     },
+
     visualizeActionTriggered(actionName) {
-      console.log(`Triggered action : ${actionName}`);
+      this.notifications.notify(`Triggered action : ${actionName}`);
     },
 
     redraw() {

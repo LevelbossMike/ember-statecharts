@@ -1,5 +1,5 @@
 <div class="docs-flex docs-flex-grow docs-relative">
-  {{ui-resize onDidResize=(action "redraw")}}
+  {{ui-resize timeout=300 onDidResize=(action "redraw")}}
 
   <div class="docs-flex-grow">
     {{#if machine}}

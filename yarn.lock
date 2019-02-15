@@ -4560,6 +4560,16 @@ ember-ace@^2.0.1:
     ember-cli-htmlbars "^2.0.2"
     ember-cli-node-assets "^0.2.2"
 
+ember-animated@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ember-animated/-/ember-animated-0.4.1.tgz#2f4cdc1e20efb052266f4fe3c7c89cfaf1ed7947"
+  integrity sha512-rOImRfYu0jBcY/3X/JDNMnydP7r38BPE1T7nwdoh1LT6Pjv74rOlHSoGNlDU0fCbOPBX1MIKBXg3NrZCWae1YQ==
+  dependencies:
+    ember-cli-babel "^7.1.2"
+    ember-cli-htmlbars "^3.0.0"
+    ember-cli-version-checker "^2.1.2"
+    ember-maybe-import-regenerator "^0.1.5"
+
 ember-app-scheduler@^1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/ember-app-scheduler/-/ember-app-scheduler-1.0.6.tgz#b7972c5ae51643d41769dba40ef96e0cc188f553"
