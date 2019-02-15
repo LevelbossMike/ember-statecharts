@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { statechart, matchesState } from 'ember-statecharts/computed';
 import { task, timeout } from 'ember-concurrency';
-import { next } from '@ember/runloop';
 import { Machine } from 'xstate';
 
 export default Component.extend({
@@ -12,6 +11,21 @@ export default Component.extend({
     // const machine = this.get('statechart.machine');
 
     // return JSON.stringify(assign({}, { initial: machine.config.initial, states: machine.config.states }), null, 2);
+    return JSON.stringify({
+      id: "light",
+      initial: "green",
+      states: {
+        green: {
+          on: { TIMER: "yellow" }
+        },
+        yellow: {
+          on: { TIMER: "red" }
+        },
+        red: {
+          on: { TIMER: "green" }
+        }
+      }
+    }, null, 2);
   }),
 
   canRenderEdges: matchesState({
@@ -38,7 +52,7 @@ export default Component.extend({
         success: {
           onEntry: ['replaceMachine'],
           on: {
-            type: 'busy'
+            type: 'busy',
           }
         },
         error: {
@@ -55,10 +69,6 @@ export default Component.extend({
         },
         replaceMachine({ machine }) {
           this.set('machine', machine);
-
-          next(() => {
-            this.statechart.send('completeRenderingNodes');
-          });
         }
       }
     }
@@ -77,12 +87,28 @@ export default Component.extend({
     }
   }).restartable(),
 
+  didInsertElement() {
+    this._super(...arguments);
+
+    if (this.value) {
+      // because ember-ace won't fire an update on start
+      this.statechart.send('type', { config: this.value });
+    }
+  },
+
   actions: {
     updateConfig(string) {
+      // remember config for rerender
+      this.set('_config', string);
+
       this.get('statechart').send('type', { config: string });
     },
     visualizeActionTriggered(actionName) {
       console.log(`Triggered action : ${actionName}`);
+    },
+
+    redraw() {
+      this.get('statechart').send('type', { config: this._config });
     }
   }
 });

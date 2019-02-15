@@ -157,7 +157,6 @@ export default Component.extend({
 
     this.statechart.send('machineUpdated', { machine: this.machine });
   },
-
   actions: {
     followStateChartTransition({ event, cond }) {
       const fn = this._send.bind(this, event);
