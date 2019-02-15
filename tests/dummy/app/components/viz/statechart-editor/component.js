@@ -4,6 +4,7 @@ import { statechart, matchesState } from 'ember-statecharts/computed';
 import { task, timeout } from 'ember-concurrency';
 import { Machine } from 'xstate';
 import { inject as service } from '@ember/service';
+import MusicPlayerExample from '../../../utils/music-player-example';
 
 export default Component.extend({
   tagName: '',
@@ -11,21 +12,7 @@ export default Component.extend({
   notifications: service(),
 
   value: computed(function() {
-    return JSON.stringify({
-      id: "light",
-      initial: "green",
-      states: {
-        green: {
-          on: { TIMER: "yellow" }
-        },
-        yellow: {
-          on: { TIMER: "red" }
-        },
-        red: {
-          on: { TIMER: "green" }
-        }
-      }
-    }, null, 2);
+    return JSON.stringify(MusicPlayerExample, null, 2);
   }),
 
   canRenderEdges: matchesState({
