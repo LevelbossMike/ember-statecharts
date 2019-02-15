@@ -1,0 +1,41 @@
+<header class="docs-border-b docs-border-black docs-mb-2 docs-p-2">
+  {{@machine.key}}
+</header>
+<div class="docs-flex docs-relative docs-flex-wrap">
+  {{#if this.canRenderStatechart}}
+    {{#each this.machineStates as |stateNode|}}
+      <div class="docs-m-4 docs-p-4">
+        {{viz/state-node
+          stateNode=stateNode
+          activeState=activeState
+          previewState=previewState
+          onPreviewTransition=(action "setPreviewStateValue")
+          onUnpreviewTransition=(action (mut previewStateValue) null)
+          onClickTransition=(action "followStateChartTransition")
+        }}
+      </div>
+    {{/each}}
+    {{#viz/ui-svg
+      class="docs-absolute docs-pin docs-h-full docs-w-full docs-pointer-events-none"
+    as |c|
+    }}
+      {{#each this.edges as |edge|}}
+        {{c.ui.edge
+          sourceNode=edge.source
+          targetNode=edge.target
+          event=edge.event
+          edge=edge
+          activeState=activeState
+          previewState=previewState
+        }}
+      {{/each}}
+      {{#each this.initialStates as |node|}}
+        {{c.ui.initialEdge
+          node=node
+          activeState=activeState
+          previewState=previewState
+        }}
+      {{/each}}
+    {{/viz/ui-svg}}
+  {{/if}}
+</div>

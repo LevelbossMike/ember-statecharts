@@ -1,0 +1,18 @@
+<div class="docs-flex docs-flex-grow">
+  <div class="docs-flex-grow">
+    {{#if machine}}
+      {{viz/statechart-viz
+        machine=machine
+        onActionTriggered=(action "visualizeActionTriggered")
+      }}
+    {{/if}}
+  </div>
+  <div class="docs-w-128 docs-flex-no-shrink">
+    {{ember-ace
+      value=value
+      update=(action "updateConfig")
+      class="docs-h-full"
+      editorClass="docs-h-full"
+    }}
+  </div>
+</div>

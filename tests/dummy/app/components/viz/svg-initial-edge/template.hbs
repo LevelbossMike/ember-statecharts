@@ -1,0 +1,17 @@
+{{#if canDraw}}
+  <g>
+    <circle
+      cy={{top}}
+      cx={{cx}}
+      r="4"
+      fill={{if showAsActive 'rgba(0,0,0,1)' 'rgba(0,0,0, 0.2)'}}
+    />
+    <path
+      d={{path}}
+      stroke={{if showAsActive 'rgba(0,0,0,1)' 'rgba(0,0,0, 0.2)'}}
+      stroke-width="2"
+      fill="none"
+      marker-end={{if showAsActive "url(#marker-preview)" "url(#marker)"}}
+    />
+  </g>
+{{/if}}

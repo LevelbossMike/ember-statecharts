@@ -1,0 +1,90 @@
+<div>
+  <div
+    date-state-node-label
+    class="docs-text-xxs docs-font-bold {{if isActive "docs-text-brand" "docs-text-black"}}"
+  >
+    {{stateNode.key}}
+  </div>
+  <div
+    data-state-node={{stateNode.id}}
+    data-state-node-body
+    class="
+      docs-min-h-4 docs-border-2 docs-rounded
+      {{if isParallel "docs-border-dotted"}}
+      {{if isActive "docs-border-brand" "docs-border-grey"}}
+      {{if isPreview "docs-border-brand-var"}}
+    "
+  >
+    <div data-state-node-body-content>
+      {{#each onEntries as |onEntry|}}
+        <div class="docs-text-xxs docs-pt-2 docs-px-2">
+          <strong>onEntry /</strong> {{onEntry.type}}
+        </div>
+      {{/each}}
+      {{#each onExits as |onExit|}}
+        <div class="docs-text-xxs docs-pt-2 docs-px-2">
+          <strong>onExit /</strong> {{onExit.type}}
+        </div>
+      {{/each}}
+    </div>
+    <div data-state-node-transitions>
+      {{#each transitions as |transition|}}
+        <div>
+          <div class="docs-flex docs-justify-end">
+            <button
+              data-id="{{stateNode.key}}:{{transition.event}}->{{transition.target}}"
+              class="docs-flex docs-justify-between docs-items-center docs-outline-none docs-py-1 docs-px-1 docs-ml-2 docs--mr-2 docs-my-2 docs-rounded-full {{if isActive "docs-bg-brand" "docs-bg-grey"}}"
+              onmouseover={{action onPreviewTransition transition}}
+              onmouseout={{action onUnpreviewTransition}}
+              onclick={{action onClickTransition transition}}
+            >
+              <div class="docs-ml-1 docs-text-xs docs-text-white">
+                {{transition.event}}
+              </div>
+              <div class="docs-h-2 docs-w-2 docs-bg-white docs-ml-1 docs-rounded-full"></div>
+            </button>
+          </div>
+          {{#if (or transition.cond transition.actions)}}
+            <div class="docs-text-xxs docs-text-right docs-px-2 docs-pb-1">
+              {{#if transition.cond}}
+                <div>
+                  <strong>[</strong>
+                  {{transition.cond}}
+                  <strong>]</strong>
+                </div>
+              {{/if}}
+              {{#each transition.actions as |action|}}
+                <div>
+                  <strong>do /</strong> {{action.type}}
+                </div>
+              {{/each}}
+            </div>
+          {{/if}}
+        </div>
+      {{/each}}
+    </div>
+    {{#if states}}
+      <div>
+        <div
+          data-state-node-sub-states
+          class="docs-border-t docs-border-grey docs-flex docs-p-4 docs-flex-wrap"
+        >
+          {{#if showStates}}
+            {{#each states as |stateNode|}}
+              <div class="docs-m-4">
+                {{viz/state-node
+                  stateNode=stateNode
+                  activeState=activeState
+                  previewState=previewState
+                  onPreviewTransition=onPreviewTransition
+                  onUnpreviewTransition=onUnpreviewTransition
+                  onClickTransition=onClickTransition
+                }}
+              </div>
+            {{/each}}
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>

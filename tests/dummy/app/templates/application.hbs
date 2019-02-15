@@ -1,5 +1,6 @@
-<h2 id="title">Welcome to Ember</h2>
-
+{{#docs-header as |header|}}
+  {{#header.link "editor"}}
+    Editor
+  {{/header.link}}
+{{/docs-header}}
 {{outlet}}
-
-{{x-button text="lol" onClick=(action "woot")}}

@@ -1,0 +1,9 @@
+{{#if path}}
+  <path
+    d={{path}}
+    stroke={{if isPreview "rgba(0,0,0,1)" "rgba(0,0,0,0.2)"}}
+    stroke-width="2"
+    fill="none"
+    marker-end={{if isPreview "url(#marker-preview)" "url(#marker)"}}
+  />
+{{/if}}

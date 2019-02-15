@@ -1,0 +1,11 @@
+.docs-w-128 {
+  width: 32rem;
+}
+
+.docs-min-h-4 {
+  min-height: 1rem;
+}
+
+.docs-outline-none:focus {
+  outline: none;
+}
