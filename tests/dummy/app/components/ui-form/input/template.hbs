@@ -1,0 +1,9 @@
+{{#component formField label=@label property=@property hint=@hint as |ff|}}
+  <input
+    id={{ff.state.inputId}}
+    oninput={{action ff.actions.change value="target.value"}}
+    onblur={{action ff.actions.markUsed}}
+    class="docs-border-2 docs-border-black docs-p-2"
+    ...attributes
+  >
+{{/component}}

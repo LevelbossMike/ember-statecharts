@@ -86,11 +86,11 @@ export default Component.extend({
     }
   }),
 
-  activeState: computed('machine', 'currentState', function() {
+  activeState: computed('interpreter.machine', 'currentState', function() {
     return this.machine.getStates(this.interpreter.state.value);
   }),
 
-  previewState: computed('machine', 'previewStateValue', function() {
+  previewState: computed('interpreter.machine', 'previewStateValue', function() {
     if (!this.previewStateValue) {
       return null;
     }
@@ -98,7 +98,7 @@ export default Component.extend({
     return this.machine.getStates(this.previewStateValue);
   }),
 
-  machineStates: computed('machine', function() {
+  machineStates: computed('interpreter.machine', function() {
     const stateNames = Object.keys(this.machine.states);
     return stateNames.map(name => this.machine.states[name])
   }),

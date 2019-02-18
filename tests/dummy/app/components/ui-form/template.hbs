@@ -1,0 +1,33 @@
+{{#let
+  (component "ui-form/form-field"
+    formObject=this.formObject
+    triggerFormChange=(action "change")
+  )
+as |formField|
+}}
+  {{yield
+    (hash
+      state=(hash
+        object=this.formObject
+      )
+      actions=(hash
+        submit=(action "submit")
+        change=(action "change")
+      )
+      ui=(hash
+        formField=formField
+        form=(component "ui-form/form"
+          onSubmit=(action "submit")
+        )
+        input=(component "ui-form/input"
+          formField=formField
+        )
+        ctaButton=(component "ui-button"
+          type="submit"
+          disabled=isUnchanged
+          class="wat"
+        )
+      )
+    )
+  }}
+{{/let}}

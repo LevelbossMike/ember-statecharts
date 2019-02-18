@@ -1,0 +1,31 @@
+<UiForm
+  @Validations={{this.Validations}}
+  @model={{this.formObject}}
+  @formObjectIsPristine={{this.loginPristine}} as |f|
+>
+  <f.ui.form>
+    <f.ui.input
+      @label="Email address"
+      @property="email"
+      value={{f.state.object.email}}
+      autocapitalize="none"
+      autocorrect="off"
+      spellcheck="false"
+    />
+    <f.ui.input
+      @label="Password"
+      @property="password"
+      @hint="Must contain 8+ characters."
+      type="password"
+    />
+    <f.ui.ctaButton>
+      Log in
+    </f.ui.ctaButton>
+  </f.ui.form>
+  <div>
+    email: {{f.state.object.email}}
+  </div>
+  <div>
+    password: {{f.state.object.password}}
+  </div>
+</UiForm>
