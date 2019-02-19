@@ -5,7 +5,7 @@
       <span>{{hint}}</span>
     {{/if}}
     {{#let (v-get @formObject property "message") as |error|}}
-      {{#if (and wasInteractedWith error)}}
+      {{#if (and showErrorMessage error)}}
         <span class="docs-text-brand">{{error}}</span>
       {{/if}}
     {{/let}}

@@ -15,21 +15,18 @@ export default Component.extend({
   onSuccess() {},
   onError() {},
 
-  formObject: computed('model', function() {
-    const owner = getOwner(this);
-    const Validations = this.Validations || buildValidations();
 
-    return Buffer.extend(Validations).create(owner.ownerInjection(), {
-      content: this.model
-    })
-  }),
+  // BEGIN-SNIPPET ui-form-statechart.js
 
-  model: computed(function() {
-    return O.create();
-  }),
+  // ...
+
+  isUnchanged: matchesState({ form: { interaction: 'idle' } }),
+  isInvalid: matchesState({ form: { validity: 'invalid' } }),
+  isBusy: matchesState({ form: { interaction: 'loading'} }),
+  userDidSubmitForm: matchesState({ form: { submitStatus: 'submitted' } }),
 
   statechart: statechart({ 
-    id: 'login-form',
+    id: 'ui-form',
     initial: 'form',
     states: {
       form: {
@@ -45,6 +42,7 @@ export default Component.extend({
                 }
               },
               validating: {
+                onEntry: ['validateFormObject'],
                 on: {
                   valid: 'valid',
                   invalid: 'invalid'
@@ -52,14 +50,25 @@ export default Component.extend({
               },
               valid: {
                 on: {
-                  validate: 'validating'
+                  change: 'validating'
                 }
               },
               invalid: {
                 on: {
-                  validate: 'validating'
+                  change: 'validating'
                 }
               }
+            }
+          },
+          submitStatus: {
+            initial: 'none',
+            states: {
+              none: {
+                on: {
+                  submit: 'submitted'
+                }
+              },
+              submitted: {}
             }
           },
           interaction: {
@@ -81,7 +90,12 @@ export default Component.extend({
                       target: 'changed'
                     }
                   ],
-                  submit: 'loading'
+                  submit: [
+                    {
+                      target: 'loading',
+                      cond: 'formIsValid'
+                    },
+                  ]
                 }
               },
               loading: {
@@ -93,7 +107,7 @@ export default Component.extend({
                 }
               },
               success: {
-                onEntry: ['handleSuccess']
+                onEntry: ['handleSuccess'],
               },
               error: {
                 onEntry: ['handleError'],
@@ -111,18 +125,44 @@ export default Component.extend({
     guards: {
       isPristine(context, { data: { formObject }}) {
         return context.formObjectIsPristine(formObject);
+      },
+      formIsValid(context) {
+        return context.formObject.validations.isValid;
       }
     },
     actions: {
-      submit() {},
-      handleSuccess() {},
-      handleError() {}
+      validateFormObject() {
+        this.validationTask.perform();
+      },
+      submit() {
+        this.submitTask.perform();
+      },
+      handleSuccess({ data }) {
+        this.onSuccess(data);
+
+      },
+      handleError({ error }) {
+        this.onError(error);
+      }
     }
   }),
 
-  isUnchanged: matchesState({ form: { interaction: 'idle' } }),
+  didInsertElement() {
+    this._super(...arguments);
 
-  onSubmitTask: task(function*() {
+    this.statechart.send('validate');
+  },
+
+  actions: {
+    submit() {
+      this.statechart.send('submit');
+    },
+    change() {
+      this.statechart.send('change', { formObject: this.formObject });
+    }
+  },
+
+  submitTask: task(function*() {
     try {
       this.formObject.applyBufferedChanges();
 
@@ -134,16 +174,30 @@ export default Component.extend({
     }
   }).drop(),
 
-  formObjectIsPristine(formObject) {
-    return !formObject.hasBufferedChanges;
-  },
+  validationTask: task(function*() {
+    const { validations } = yield this.formObject.validate();
 
-  actions: {
-    submit() {
-      this.onSubmitTask.perform();
-    },
-    change() {
-      this.statechart.send('change', { formObject: this.formObject });
+    if (validations.get('isValid')) {
+      this.statechart.send('valid');
+    } else {
+      this.statechart.send('invalid');
     }
-  }
+  }).restartable(),
+
+  // ...
+
+  // END-SNIPPET ui-form-statechart.js
+
+  model: computed(function() {
+    return O.create();
+  }),
+
+  formObject: computed('model', function() {
+    const owner = getOwner(this);
+    const Validations = this.Validations || buildValidations();
+
+    return Buffer.extend(Validations).create(owner.ownerInjection(), {
+      content: this.model
+    })
+  }),
 });

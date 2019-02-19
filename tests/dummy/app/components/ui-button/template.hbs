@@ -1,8 +1,21 @@
 <button
   type={{type}}
   disabled={{disabled}}
-  class="{{if disabled "docs-opacity-50"}} {{@class}} docs-bg-brand docs-rounded docs-px-3 docs-py-2 docs-text-white docs-font-bold docs-text-sm docs-outline-none"
   ...attributes
+  class="docs-font-bold docs-text-sm docs-outline-none docs-rounded docs-px-3 docs-py-2 docs-relative
+    {{if disabled "docs-opacity-50"}}
+    {{if
+      displayHollow
+      "docs-bg-white docs-text-brand docs-border-2 docs-border-brand"
+      "docs-bg-brand docs-text-white"
+    }}"
 >
+  {{#if isBusy}}
+    <div
+      class="docs-absolute docs-pin docs-flex docs-items-center docs-justify-center docs-bg-brand"
+    >
+      {{ui-loading}}
+    </div>
+  {{/if}}
   {{yield}}
 </button>

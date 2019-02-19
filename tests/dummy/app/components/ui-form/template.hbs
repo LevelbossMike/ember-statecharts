@@ -1,7 +1,9 @@
+{{!-- BEGIN-SNIPPET ui-form-template.hbs --}}
 {{#let
   (component "ui-form/form-field"
     formObject=this.formObject
     triggerFormChange=(action "change")
+    userDidSubmitForm=this.userDidSubmitForm
   )
 as |formField|
 }}
@@ -25,9 +27,11 @@ as |formField|
         ctaButton=(component "ui-button"
           type="submit"
           disabled=isUnchanged
-          class="wat"
+          displayHollow=isInvalid
+          isBusy=isBusy
         )
       )
     )
   }}
 {{/let}}
+{{!-- END-SNIPPET ui-form-template.hbs --}}

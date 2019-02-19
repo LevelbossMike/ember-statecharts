@@ -1,6 +1,9 @@
 import Component from '@ember/component';
 import O, { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
+import { timeout } from 'ember-concurrency';
+import { resolve, reject } from 'rsvp';
+import { inject as service } from '@ember/service';
 
 const Validations = buildValidations({
   email: validator('format', {
@@ -12,6 +15,8 @@ const Validations = buildValidations({
 });
 
 export default Component.extend({
+  notifications: service(),
+
   tagName: '',
 
   Validations,
@@ -33,11 +38,29 @@ export default Component.extend({
     return email === originalEmail && password === originalPassword
   },
 
-  actions: {
-    login(event) {
-      event.preventDefault();
+  // BEGIN-SNIPPET ui-login-form.js
 
-      console.log('logging in');
+  //...
+
+  actions: {
+    async login({ email, password }) {
+      await timeout(1000);
+
+      if (email === "tomster@effective-ember.com" && password === "emberrocks") {
+        resolve();
+      } else {
+        return reject("Invalid login credentials!");
+      }
+    },
+    handleLoginSuccess() {
+      this.notifications.notify('Login was successful');
+    },
+
+    handleLoginError(error) {
+      this.notifications.notify(error);
     }
   }
+
+  // ...
+  // END-SNIPPET ui-login-form.js
 });

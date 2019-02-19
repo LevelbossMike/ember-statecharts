@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { or } from '@ember/object/computed';
 import { guidFor } from '@ember/object/internals';
 import { statechart, matchesState } from 'ember-statecharts/computed';
 
@@ -24,6 +25,7 @@ export default Component.extend({
   }),
 
   wasInteractedWith: matchesState('used'),
+  showErrorMessage: or('wasInteractedWith', 'userDidSubmitForm'),
 
   guid: computed(function() {
     return guidFor(this);
@@ -31,7 +33,6 @@ export default Component.extend({
 
   actions: {
     change(value) {
-      debugger;
       this.formObject.set(this.property, value);
 
       this.triggerFormChange();
