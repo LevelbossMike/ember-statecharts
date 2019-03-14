@@ -260,8 +260,7 @@ To trigger transitions on the statechart we implement regular Ember Component ac
 that forward `events` to our component. If the user clicks the button we will send the
 `SUBMIT` action to our statechart and the statechart will trigger a transition into
 the appropriate state. If no transition is specified in the statechart for the sent
-event nothing happens - it's literally impossible to trigger unexpected behavior based on
-events anymore.
+event nothing happens - it has literally become impossible to trigger unexpected behavior.
 
 ```js
 // ...
@@ -276,6 +275,31 @@ export default Component.extend({
 ```
 
 If a states doesn't understand an event nothing happens. You can see this
-while the submit-task is performed. If the user clicks the button repeatidly
-nothing happens. Because the `busy`-state does not handle `submit` won't trigger
-the `submitTask` again.
+while the submit-task is performed. If the user clicks the button repeatedly
+nothing happens. Because the `busy`-state does not handle the `SUBMIT`-event
+it won't trigger the `submitTask` again.
+
+When we want to keep the UI in sync with the statechart's state we can do this by
+using the `matchesState`-computed. 
+
+```js
+// ...
+export default Component.extend({
+  // ...
+  isBusy: matchesState('busy'),
+
+  statechart: statechart(
+    // ...
+  ),
+})
+```
+
+The `matchesState`-computed will be `true` if the passed state matches the
+statechart's current state. You can match against a singular state, an array of
+states and even match against nested and orthogonal states with this
+computed-macro - please refer to to [advanced usage](/advanced) for details.
+
+### Refining behavior
+
+We implemented the expected submit behavior but we can't set the button in a
+disabled state.

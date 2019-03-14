@@ -88,4 +88,4 @@ explicitly. But async interactions with apis are not the only complex reactive b
 want to model in your applications explicitly. If you want to model a complex sign-up flow for example
 it might include async interaction with your backend api but you will still want to model
 the rest of the sign-up flow explicitly and `ember-statecharts` will help you with that.
-You can see examples of how to use `ember-concurrency` and `ember-statecharts` in combination in the [examples](/examples).
+You can see examples of how to use `ember-concurrency` and `ember-statecharts` in combination in the [quickstart](/docs/quickstart).
