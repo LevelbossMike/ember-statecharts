@@ -1,0 +1,12 @@
+{{!-- BEGIN-SNIPPET quickstart-button.hbs --}}
+<button
+  class="docs-w-32 docs-border docs-p-4 docs-bg-brand docs-border-brand docs-shadow docs-rounded docs-outline-none docs-text-white docs-font-bold"
+  onclick={{action "buttonClicked"}}
+>
+  {{#if isBusy}}
+    {{ui-loading}}
+  {{else}}
+    {{yield}}
+  {{/if}}
+</button>
+{{!-- END-SNIPPET --}}
