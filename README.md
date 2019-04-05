@@ -161,6 +161,12 @@ to basic statecharts like shown in the example code.
 
 Please refer to [xstate's excellent documentation](http://davidkpiano.github.io/xstate/docs/#/) until more docs are available for this addon.
 
+Contributing
+------------------------------------------------------------------------------
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
+
 License
 ------------------------------------------------------------------------------
 
