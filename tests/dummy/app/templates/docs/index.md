@@ -47,7 +47,11 @@ behavior explicitly in a scalable way even for the most complex behaviors. [Hare
 input and output events, conditions, and actions, perhaps with some additional
 information such as timing constraints" [Harel 87]
 
-* **Statecharts can be modeled explicitly and are executable**. Statecharts are easy
+* **Statecharts can be modeled explicitly and are executable**.  Instead of relying
+on implicit state management you _model_ behavior as a executable statechart configuration
+that makes it is impossible for your application to behave in an unexpected way.
+
+* **With Statecharts it is easy to understand and change existing behavior**. Statecharts are easy
 to reason about, refine and maintain because states in statecharts can be extended and nested.
 
 * In addition to explicitly modeling behavior **statecharts can be used to visualize
@@ -66,16 +70,13 @@ Modeling your application behavior explicitly via `ember-statecharts` will give 
 of your application behavior for free. Statecharts can be visualized via the [statechart-editor](/editor)
 and you will have an easier time to understand components and user-flows by looking at them.
 
-Visalizing statecharts also gives you the opportunity to communicate about behavior
-with other stakeholders - designers, product-owners and fellow developers. Because you
+**Visalizing statecharts also gives you the opportunity to communicate about behavior
+with other stakeholders** - designers, product-owners and fellow developers. Because you
 are modeling behavior explicitly with an executable statechart in your code there is
 now **always up-to-date documentation** of how components and other parts of your app behave.
 
 You can step through your behavior with the bundled [statechart-editor](/editor) and have discussions
 about how your application behaves based on a visual language that everyone understands.
-
-## Statecharts and computed properties
-Ember.js components
 
 ## ember-statecharts vs. ember-concurrency
 
