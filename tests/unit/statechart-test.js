@@ -1,6 +1,8 @@
 import EmberObject, { get } from '@ember/object';
 import { module, test } from 'qunit';
 import { statechart } from 'ember-statecharts/computed';
+import { timeout } from 'ember-concurrency';
+import { run } from '@ember/runloop';
 
 module('Unit | computed | statechart', function() {
   test('it adds statechart functionality to an ember-object', async function(assert) {
@@ -105,5 +107,48 @@ module('Unit | computed | statechart', function() {
       'powerOn',
       'returning a truthy from a guard executes the transition'
     );
+  });
+
+  test('statechart services will be cleaned properly when the object containing the statechart is destroyed', async function(assert) {
+    const subject = EmberObject.extend({
+      offCounter: 0,
+      statechart: statechart(
+        {
+          initial: 'powerOff',
+          states: {
+            powerOff: {
+              onEntry: ['incrementOffCounter'],
+              on: {
+                POWER: 'powerOn',
+              },
+            },
+            powerOn: {
+              after: {
+                1000: 'powerOff',
+              },
+            },
+          },
+        },
+        {
+          actions: {
+            incrementOffCounter(ctx) {
+              ctx.incrementProperty('offCounter');
+            },
+          },
+        }
+      ),
+    }).create();
+
+    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOff');
+    assert.equal(get(subject, 'offCounter'), 1, 'offCounter was incremented as expected');
+
+    get(subject, 'statechart').send('POWER');
+
+    await timeout(300);
+
+    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOn');
+
+    // will fail with `calling set on destroyed object` if  this doesn't work
+    await run(() => subject.destroy());
   });
 });
