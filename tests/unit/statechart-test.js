@@ -3,37 +3,40 @@ import { module, test } from 'qunit';
 import { statechart } from 'ember-statecharts/computed';
 
 module('Unit | computed | statechart', function() {
-  test('it adds statechart functionality to an ember-object', async function (assert) {
+  test('it adds statechart functionality to an ember-object', async function(assert) {
     assert.expect(5);
 
     let StatechartObject = EmberObject.extend({
-      statechart: statechart({
-        initial: 'new',
-        states: {
-          new: {
-            onExit() {
-              assert.ok(true, 'exitState was called');
+      statechart: statechart(
+        {
+          initial: 'new',
+          states: {
+            new: {
+              onExit() {
+                assert.ok(true, 'exitState was called');
+              },
+              on: {
+                woot: {
+                  target: 'foo',
+                  actions: ['handleFoo'],
+                },
+              },
             },
-            on: {
-              woot: {
-                target: 'foo',
-                actions: ['handleFoo']
-              }
-            }
+            foo: {
+              onEntry(data) {
+                assert.deepEqual(data, testData);
+              },
+            },
           },
-          foo: {
-            onEntry(data) {
-              assert.deepEqual(data, testData);
-            }
-          }
+        },
+        {
+          actions: {
+            handleFoo() {
+              assert.ok(true, 'event was called');
+            },
+          },
         }
-      }, {
-        actions: {
-          handleFoo() {
-            assert.ok(true, 'event was called');
-          }
-        }
-      }),
+      ),
     });
 
     let testData = { wat: 'lol' };
@@ -63,34 +66,46 @@ module('Unit | computed | statechart', function() {
               on: {
                 power: {
                   target: 'powerOn',
-                  cond: 'enoughPowerIsAvailable'
-                }
-              }
+                  cond: 'enoughPowerIsAvailable',
+                },
+              },
             },
-            powerOn: {}
-          }
+            powerOn: {},
+          },
         },
         {
           guards: {
-            enoughPowerIsAvailable: (context, { data  }) => {
+            enoughPowerIsAvailable: (context, { data }) => {
               assert.equal(context.name, 'Tomster', 'accessing context works');
               let { power } = data;
 
               return power > 9000;
-            }
-          }
+            },
+          },
         }
-      )
+      ),
     }).create();
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOff', 'passing an array as a statechart property works');
+    assert.equal(
+      get(subject, 'statechart.currentState.value'),
+      'powerOff',
+      'passing an array as a statechart property works'
+    );
 
     await subject.get('statechart').send('power', { power: 1 });
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOff', 'guards will not execute transition when a falsy value is returned');
+    assert.equal(
+      get(subject, 'statechart.currentState.value'),
+      'powerOff',
+      'guards will not execute transition when a falsy value is returned'
+    );
 
     await subject.get('statechart').send('power', { power: 9001 });
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOn', 'returning a truthy from a guard executes the transition');
+    assert.equal(
+      get(subject, 'statechart.currentState.value'),
+      'powerOn',
+      'returning a truthy from a guard executes the transition'
+    );
   });
 });
