@@ -6,7 +6,7 @@ module('Unit | computed | statechart', function() {
   test('it adds statechart functionality to an ember-object', async function(assert) {
     assert.expect(5);
 
-    let StatechartObject = EmberObject.extend({
+    let subject = EmberObject.extend({
       statechart: statechart(
         {
           initial: 'new',
@@ -23,7 +23,7 @@ module('Unit | computed | statechart', function() {
               },
             },
             foo: {
-              onEntry(data) {
+              onEntry(_ctx, { data }) {
                 assert.deepEqual(data, testData);
               },
             },
@@ -37,15 +37,13 @@ module('Unit | computed | statechart', function() {
           },
         }
       ),
-    });
+    }).create();
 
-    let testData = { wat: 'lol' };
-
-    let subject = StatechartObject.create();
+    const testData = { wat: 'lol' };
 
     assert.equal(get(subject, 'statechart.currentState.value'), 'new');
 
-    await get(subject, 'statechart').send('woot', testData);
+    get(subject, 'statechart').send('woot', testData);
 
     assert.equal(get(subject, 'statechart.currentState.value'), 'foo');
   });

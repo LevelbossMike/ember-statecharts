@@ -119,8 +119,6 @@ module('Unit | statechart computeds', function(hooks) {
     test('can be used to log the current state of the statechart as a string', async function(assert) {
       let { subject } = this;
 
-      await subject.get('statechart').start();
-
       assert.deepEqual(subject.get('_debug'), '"playerOff"');
 
       await subject.get('statechart').send('power');

@@ -2,7 +2,14 @@ import { computed, get } from '@ember/object';
 import { matchesState } from 'xstate';
 import { A, makeArray } from '@ember/array';
 import Statechart from './utils/statechart';
-import { assign } from '@ember/polyfills';
+
+function decorateStopInterpreterOnDestroy(destroyFn, service) {
+  return function() {
+    service.stop();
+
+    destroyFn(...arguments);
+  };
+}
 
 function matchesStateComputed(states) {
   return computed('statechart.currentState', function() {
@@ -20,14 +27,13 @@ function debugState() {
   });
 }
 
-function statechart(statechartConfig, statechartOptions) {
+function statechart(config, options) {
   return computed(function() {
-    const statechart = new Statechart(
-      assign(statechartConfig, { context: this }),
-      statechartOptions
-    );
+    const initialContext = this;
 
-    statechart.start();
+    const statechart = new Statechart(config, options, initialContext);
+
+    this.willDestroy = decorateStopInterpreterOnDestroy(this.willDestroy, statechart.service);
 
     return statechart;
   });
