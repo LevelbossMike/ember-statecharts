@@ -22,7 +22,10 @@ function debugState() {
 
 function statechart(statechartConfig, statechartOptions) {
   return computed(function() {
-    const statechart = new Statechart(assign(statechartConfig, { context: this }), statechartOptions);
+    const statechart = new Statechart(
+      assign(statechartConfig, { context: this }),
+      statechartOptions
+    );
 
     statechart.start();
 
@@ -30,8 +33,4 @@ function statechart(statechartConfig, statechartOptions) {
   });
 }
 
-export {
-  matchesStateComputed as matchesState,
-  debugState,
-  statechart
- };
+export { matchesStateComputed as matchesState, debugState, statechart };

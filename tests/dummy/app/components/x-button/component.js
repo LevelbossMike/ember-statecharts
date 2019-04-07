@@ -18,85 +18,87 @@ export default Component.extend(Evented, {
 
   isBusy: matchesState({
     initialized: {
-      activity: 'busy'
-    }
+      activity: 'busy',
+    },
   }),
 
   isInDisabledState: matchesState({
     initialized: {
-      interactivity: 'disabled'
-    }
+      interactivity: 'disabled',
+    },
   }),
 
-  statechart: statechart({
-    initial: 'init',
-    states: {
-      init: {
-        on: {
-          init: 'initialized'
-        }
-      },
-      initialized: {
-        type: 'parallel',
-        states: {
-          interactivity: {
-            initial: 'unknown',
-            states: {
-              unknown: {
-                onEntry: ['checkDisabled'],
-                on: {
-                  disable: 'disabled'
-                }
-              },
-              enabled: {},
-              disabled: {}
-            }
+  statechart: statechart(
+    {
+      initial: 'init',
+      states: {
+        init: {
+          on: {
+            init: 'initialized',
           },
-          activity: {
-            initial: 'idle',
-            states: {
-              idle: {
-                on: {
-                  click: 'busy'
+        },
+        initialized: {
+          type: 'parallel',
+          states: {
+            interactivity: {
+              initial: 'unknown',
+              states: {
+                unknown: {
+                  onEntry: ['checkDisabled'],
+                  on: {
+                    disable: 'disabled',
+                  },
+                },
+                enabled: {},
+                disabled: {},
+              },
+            },
+            activity: {
+              initial: 'idle',
+              states: {
+                idle: {
+                  on: {
+                    click: 'busy',
+                  },
+                },
+                busy: {
+                  onEntry: ['triggerAction'],
+                  on: {
+                    success: 'success',
+                    error: 'error',
+                  },
+                },
+                success: {
+                  onEntry: ['triggerSuccess'],
+                },
+                error: {
+                  onEntry: ['triggerError'],
                 },
               },
-              busy: {
-                onEntry: ['triggerAction'],
-                on: {
-                  success: 'success',
-                  error: 'error'
-                }
-              },
-              success: {
-                onEntry: ['triggerSuccess']
-              },
-              error: {
-                onEntry: ['triggerError']
-              }
-            }
+            },
+          },
+        },
+      },
+    },
+    {
+      actions: {
+        checkDisabled() {
+          if (this.get('disabled')) {
+            this.get('statechart').send('disable');
           }
-        }
-      }
+        },
+        triggerAction() {
+          this.get('onClickTask').perform();
+        },
+        triggerSuccess() {
+          this.get('onSuccess')();
+        },
+        triggerError() {
+          this.get('onError')();
+        },
+      },
     }
-  }, {
-    actions: {
-      checkDisabled() {
-        if (this.get('disabled')) {
-          this.get('statechart').send('disable');
-        }
-      },
-      triggerAction() {
-        this.get('onClickTask').perform();
-      },
-      triggerSuccess() {
-        this.get('onSuccess')();
-      },
-      triggerError() {
-        this.get('onError')();
-      }
-
-    }
-  }),
+  ),
 
   init() {
     this._super(...arguments);
@@ -108,7 +110,9 @@ export default Component.extend(Evented, {
     const result = yield this.onClick();
 
     return result;
-  }).drop().evented(),
+  })
+    .drop()
+    .evented(),
 
   // eslint-disable-next-line ember/no-on-calls-in-components
   handleOnClickSuccess: on('onClickTask:succeeded', function() {
@@ -130,5 +134,5 @@ export default Component.extend(Evented, {
 
   reject() {
     get(this, 'states').send('reject');
-  }
+  },
 });

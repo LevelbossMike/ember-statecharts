@@ -5,7 +5,7 @@ import { set } from '@ember/object';
 function noOp() {}
 
 class Interpreter {
-  constructor({ config, options, context}) {
+  constructor({ config, options, context }) {
     this.machine = Machine(config, options);
 
     this.currentState = this.machine.initialState;
@@ -14,13 +14,17 @@ class Interpreter {
   }
 
   send(eventName, data) {
-    const newState = this.machine.transition(this.currentState, { type: eventName, data }, this.context);
+    const newState = this.machine.transition(
+      this.currentState,
+      { type: eventName, data },
+      this.context
+    );
 
     this.currentState = newState;
 
     let { actions } = newState;
 
-    let _actions = actions.map((action) => action.exec.bind(this.context));
+    let _actions = actions.map(action => action.exec.bind(this.context));
 
     let chain = _actions.reduce((acc, action) => {
       return acc.then(() => {
@@ -45,23 +49,23 @@ export default class Statechart {
             on: {
               didInit: {
                 target: 'initialized',
-                actions: ['executeSendQueue']
+                actions: ['executeSendQueue'],
               },
               send: {
                 target: 'initializing',
-                actions: ['enqueueSend']
-              }
-            }
+                actions: ['enqueueSend'],
+              },
+            },
           },
           initialized: {
             on: {
               send: {
                 target: 'initialized',
-                actions: ['executeSend']
-              }
-            }
-          }
-        }
+                actions: ['executeSend'],
+              },
+            },
+          },
+        },
       },
       options: {
         actions: {
@@ -73,22 +77,21 @@ export default class Statechart {
             let sends = this.sendQueue;
             let chain = sends.reduce((acc, { eventName, data }) => {
               return acc.then(() => {
-                return this.send(eventName, data)
+                return this.send(eventName, data);
               });
             }, resolve());
 
-            return chain
-              .then(() => {
-                this.resolveInit();
-              });
+            return chain.then(() => {
+              this.resolveInit();
+            });
           },
           executeSend(sendData) {
             return this._send(sendData);
           },
-        }
+        },
       },
-      context: this
-    })
+      context: this,
+    });
 
     this.didChangeState = config.didChangeState || noOp;
     this.context = config.context;
@@ -102,10 +105,9 @@ export default class Statechart {
   start() {
     this.currentState = this.machine.initialState;
 
-    return this._executeActions(this.currentState)
-      .then(() => {
-        return this.service.send('didInit');
-      });
+    return this._executeActions(this.currentState).then(() => {
+      return this.service.send('didInit');
+    });
   }
 
   send(eventName, data = {}) {
@@ -113,14 +115,17 @@ export default class Statechart {
   }
 
   _send({ eventName, data }) {
-    let newState = this.machine.transition(this.currentState, { type: eventName, data }, this.context);
+    let newState = this.machine.transition(
+      this.currentState,
+      { type: eventName, data },
+      this.context
+    );
 
     set(this, 'currentState', newState);
 
     this.didChangeState(newState);
 
     return this._executeActions(newState, data);
-
   }
 
   _executeActions(newState, data) {

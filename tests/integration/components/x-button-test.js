@@ -13,7 +13,7 @@ module('Integration | Component | x-button', function(hooks) {
     assert.equal(this.element.querySelector('button').tagName, 'BUTTON');
   });
 
-  test("it displays the passed text on the button", async function(assert) {
+  test('it displays the passed text on the button', async function(assert) {
     let TEXT = 'Hello';
 
     this.set('text', TEXT);
@@ -23,8 +23,8 @@ module('Integration | Component | x-button', function(hooks) {
     assert.dom('[data-test-button]').hasText(TEXT, 'button displays passed text');
   });
 
-  test("it is possible to use the button in block-format", async function(assert) {
-    let TEXT = "Hello"
+  test('it is possible to use the button in block-format', async function(assert) {
+    let TEXT = 'Hello';
 
     this.set('text', TEXT);
 
@@ -105,7 +105,7 @@ module('Integration | Component | x-button', function(hooks) {
         onClick=(action onClick)
         onSuccess=(action onSuccess)
       }}
-    `)
+    `);
 
     await click('[data-test-button]');
   });
@@ -126,7 +126,7 @@ module('Integration | Component | x-button', function(hooks) {
         onClick=(action onClick)
         onError=(action onError)
       }}
-    `)
+    `);
 
     await click('[data-test-button]');
   });
