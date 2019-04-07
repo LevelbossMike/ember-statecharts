@@ -73,8 +73,8 @@ module('Unit | computed | statechart', function() {
         },
         {
           guards: {
-            enoughPowerIsAvailable: (context, { data }) => {
-              assert.equal(context.name, 'Tomster', 'accessing context works');
+            enoughPowerIsAvailable: (ctx, { data }) => {
+              assert.equal(ctx.name, 'Tomster', 'accessing context works');
               let { power } = data;
 
               return power > 9000;
