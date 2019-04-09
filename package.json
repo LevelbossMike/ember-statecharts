@@ -51,7 +51,7 @@
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-ember": "^5.2.0",
     "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-prettier": "2.6.0",
+    "eslint-plugin-prettier": "2.6.2",
     "loader.js": "^4.7.0",
     "prettier": "^1.16.4",
     "qunit-dom": "^0.8.0"
