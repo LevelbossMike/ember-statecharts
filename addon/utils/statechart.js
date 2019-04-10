@@ -22,6 +22,6 @@ export default class Statechart {
   }
 
   send(eventName, data = {}) {
-    this.service.send({ type: eventName, data });
+    this.service.send({ type: eventName, ...data });
   }
 }
