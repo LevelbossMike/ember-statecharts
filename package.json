@@ -23,7 +23,7 @@
   "dependencies": {
     "ember-auto-import": "^1.2.13",
     "ember-cli-babel": "^7.1.2",
-    "xstate": "^4.3.2"
+    "xstate": "^4.4.0"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
@@ -43,6 +43,7 @@
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-qunit": "^3.4.1",
+    "ember-qunit-assert-helpers": "^0.2.2",
     "ember-resolver": "^5.0.1",
     "ember-source": "~3.8.0",
     "ember-source-channel-url": "^1.1.0",

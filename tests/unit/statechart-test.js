@@ -1,12 +1,14 @@
 import EmberObject, { get } from '@ember/object';
 import { module, test } from 'qunit';
 import { statechart } from 'ember-statecharts/computed';
+import { timeout } from 'ember-concurrency';
+import { run } from '@ember/runloop';
 
 module('Unit | computed | statechart', function() {
   test('it adds statechart functionality to an ember-object', async function(assert) {
     assert.expect(5);
 
-    let StatechartObject = EmberObject.extend({
+    let subject = EmberObject.extend({
       statechart: statechart(
         {
           initial: 'new',
@@ -23,8 +25,8 @@ module('Unit | computed | statechart', function() {
               },
             },
             foo: {
-              onEntry(data) {
-                assert.deepEqual(data, testData);
+              onEntry(_context, { type, ...data }) {
+                assert.deepEqual(data, testData, 'passed data is available in eventObject');
               },
             },
           },
@@ -37,15 +39,13 @@ module('Unit | computed | statechart', function() {
           },
         }
       ),
-    });
+    }).create();
 
-    let testData = { wat: 'lol' };
-
-    let subject = StatechartObject.create();
+    const testData = { wat: 'lol' };
 
     assert.equal(get(subject, 'statechart.currentState.value'), 'new');
 
-    await get(subject, 'statechart').send('woot', testData);
+    get(subject, 'statechart').send('woot', testData);
 
     assert.equal(get(subject, 'statechart.currentState.value'), 'foo');
   });
@@ -75,9 +75,8 @@ module('Unit | computed | statechart', function() {
         },
         {
           guards: {
-            enoughPowerIsAvailable: (context, { data }) => {
+            enoughPowerIsAvailable: (context, { power }) => {
               assert.equal(context.name, 'Tomster', 'accessing context works');
-              let { power } = data;
 
               return power > 9000;
             },
@@ -107,5 +106,48 @@ module('Unit | computed | statechart', function() {
       'powerOn',
       'returning a truthy from a guard executes the transition'
     );
+  });
+
+  test('statechart services will be cleaned properly when the object containing the statechart is destroyed', async function(assert) {
+    const subject = EmberObject.extend({
+      offCounter: 0,
+      statechart: statechart(
+        {
+          initial: 'powerOff',
+          states: {
+            powerOff: {
+              onEntry: ['incrementOffCounter'],
+              on: {
+                POWER: 'powerOn',
+              },
+            },
+            powerOn: {
+              after: {
+                1000: 'powerOff',
+              },
+            },
+          },
+        },
+        {
+          actions: {
+            incrementOffCounter(context) {
+              context.incrementProperty('offCounter');
+            },
+          },
+        }
+      ),
+    }).create();
+
+    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOff');
+    assert.equal(get(subject, 'offCounter'), 1, 'offCounter was incremented as expected');
+
+    get(subject, 'statechart').send('POWER');
+
+    await timeout(300);
+
+    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOn');
+
+    // will fail with `calling set on destroyed object` if  this doesn't work
+    await run(() => subject.destroy());
   });
 });

@@ -11,6 +11,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
+    'no-unused-vars': ['error', { ignoreRestSiblings: true }],
   },
   overrides: [
     // node files

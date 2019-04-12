@@ -117,8 +117,8 @@ export default Component.extend({
     }
   }, {
     actions: {
-      executeOnClick(/* data, context */) {
-        // `this` references the object that includes the statechart
+      executeOnClick(/*context, { eventObject } */) {
+        // `context` references the object that includes the statechart
         return resolve()
           .then(() => this.onClick())
           .then(() => this.statechart.send('resolve'))
