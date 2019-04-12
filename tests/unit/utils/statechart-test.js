@@ -63,36 +63,109 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['inlineAction', 'wat'], 'functions as actions will not be ignored');
     });
 
-    test('it is possible to pass data when sending events', async function(assert) {
-      const testData = {
-        name: 'Tomster',
-      };
+    module('sending event data', function() {
+      test('it is possible to pass data when sending events', async function(assert) {
+        const testData = {
+          name: 'Tomster',
+        };
 
-      let statechart = new Statechart(
-        {
-          initial: 'new',
-          states: {
-            new: {
-              on: {
-                woot: {
-                  target: 'next',
-                  actions: ['wat'],
+        let statechart = new Statechart(
+          {
+            initial: 'new',
+            states: {
+              new: {
+                on: {
+                  woot: {
+                    target: 'next',
+                    actions: ['wat'],
+                  },
                 },
               },
-            },
-            next: {},
-          },
-        },
-        {
-          actions: {
-            wat(_ctx, { type, ...data }) {
-              assert.deepEqual(data, testData, 'data was passed as expected');
+              next: {},
             },
           },
-        }
-      );
+          {
+            actions: {
+              wat(_ctx, { type, ...data }) {
+                assert.deepEqual(data, testData, 'data was passed as expected');
+              },
+            },
+          }
+        );
 
-      await statechart.send('woot', testData);
+        await statechart.send('woot', testData);
+      });
+
+      test('it is possible to pass an xstate event-object directly', async function(assert) {
+        const testData = {
+          name: 'Tomster',
+        };
+
+        let statechart = new Statechart(
+          {
+            initial: 'new',
+            states: {
+              new: {
+                on: {
+                  woot: {
+                    target: 'next',
+                    actions: ['wat'],
+                  },
+                },
+              },
+              next: {},
+            },
+          },
+          {
+            actions: {
+              wat(_ctx, { type, ...data }) {
+                assert.deepEqual(data, testData, 'data was passed as expected');
+              },
+            },
+          }
+        );
+
+        const eventObject = { type: 'woot', ...testData };
+
+        await statechart.send(eventObject);
+      });
+
+      test('if sent data contains a type property a warning is issued', async function(assert) {
+        const testData = {
+          name: 'Tomster',
+          type: 'trolol',
+        };
+
+        let statechart = new Statechart(
+          {
+            initial: 'new',
+            states: {
+              new: {
+                on: {
+                  woot: {
+                    target: 'next',
+                    actions: ['wat'],
+                  },
+                },
+              },
+              next: {},
+            },
+          },
+          {
+            actions: {
+              wat(_ctx, { type, ...data }) {
+                assert.equal(type, 'woot', 'overriding of `type` does not work');
+                assert.deepEqual(data, { name: 'Tomster' }, 'data was passed as expected');
+                assert.expectWarning(
+                  `You passed property \`type\` as part of the data you sent with the event \`woot\` . This is not supported - \`woot\` will be used as event name.`
+                );
+              },
+            },
+          }
+        );
+
+        await statechart.send('woot', testData);
+      });
     });
 
     test('transition to different states can be handled by multiple actions in sequence', async function(assert) {

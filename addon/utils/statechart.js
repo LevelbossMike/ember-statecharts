@@ -1,6 +1,7 @@
 import { Machine, interpret } from 'xstate';
 import { set } from '@ember/object';
 import { later, cancel } from '@ember/runloop';
+import { warn } from '@ember/debug';
 
 export default class Statechart {
   constructor(config, options, initialContext) {
@@ -21,7 +22,24 @@ export default class Statechart {
       .start();
   }
 
-  send(eventName, data = {}) {
-    this.service.send({ type: eventName, ...data });
+  send(event, data = {}) {
+    if (arguments.length === 1) {
+      this._sendEventObject(event);
+    } else {
+      const { type, ...eventData } = data;
+      if (type) {
+        warn(
+          `You passed property \`type\` as part of the data you sent with the event \`${event}\` . This is not supported - \`${event}\` will be used as event name.`,
+          false,
+          { id: 'statecharts.event-object.no-override-type' }
+        );
+      }
+      const eventObject = { ...eventData, type: event };
+      this.service.send(eventObject);
+    }
+  }
+
+  _sendEventObject(eventObject) {
+    this.service.send(eventObject);
   }
 }
