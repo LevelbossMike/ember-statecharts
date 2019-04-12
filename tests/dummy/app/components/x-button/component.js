@@ -82,19 +82,19 @@ export default Component.extend(Evented, {
     },
     {
       actions: {
-        checkDisabled(ctx) {
-          if (ctx.get('disabled')) {
-            ctx.get('statechart').send('disable');
+        checkDisabled(context) {
+          if (context.get('disabled')) {
+            context.get('statechart').send('disable');
           }
         },
-        triggerAction(ctx) {
-          ctx.get('onClickTask').perform();
+        triggerAction(context) {
+          context.get('onClickTask').perform();
         },
-        triggerSuccess(ctx) {
-          ctx.get('onSuccess')();
+        triggerSuccess(context) {
+          context.get('onSuccess')();
         },
-        triggerError(ctx) {
-          ctx.get('onError')();
+        triggerError(context) {
+          context.get('onError')();
         },
       },
     }

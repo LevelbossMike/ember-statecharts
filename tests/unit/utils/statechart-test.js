@@ -86,7 +86,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
           },
           {
             actions: {
-              wat(_ctx, { type, ...data }) {
+              wat(_context, { type, ...data }) {
                 assert.deepEqual(data, testData, 'data was passed as expected');
               },
             },
@@ -118,7 +118,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
           },
           {
             actions: {
-              wat(_ctx, { type, ...data }) {
+              wat(_context, { type, ...data }) {
                 assert.deepEqual(data, testData, 'data was passed as expected');
               },
             },
@@ -153,7 +153,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
           },
           {
             actions: {
-              wat(_ctx, { type, ...data }) {
+              wat(_context, { type, ...data }) {
                 assert.equal(type, 'woot', 'overriding of `type` does not work');
                 assert.deepEqual(data, { name: 'Tomster' }, 'data was passed as expected');
                 assert.expectWarning(
@@ -223,11 +223,11 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
         },
         {
           actions: {
-            wat(_ctx, { type, ...data }) {
+            wat(_context, { type, ...data }) {
               assert.deepEqual(data, testData, 'actionA got passed correct data');
               assert.step('actionA');
             },
-            yo(_ctx, { type, ...data }) {
+            yo(_context, { type, ...data }) {
               assert.deepEqual(data, testData, 'actionB got passed correct data');
               assert.step('actionB');
             },
@@ -263,13 +263,13 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
             on: {
               woot: 'next',
             },
-            onExit(_ctx, { type, ...data }) {
+            onExit(_context, { type, ...data }) {
               assert.step('exitState');
               assert.deepEqual(data, someData, 'states can pass data when they transition');
             },
           },
           next: {
-            onEntry(ctx, { type, ...data }) {
+            onEntry(context, { type, ...data }) {
               assert.step('enterState');
               assert.deepEqual(data, someData, 'states can pass data when they transition');
             },
@@ -308,8 +308,8 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
         },
         {
           actions: {
-            test(ctx) {
-              assert.deepEqual(ctx, testContext, 'context is accessible in action handlers');
+            test(context) {
+              assert.deepEqual(context, testContext, 'context is accessible in action handlers');
             },
           },
         },
@@ -339,12 +339,12 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
               on: {
                 woot: {
                   target: 'next',
-                  cond: (ctx, eventObject) => {
+                  cond: (context, eventObject) => {
                     let { type, ...data } = eventObject;
                     assert.equal(type, 'woot', 'eventName is accessible in condition');
                     assert.deepEqual(data, testData, 'passed event data is available in condition');
                     assert.deepEqual(
-                      ctx,
+                      context,
                       testContext,
                       "the statechart's context is available in condition"
                     );
@@ -582,11 +582,11 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
               initial: 'stopped',
               states: {
                 stopped: {
-                  onEntry(ctx) {
-                    assert.deepEqual(ctx, testContext, 'context is available as expected');
+                  onEntry(context) {
+                    assert.deepEqual(context, testContext, 'context is available as expected');
                   },
-                  onExit(ctx) {
-                    assert.equal(ctx.name, 'lol');
+                  onExit(context) {
+                    assert.equal(context.name, 'lol');
                   },
                   on: {
                     play: {
@@ -609,8 +609,8 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
         },
         {
           actions: {
-            testTestContext(ctx) {
-              assert.deepEqual(ctx, testContext);
+            testTestContext(context) {
+              assert.deepEqual(context, testContext);
             },
           },
         }
@@ -649,7 +649,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
             initial: 'stopped',
             states: {
               stopped: {
-                onEntry(ctx, { type, ...data }) {
+                onEntry(context, { type, ...data }) {
                   assert.deepEqual(
                     data,
                     testData,
@@ -664,7 +664,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
                 },
               },
             },
-            onEntry(ctx, { type, ...data }) {
+            onEntry(context, { type, ...data }) {
               assert.deepEqual(
                 data,
                 testData,
@@ -866,9 +866,9 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
                   },
                 },
                 pending: {
-                  onEntry(ctx, { type, ...data }) {
+                  onEntry(context, { type, ...data }) {
                     assert.deepEqual(data, testData, 'passing data works');
-                    assert.deepEqual(ctx, testContext, 'context is passed as expected');
+                    assert.deepEqual(context, testContext, 'context is passed as expected');
                   },
                   on: {
                     DOWNLOAD_COMPLETE: 'success',
@@ -881,13 +881,13 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
         },
         {
           actions: {
-            handleUploadSuccess(ctx, { type, ...data }) {
+            handleUploadSuccess(context, { type, ...data }) {
               assert.deepEqual(data, testData, 'passing data works');
-              assert.deepEqual(ctx, testContext, 'context is passed as expected');
+              assert.deepEqual(context, testContext, 'context is passed as expected');
             },
-            handleInitDownload(ctx, { type, ...data }) {
+            handleInitDownload(context, { type, ...data }) {
               assert.deepEqual(data, testData, 'passing data works');
-              assert.deepEqual(ctx, testContext, 'context is passed');
+              assert.deepEqual(context, testContext, 'context is passed');
             },
           },
         }

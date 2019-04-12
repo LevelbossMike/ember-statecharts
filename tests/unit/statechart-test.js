@@ -25,7 +25,7 @@ module('Unit | computed | statechart', function() {
               },
             },
             foo: {
-              onEntry(_ctx, { type, ...data }) {
+              onEntry(_context, { type, ...data }) {
                 assert.deepEqual(data, testData, 'passed data is available in eventObject');
               },
             },
@@ -75,8 +75,8 @@ module('Unit | computed | statechart', function() {
         },
         {
           guards: {
-            enoughPowerIsAvailable: (ctx, { power }) => {
-              assert.equal(ctx.name, 'Tomster', 'accessing context works');
+            enoughPowerIsAvailable: (context, { power }) => {
+              assert.equal(context.name, 'Tomster', 'accessing context works');
 
               return power > 9000;
             },
@@ -130,8 +130,8 @@ module('Unit | computed | statechart', function() {
         },
         {
           actions: {
-            incrementOffCounter(ctx) {
-              ctx.incrementProperty('offCounter');
+            incrementOffCounter(context) {
+              context.incrementProperty('offCounter');
             },
           },
         }
