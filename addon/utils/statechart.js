@@ -35,7 +35,8 @@ export default class Statechart {
         );
       }
       const eventObject = { ...eventData, type: event };
-      this.service.send(eventObject);
+
+      this._sendEventObject(eventObject);
     }
   }
 
