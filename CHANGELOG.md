@@ -1,5 +1,15 @@
 # Change Log
 
+## [v0.7.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.7.0) (2019-04-19)
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.6.1...v0.7.0)
+
+#### :boom: Breaking Change - :rocket: Feature / Enhancement
+* [#66](https://github.com/LevelbossMike/ember-statecharts/pull/66) Use xstate interpreter ([@LevelbossMike](https://github.com/LevelbossMike))
+
+#### :house: Internal
+* [#67](https://github.com/LevelbossMike/ember-statecharts/pull/67) Add prettier ([@LevelbossMike](https://github.com/LevelbossMike))
+
 ## [v0.6.1](https://github.com/LevelbossMike/ember-statecharts/tree/v0.6.1) (2018-12-02)
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.6.0...v0.6.1)
 - Update to Ember 3.5 [\#12](https://github.com/LevelbossMike/ember-statecharts/pull/12) ([loganrosen](https://github.com/loganrosen))

@@ -1,6 +1,6 @@
 {
   "name": "ember-statecharts",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Statecharts for Ember.js applications",
   "keywords": [
     "ember-addon"
@@ -62,5 +62,15 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "changelog": {
+    "repo": "levelbossmike/ember-statecharts",
+    "labels": {
+      ":boom: Breaking": ":boom: Breaking Change",
+      "Feature / Enhancement": ":rocket: Feature / Enhancement",
+      "Bug": ":bug: Bug Fix",
+      "Documentation": ":memo: Documentation",
+      "internal": ":house: Internal"
+    }
   }
 }
