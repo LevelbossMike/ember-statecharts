@@ -7,7 +7,7 @@ function decorateStopInterpreterOnDestroy(destroyFn, service) {
   return function() {
     service.stop();
 
-    destroyFn(...arguments);
+    destroyFn.apply(this, ...arguments);
   };
 }
 
