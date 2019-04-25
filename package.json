@@ -1,6 +1,6 @@
 {
   "name": "ember-statecharts",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Statecharts for Ember.js applications",
   "keywords": [
     "ember-addon"
@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "ember build",
+    "changelog": "lerna-changelog",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "start": "ember serve",

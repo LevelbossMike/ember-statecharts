@@ -1,5 +1,15 @@
 # Change Log
 
+## [v0.7.1](https://github.com/LevelbossMike/ember-statecharts/tree/v0.7.1) (2019-04-25)
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.7.0...v0.7.1)
+
+#### :bug: Bug Fix
+* [#82](https://github.com/LevelbossMike/ember-statecharts/pull/82) call willDestroy with correct context ([@pangratz](https://github.com/pangratz))
+
+#### Committers: 1
+- Clemens M�ller ([@pangratz](https://github.com/pangratz))
+
 ## [v0.7.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.7.0) (2019-04-19)
 
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.6.1...v0.7.0)
