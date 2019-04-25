@@ -136,6 +136,12 @@ module('Unit | computed | statechart', function() {
           },
         }
       ),
+
+      willDestroy() {
+        this._super(...arguments);
+
+        assert.step('willDestroy hook is called correctly');
+      },
     }).create();
 
     assert.equal(get(subject, 'statechart.currentState.value'), 'powerOff');
@@ -149,5 +155,7 @@ module('Unit | computed | statechart', function() {
 
     // will fail with `calling set on destroyed object` if  this doesn't work
     await run(() => subject.destroy());
+
+    assert.verifySteps(['willDestroy hook is called correctly']);
   });
 });
