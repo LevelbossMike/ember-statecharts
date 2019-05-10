@@ -1,0 +1,12 @@
+{{yield
+  (hash
+    state=(hash
+      containers=statechartRegistry.containers
+    )
+    actions=(hash
+      deregisterContainer=(action "deregisterContainer")
+      registerEdge=(action "registerEdge")
+      deregisterEdge=(action "deregisterEdge")
+    )
+  )
+}}

@@ -1,0 +1,166 @@
+.es-statechart {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.es-statechart__header {
+  padding: 8px 0 ;
+  border-bottom: 1px solid lightgrey;
+
+  display: flex;
+}
+
+.es-statechart__header__key {
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+.es-node {
+  display: flex;
+  margin: 16px;
+}
+
+.es-node__header {
+  font-size: .875rem;
+  font-weight: 600;
+  padding: 2px 0;
+}
+
+.es-node__body {
+  border: 2px solid lightgrey;
+  border-radius: .25rem;
+  min-height: 16px;
+  padding-bottom: 20px;
+
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.es-node__body--parallel {
+  border-style: dashed;
+}
+
+.es-node__body--active {
+  border-color: rgb(227, 75, 49);
+}
+
+.es-node__edges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.es-node__states {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.es-node__initial_state {
+  border-radius: 100%;
+  background: rgb(128,128,128, 0.8);
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  margin-right: 12px;
+}
+
+.es-edge {
+  margin-left: 8px;
+  margin-top: 8px;
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.es-edge:last-child {
+  margin-bottom: 4px;
+}
+
+.es-edge__cond {
+  padding: 4px 2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.es-edge__cond__name {
+  font-weight: 350;
+}
+
+.es-edge__action {
+  padding: 4px 2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.es-edge__action__name {
+  font-weight: 350;
+}
+
+.es-edge__button {
+  display: flex;
+  align-items: center;
+  background: rgb(227, 75, 49);
+  padding: 2px;
+  margin-right: -8px;
+  padding-left: 8px;
+  border-radius: .825rem;
+  color: white;
+  cursor: pointer;
+
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.es-edge__button__name {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.es-edge__button__connector {
+  margin-left: 8px;
+  height: 10px;
+  width: 10px;
+  border-radius: 100%;
+  background: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.es-hidden {
+  display: none;
+}
+
+.es-statechart-test-container {
+  width: 100%;
+  height: 500px;
+}
+
+.es-editor-container {
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+
+  display: flex;
+  border: 1px solid red;
+
+}
+
+.es-editor-container__busy-indicator {
+  width: 100%;
+  height: 32px;
+
+  background: orange;
+  position: absolute;
+}
+
+.es-editor-visualization {
+  width: 65%;
+  height: 100%;
+}
+
+.es-config-editor {
+  width: 35%;
+  height: 100%
+}
+
+.es-config-editor__editor {
+  height: 100%;
+  margin: 0;
+}

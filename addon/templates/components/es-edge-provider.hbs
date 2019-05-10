@@ -1,0 +1,23 @@
+{{#es-statechart-registry-provider as |p|}}
+  {{#let
+    (action p.actions.registerEdge containerGuid)
+    (action p.actions.deregisterEdge containerGuid)
+    (get p.state.containers containerGuid)
+  as |registerEdge deregisterEdge statechartContainer|
+  }}
+    {{yield
+      (hash
+        state=(hash
+          edges=(get statechartContainer "edges")
+          previewEdge=(get statechartContainer "previewEdge")
+        )
+        actions=(hash
+          registerEdge=(action registerEdge)
+          deregisterEdge=(action p.actions.deregisterEdge containerGuid)
+          registerInitialEdge=(action "registerInitialEdge" registerEdge) 
+          deregisterInitialEdge=(action "deregisterInitialEdge" deregisterEdge (get statechartContainer "edges"))
+        )
+      )
+    }}
+  {{/let}}
+{{/es-statechart-registry-provider}}

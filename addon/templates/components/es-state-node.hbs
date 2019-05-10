@@ -1,0 +1,131 @@
+{{#if isTopLevel}}
+  {{!--
+    make sure all stateNodeComponents from the top level on get passed the top
+    level guid - we need this to register edges later on correctly
+  --}}
+  <div>
+    <div class="es-statechart__header">
+      <div class="es-statechart__header__key">{{stateNode.key}}</div>
+    </div>
+    <div>
+      {{#let
+        (component
+          "es-state-node"
+          containerGuid=containerGuid
+          edgesProvider=(component "es-edge-provider" containerGuid=containerGuid)
+          statechartContainer=(get statechartRegistry.containers containerGuid)
+        )
+      as |stateNodeComponent|
+      }}
+        {{yield
+          (hash
+            state=(hash
+              stateNodes=stateNodes
+            )
+            ui=(hash
+              stateNode=(component
+                stateNodeComponent
+                stateNodeComponent=stateNodeComponent
+              )
+            )
+          )
+        }}
+      {{/let}}
+    </div>
+  </div>
+{{else}}
+  <div
+    class="es-node"
+  >
+    {{#if isInitialStateNode}}
+      {{!-- register an edge to the body on did-insert --}}
+      {{!-- don't forget to deregister --}}
+      {{#component edgesProvider as |edgesProvider|}}
+        <div
+          data-test-initial-state={{stateNode.id}}
+          class="es-node__initial_state"
+          {{did-insert (action edgesProvider.actions.registerInitialEdge stateNode)}}
+          {{will-destroy (action edgesProvider.actions.deregisterInitialEdge stateNode)}}
+        >
+        </div>
+      {{/component}}
+    {{/if}}
+    <div
+      data-test-state-node={{isNode}}
+      data-test-state-node-id={{stateNode.id}}
+    >
+      <div class="es-node__header">
+        {{stateNode.key}}
+      </div>
+      <div
+        data-test-state-node-body
+        class={{concat
+          "es-node__body"
+          (if isPreviewed " es-node__body--active")
+          (if isActive " es-node__body--active")
+          (if isParallel " es-node__body--parallel")
+        }}
+      >
+        {{#each onEntryActions as |action|}}
+          <div data-test-action-on-entry class="es-edge__action">
+            entry / <span class="es-edge__action__name">{{action.type}}</span>
+          </div>
+        {{/each}}
+        {{#each onExitActions as |action|}}
+          <div data-test-action-on-exit class="es-edge__action">
+            exit / <span class="es-edge__action__name">{{action.type}}</span>
+          </div>
+        {{/each}}
+        <div class="es-node__edges">
+          {{#component edgesProvider as |edgesProvider|}}
+            {{#each this.edges as |edge|}}
+              <div
+                class="es-edge"
+                {{did-insert (action edgesProvider.actions.registerEdge edge)}}
+                {{will-destroy (action edgesProvider.actions.deregisterEdge edge)}}
+              >
+                <div
+                  class="es-edge__button"
+                  role="button"
+                  onclick={{action "handleEdgeClick" edge}}
+                  onmouseover={{action "activateEdge" edge}}
+                  onmouseout={{action "deactivateEdge" edge}}
+                >
+                  <div class="es-edge__button__name">
+                    {{edge.event}}
+                  </div>
+                  <div
+                    data-test-edge={{concat edge.event "-" edge.cond.name}}
+                    class="es-edge__button__connector"
+                  >
+                  </div>
+                </div>
+                {{#if edge.cond}}
+                  <div class="es-edge__cond">
+                    [<span class="es-edge__cond__name">{{edge.cond.name}}</span>]
+                  </div>
+                {{/if}}
+                {{#each edge.actions as |actionName|}}
+                  <div class="es-edge__action">
+                    do / <span class="es-edge__action__name">{{actionName}}</span>
+                  </div>
+                {{/each}}
+              </div>
+            {{/each}}
+          {{/component}}
+        </div>
+        <div class="es-node__states">
+          {{#each stateNodes as |stateNode|}}
+            <div>
+              {{component
+                stateNodeComponent
+                stateNode=stateNode
+                stateNodeComponent=stateNodeComponent
+              }}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}

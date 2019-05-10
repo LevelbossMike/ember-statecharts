@@ -1,0 +1,24 @@
+{{#es-statechart-registry-provider as |p|}}
+  <div
+    {{will-destroy (action p.actions.deregisterContainer guid)}}
+  >
+    <div data-test-statechart-container={{guid}} class="es-statechart">
+      {{#es-state-node stateNode=machine isTopLevel=true containerGuid=guid as |c|}}
+        <div class="es-node__states">
+          {{#each c.state.stateNodes as |stateNode|}}
+            {{c.ui.stateNode stateNode=stateNode}}
+          {{/each}}
+        </div>
+        {{#es-edge-provider containerGuid=guid as |edgesProvider|}}
+          {{#each edgesProvider.state.edges as |edge|}}
+            {{es-edge
+              edge=edge
+              previewEdge=edgesProvider.state.previewEdge
+              containerGuid=guid
+            }}
+          {{/each}}
+        {{/es-edge-provider}}
+      {{/es-state-node}}
+    </div>
+  </div>
+{{/es-statechart-registry-provider}}
