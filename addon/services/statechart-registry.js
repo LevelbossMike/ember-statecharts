@@ -3,10 +3,10 @@ import O, { computed, get, getProperties, setProperties } from '@ember/object';
 import { readOnly } from '@ember/object/computed';
 import { A } from '@ember/array';
 import { interpret } from 'xstate';
+import { inject as service } from '@ember/service';
 
 const StatechartContainer = O.extend({
   statechart: null,
-
   // all transitions are followed when clicked
   previewMode: false,
 
@@ -129,6 +129,8 @@ const StatechartContainer = O.extend({
 });
 
 export default Service.extend({
+  notifications: service(),
+
   containers: computed(function() {
     return {};
   }),
@@ -140,7 +142,7 @@ export default Service.extend({
         StatechartContainer.create({
           statechart,
           previewMode,
-          onActionTriggered: this._alertTriggeredAction,
+          onActionTriggered: this._alertTriggeredAction.bind(this),
         })
       );
     }
@@ -196,5 +198,7 @@ export default Service.extend({
     this.set(`containers.${guid}`, content);
   },
 
-  _alertTriggeredAction(/* actionName */) {},
+  _alertTriggeredAction(actionName) {
+    this.notifications.notify(`Triggered action named \`${actionName}\``);
+  },
 });

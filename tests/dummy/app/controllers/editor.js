@@ -5,19 +5,47 @@ export default Controller.extend({
   value: computed({
     get() {
       return `{
-  initial: 'off',
+  id: 'quickstart-button',
+  initial: 'idle',
   states: {
-    off: {
+    idle: {
       on: {
-        POWER: 'on'
-      }
+        SUBMIT: 'busy',
+      },
     },
-    on: {
+    busy: {
+      onEntry: ['handleSubmit'],
       on: {
-        POWER: 'off'
-      }
-    }
-  }
+        SUCCESS: 'success',
+        ERROR: 'error',
+      },
+    },
+    success: {
+      onEntry: ['handleSuccess'],
+      on: {
+        SUBMIT: 'busy',
+      },
+    },
+    error: {
+      onEntry: ['handleError'],
+      on: {
+        SUBMIT: 'busy',
+      },
+    },
+  },
+},
+{
+  actions: {
+    handleSubmit(context) {
+      context.handleSubmitTask.perform();
+    },
+    handleSuccess(context) {
+      context.onSuccess();
+    },
+    handleError(context) {
+      context.onError();
+    },
+  },
 }`;
     },
     set(key, value) {

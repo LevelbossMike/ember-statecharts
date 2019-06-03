@@ -1,0 +1,24 @@
+<div class="docs-flex docs-flex-col docs-mb-8">
+  <label for={{guid}} class="docs-mb-2 docs-flex docs-flex-col">
+    <span class="docs-font-bold">{{label}}</span>
+    {{#if hint}}
+      <span>{{hint}}</span>
+    {{/if}}
+    {{#let (v-get @formObject property "message") as |error|}}
+      {{#if (and showErrorMessage error)}}
+        <span class="docs-text-brand">{{error}}</span>
+      {{/if}}
+    {{/let}}
+  </label>
+  {{yield
+    (hash
+      state=(hash
+        inputId=guid
+      )
+      actions=(hash
+        change=(action "change")
+        markUsed=(action "markUsed")
+      )
+    )
+  }}
+</div>
