@@ -9,7 +9,7 @@ export default Component.extend({
 
   notifications: service(),
 
-  submitTask: task(function *() {
+  submitTask: task(function*() {
     yield timeout(1000);
   }).drop(),
 
@@ -19,7 +19,7 @@ export default Component.extend({
     },
     onError() {
       this.notifications.notify('Submit failed');
-    }
-  }
+    },
+  },
   // END-SNIPPET
 });
