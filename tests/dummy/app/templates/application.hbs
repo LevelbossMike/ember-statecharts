@@ -1,9 +1,6 @@
-<h2 id="title">Welcome to Ember</h2>
-
+{{#docs-header as |header|}}
+  {{#header.link "editor"}}
+    Statechart Editor
+  {{/header.link}}
+{{/docs-header}}
 {{outlet}}
-
-{{es-statechart statechart=statechart previewMode=true}}
-
-<div class="es-statechart-test-container">
-  {{es-statechart-editor}}
-</div>

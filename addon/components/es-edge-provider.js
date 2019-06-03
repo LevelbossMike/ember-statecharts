@@ -23,12 +23,12 @@ export default Component.extend({
     },
 
     deregisterInitialEdge(deregisterEdge, edges, stateNode) {
-      // find the initialNode for the stateNode if it exists remove it
+      if (edges) {
+        const edge = edges.find(e => e.isInitialEdge && e.stateNode === stateNode);
 
-      const edge = edges.find(e => e.isInitialEdge && e.stateNode === stateNode);
-
-      if (edge) {
-        deregisterEdge(edge);
+        if (edge) {
+          deregisterEdge(edge);
+        }
       }
     },
   },

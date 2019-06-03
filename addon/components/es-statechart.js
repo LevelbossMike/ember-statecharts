@@ -32,7 +32,9 @@ export default Component.extend({
     );
   },
 
-  didReceiveAttrs() {
+  willDestroyElement() {
+    this.get('statechartRegistry').deregisterContainer(this.get('guid'));
+
     this._super(...arguments);
   },
 });
