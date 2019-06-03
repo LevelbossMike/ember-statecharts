@@ -44,3 +44,40 @@
     transform: rotate(360deg);
   }
 }
+
+.es-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.es-progress-bar__gradient-animated {
+  height: 3px;
+  background: 
+   lightgrey 
+   linear-gradient(
+    to right,
+    yellow,
+    #fd8d32,
+    rgb(227, 75, 49),
+    yellow,
+    lightgrey 
+  );
+  background-size: 500%;
+  animation: 2s linear infinite barprogress, 0.375s cubic-bezier(0.4, 0.0, 0.2, 1) grow, .3s fadein;
+ }
+ 
+ @keyframes barprogress {
+  0% {
+  background-position: 0% 0
+  }
+  to {
+  background-position: 125% 0
+  }
+ }
+ 
+ @keyframes grow {
+   from { width: 0%; }
+   to { width: 100%; }
+ }

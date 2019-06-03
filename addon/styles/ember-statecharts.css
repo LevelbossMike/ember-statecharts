@@ -132,8 +132,6 @@
   position: relative;
 
   display: flex;
-  border: 1px solid red;
-
 }
 
 .es-editor-container__busy-indicator {

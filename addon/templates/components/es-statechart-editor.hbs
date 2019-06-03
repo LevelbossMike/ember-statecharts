@@ -1,8 +1,6 @@
 <div class="es-editor-container">
   {{#if isBusy}}
-    <div class="es-editor-container__busy-indicator">
-      Busy!
-    </div>
+    {{es-progress-bar}}
   {{/if}}
   <div class="es-editor-visualization">
     {{#if canRenderEdges}}
