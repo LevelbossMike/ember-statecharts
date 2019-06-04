@@ -85,7 +85,10 @@
                 {{will-destroy (action edgesProvider.actions.deregisterEdge edge)}}
               >
                 <div
-                  class="es-edge__button"
+                  class={{concat 
+                    "es-edge__button"
+                    (if isActive " es-edge__button--active")
+                  }}
                   role="button"
                   onclick={{action "handleEdgeClick" edge}}
                   onmouseover={{action "activateEdge" edge}}
