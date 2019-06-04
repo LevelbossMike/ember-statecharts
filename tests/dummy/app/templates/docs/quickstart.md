@@ -40,6 +40,8 @@ be `busy` while the `onClick`-action we pass to it is executing.
 }
 ```
 
+{{es-statechart statechart=quickstartStepOne}}
+
 When the user clicks the button we want to `transition` from the `idle`-state to the
 `busy`-state. Statechart transitions happen based on events sent to the statechart.
 We will model our statechart to transition based on the `SUBMIT`-event.
@@ -58,6 +60,8 @@ We will model our statechart to transition based on the `SUBMIT`-event.
   }
 }
 ```
+
+{{es-statechart statechart=quickstartStepTwo}}
 
 You can interact with the statechart during the modeling phase. You will see the statechart
 transitionig into the busy state when clicking on the submit event in the statechart-editor.
@@ -78,6 +82,8 @@ of a transition:
   {{demo.snippet "quickstart-on-exit.js" label="onExit"}}
   {{demo.snippet "quickstart-transition.js" label="transition"}}
 {{/docs-demo}}
+
+{{es-statechart statechart=quickstartStepThree}}
 
 To model the behavior  of our button component we decide to trigger the
 `handleSubmit`-action everytime we enter the `busy` state. The button will be in
@@ -114,6 +120,8 @@ So when `onClick`
 }
 ```
 
+{{es-statechart statechart=quickstartStepFour}}
+
 But what happens if the potentially async `onClick` fails? We need an `error`
 state as well.
 
@@ -149,6 +157,8 @@ gets very easy to add states if you discover you missed something:
   }
 }
 ```
+
+{{es-statechart statechart=quickstartStepFive}}
 
 Ok now we can now transition into `error` and `success` but we want developers to
 be able to handle these events so we will need to trigger behavior when each of
@@ -187,6 +197,8 @@ both states:
   }
 }
 ```
+
+{{es-statechart statechart=quickstartStepSix}}
 
 This looks pretty good - let's have a quick look at the statechart-editor again.
 When clicking through the editor we notice that our statechart behaves in kind of
@@ -243,6 +255,8 @@ we simply add a new transition to both states:
   }
 }
 ```
+
+{{es-statechart statechart=quickstartStepSeven}}
 
 ### Executing the modeled statechart
 

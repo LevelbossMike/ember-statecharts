@@ -136,16 +136,14 @@ export default Service.extend({
   }),
 
   registerContainer(guid, statechart, previewMode) {
-    if (!this._containerForGuid(guid)) {
-      this._setContainerContentForGuid(
-        guid,
-        StatechartContainer.create({
-          statechart,
-          previewMode,
-          onActionTriggered: this._alertTriggeredAction.bind(this),
-        })
-      );
-    }
+    this._setContainerContentForGuid(
+      guid,
+      StatechartContainer.create({
+        statechart,
+        previewMode,
+        onActionTriggered: this._alertTriggeredAction.bind(this),
+      })
+    );
   },
 
   deregisterContainer(guid) {

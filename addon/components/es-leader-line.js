@@ -48,7 +48,6 @@ export default Component.extend({
               size: 2,
               path: 'arc',
               color: ACTIVE_GREY,
-              startSocket: 'bottom',
               endSocketGravity: 20,
             });
           } else {

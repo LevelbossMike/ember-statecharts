@@ -5,10 +5,23 @@
       onClick=(perform submitTask)
       onSuccess=(action "onSuccess")
       onError=(action "onError")
+      onInit=(action (mut statechart))
     }}
       Click me!
     {{/quickstart-button}}
     {{!-- END-SNIPPET --}}
+    <div>
+      <label for="failRequest">
+        Fail request?
+      </label>
+      {{input type="checkbox" name="failRequest" checked=failRequest}}
+    </div>
+    <div class="docs-py-4">
+      Click the button to see the statechart execute.
+    </div>
+    {{#if statechart}}
+      {{es-statechart statechart=statechart}}
+    {{/if}}
   {{/demo.example}}
   {{demo.snippet "quickstart-button.js" label="quickstart-button/component.js" }}
   {{demo.snippet "quickstart-button.hbs" label="quickstart-button/template.hbs" }}

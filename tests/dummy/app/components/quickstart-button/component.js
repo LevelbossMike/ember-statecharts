@@ -9,6 +9,7 @@ export default Component.extend({
   onClick() {},
   onSuccess() {},
   onError() {},
+  onInit() {},
 
   isBusy: matchesState('busy'),
 
@@ -56,6 +57,12 @@ export default Component.extend({
       },
     }
   ),
+
+  // only here to display statechart externally
+  init() {
+    this._super(...arguments);
+    this.onInit(this.get('statechart'));
+  },
 
   handleSubmitTask: task(function*() {
     try {

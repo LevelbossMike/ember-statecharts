@@ -3,14 +3,22 @@ import { task, timeout } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  notifications: service(),
+
+  failRequest: false,
+
+  onRegisterStatechart() {},
+
   // BEGIN-SNIPPET quickstart-button-used.js
 
   // ...
 
-  notifications: service(),
-
   submitTask: task(function*() {
     yield timeout(1000);
+
+    if (this.get('failRequest')) {
+      throw 'wat';
+    }
   }).drop(),
 
   actions: {
@@ -20,6 +28,11 @@ export default Component.extend({
     onError() {
       this.notifications.notify('Submit failed');
     },
+
+    // ...
+    // END-SNIPPET
+    registerStatechart(statechart) {
+      this.onRegisterStatechart(statechart);
+    },
   },
-  // END-SNIPPET
 });
