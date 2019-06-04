@@ -58,10 +58,10 @@
    lightgrey 
    linear-gradient(
     to right,
-    yellow,
+    #fcb243,
     #fd8d32,
     rgb(227, 75, 49),
-    yellow,
+    rgb(207, 133, 120),
     lightgrey 
   );
   background-size: 500%;
