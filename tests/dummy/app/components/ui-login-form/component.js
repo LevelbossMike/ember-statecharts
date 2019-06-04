@@ -21,6 +21,8 @@ export default Component.extend({
 
   Validations,
 
+  onRegisterStatechart() {},
+
   formObject: computed(function() {
     return O.create({
       email: '',

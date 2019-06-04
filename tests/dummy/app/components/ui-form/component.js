@@ -14,6 +14,7 @@ export default Component.extend({
   onSubmit() {},
   onSuccess() {},
   onError() {},
+  onInit() {},
 
   // BEGIN-SNIPPET ui-form-statechart.js
 
@@ -201,4 +202,10 @@ export default Component.extend({
       content: this.model,
     });
   }),
+
+  init() {
+    this._super(...arguments);
+
+    this.onInit(this.get('statechart'));
+  },
 });
