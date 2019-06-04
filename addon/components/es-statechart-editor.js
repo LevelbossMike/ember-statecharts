@@ -20,7 +20,7 @@ export default Component.extend({
       states: {
         idle: {
           on: {
-            TYPE: 'changed',
+            INIT: 'changed',
           },
         },
         changed: {
@@ -77,8 +77,8 @@ export default Component.extend({
     },
     {
       actions: {
-        interpretMachine(context, { config }) {
-          context.interpretMachineTask.perform(config);
+        interpretMachine(context, { config, debounce = true }) {
+          context.interpretMachineTask.perform(config, debounce);
         },
         replaceStatechart(context, { statechart }) {
           context.set('_statechart', statechart);
@@ -87,8 +87,10 @@ export default Component.extend({
     }
   ),
 
-  interpretMachineTask: task(function*(config) {
-    yield timeout(500);
+  interpretMachineTask: task(function*(config, debounce) {
+    if (debounce) {
+      yield timeout(500);
+    }
 
     try {
       const createStatechart = new Function('Statechart', `return new Statechart(${config})`);
@@ -105,7 +107,7 @@ export default Component.extend({
 
     if (this.value) {
       // because ember-ace won't fire an update on start
-      this.statechart.send('TYPE', { config: this.value });
+      this.statechart.send('INIT', { config: this.value, debounce: false });
     }
   },
 
