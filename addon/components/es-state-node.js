@@ -25,6 +25,8 @@ export default Component.extend({
 
   hasSubstates: gt('stateNodes.length', 0),
 
+  isInactive: not('isActive'),
+
   isNode: not('isTopLevel'),
 
   isParallel: equal('stateNode.type', 'parallel'),

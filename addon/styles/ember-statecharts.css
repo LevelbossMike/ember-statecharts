@@ -97,19 +97,23 @@
 .es-edge__button {
   display: flex;
   align-items: center;
-  background:#c7c5c5;
-  padding: 2px;
+  background: rgb(227, 75, 49);
+  padding: 4px;
   margin-right: -8px;
   padding-left: 8px;
   border-radius: .825rem;
   color: white;
-  cursor: pointer;
 
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
-.es-edge__button--active {
-  background: rgb(227, 75, 49);
+.es-edge__button:focus {
+  outline: none;
+}
+
+.es-edge__button:disabled {
+  background:#c7c5c5;
+  cursor: not-allowed;
 }
 
 .es-edge__button__name {

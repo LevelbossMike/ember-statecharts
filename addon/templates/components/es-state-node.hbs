@@ -84,12 +84,9 @@
                 {{did-insert (action edgesProvider.actions.registerEdge edge)}}
                 {{will-destroy (action edgesProvider.actions.deregisterEdge edge)}}
               >
-                <div
-                  class={{concat 
-                    "es-edge__button"
-                    (if isActive " es-edge__button--active")
-                  }}
-                  role="button"
+                <button
+                  class="es-edge__button"
+                  disabled={{isInactive}}
                   onclick={{action "handleEdgeClick" edge}}
                   onmouseover={{action "activateEdge" edge}}
                   onmouseout={{action "deactivateEdge" edge}}
@@ -102,7 +99,7 @@
                     class="es-edge__button__connector"
                   >
                   </div>
-                </div>
+                </button>
                 {{#if edge.cond}}
                   <div class="es-edge__cond">
                     [<span class="es-edge__cond__name">{{edge.cond.name}}</span>]
