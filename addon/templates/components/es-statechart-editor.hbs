@@ -3,6 +3,7 @@
     {{es-progress-bar}}
   {{/if}}
   <div class="es-editor-visualization">
+    {{es-statechart-editor-error isError=isError}}
     {{#if canRenderEdges}}
       {{es-statechart statechart=_statechart previewMode=true}}
     {{/if}}

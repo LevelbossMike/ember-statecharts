@@ -153,6 +153,8 @@
 .es-editor-visualization {
   width: 65%;
   height: 100%;
+
+  position: relative;
 }
 
 .es-config-editor {
@@ -163,6 +165,24 @@
 .es-config-editor__editor {
   height: 100%;
   margin: 0;
+}
+
+.es-config-editor__error {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left:  0;
+}
+.es-config-editor__error__message {
+  display:  flex;
+  justify-content: center;
+  align-items:  center;
+
+  padding:  4px;
+
+  background: rgb(227, 75, 49); 
+  color: white;
+  font-weight: 500;
 }
 
 .es-docs-full {

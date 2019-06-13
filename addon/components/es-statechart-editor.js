@@ -13,6 +13,7 @@ export default Component.extend({
 
   canRenderEdges: matchesState({ changed: { drawing: 'drawn' } }),
   isBusy: matchesState({ changed: { interpreter: 'busy' } }),
+  isError: matchesState({ changed: { interpreter: 'error' } }),
 
   statechart: statechart(
     {
