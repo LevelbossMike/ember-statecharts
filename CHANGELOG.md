@@ -1,5 +1,22 @@
 # Change Log
 
+## [v0.8.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.8.0) (2019-06-16)
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.7.1...v0.8.0)
+
+#### :rocket: Enhancement / Feature
+* [dda27d6](https://github.com/LevelbossMike/ember-statecharts/commit/dda27d6d5176d858992d8cae16c590d66c2fb8bf) Improve `matchesState` and `debugState` ([@LevelbossMike](https://github.com/levelbossmike))
+
+`matchesState` and `debugState` now also support statecharts that are named differently than `statechart`.
+
+#### :House: Internal 
+* [#102](https://github.com/LevelbossMike/ember-statecharts/pull/102) Update ember-cli 3.10.x, xstate, prettier ([@LevelbossMike](https://github.com/levelbossmike))
+
+See [xstate#4.6.0 - release notes](https://github.com/davidkpiano/xstate/releases/tag/v4.6.0) for new xstate features. 
+
+#### Committers: 1
+- Michael Klein ([@LevelbossMike](https://github.com/LevelbossMike))
+
 ## [v0.7.1](https://github.com/LevelbossMike/ember-statecharts/tree/v0.7.1) (2019-04-25)
 
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.7.0...v0.7.1)
