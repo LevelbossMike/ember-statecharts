@@ -41,6 +41,36 @@ module('Unit | statechart computeds', function(hooks) {
         },
       }),
 
+      secondStatechart: statechart({
+        initial: 'off',
+
+        states: {
+          off: {
+            on: {
+              POWER: 'on',
+            },
+          },
+          on: {
+            on: {
+              POWER: 'off',
+            },
+            initial: 'paused',
+            states: {
+              paused: {
+                on: {
+                  START: 'started',
+                },
+              },
+              started: {
+                on: {
+                  PAUSE: 'paused',
+                },
+              },
+            },
+          },
+        },
+      }),
+
       playerIsOff: matchesState('playerOff'),
       playerIsOn: matchesState('playerOn'),
       playerIsStopped: matchesState({
@@ -64,7 +94,15 @@ module('Unit | statechart computeds', function(hooks) {
         },
       ]),
 
+      secondIsOff: matchesState('off', 'secondStatechart'),
+
+      secondIsOn: matchesState('on', 'secondStatechart'),
+
+      secondIsStarted: matchesState({ on: 'started' }, 'secondStatechart'),
+
       _debug: debugState(),
+
+      _debugSecond: debugState('secondStatechart'),
     }).create();
   });
 
@@ -113,6 +151,34 @@ module('Unit | statechart computeds', function(hooks) {
 
       assert.equal(get(subject, 'playerActiveMusicNotPlaying'), true, 'works when passing array');
     });
+
+    test('it can be used with other computeds not named `statechart`', async function(assert) {
+      let { subject } = this;
+
+      assert.equal(subject.get('secondIsOff'), true, 'work for initial state of second statechart');
+
+      await subject.get('secondStatechart').send('POWER');
+
+      assert.equal(
+        subject.get('secondIsOff'),
+        false,
+        'matchesState updates with custom named statecharts'
+      );
+
+      assert.equal(
+        subject.get('secondIsOn'),
+        true,
+        'matchesState computeds work as expected for second statechart'
+      );
+
+      await subject.get('secondStatechart').send('START');
+
+      assert.equal(
+        subject.get('secondIsStarted'),
+        true,
+        'matchesState computeds work as expected for nested states for second statechart'
+      );
+    });
   });
 
   module('#debugState', function() {
@@ -133,6 +199,26 @@ module('Unit | statechart computeds', function(hooks) {
       assert.deepEqual(
         subject.get('_debug'),
         JSON.stringify({ playerOn: 'playing' }, 'updates when state is updated')
+      );
+    });
+
+    test('can be used to log the current state of the statechart as a string', async function(assert) {
+      let { subject } = this;
+
+      assert.deepEqual(subject.get('_debugSecond'), '"off"');
+
+      await subject.get('secondStatechart').send('POWER');
+
+      assert.deepEqual(
+        subject.get('_debugSecond'),
+        JSON.stringify({ on: 'paused' }, 'works for nested states')
+      );
+
+      await subject.get('secondStatechart').send('START');
+
+      assert.deepEqual(
+        subject.get('_debugSecond'),
+        JSON.stringify({ on: 'started' }, 'updates when state is updated')
       );
     });
   });
