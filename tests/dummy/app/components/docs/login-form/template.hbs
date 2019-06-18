@@ -1,0 +1,20 @@
+{{#docs-demo as |demo|}}
+  {{#demo.example}}
+    {{ui-login-form onRegisterStatechart=(action (mut statechart))}}
+  {{/demo.example}}
+  <div class="docs-p-8">
+    {{#ui-form/form onSubmit=(action (mut showStatechart) (not showStatechart))}}
+      {{#ui-button}}
+        Toggle statechart
+      {{/ui-button}}
+    {{/ui-form/form}}
+  </div>
+  {{#if (and showStatechart statechart)}}
+    {{es-statechart statechart=statechart}}
+  {{/if}}
+
+  {{demo.snippet "ui-login-form.hbs" label="ui-login-form/template.hbs" }}
+  {{demo.snippet "ui-login-form.js" label="ui-login-form/component.js"}}
+  {{demo.snippet "ui-form-statechart.js" label="ui-form/component.js"}}
+  {{demo.snippet "ui-form-template.hbs" label="ui-form/template.hbs"}}
+{{/docs-demo}}
