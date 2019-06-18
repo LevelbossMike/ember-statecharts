@@ -1,0 +1,37 @@
+{{!-- BEGIN-SNIPPET ui-form-template.hbs --}}
+{{#let
+  (component "ui-form/form-field"
+    formObject=this.formObject
+    triggerFormChange=(action "change")
+    userDidSubmitForm=this.userDidSubmitForm
+  )
+as |formField|
+}}
+  {{yield
+    (hash
+      state=(hash
+        object=this.formObject
+      )
+      actions=(hash
+        submit=(action "submit")
+        change=(action "change")
+      )
+      ui=(hash
+        formField=formField
+        form=(component "ui-form/form"
+          onSubmit=(action "submit")
+        )
+        input=(component "ui-form/input"
+          formField=formField
+        )
+        ctaButton=(component "ui-button"
+          type="submit"
+          disabled=isUnchanged
+          displayHollow=isInvalid
+          isBusy=isBusy
+        )
+      )
+    )
+  }}
+{{/let}}
+{{!-- END-SNIPPET ui-form-template.hbs --}}

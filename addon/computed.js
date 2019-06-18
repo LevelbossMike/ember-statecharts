@@ -1,5 +1,5 @@
 import { computed, get } from '@ember/object';
-import { matchesState } from 'xstate';
+import { matchesState as xstateMatchesState } from 'xstate';
 import { A, makeArray } from '@ember/array';
 import Statechart from './utils/statechart';
 
@@ -11,12 +11,12 @@ function decorateStopInterpreterOnDestroy(destroyFn, service) {
   };
 }
 
-function matchesStateComputed(states, statechartPropertyName = 'statechart') {
+function matchesState(states, statechartPropertyName = 'statechart') {
   return computed(`${statechartPropertyName}.currentState`, function() {
     const _states = A(makeArray(states));
 
     return _states.any(state => {
-      return matchesState(state, get(this, `${statechartPropertyName}.currentState.value`));
+      return xstateMatchesState(state, get(this, `${statechartPropertyName}.currentState.value`));
     });
   });
 }
@@ -39,4 +39,4 @@ function statechart(config, options) {
   });
 }
 
-export { matchesStateComputed as matchesState, debugState, statechart };
+export { statechart, matchesState, debugState };

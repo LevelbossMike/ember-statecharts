@@ -1,0 +1,34 @@
+<div class="docs-flex docs-justify-center">
+  <div class="docs-border docs-border-grey docs-p-16 docs-shadow-md docs-w-3/4">
+    {{!-- BEGIN-SNIPPET ui-login-form.hbs --}}
+    <UiForm
+      @Validations={{this.Validations}}
+      @model={{this.formObject}}
+      @onSubmit={{action "login"}}
+      @onSuccess={{action "handleLoginSuccess"}}
+      @onError={{action "handleLoginError"}}
+      @onInit={{action onRegisterStatechart}}
+      @formObjectIsPristine={{this.loginPristine}} as |f|
+    >
+      <f.ui.form>
+        <f.ui.input
+          @label="Email address"
+          @property="email"
+          autocapitalize="none"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <f.ui.input
+          @label="Password"
+          @property="password"
+          @hint="Must contain 8+ characters."
+          type="password"
+        />
+        <f.ui.ctaButton>
+          Log in
+        </f.ui.ctaButton>
+      </f.ui.form>
+    </UiForm>
+    {{!-- END-SNIPPET --}}
+  </div>
+</div>
