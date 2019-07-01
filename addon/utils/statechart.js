@@ -5,7 +5,22 @@ import { warn } from '@ember/debug';
 
 export default class Statechart {
   constructor(config, options, initialContext) {
+    if (arguments.length === 0) {
+      return;
+    }
     const machine = Machine(config, options, initialContext);
+    this._setupMachine(machine);
+  }
+
+  static withMachine(machine, initialContext) {
+    const statechart = new Statechart();
+    if (initialContext) {
+      statechart._setupMachine(machine.withContext(initialContext));
+    }
+    return statechart;
+  }
+
+  _setupMachine(machine) {
     this.service = interpret(machine, {
       clock: {
         setTimeout: (fn, ms) => {

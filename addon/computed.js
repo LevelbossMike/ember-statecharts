@@ -1,5 +1,5 @@
 import { computed, get } from '@ember/object';
-import { matchesState } from 'xstate';
+import { StateNode, matchesState } from 'xstate';
 import { A, makeArray } from '@ember/array';
 import Statechart from './utils/statechart';
 
@@ -27,11 +27,16 @@ function debugState(statechartPropertyName = 'statechart') {
   });
 }
 
-function statechart(config, options) {
+function statechart(configOrMachine, options) {
   return computed(function() {
     const initialContext = this;
 
-    const statechart = new Statechart(config, options, initialContext);
+    let statechart;
+    if (configOrMachine instanceof StateNode) {
+      statechart = Statechart.withMachine(configOrMachine, initialContext);
+    } else {
+      statechart = new Statechart(configOrMachine, options, initialContext);
+    }
 
     this.willDestroy = decorateStopInterpreterOnDestroy(this.willDestroy, statechart.service);
 
