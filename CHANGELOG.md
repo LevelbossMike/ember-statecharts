@@ -1,5 +1,17 @@
 # Change Log
 
+## [v0.8.2](https://github.com/LevelbossMike/ember-statecharts/tree/v0.8.2) (2019-07-05)
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.8.1...v0.8.2)
+
+#### :House: Internal 
+* [c0dec97](https://github.com/LevelbossMike/ember-statecharts/commit/c0dec97c631a8786218731d9b699cfcdd8d3e212) Update xstate to 4.6.4 ([@LevelbossMike](https://github.com/levelbossmike))
+
+See [xstate#4.6.4 - release notes](https://github.com/davidkpiano/xstate/releases/tag/v4.6.4) for new xstate release notes. 
+
+#### Committers: 1
+- Michael Klein ([@LevelbossMike](https://github.com/LevelbossMike))
+
 ## [v0.8.1](https://github.com/LevelbossMike/ember-statecharts/tree/v0.8.1) (2019-07-05)
 
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.8.0...v0.8.1)
