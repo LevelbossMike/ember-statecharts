@@ -1,5 +1,17 @@
 # Change Log
 
+## [v0.8.1](https://github.com/LevelbossMike/ember-statecharts/tree/v0.8.1) (2019-07-05)
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.8.0...v0.8.1)
+
+#### :rocket: Enhancement / Feature
+* [#118](https://github.com/LevelbossMike/ember-statecharts/pull/118) Add addon-docs ([@LevelbossMike](https://github.com/levelbossmike))
+
+Finally we have an addon-docs page :rocket:.
+
+#### Committers: 1
+- Michael Klein ([@LevelbossMike](https://github.com/LevelbossMike))
+
 ## [v0.8.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.8.0) (2019-06-16)
 
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.7.1...v0.8.0)
