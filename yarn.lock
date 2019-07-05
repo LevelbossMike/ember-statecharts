@@ -5577,10 +5577,10 @@ ember-source@~3.10.0:
     jquery "^3.3.1"
     resolve "^1.10.0"
 
-ember-statecharts-tools@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ember-statecharts-tools/-/ember-statecharts-tools-0.0.2.tgz#36ca09c85777f7f20faafb4ac12703e3297cfa12"
-  integrity sha512-QdmI+/BPxP+Q5hgkBYl51iXUuMQuCldLaAoYEbKp1ABAqLTqJwYgqgOo3DJdtPI+i5iRxWu5FJA1aikDRr3qoA==
+ember-statecharts-tools@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ember-statecharts-tools/-/ember-statecharts-tools-0.0.3.tgz#d2a1808b193615e61bf6c73a8733313b786091e7"
+  integrity sha512-nvnu8n5EH6flOtYjqLRliODRuWxxRka5Kfu786Xposh4SfWTlrmzY2FS+tqHHhLhMg2ynIdXab8kxzNRXMGTHg==
   dependencies:
     "@ember/render-modifiers" "^1.0.0"
     ember-ace "^2.0.1"
@@ -5590,7 +5590,7 @@ ember-statecharts-tools@^0.0.2:
     ember-cli-htmlbars "^3.0.1"
     ember-concurrency "^1.0.0"
     leader-line "^1.0.5"
-    xstate "^4.6.1"
+    xstate "^4.6.4"
 
 ember-string-ishtmlsafe-polyfill@^2.0.0:
   version "2.0.2"
@@ -12224,10 +12224,10 @@ xmlhttprequest-ssl@~1.5.4:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.5.tgz#c2876b06168aadc40e57d97e81191ac8f4398b3e"
 
-xstate@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.6.1.tgz#81d45d7e0a71358a1d8b8c80af90e3a50f98bb18"
-  integrity sha512-f4HqFkGYVN03kDgxIM3Vp4zC9yDvunN6FHhEjbusEuAqwMFkyWg0VOUKdj/K7+W5fDcDHox7OgPYYfGIGWyJ8Q==
+xstate@^4.6.4:
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.6.4.tgz#15ab4eb4526483a9caa9d67b26f026dfe390697f"
+  integrity sha512-/L361v1dSGJWdERtmodT1EgkglobW9ewDBZoVzU7kPo1Sg0l65Df6fpUhCCA1NIhPzXe1axFacu29hIRR0oRJw==
 
 xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
