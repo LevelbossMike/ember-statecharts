@@ -8,7 +8,7 @@ your applications. This is especially useful in `Ember.Component`-architecture
 but can be used across all layers of your application (e.g. when implementing
 global application state).
 
-[View the docs here.](https://www.ember-statecharts.com)
+[View the docs here.](https://ember-statecharts.com)
 
 
 Compatibility
@@ -130,7 +130,7 @@ export default Component.extend({
 });
 ```
 
-Please refer to the [documentation page](http://www.ember-statecharts.com) for a detailed guide of how you can use statecharts to improve your Ember.js application architecture.
+Please refer to the [documentation page](http://ember-statecharts.com) for a detailed guide of how you can use statecharts to improve your Ember.js application architecture.
 
 Contributing
 ------------------------------------------------------------------------------
