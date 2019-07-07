@@ -8,6 +8,8 @@ your applications. This is especially useful in `Ember.Component`-architecture
 but can be used across all layers of your application (e.g. when implementing
 global application state).
 
+[View the docs here.](https://www.ember-statecharts.com)
+
 
 Compatibility
 ------------------------------------------------------------------------------
@@ -34,37 +36,15 @@ original paper [Statecharts - A Visual Formalism for Complex
 Systems](http://www.inf.ed.ac.uk/teaching/courses/seoc/2005_2006/resources/statecharts.pdf)
 by David Harel.
 
-With statecharts we finally have a good abstraction to discuss behaviour with
+With statecharts we finally have a good abstraction to model and discuss behaviour with
 other stakeholders of our applications in addition to a design language that
-visualizes this behaviour. After designing a statechart it's very straight
-forward to implement for example a component that implements the desired
-behaviour. Here's an example:
-
-Imagine your designers come to you and ask you to implement a button component.
-Easy? Here are the requirements for the button:
-
-The button needs to show a text and needs to be clickable. That's it. We have
-all been in this situation and told the designer that this is super easy and
-will be done in no time.
-
-Unfortunately it is very easy to forget about specific states that your
-new created button can find itself in if you are not using a structured
-approach to model your component states (i.e. by not using a statechart). It's
-also very easy to mix concerns when implementing the button. UI concerns and
-behavioural concerns (i.e. how something looks in contrast to how something
-behaves).
-
-Did you think about a loading state of the button for when the action this
-button triggers does something async? Did you think about an error state for
-this button? did you think about a success state? Statecharts make it super
-obvious on how to implement behaviour like this - here's a statechart that
-describes the behaviour of the button component:
+visualizes this behaviour. Here's an example of a button component:
 
 <p align="center">
   <img width="435" alt="bildschirmfoto 2018-10-01 um 12 17 09" src="https://user-images.githubusercontent.com/242299/46283582-0fb27800-c575-11e8-8c8e-c132e9f8f77a.png">
 </p>
 
-And here's how you can model this behaviour with `ember-statecharts`:
+In addition to their modeling capabilities Statecharts are executable and can be used to drive user experience behavior in your Ember.js applications:
 
 ```js
 import Component from '@ember/component';
@@ -150,17 +130,7 @@ export default Component.extend({
 });
 ```
 
-The important part being that you trigger behaviour only by sending events to
-the `Object`'s `statechart`-property.
-
-Inside of the `statechart`-configuration you have access to the whole power of
-[xstate](https://github.com/davidkpiano/xstate). This means that you can
-implement [guards](http://davidkpiano.github.io/xstate/docs/#/guides/guards),
-[nested statecharts](http://davidkpiano.github.io/xstate/docs/#/guides/hierarchical) and [orthogonal
-states](http://davidkpiano.github.io/xstate/docs/#/guides/parallel) in addition
-to basic statecharts like shown in the example code.
-
-Please refer to [xstate's excellent documentation](http://davidkpiano.github.io/xstate/docs/#/) until more docs are available for this addon.
+Please refer to [documentation page](http://www.ember-statecharts.com) for a detailed guide of how you can use statecharts to improve your Ember.js application architecture.
 
 Contributing
 ------------------------------------------------------------------------------
