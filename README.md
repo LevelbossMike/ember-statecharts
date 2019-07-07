@@ -130,7 +130,7 @@ export default Component.extend({
 });
 ```
 
-Please refer to [documentation page](http://www.ember-statecharts.com) for a detailed guide of how you can use statecharts to improve your Ember.js application architecture.
+Please refer to the [documentation page](http://www.ember-statecharts.com) for a detailed guide of how you can use statecharts to improve your Ember.js application architecture.
 
 Contributing
 ------------------------------------------------------------------------------
