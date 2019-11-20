@@ -60,7 +60,7 @@
     "ember-test-selectors": "^2.0.0",
     "ember-try": "^1.0.0",
     "ember-validated-form-buffer": "^0.2.2",
-    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-node": "^9.0.1",
     "eslint-plugin-prettier": "2.6.0",
