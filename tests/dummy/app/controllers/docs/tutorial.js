@@ -1,14 +1,11 @@
 import Controller from '@ember/controller';
 import { statechart } from 'ember-statecharts/computed';
-import { inject as service } from '@ember/service';
 
 function notifyActionName(context, event) {
-  context.notifications.notify(`Triggered action \`${event.type}\``);
+  window.alert(`Triggered action \`${event.type}\``);
 }
 
 export default Controller.extend({
-  notifications: service('es-notifications'),
-
   finalStatechart: null,
 
   quickstartStepOne: statechart({

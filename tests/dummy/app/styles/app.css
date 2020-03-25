@@ -6,6 +6,10 @@
   width: 32rem;
 }
 
+.docs-h-128 {
+  height: 32rem;
+}
+
 .docs-min-h-4 {
   min-height: 1rem;
 }

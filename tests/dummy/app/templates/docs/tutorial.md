@@ -31,7 +31,7 @@ passed to it. When the executed action takes time the button should indicate thi
 </div>
 
 We will model our behavior visually by putting our button statechart configuration
- into the [statechart-editor](/editor). We start by creating an `idle` and
+ into [`xState`'s visualizer tool](https://xstate.js.org/viz). We start by creating an `idle` and
 `busy`-state - because the button can either sit around `idle` ready to be clicked or
 be `busy` while the `onClick`-action we pass to it is executing.
 
@@ -44,8 +44,11 @@ be `busy` while the `onClick`-action we pass to it is executing.
   }
 }
 ```
-
-{{es-statechart statechart=quickstartStepOne}}
+<iframe
+  src="https://xstate.js.org/viz/?gist=d5e74a8a8c1f05bd440dd76549a7b709&embed=1"
+  class="docs-h-64 docs-w-full"
+>
+</iframe>
 
 When the user clicks the button we want to `transition` from the `idle`-state to the
 `busy`-state. Statechart transitions happen based on events sent to the statechart.
@@ -66,7 +69,10 @@ We will model our statechart to transition based on the `SUBMIT`-event.
 }
 ```
 
-{{es-statechart statechart=quickstartStepTwo}}
+<iframe
+ src="https://xstate.js.org/viz/?gist=9ff6131e1098dcc824921fc001dce356&embed=1"
+ class="docs-h-64 docs-w-full"
+/>
 
 You can interact with the statechart during the modeling phase. You will see the statechart
 transitionig into the busy state when clicking on the submit event in the statechart-editor.
@@ -88,7 +94,10 @@ of a transition:
   {{demo.snippet "quickstart-transition.js" label="transition"}}
 {{/docs-demo}}
 
-{{es-statechart statechart=quickstartStepThree}}
+<iframe
+  src="https://xstate.js.org/viz/?gist=9fa21784f2531f6473fbc6e8881c8482&embed=1"
+  class="docs-h-64 docs-w-full"
+/>
 
 To model the behavior  of our button component we decide to trigger the
 `handleSubmit`-action every time we enter the `busy` state. The button will be in
@@ -123,7 +132,10 @@ nowhere to transition to after `busy`. We seem to are missing a `success` state.
 }
 ```
 
-{{es-statechart statechart=quickstartStepFour}}
+<iframe
+  class="docs-w-full docs-h-64"
+  src="https://xstate.js.org/viz/?gist=2130bab30555d3f19fa274cdf1a9eec5&embed=1"
+/>
 
 But what happens if the potentially async `onClick` fails? We need an `error`
 state as well.
@@ -161,7 +173,10 @@ gets very easy to add states if you discover you missed something:
 }
 ```
 
-{{es-statechart statechart=quickstartStepFive}}
+<iframe
+  class="docs-h-64 docs-w-full"
+  src="https://xstate.js.org/viz/?gist=451d65175a1a572c2816f1a04a1cf149&embed=1"
+/>
 
 Ok now we can now transition into `error` and `success` but we want developers to
 be able to handle these events so we will need to trigger behavior when each of
@@ -201,7 +216,10 @@ both states:
 }
 ```
 
-{{es-statechart statechart=quickstartStepSix}}
+<iframe
+  class="docs-h-64 docs-w-full"
+  src="https://xstate.js.org/viz/?gist=75fa670f88452661b0cb1182c2391d9e&embed=1"
+/>
 
 This looks pretty good - let's have a quick look at the statechart-editor again.
 When clicking through the editor we notice that our statechart behaves in kind of
@@ -260,7 +278,7 @@ we simply add a new transition to both states:
 }
 ```
 
-{{es-statechart statechart=quickstartStepSeven}}
+<iframe class="docs-w-full docs-h-64" src="https://xstate.js.org/viz/?gist=ea9c345de6903dd1d3eb4992c85bb92a&embed=1" />
 
 ### Executing the modeled statechart
 
@@ -415,9 +433,17 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
   },
 }
 ```
-{{es-statechart statechart=quickstartStepEight}}
 
-To refine this behavior we barely had to touch the existing statechart. We
+You can play with the `context`-property on the statechart visualization to
+simulate a property that would be set from the outside in your Ember.js
+application.
+
+<iframe
+  class="docs-h-128 docs-w-full"
+ src="https://xstate.js.org/viz/?gist=4618189a77e8564c237af21119062f99&embed=1"
+/>
+
+This is great! To refine this behavior we barely had to touch the existing statechart. We
 created a parallel state `interactivity` that implemenents behavior to make it
 possible to `ENABLE` or `DISABLE` the button. The parallel `activity`-state
 needs to take the `interactivity` into account when deciding if we want to transition

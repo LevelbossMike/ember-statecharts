@@ -1,10 +1,7 @@
 import Component from '@ember/component';
 import { task, timeout } from 'ember-concurrency';
-import { inject as service } from '@ember/service';
 
 export default Component.extend({
-  notifications: service('es-notifications'),
-
   failRequest: false,
 
   onRegisterStatechart() {},
@@ -23,10 +20,10 @@ export default Component.extend({
 
   actions: {
     onSuccess() {
-      this.notifications.notify('Submit successful');
+      window.alert('Submit successful');
     },
     onError() {
-      this.notifications.notify('Submit failed');
+      window.alert('Submit failed');
     },
 
     // ...

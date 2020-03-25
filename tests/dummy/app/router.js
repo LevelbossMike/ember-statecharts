@@ -9,7 +9,6 @@ const Router = AddonDocsRouter.extend({
 Router.map(function() {
   docsRoute(this, function() {
     this.route('tutorial');
-    this.route('login-form');
     this.route('statecharts');
   });
   this.route('editor');
