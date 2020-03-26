@@ -7,8 +7,8 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true
-    }
+      legacyDecorators: true,
+    },
   },
   plugins: ['ember', 'prettier'],
   extends: ['eslint:recommended', 'plugin:ember/recommended', 'prettier'],
@@ -18,7 +18,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'no-unused-vars': ['error', { ignoreRestSiblings: true }],
-    'ember/no-jquery': 'error'
+    'ember/no-jquery': 'error',
   },
   overrides: [
     // node files
