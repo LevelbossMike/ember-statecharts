@@ -8,9 +8,9 @@ module('Integration | Component | x-button', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders a button', async function (assert) {
-    await render(hbs`{{x-button}}`);
+    await render(hbs`<XButton />`);
 
-    assert.equal(this.element.querySelector('button').tagName, 'BUTTON');
+    assert.dom('button').exists('button is rendered');
   });
 
   test('it displays the passed text on the button', async function (assert) {
@@ -18,7 +18,9 @@ module('Integration | Component | x-button', function (hooks) {
 
     this.set('text', TEXT);
 
-    await render(hbs`{{x-button data-test-button=true text=text}}`);
+    await render(hbs`
+      <XButton @text={{this.text}} data-test-button />
+    `);
 
     assert.dom('[data-test-button]').hasText(TEXT, 'button displays passed text');
   });
@@ -29,10 +31,10 @@ module('Integration | Component | x-button', function (hooks) {
     this.set('text', TEXT);
 
     await render(hbs`
-      {{#x-button data-test-button=true as |ui|}}
-        {{text}} World!
-      {{/x-button}}
-    `);
+    <XButton data-test-button>
+      {{this.text}} World!
+    </XButton>
+  `);
 
     assert.dom('[data-test-button').hasText('Hello World!');
   });
@@ -42,9 +44,14 @@ module('Integration | Component | x-button', function (hooks) {
       assert.ok(true, 'action handler was called');
     });
 
-    await render(hbs`{{x-button onClick=(action wat)}}`);
+    await render(hbs`
+      <XButton
+        data-test-button
+        @onClick={{this.wat}}
+      />
+    `);
 
-    await click(this.element.querySelector('button'));
+    await click('[data-test-button]');
   });
 
   test("when the action triggered by the button clicked gets fired and takes time it's not possible to trigger it again", async function (assert) {
@@ -53,7 +60,9 @@ module('Integration | Component | x-button', function (hooks) {
       return new Promise(function () {});
     });
 
-    await render(hbs`{{x-button data-test-button=true text="click me" onClick=(action onClick)}}`);
+    await render(hbs`
+      <XButton @text="click me" @onClick={{this.onClick}} data-test-button />
+    `);
 
     click('[data-test-button]');
 
@@ -67,7 +76,7 @@ module('Integration | Component | x-button', function (hooks) {
 
     await click('[data-test-button]');
 
-    assert.dom('[data-test-button]').hasAttribute('disabled');
+    assert.dom('[data-test-button]').isDisabled('button is disabled when busy');
   });
 
   test("when passing the disabled property the button is disabled and won't trigger its action", async function (assert) {
@@ -76,12 +85,12 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      {{x-button
-        data-test-button=true
-        disabled=true
-        text="click me"
-        onClick=(action onClick)
-      }}
+      <XButton
+        @text="click me"
+        @disabled={{true}}
+        @onClick={{this.onClick}}
+        data-test-button
+      />
     `);
 
     await click('[data-test-button]');
@@ -99,13 +108,13 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      {{x-button
-        data-test-button=true
-        text="click me"
-        onClick=(action onClick)
-        onSuccess=(action onSuccess)
-      }}
-    `);
+      <XButton
+        @text="click me"
+        @onClick={{this.onClick}}
+        @onSuccess={{this.onSuccess}}
+        data-test-button
+      />
+  `);
 
     await click('[data-test-button]');
   });
@@ -120,12 +129,12 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      {{x-button
-        data-test-button=true
-        text="click me"
-        onClick=(action onClick)
-        onError=(action onError)
-      }}
+      <XButton
+        @text="click me"
+        @onClick={{this.onClick}}
+        @onError={{this.onError}}
+        data-test-button
+      />
     `);
 
     await click('[data-test-button]');
