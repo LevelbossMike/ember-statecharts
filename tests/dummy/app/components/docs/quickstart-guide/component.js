@@ -10,7 +10,7 @@ export default Component.extend({
 
   // ...
 
-  submitTask: task(function*() {
+  submitTask: task(function* () {
     yield timeout(1000);
 
     if (this.get('failRequest')) {

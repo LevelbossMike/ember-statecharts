@@ -2,9 +2,9 @@ import Statechart from 'dummy/utils/statechart';
 import { module, test } from 'qunit';
 import { timeout } from 'ember-concurrency';
 
-module('Unit | Utility | statechart', function(/*hooks*/) {
-  module('#send', function() {
-    test('state event handlers can transition to other states of the statechart when calling `send`', async function(assert) {
+module('Unit | Utility | statechart', function (/*hooks*/) {
+  module('#send', function () {
+    test('state event handlers can transition to other states of the statechart when calling `send`', async function (assert) {
       let statechart = new Statechart({
         initial: 'new',
         states: {
@@ -28,7 +28,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       );
     });
 
-    test('transition to different states can be handled by actions', async function(assert) {
+    test('transition to different states can be handled by actions', async function (assert) {
       let statechart = new Statechart(
         {
           initial: 'new',
@@ -63,8 +63,8 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['inlineAction', 'wat'], 'functions as actions will not be ignored');
     });
 
-    module('sending event data', function() {
-      test('it is possible to pass data when sending events', async function(assert) {
+    module('sending event data', function () {
+      test('it is possible to pass data when sending events', async function (assert) {
         const testData = {
           name: 'Tomster',
         };
@@ -96,7 +96,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
         await statechart.send('woot', testData);
       });
 
-      test('it is possible to pass an xstate event-object directly', async function(assert) {
+      test('it is possible to pass an xstate event-object directly', async function (assert) {
         const testData = {
           name: 'Tomster',
         };
@@ -130,7 +130,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
         await statechart.send(eventObject);
       });
 
-      test('if sent data contains a type property a warning is issued', async function(assert) {
+      test('if sent data contains a type property a warning is issued', async function (assert) {
         const testData = {
           name: 'Tomster',
           type: 'trolol',
@@ -168,7 +168,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       });
     });
 
-    test('transition to different states can be handled by multiple actions in sequence', async function(assert) {
+    test('transition to different states can be handled by multiple actions in sequence', async function (assert) {
       let statechart = new Statechart(
         {
           initial: 'new',
@@ -201,7 +201,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['actionA', 'actionB'], 'actions fire in the correct order');
     });
 
-    test('when specifying multiple actions all actions will be passed the event data', async function(assert) {
+    test('when specifying multiple actions all actions will be passed the event data', async function (assert) {
       const testData = {
         name: 'Tomster',
       };
@@ -240,7 +240,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['actionA', 'actionB'], 'actions fire in the correct order');
     });
 
-    test('if the currentState does not implement the sent event it does not break', async function(assert) {
+    test('if the currentState does not implement the sent event it does not break', async function (assert) {
       let statechart = new Statechart({
         initial: 'new',
         states: {
@@ -253,7 +253,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.equal(statechart.currentState.value, 'new');
     });
 
-    test("when a new state is entered the old state's `onExit` function will be called and after that the newState's `onEntry` function`", async function(assert) {
+    test("when a new state is entered the old state's `onExit` function will be called and after that the newState's `onEntry` function`", async function (assert) {
       let someData = { woot: 'lol' };
 
       let statechart = new Statechart({
@@ -286,7 +286,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       );
     });
 
-    test('StateCharts can be passed a context that the states have access to in their actions', async function(assert) {
+    test('StateCharts can be passed a context that the states have access to in their actions', async function (assert) {
       let testContext = {
         name: 'test context',
       };
@@ -319,7 +319,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       await statechart.send('woot');
     });
 
-    test('Statecharts can implement guards to determine if a transition should occur between states', async function(assert) {
+    test('Statecharts can implement guards to determine if a transition should occur between states', async function (assert) {
       assert.expect(6);
 
       let testData = {
@@ -389,7 +389,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.equal(statechart.currentState.value, 'next', 'foo did trigger a transition');
     });
 
-    test('guards can be used to conditionally transition into different states based on the same event', async function(assert) {
+    test('guards can be used to conditionally transition into different states based on the same event', async function (assert) {
       const testContext = {
         power: 1,
       };
@@ -436,7 +436,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       );
     });
 
-    test('it supports strings as guard conditions', async function(assert) {
+    test('it supports strings as guard conditions', async function (assert) {
       let testContext = {
         name: 'Tomster',
       };
@@ -489,8 +489,8 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
     });
   });
 
-  module('nesting', function() {
-    test('StateCharts can be nested', async function(assert) {
+  module('nesting', function () {
+    test('StateCharts can be nested', async function (assert) {
       let statechart = new Statechart({
         initial: 'off',
         states: {
@@ -521,7 +521,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       );
     });
 
-    test('Statechart transitions in nested states work', async function(assert) {
+    test('Statechart transitions in nested states work', async function (assert) {
       assert.expect(3);
 
       let statechart = new Statechart({
@@ -560,7 +560,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
 
       assert.deepEqual(statechart.currentState.value, 'off');
     });
-    test('nested statecharts have access to the top-level context object', async function(assert) {
+    test('nested statecharts have access to the top-level context object', async function (assert) {
       assert.expect(8);
 
       let testContext = {
@@ -631,7 +631,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.equal(statechart.currentState.value, 'off');
     });
 
-    test('nested statecharts will execute onEntry handlers for the chart first and then for the initial state of the nested chart', async function(assert) {
+    test('nested statecharts will execute onEntry handlers for the chart first and then for the initial state of the nested chart', async function (assert) {
       let testData = {
         wat: 'lol',
       };
@@ -684,7 +684,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['on', 'stopped']);
     });
 
-    test('nested statecharts will execute exitState handlers for substate first and then for the chart', async function(assert) {
+    test('nested statecharts will execute exitState handlers for substate first and then for the chart', async function (assert) {
       let statechart = new Statechart({
         initial: 'on',
 
@@ -720,7 +720,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.verifySteps(['stopped', 'on']);
     });
 
-    test('when exiting a nested states and entering again we will start out in the default initial state again', async function(assert) {
+    test('when exiting a nested states and entering again we will start out in the default initial state again', async function (assert) {
       let statechart = new Statechart({
         initial: 'on',
         states: {
@@ -761,7 +761,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       assert.deepEqual(statechart.currentState.value, { on: 'stopped' });
     });
 
-    test('statecharts can be nested multiple levels deep', async function(assert) {
+    test('statecharts can be nested multiple levels deep', async function (assert) {
       let statechart = new Statechart({
         initial: 'a',
         states: {
@@ -819,7 +819,7 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
       });
     });
 
-    test('statecharts can have orthogonal states', async function(assert) {
+    test('statecharts can have orthogonal states', async function (assert) {
       assert.expect(10);
 
       let testContext = {
@@ -937,8 +937,8 @@ module('Unit | Utility | statechart', function(/*hooks*/) {
     });
   });
 
-  module('delays', function() {
-    test('delays work as expected', async function(assert) {
+  module('delays', function () {
+    test('delays work as expected', async function (assert) {
       assert.expect(7);
 
       const statechart = new Statechart(

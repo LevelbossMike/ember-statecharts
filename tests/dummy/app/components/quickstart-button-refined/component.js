@@ -119,7 +119,7 @@ export default Component.extend({
     }
   },
 
-  handleSubmitTask: task(function*() {
+  handleSubmitTask: task(function* () {
     try {
       const result = yield this.onClick();
       this.statechart.send('SUCCESS', { data: result });

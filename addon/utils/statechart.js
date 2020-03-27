@@ -11,12 +11,12 @@ export default class Statechart {
         setTimeout: (fn, ms) => {
           return later.call(null, fn, ms);
         },
-        clearTimeout: timer => {
+        clearTimeout: (timer) => {
           return cancel.call(null, timer);
         },
       },
     })
-      .onTransition(state => {
+      .onTransition((state) => {
         set(this, 'currentState', state);
       })
       .start();

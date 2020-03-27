@@ -2,8 +2,8 @@ import EmberObject, { get } from '@ember/object';
 import { module, test } from 'qunit';
 import { statechart, matchesState, debugState } from 'ember-statecharts/computed';
 
-module('Unit | statechart computeds', function(hooks) {
-  hooks.beforeEach(function() {
+module('Unit | statechart computeds', function (hooks) {
+  hooks.beforeEach(function () {
     this.subject = EmberObject.extend({
       statechart: statechart({
         initial: 'playerOff',
@@ -106,8 +106,8 @@ module('Unit | statechart computeds', function(hooks) {
     }).create();
   });
 
-  module('#matchesState', function() {
-    test('can be used to match against the current state of the statechart', async function(assert) {
+  module('#matchesState', function () {
+    test('can be used to match against the current state of the statechart', async function (assert) {
       let { subject } = this;
 
       assert.equal(get(subject, 'playerIsOff'), true, 'works for initial states');
@@ -152,7 +152,7 @@ module('Unit | statechart computeds', function(hooks) {
       assert.equal(get(subject, 'playerActiveMusicNotPlaying'), true, 'works when passing array');
     });
 
-    test('it can be used with other computeds not named `statechart`', async function(assert) {
+    test('it can be used with other computeds not named `statechart`', async function (assert) {
       let { subject } = this;
 
       assert.equal(subject.get('secondIsOff'), true, 'work for initial state of second statechart');
@@ -181,8 +181,8 @@ module('Unit | statechart computeds', function(hooks) {
     });
   });
 
-  module('#debugState', function() {
-    test('can be used to log the current state of the statechart as a string', async function(assert) {
+  module('#debugState', function () {
+    test('can be used to log the current state of the statechart as a string', async function (assert) {
       let { subject } = this;
 
       assert.deepEqual(subject.get('_debug'), '"playerOff"');
@@ -202,7 +202,7 @@ module('Unit | statechart computeds', function(hooks) {
       );
     });
 
-    test('can be used to log the current state of the statechart as a string', async function(assert) {
+    test('can be used to log the current state of the statechart as a string', async function (assert) {
       let { subject } = this;
 
       assert.deepEqual(subject.get('_debugSecond'), '"off"');

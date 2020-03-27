@@ -4,8 +4,8 @@ import { statechart } from 'ember-statecharts/computed';
 import { timeout } from 'ember-concurrency';
 import { run } from '@ember/runloop';
 
-module('Unit | computed | statechart', function() {
-  test('it adds statechart functionality to an ember-object', async function(assert) {
+module('Unit | computed | statechart', function () {
+  test('it adds statechart functionality to an ember-object', async function (assert) {
     assert.expect(5);
 
     let subject = EmberObject.extend({
@@ -50,7 +50,7 @@ module('Unit | computed | statechart', function() {
     assert.equal(get(subject, 'statechart.currentState.value'), 'foo');
   });
 
-  test('it is possible to pass statechart-options to the statechart when passing an array of params', async function(assert) {
+  test('it is possible to pass statechart-options to the statechart when passing an array of params', async function (assert) {
     assert.expect(5);
 
     let subject = EmberObject.extend({
@@ -108,7 +108,7 @@ module('Unit | computed | statechart', function() {
     );
   });
 
-  test('statechart services will be cleaned properly when the object containing the statechart is destroyed', async function(assert) {
+  test('statechart services will be cleaned properly when the object containing the statechart is destroyed', async function (assert) {
     const subject = EmberObject.extend({
       offCounter: 0,
       statechart: statechart(

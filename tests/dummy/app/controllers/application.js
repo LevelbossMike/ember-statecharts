@@ -96,7 +96,7 @@ export default Controller.extend({
 
   name: 'hello',
 
-  edges: computed(function() {
+  edges: computed(function () {
     return [
       {
         source: 'red',
@@ -107,7 +107,7 @@ export default Controller.extend({
 
   actions: {
     woot() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(resolve, 2000);
       });
     },
