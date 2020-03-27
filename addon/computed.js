@@ -4,7 +4,7 @@ import { A, makeArray } from '@ember/array';
 import Statechart from './utils/statechart';
 
 function decorateStopInterpreterOnDestroy(destroyFn, service) {
-  return function() {
+  return function () {
     service.stop();
 
     destroyFn.apply(this, ...arguments);
@@ -12,23 +12,23 @@ function decorateStopInterpreterOnDestroy(destroyFn, service) {
 }
 
 function matchesState(states, statechartPropertyName = 'statechart') {
-  return computed(`${statechartPropertyName}.currentState`, function() {
+  return computed(`${statechartPropertyName}.currentState`, function () {
     const _states = A(makeArray(states));
 
-    return _states.any(state => {
+    return _states.any((state) => {
       return xstateMatchesState(state, get(this, `${statechartPropertyName}.currentState.value`));
     });
   });
 }
 
 function debugState(statechartPropertyName = 'statechart') {
-  return computed(`${statechartPropertyName}.currentState`, function() {
+  return computed(`${statechartPropertyName}.currentState`, function () {
     return JSON.stringify(get(this, `${statechartPropertyName}.currentState.value`));
   });
 }
 
 function statechart(config, options) {
-  return computed(function() {
+  return computed(function () {
     const initialContext = this;
 
     const statechart = new Statechart(config, options, initialContext);

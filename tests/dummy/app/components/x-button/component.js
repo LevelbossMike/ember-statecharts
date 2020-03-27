@@ -106,7 +106,7 @@ export default Component.extend(Evented, {
     this.get('statechart').send('init');
   },
 
-  onClickTask: task(function*() {
+  onClickTask: task(function* () {
     const result = yield this.onClick();
 
     return result;
@@ -115,12 +115,12 @@ export default Component.extend(Evented, {
     .evented(),
 
   // eslint-disable-next-line ember/no-on-calls-in-components
-  handleOnClickSuccess: on('onClickTask:succeeded', function() {
+  handleOnClickSuccess: on('onClickTask:succeeded', function () {
     this.get('statechart').send('success');
   }),
 
   // eslint-disable-next-line ember/no-on-calls-in-components
-  handleOnClickError: on('onClickTask:errored', function() {
+  handleOnClickError: on('onClickTask:errored', function () {
     this.get('statechart').send('error');
   }),
 
