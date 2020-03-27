@@ -1,138 +1,82 @@
-import Component from '@ember/component';
-import { get } from '@ember/object';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
-import { statechart, matchesState } from 'ember-statecharts/computed';
 import { task } from 'ember-concurrency';
-import Evented, { on } from '@ember/object/evented';
+import { statechart, matchesState } from 'ember-statecharts/computed';
 
-export default Component.extend(Evented, {
-  tagName: 'button',
+function noop() {}
 
-  onClick() {},
-  onSuccess() {},
-  onError() {},
+export default class XButton extends Component {
+  get onClick() {
+    return this.args.onClick || noop;
+  }
 
-  attributeBindings: ['isDisabled:disabled'],
+  get onSuccess() {
+    return this.args.onSuccess || noop;
+  }
 
-  isDisabled: or('isBusy', 'isInDisabledState'),
+  get onError() {
+    return this.args.onError || noop;
+  }
 
-  isBusy: matchesState({
-    initialized: {
-      activity: 'busy',
-    },
-  }),
+  @matchesState('busy')
+  isBusy;
 
-  isInDisabledState: matchesState({
-    initialized: {
-      interactivity: 'disabled',
-    },
-  }),
+  @or('isBusy', 'args.disabled')
+  isDisabled;
 
-  statechart: statechart(
+  @statechart(
     {
-      initial: 'init',
+      initial: 'idle',
       states: {
-        init: {
+        idle: {
           on: {
-            init: 'initialized',
+            CLICK: 'busy',
           },
         },
-        initialized: {
-          type: 'parallel',
-          states: {
-            interactivity: {
-              initial: 'unknown',
-              states: {
-                unknown: {
-                  onEntry: ['checkDisabled'],
-                  on: {
-                    disable: 'disabled',
-                  },
-                },
-                enabled: {},
-                disabled: {},
-              },
-            },
-            activity: {
-              initial: 'idle',
-              states: {
-                idle: {
-                  on: {
-                    click: 'busy',
-                  },
-                },
-                busy: {
-                  onEntry: ['triggerAction'],
-                  on: {
-                    success: 'success',
-                    error: 'error',
-                  },
-                },
-                success: {
-                  onEntry: ['triggerSuccess'],
-                },
-                error: {
-                  onEntry: ['triggerError'],
-                },
-              },
-            },
+        busy: {
+          entry: ['handleClick'],
+          on: {
+            SUCCESS: 'success',
+            ERROR: 'error',
           },
+        },
+        success: {
+          entry: ['handleSuccess'],
+        },
+        error: {
+          entry: ['handleError'],
         },
       },
     },
     {
       actions: {
-        checkDisabled(context) {
-          if (context.get('disabled')) {
-            context.get('statechart').send('disable');
-          }
+        handleClick(context) {
+          context.handleClickTask.perform();
         },
-        triggerAction(context) {
-          context.get('onClickTask').perform();
+        handleSuccess(context) {
+          context.onSuccess();
         },
-        triggerSuccess(context) {
-          context.get('onSuccess')();
-        },
-        triggerError(context) {
-          context.get('onError')();
+        handleError(context) {
+          context.onError();
         },
       },
     }
-  ),
+  )
+  statechart;
 
-  init() {
-    this._super(...arguments);
-
-    this.get('statechart').send('init');
-  },
-
-  onClickTask: task(function* () {
-    const result = yield this.onClick();
-
-    return result;
+  @task(function* () {
+    try {
+      const result = yield this.onClick();
+      this.statechart.send('SUCCESS', { result });
+    } catch (e) {
+      this.statechart.send('ERROR', { error: e });
+    }
   })
-    .drop()
-    .evented(),
+  handleClickTask;
 
-  // eslint-disable-next-line ember/no-on-calls-in-components
-  handleOnClickSuccess: on('onClickTask:succeeded', function () {
-    this.get('statechart').send('success');
-  }),
-
-  // eslint-disable-next-line ember/no-on-calls-in-components
-  handleOnClickError: on('onClickTask:errored', function () {
-    this.get('statechart').send('error');
-  }),
-
-  click() {
-    return get(this, 'statechart').send('click');
-  },
-
-  resolve() {
-    get(this, 'states').send('resolve');
-  },
-
-  reject() {
-    get(this, 'states').send('reject');
-  },
-});
+  @action
+  handleClick() {
+    this.statechart.send('CLICK');
+  }
+}

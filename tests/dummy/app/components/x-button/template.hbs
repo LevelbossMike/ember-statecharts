@@ -1,9 +1,16 @@
-{{#if hasBlock}}
-  {{yield}}
-{{else}}
-  {{#if isBusy}}
-    <div data-test-loading>loading</div>
+<button
+  type="button"
+  disabled={{this.isDisabled}}
+  {{on "click" this.handleClick}}
+  ...attributes
+>
+  {{#if hasBlock}}
+    {{yield}}
   {{else}}
-    {{text}}
+    {{#if this.isBusy}}
+      <div data-test-loading>loading</div>
+    {{else}}
+      {{@text}}
+    {{/if}}
   {{/if}}
-{{/if}}
+</button>
