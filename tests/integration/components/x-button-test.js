@@ -4,25 +4,13 @@ import { render, click, waitFor } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Promise, resolve, reject } from 'rsvp';
 
-module('Integration | Component | x-button', function (hooks) {
+module('Integration | Component | quickstart-button', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders a button', async function (assert) {
-    await render(hbs`<XButton />`);
+    await render(hbs`<QuickstartButton />`);
 
     assert.dom('button').exists('button is rendered');
-  });
-
-  test('it displays the passed text on the button', async function (assert) {
-    let TEXT = 'Hello';
-
-    this.set('text', TEXT);
-
-    await render(hbs`
-      <XButton @text={{this.text}} data-test-button />
-    `);
-
-    assert.dom('[data-test-button]').hasText(TEXT, 'button displays passed text');
   });
 
   test('it is possible to use the button in block-format', async function (assert) {
@@ -31,9 +19,9 @@ module('Integration | Component | x-button', function (hooks) {
     this.set('text', TEXT);
 
     await render(hbs`
-    <XButton data-test-button>
+    <QuickstartButton data-test-button>
       {{this.text}} World!
-    </XButton>
+    </QuickstartButton>
   `);
 
     assert.dom('[data-test-button').hasText('Hello World!');
@@ -45,7 +33,7 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      <XButton
+      <QuickstartButton
         data-test-button
         @onClick={{this.wat}}
       />
@@ -61,7 +49,7 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      <XButton @text="click me" @onClick={{this.onClick}} data-test-button />
+      <QuickstartButton @text="click me" @onClick={{this.onClick}} data-test-button />
     `);
 
     click('[data-test-button]');
@@ -85,7 +73,7 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      <XButton
+      <QuickstartButton
         @text="click me"
         @disabled={{true}}
         @onClick={{this.onClick}}
@@ -108,7 +96,7 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      <XButton
+      <QuickstartButton
         @text="click me"
         @onClick={{this.onClick}}
         @onSuccess={{this.onSuccess}}
@@ -129,7 +117,7 @@ module('Integration | Component | x-button', function (hooks) {
     });
 
     await render(hbs`
-      <XButton
+      <QuickstartButton
         @text="click me"
         @onClick={{this.onClick}}
         @onError={{this.onError}}

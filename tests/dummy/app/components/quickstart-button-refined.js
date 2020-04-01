@@ -1,24 +1,38 @@
 // BEGIN-SNIPPET quickstart-button-final.js
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
-import { statechart, matchesState } from 'ember-statecharts/computed';
 import { task } from 'ember-concurrency';
+import { statechart, matchesState } from 'ember-statecharts/computed';
 
-export default Component.extend({
-  tagName: '',
+function noop() {}
 
-  onClick() {},
-  onSuccess() {},
-  onError() {},
-  onInit() {},
+export default class QuickstartButtonFinal extends Component {
+  get onClick() {
+    return this.args.onClick || noop;
+  }
 
-  showAsDisabled: or('isDisabled', 'isBusy', 'isInteractivtyUnknown'),
+  get onSuccess() {
+    return this.args.onSuccess || noop;
+  }
 
-  isDisabled: matchesState({ interactivity: 'disabled' }),
-  isBusy: matchesState({ activity: 'busy' }),
-  isInteractivityUnknown: matchesState({ interactivity: 'unknown' }),
+  get onError() {
+    return this.args.onError || noop;
+  }
 
-  statechart: statechart(
+  @matchesState({ activity: 'busy' })
+  isBusy;
+
+  @matchesState({ interactivity: 'disabled' })
+  isDisabled;
+
+  @matchesState({ interactivity: 'unknown' })
+  isInteractivityUnknown;
+
+  @or('isDisabled', 'isBusy', 'isInteractivityUnknown')
+  showAsDisabled;
+
+  @statechart(
     {
       type: 'parallel',
       states: {
@@ -48,32 +62,32 @@ export default Component.extend({
           states: {
             idle: {
               on: {
-                SUBMIT: {
+                CLICK: {
                   target: 'busy',
                   cond: 'isEnabled',
                 },
               },
             },
             busy: {
-              onEntry: ['handleSubmit'],
+              entry: ['handleSubmit'],
               on: {
                 SUCCESS: 'success',
                 ERROR: 'error',
               },
             },
             success: {
-              onEntry: ['handleSuccess'],
+              entry: ['handleSuccess'],
               on: {
-                SUBMIT: {
+                CLICK: {
                   target: 'busy',
                   cond: 'isEnabled',
                 },
               },
             },
             error: {
-              onEntry: ['handleError'],
+              entry: ['handleError'],
               on: {
-                SUBMIT: {
+                CLICK: {
                   target: 'busy',
                   cond: 'isEnabled',
                 },
@@ -86,7 +100,7 @@ export default Component.extend({
     {
       actions: {
         handleSubmit(context) {
-          context.handleSubmitTask.perform();
+          context.handleClickTask.perform();
         },
         handleSuccess(context) {
           context.onSuccess();
@@ -101,37 +115,31 @@ export default Component.extend({
         },
       },
     }
-  ),
+  )
+  statechart;
 
-  // only here to display statechart externally
-  init() {
-    this._super(...arguments);
-    this.onInit(this.get('statechart'));
-  },
+  @task(function* () {
+    try {
+      const result = yield this.onClick();
+      this.statechart.send('SUCCESS', { result });
+    } catch (e) {
+      this.statechart.send('ERROR', { error: e });
+    }
+  })
+  handleClickTask;
 
-  didReceiveAttrs() {
-    this._super(...arguments);
+  @action
+  handleClick() {
+    this.statechart.send('CLICK');
+  }
 
-    if (this.disabled) {
+  @action
+  handleDisabled(_element, [disabled]) {
+    if (disabled) {
       this.statechart.send('DISABLE');
     } else {
       this.statechart.send('ENABLE');
     }
-  },
-
-  handleSubmitTask: task(function* () {
-    try {
-      const result = yield this.onClick();
-      this.statechart.send('SUCCESS', { data: result });
-    } catch (e) {
-      this.statechart.send('ERROR');
-    }
-  }),
-
-  actions: {
-    buttonClicked() {
-      this.statechart.send('SUBMIT');
-    },
-  },
-});
+  }
+}
 // END-SNIPPET

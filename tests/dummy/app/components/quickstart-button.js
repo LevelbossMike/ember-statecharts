@@ -1,3 +1,4 @@
+// BEGIN-SNIPPET quickstart-button.js
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
@@ -6,7 +7,7 @@ import { statechart, matchesState } from 'ember-statecharts/computed';
 
 function noop() {}
 
-export default class XButton extends Component {
+export default class QuickstartButton extends Component {
   get onClick() {
     return this.args.onClick || noop;
   }
@@ -43,9 +44,15 @@ export default class XButton extends Component {
         },
         success: {
           entry: ['handleSuccess'],
+          on: {
+            CLICK: 'busy',
+          },
         },
         error: {
           entry: ['handleError'],
+          on: {
+            CLICK: 'busy',
+          },
         },
       },
     },
@@ -80,3 +87,4 @@ export default class XButton extends Component {
     this.statechart.send('CLICK');
   }
 }
+// END-SNIPPET

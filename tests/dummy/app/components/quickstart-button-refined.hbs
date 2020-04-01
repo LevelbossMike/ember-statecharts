@@ -1,0 +1,21 @@
+{{!-- BEGIN-SNIPPET quickstart-button-final.hbs --}}
+<button
+  type="button"
+  class="
+    docs-w-32 docs-border docs-p-4 docs-bg-brand docs-border-brand docs-shadow
+    docs-rounded docs-outline-none docs-text-white docs-font-bold
+    {{if this.showAsDisabled "docs-cursor-not-allowed docs-opacity-50"}}
+  "
+  {{on "click" this.handleClick}}
+  {{did-insert this.handleDisabled @disabled}}
+  {{did-update this.handleDisabled @disabled}}
+  disabled={{this.isDisabled}}
+  ...attributes
+>
+  {{#if this.isBusy}}
+    <UiLoading data-test-loading />
+  {{else}}
+    {{yield}}
+  {{/if}}
+</button>
+{{!-- END-SNIPPET --}}

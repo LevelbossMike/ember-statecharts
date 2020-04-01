@@ -1,0 +1,43 @@
+<DocsDemo as |demo|>
+  <demo.example>
+    <div class="docs-flex docs-item-center">
+      {{!-- BEGIN-SNIPPET quickstart-button-used.hbs --}}
+      <QuickstartButton
+        @onClick={{perform this.submitTask}}
+        @onSuccess={{this.onSuccess}}
+        @onError={{this.onError}}
+      >
+        Click me!
+      </QuickstartButton>
+      {{!-- END-SNIPPET --}}
+      <div class="docs-ml-8 docs-flex docs-items-center">
+        <label for="failRequest">
+          Fail request?
+        </label>
+        <Input
+          @class="docs-ml-2"
+          @type="checkbox"
+          @id="failRequest"
+          @name="failRequest"
+          @checked={{this.failRequest}}
+        />
+      </div>
+    </div>
+  </demo.example>
+  <demo.snippet
+    @name="quickstart-button.js"
+    @label="quickstart-button/component.js"
+  />
+  <demo.snippet
+    @name="quickstart-button.hbs"
+    @label="quickstart-button/template.hbs"
+  />
+  <demo.snippet
+    @name="quickstart-button-used.hbs"
+    @label="template.hbs"
+  />
+  <demo.snippet
+    @name="quickstart-button-used.js"
+    @label="controller.js"
+  />
+</DocsDemo>
