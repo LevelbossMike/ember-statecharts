@@ -450,7 +450,7 @@ needs to take the `interactivity` into account when deciding if we want to trans
 into different substates when the statechart receives the `SUBMIT`-event but
 other than that we can be sure our component behaves the same way as it did before.
 
-### Handling `@disabled={{true}}`
+### Handling external changes - `@disabled={{true}}`
 
 We want to be able to disable the button via a param we pass to it:
 
@@ -465,13 +465,29 @@ We want to be able to disable the button via a param we pass to it:
 
 In the context of statecharts we are modeling behavior based on states that
 continiously react to internal and external events. In our button
-component changing the `disabled`-parameter can be treated as an external event
+component changing the `disabled`-argument can be treated as an external event
 because something outside of the component changed the `disabled`-parameter.
 
 
 This means we need to send an event to our button's statechart every time the
 `disabled`-argument changes. We can handle this with the
 [@ember/render-modifiers](https://github.com/emberjs/ember-render-modifiers)-addon.
+
+```hbs
+<button
+  {{!-- ... --}}
+
+  {{!-- handle @disabled when rendering --}}
+  {{did-insert this.handleDisabled @disabled}}
+  {{!-- handle @disable on every change --}}
+  {{did-update this.handleDisabled @disabled}}
+
+  {{!-- ... --}}
+>
+```
+
+Finally we need to add the `handleDisabled`-action to our component code to
+notify our statechart of the argument change:
 
 ```js
 export default class QuickstartButton extends Component {
