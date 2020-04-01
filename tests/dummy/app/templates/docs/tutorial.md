@@ -450,13 +450,13 @@ needs to take the `interactivity` into account when deciding if we want to trans
 into different substates when the statechart receives the `SUBMIT`-event but
 other than that we can be sure our component behaves the same way as it did before.
 
-### Handling `disabled=true`
+### Handling `@disabled={{true}}`
 
 We want to be able to disable the button via a param we pass to it:
 
 ```hbs
 <QuickstartButton
-  @onClick={{action "doSomething"}}
+  @onClick=this.doSomething
   @disabled={{disableButton}}
 >
   Click me!
@@ -470,23 +470,22 @@ because something outside of the component changed the `disabled`-parameter.
 
 
 This means we need to send an event to our button's statechart every time the
-`disabled`-parameter changes. Fortunately there's a hook for this with
-`Ember.Components` - `didReceiveAttrs`.
+`disabled`-argument changes. We can handle this with the
+[@ember/render-modifiers](https://github.com/emberjs/ember-render-modifiers)-addon.
 
 ```js
-export default Component.extend({
+export default class QuickstartButton extends Component {
   // ...
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    if (this.disabled) {
+  @action
+  handleDisabled(_element, [disabled]) {
+    if (disabled) {
       this.statechart.send('DISABLE');
     } else {
       this.statechart.send('ENABLE');
     }
   }
-});
+}
 ```
 
 
@@ -500,20 +499,24 @@ computed-macros and `matchesState` to display the button correctly to our users:
 
 ```js
 
-export default Component.extend({
+export default class QuickstartButton extends Component {
   // ...
-  showAsDisabled: or('isBusy', 'interactivityIsUnknown', 'isDisabled'),
+  @matchesState({ activity: 'busy' })
+  isBusy;
 
-  isDisabled: matchesState({ interactivity: 'disabled' }),
+  @matchesState({ interactivity: 'disabled' })
+  isDisabled;
 
   // we are not sure if the button is enabled or disabled because we have yet
   // to receive a `DISABLE` or `ENABLE` event
-  interactivityIsUnknown: matchesStates({ interactivity: 'unknown' }),
+  @matchesState({ interactivity: 'unknown' })
+  isInteractivityUnknown;
 
-  isBusy: matchesState({ activity: 'busy' })
+  @or('isDisabled', 'isBusy', 'isInteractivityUnknown')
+  showAsDisabled;
 
   // ...
-});
+}
 ```
 
 Here's the final component that we came up with:
