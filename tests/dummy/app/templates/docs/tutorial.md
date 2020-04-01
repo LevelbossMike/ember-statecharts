@@ -84,13 +84,13 @@ To have our statechart 'do' something we can implement `actions` that we will te
 the statechart to execute on state-transitions. You can trigger actions at specific points
 of a transition:
 
-* **onEntry** - when a state is entered
-* **onExit** - when a state is exited
+* **entry** - when a state is entered
+* **exit** - when a state is exited
 * on a **transition** - when you want to trigger actions only on a specific transition
 
 {{#docs-demo as |demo|}}
-  {{demo.snippet "quickstart-on-entry.js" label="onEntry"}}
-  {{demo.snippet "quickstart-on-exit.js" label="onExit"}}
+  {{demo.snippet "quickstart-on-entry.js" label="entry"}}
+  {{demo.snippet "quickstart-on-exit.js" label="exit"}}
   {{demo.snippet "quickstart-transition.js" label="transition"}}
 {{/docs-demo}}
 
@@ -118,7 +118,7 @@ nowhere to transition to after `busy`. We seem to are missing a `success` state.
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         SUCCESS: 'success'
       }
@@ -157,7 +157,7 @@ gets very easy to add states if you discover you missed something:
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         SUCCESS: 'success',
         ERROR: 'error'
@@ -180,7 +180,7 @@ gets very easy to add states if you discover you missed something:
 
 Ok now we can now transition into `error` and `success` but we want developers to
 be able to handle these events so we will need to trigger behavior when each of
-those states is entered. This is easy to do - we add a new actions `onEntry` for
+those states is entered. This is easy to do - we add a new actions `entry` for
 both states:
 
 ```js
@@ -194,17 +194,17 @@ both states:
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         SUCCESS: 'success',
         ERROR: 'error'
       }
     },
     success: {
-      onEntry: ['handleSuccess']
+      entry: ['handleSuccess']
     },
     error: {
-      onEntry: ['handleError']
+      entry: ['handleError']
     }
   }
 }, {
@@ -250,20 +250,20 @@ we simply add a new transition to both states:
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         SUCCESS: 'success',
         ERROR: 'error'
       }
     },
     success: {
-      onEntry: ['handleSuccess'],
+      entry: ['handleSuccess'],
       on: {
         SUBMIT: 'busy'
       }
     },
     error: {
-      onEntry: ['handleError'],
+      entry: ['handleError'],
       on: {
         SUBMIT: 'busy'
       }
@@ -300,14 +300,13 @@ event nothing happens - it has literally become impossible to trigger unexpected
 
 ```js
 // ...
-export default Component.extend({
+export default class MyComponent extends Component {
   // ...
-  actions: {
-    buttonClicked() {
-      this.statechart.send('SUBMIT');
-    }
+  @action
+  buttonClicked() {
+    this.statechart.send('SUBMIT');
   }
-})
+}
 ```
 
 If a states doesn't understand an event nothing happens. You can see this
@@ -320,14 +319,17 @@ using the `matchesState`-computed.
 
 ```js
 // ...
-export default Component.extend({
+export default class MyComponent extends Component {
   // ...
-  isBusy: matchesState('busy'),
+  @matchesState('busy')
+  isBusy;
 
-  statechart: statechart(
+  @statechart({
     // ...
-  ),
-})
+  })
+  statechart;
+  // ...
+}
 ```
 
 The `matchesState`-computed will be `true` if the passed state matches the
@@ -395,14 +397,14 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
           }
         },
         busy: {
-          onEntry: ['handleSubmit'],
+          entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
             ERROR: 'error'
           }
         },
         success: {
-          onEntry: ['handleSuccess'],
+          entry: ['handleSuccess'],
           on: {
            SUBMIT: {
              target: 'busy', cond: 'isEnabled'
@@ -410,7 +412,7 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
           }
         },
         error: {
-          onEntry: ['handleError'],
+          entry: ['handleError'],
           on: {
            SUBMIT: {
              target: 'busy', cond: 'isEnabled'

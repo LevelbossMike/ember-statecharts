@@ -9,7 +9,7 @@ export default // BEGIN-SNIPPET quickstart-on-entry.js
       },
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
     },
   },
 },

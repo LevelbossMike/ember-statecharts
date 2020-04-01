@@ -7,7 +7,7 @@ export default // BEGIN-SNIPPET quickstart-on-exit.js
       on: {
         SUBMIT: 'busy',
       },
-      onExit: ['handleSubmit'],
+      exit: ['handleSubmit'],
     },
     busy: {},
   },
