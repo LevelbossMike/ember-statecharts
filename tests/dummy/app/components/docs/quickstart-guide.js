@@ -12,13 +12,13 @@ export default class extends Component {
   @tracked
   failRequest = false;
 
-  @task(function* () {
+  @(task(function* () {
     yield timeout(1000);
 
     if (this.get('failRequest')) {
       throw 'wat';
     }
-  }).drop()
+  }).drop())
   submitTask;
 
   @action

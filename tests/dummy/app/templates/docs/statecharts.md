@@ -10,11 +10,11 @@ To implement a statechart via `ember-statecharts` all you have to do is to pass 
 Here's an example that reflects the [nested statechart](https://xstate.js.org/docs/#hierarchical-nested-state-machines)-example from the [`xstate`-guides](https://xstate.js.org/docs/):
 
 ```js
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { statechart } from 'ember-statecharts/computed';
 
-export default Component.extend({
-  statechart: statechart({
+export default class MyComponent extends Component {
+  @statechart({
     id: 'light',
     initial: 'green',
     states: {
@@ -48,9 +48,9 @@ export default Component.extend({
         }
       }
     }
-  }),
-});
-
+  })
+  statechart;
+}
 ```
 
 To get a detailed overview about the configuration options available via `xstate` please have a look at the [xstate documentation](https://xstate.js.org/docs).
@@ -66,24 +66,23 @@ statechart figure out what will happen based on the event that you forwarded.
 This means that you will want to change actions like this:
 
 ```js
-export default Component.extend({
+export default class MyComponent extends Component {
   // ...
 
-  actions: {
-    buttonClicked() {
-      this.buttonClickedTask.perform();
-    }
+  @action
+  buttonClicked() {
+    this.buttonClickedTask.perform();
   }
-})
+}
 ```
 
 to something like the following:
 
 ```js
-export default Component.extend({
+export default class MyComponent extends Component {
   // ...
 
-  statechart: statechart({
+  @statechart({
     initial: 'idle',
     states: {
       idle: {
@@ -107,14 +106,14 @@ export default Component.extend({
         context.buttonClickedTask.perform();
       }
     }
-  }),
+  })
+  statechart;
 
-  actions: {
-    buttonClicked() {
-      this.statechart.send('SUBMIT');
-    }
+  @action
+  buttonClicked() {
+    this.statechart.send('SUBMIT');
   }
-});
+};
 ```
 
 This might seem like an annoying level of indirection first but soon you will notice
@@ -133,10 +132,10 @@ statechart available when [`guards`](https://xstate.js.org/docs/guides/guards.ht
 [`actions`](https://xstate.js.org/docs/guides/actions.html) are executed.
 
 ```js
-export default Component.extend({
+export default class MyComponent extends Component {
   // ...
 
-  statechart: statechart({
+  @statechart({
     initial: 'idle',
     states: {
       idle: {
@@ -161,18 +160,19 @@ export default Component.extend({
         context.buttonClickedTask.perform();
       }
     }
-  }),
+  })
+  statechart;
 
-  buttonClickedTask: task(function*() {
+  @task(function*() {
     // ...
-  }),
+  })
+  buttonClickedTask;
 
-  actions: {
-    buttonClicked() {
-      this.statechart.send('SUBMIT');
-    }
+  @action
+  buttonClicked() {
+    this.statechart.send('SUBMIT');
   }
-});
+}
 ```
 
 ### Including event data
@@ -183,8 +183,8 @@ sent data will be available in [`guards`](https://xstate.js.org/docs/guides/guar
 on the sent event:
 
 ```js
-export default Component.extend({
-  statechart: statechart({
+export default class MyComponent extends Component {
+  @statechart({
     initial: 'idle',
     states: {
       idle: {
@@ -220,18 +220,18 @@ export default Component.extend({
         return email && password;
       }
     }
-  }),
+  })
+  statechart;
 
   // ...
 
-  actions: {
-    buttonClicked() {
-      const { email, password } = this;
+  @action
+  buttonClicked() {
+    const { email, password } = this;
 
-      this.statechart.send('SUBMIT', { email, password });
-    }
-  },
-})
+    this.statechart.send('SUBMIT', { email, password });
+  }
+}
 ```
 
 ## Matching state
@@ -242,9 +242,9 @@ example display a button component differently based on the state it finds
 itself in this is very easy to do with `ember-statecharts`:
 
 ```js
-export default Component.extend({
+export default class MyComponent extends Component {
   // ...
-  statechart: statechart({
+  @statechart({
     initial: 'idle',
     states: {
       idle: {
@@ -264,14 +264,16 @@ export default Component.extend({
     }
   }, {
     // ...
-  }),
+  })
+  statechart;
 
-  didError: matchesState('error')
+  @matchesState('error')
+  didError;
 });
 ```
 
 ```hbs
-<button class={{if didError "btn btn__error" "btn"}}>
+<button class={{if this.didError "btn btn__error" "btn"}}>
   Click me
 </button>
 ```
@@ -283,13 +285,13 @@ states:
 
 ```js
 // atomic state node
-matchesState('idle')
+@matchesState('idle')
 
 // nested state
-matchesState({ error: 'apiError' })
+@matchesState({ error: 'apiError' })
 
 // parallel state
-matchesState({
+@matchesState({
   validity: 'invalid',
   interaction: {
     changed: 'fieldBlurred'
@@ -297,78 +299,12 @@ matchesState({
 })
 
 // matching multiple states
-matchesState(['invalid', { error: 'remoteValidationError' }])
+@matchesState(['invalid', { error: 'remoteValidationError' }])
 ```
 
 ## Visualizing statecharts
 
-Statecharts can be visualized with the [statechart-editor](/editor). For day to
-day use it should be good enough to use the one available on this documentation
-page but if you want to add this to your own styleguides or someplace else in
-your applications directly you can use the [ember-statecharts-tools](https://github.com/effective-ember/ember-statecharts-tools/tree/master/addon/components)-
-addon. This addon provides the tooling that is used in this documentation to visualize
-statecharts.
-
-The tooling addon is alpha-level software - please report bugs if you run into
-issues.
-
-## ES6 classes and decorators
-
-`ember-statecharts` can be used with ES6 classes. Because the
-`statechart`-macro is implemented as a computed-property you can use it like
-a decorator - same goes for `matchesState`.
-
-```js
-export default class UiButton extends Component {
-  @matchesState('error')
-  didError;
-
-  // ...
-
-  @statechart(
-    {
-      initial: 'idle',
-      states: {
-        idle: {
-          on: {
-            SUBMIT: 'busy'
-          }
-        },
-        busy: {
-          onEntry: ['handleSubmit'],
-          on: {
-            RESOLVE: 'success',
-            REJECT: 'error'
-          }
-        },
-        success: {},
-        error: {}
-      }
-    },
-    {
-      actions: {
-        handleSubmit(/* context, eventObject */) {
-          // ...
-        }
-      }
-    }
-  )
-  statechart;
-
-  // ...
-
-  @action
-  buttonClicked() {
-    this.statechart.send('submit');
-  }
-}
-```
-
-## Caution: Actors and `invoke` 
-
-All of `xstate`'s features are supported but not all of them are useful in the context of an `Ember.js`-application. For example due to the programming model that the framework provides direct communication between statecharts should be used with care - there's most likely a cleaner way to do what you are trying to do while staying on the path that `Ember.js` recommends.
-
-If you don't have a `Ember.Service`-layer available to allow your various objects to access global state in a clean way it might make sense to allow interaction between statecharts directly via [Actor](https://xstate.js.org/docs/guides/actors.html#actor-api)s or [Invoking Services](https://xstate.js.org/docs/guides/communication.html#the-invoke-property) - in `Ember.js` we have other means of communicationa available to us though. We encourage to our users the usage of `Ember.Service` and `data-down-actions-up` over using `xstate`'s `Actors` and `invoke`.
+To visualize your statecharts you can use the [xstate visualizer](https://xstate.js.org/viz/).
 
 ## Further reading
 

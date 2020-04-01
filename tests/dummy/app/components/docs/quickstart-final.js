@@ -14,13 +14,13 @@ export default class extends Component {
 
   // ...
 
-  @task(function* () {
+  @(task(function* () {
     yield timeout(1000);
 
     if (this.failRequest) {
       throw 'wat';
     }
-  }).drop()
+  }).drop())
   submitTask;
 
   @action
