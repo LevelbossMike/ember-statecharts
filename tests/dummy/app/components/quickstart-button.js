@@ -32,11 +32,11 @@ export default class QuickstartButton extends Component {
       states: {
         idle: {
           on: {
-            CLICK: 'busy',
+            SUBMIT: 'busy',
           },
         },
         busy: {
-          entry: ['handleClick'],
+          entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
             ERROR: 'error',
@@ -45,21 +45,21 @@ export default class QuickstartButton extends Component {
         success: {
           entry: ['handleSuccess'],
           on: {
-            CLICK: 'busy',
+            SUBMIT: 'busy',
           },
         },
         error: {
           entry: ['handleError'],
           on: {
-            CLICK: 'busy',
+            SUBMIT: 'busy',
           },
         },
       },
     },
     {
       actions: {
-        handleClick(context) {
-          context.handleClickTask.perform();
+        handleSubmit(context) {
+          context.handleSubmitTask.perform();
         },
         handleSuccess(context) {
           context.onSuccess();
@@ -80,11 +80,11 @@ export default class QuickstartButton extends Component {
       this.statechart.send('ERROR', { error: e });
     }
   })
-  handleClickTask;
+  handleSubmitTask;
 
   @action
   handleClick() {
-    this.statechart.send('CLICK');
+    this.statechart.send('SUBMIT');
   }
 }
 // END-SNIPPET

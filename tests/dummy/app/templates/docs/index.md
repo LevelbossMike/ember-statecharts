@@ -86,10 +86,10 @@ about how your application behaves based on a visual language that everyone unde
 
 ## Powered by xstate
 
-`ember-statecharts` provides a small Ember.js specific wrapper around the fabolous
+`ember-statecharts` provides a small Ember.js specific wrapper around the fabulous
 and widely-used [xstate](https://xstate.js.org/docs/)-library. All of the  powerful
 features of `xstate` are supported. The purpose of `ember-statecharts` is to
-make it easy to use `xsstate` in an Ember.js application without having
+make it easy to use `xstate` in an Ember.js application without having
 to write the same boilerplate code over and over again.
 
 ## ember-statecharts vs. ember-concurrency
