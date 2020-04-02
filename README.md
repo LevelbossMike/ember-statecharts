@@ -1,10 +1,10 @@
 ember-statecharts [![Build Status](https://travis-ci.org/LevelbossMike/ember-statecharts.svg?branch=master)](https://travis-ci.org/LevelbossMike/ember-statecharts) [![Ember Observer Score](https://emberobserver.com/badges/ember-statecharts.svg)](https://emberobserver.com/addons/ember-statecharts)
 ==============================================================================
 
-This addon provides a statechart abstraction for adding statecharts to your
-`Ember.Object`s. Statecharts can be used to describe complex
-behaviour of your objects and separate ui-concern from functional concerns in
-your applications. This is especially useful in `Ember.Component`-architecture
+This addon provides a statechart abstraction based on [xstate](https://xstate.js.org/)
+for adding statecharts to your Ember.js application. Statecharts can be used to describe
+complex behaviour of your objects and separate ui-concern from behavioral concerns
+in your applications. This is especially useful in `Ember.Component`-architecture
 but can be used across all layers of your application (e.g. when implementing
 global application state).
 
@@ -18,7 +18,8 @@ Compatibility
 * Ember CLI v2.13 or above
 * Node.js v10 or above
 
-For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-series.
+For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-version
+of this addon.
 
 
 Installation
