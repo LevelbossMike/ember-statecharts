@@ -14,9 +14,11 @@ global application state).
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.12 or above
+* Ember.js v3.15 or above
 * Ember CLI v2.13 or above
 * Node.js v10 or above
+
+For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-series.
 
 
 Installation
