@@ -1,14 +1,12 @@
-
-{{#docs-viewer as |viewer|}}
-  {{#viewer.nav as |nav|}}
-    {{nav.section "Overview"}}
-    {{nav.item "Introduction" "docs.index"}}
-    {{nav.item "Tutorial" "docs.tutorial"}}
-    {{nav.section "Guides"}}
-    {{nav.item "Working with statecharts" "docs.statecharts"}}
-  {{/viewer.nav}}
-
-  {{#viewer.main}}
+<DocsViewer as |viewer|>
+  <viewer.nav as |nav|>
+    <nav.section @label="Overview" />
+    <nav.item @label="Introduction" @route="docs.index" />
+    <nav.item @label="Tutorial" @route="docs.tutorial" />
+    <nav.section @label="Guides" />
+    <nav.item @label="Working with statecharts" @route="docs.statecharts" />
+  </viewer.nav>
+  <viewer.main>
     {{outlet}}
-  {{/viewer.main}}
-{{/docs-viewer}}
+  </viewer.main>
+</DocsViewer>
