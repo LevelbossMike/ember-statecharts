@@ -1,9 +1,9 @@
-{{docs-hero
-  logo="ember"
-  slimHeading="My"
-  strongHeading="Addon"
-  byline="Statecharts for Ember.js applications powered by xstate"
-}}
+<DocsHero
+  @logo="ember"
+  @slimHeading="My"
+  @strongHeading="Addon"
+  @byline="Statecharts for Ember.js applications powered by xstate"
+/>
 <div class="docs-container">
   <div class="docs--m-8 docs-py-16 docs-text-center">
     <div>
@@ -12,6 +12,7 @@
           class="aspect-ratio--object"
           width="640"
           height="360"
+          title="Constructing Web Apps With Statecharts"
           src="https://www.youtube.com/embed/g2GegNGgW84?start=17"
           frameborder="0"
           allow="autoplay; encrypted-media"
@@ -22,13 +23,13 @@
     </div>
   </div>
   <section class="docs-mt-4 docs-max-w-md docs-pb-6">
-    {{ui-intro}}
+    <UiIntro />
 
     <div class="docs-mt-8 docs-flex docs-justify-end">
       {{#docs-link "docs"}}
-        {{#ui-button}}
+        <UiButton>
           Get started &rarr;
-        {{/ui-button}}
+        </UiButton>
       {{/docs-link}}
     </div>
   </section>
