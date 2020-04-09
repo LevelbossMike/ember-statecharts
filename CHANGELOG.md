@@ -1,13 +1,29 @@
 # Change Log
 
+## [v0.9.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.9.0) (2020-04-09)
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.8.2...v0.9.0)
+
+#### :house: Internal
+* [#217](https://github.com/LevelbossMike/ember-statecharts/pull/217) Update
+  docs to Octane
+* [#217](https://github.com/LevelbossMike/ember-statecharts/pull/217) Update
+  xstate to 4.8.0
+
+See [xstate#4.8.0 - release notes](https://github.com/davidkpiano/xstate/releases/tag/xstate%404.8.0) for new xstate release notes.
+
+#### Committers: 2
+- Clemens M�ller ([@pangratz](https://github.com/pangratz))
+- Michael Klein ([@LevelbossMike](https://github.com/LevelbossMike))
+
 ## [v0.8.2](https://github.com/LevelbossMike/ember-statecharts/tree/v0.8.2) (2019-07-05)
 
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.8.1...v0.8.2)
 
-#### :House: Internal 
+#### :house: Internal
 * [c0dec97](https://github.com/LevelbossMike/ember-statecharts/commit/c0dec97c631a8786218731d9b699cfcdd8d3e212) Update xstate to 4.6.4 ([@LevelbossMike](https://github.com/levelbossmike))
 
-See [xstate#4.6.4 - release notes](https://github.com/davidkpiano/xstate/releases/tag/v4.6.4) for new xstate release notes. 
+See [xstate#4.6.4 - release notes](https://github.com/davidkpiano/xstate/releases/tag/v4.6.4) for new xstate release notes.
 
 #### Committers: 1
 - Michael Klein ([@LevelbossMike](https://github.com/LevelbossMike))
