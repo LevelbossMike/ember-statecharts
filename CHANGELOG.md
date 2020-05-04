@@ -1,5 +1,22 @@
 # Change Log
 
+## [v0.10.0-beta.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.9.0) (2020-05-04)
+
+This beta release of `ember-statecharts` comes with an improved api to work
+with xstate-machines directly - `useMachine`. Please refer to
+[#235](https://github.com/LevelbossMike/ember-statecharts/issues/235) for
+details about the idea behind `useMachine` and make sure to report any issues
+you find.
+
+#### :rocket: Enhancement / Feature
+* [#235](https://github.com/LevelbossMike/ember-statecharts/issues/235) Initial
+  implementation `useMachine`-api
+
+#### Committers: 1
+- Michael Klein ([@LevelbossMike](https://github.com/LevelbossMike))
+
+[Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.9.0...v0.10.0-beta.0)
+
 ## [v0.9.0](https://github.com/LevelbossMike/ember-statecharts/tree/v0.9.0) (2020-04-09)
 
 [Full Changelog](https://github.com/LevelbossMike/ember-statecharts/compare/v0.8.2...v0.9.0)
