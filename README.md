@@ -151,4 +151,4 @@ See the [Contributing](CONTRIBUTING.md) guide for details.
 License
 ------------------------------------------------------------------------------
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project has been developed by https://www.effective-ember.com/ and [contributors](https://github.com/LevelbossMike/ember-statecharts/graphs/contributors). It is licensed under the [MIT License](LICENSE.md).
