@@ -7,6 +7,7 @@
   ],
   "repository": "https://github.com/LevelbossMike/ember-statecharts",
   "license": "MIT",
+  "types": "./index.d.ts",
   "author": "",
   "directories": {
     "doc": "doc",
