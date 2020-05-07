@@ -1,15 +1,16 @@
-import { interpret, createMachine } from 'xstate';
+import { interpret, createMachine, Machine } from 'xstate';
 import { setUsableManager } from 'ember-usable';
 import { later, cancel } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
 import { getOwner, setOwner } from '@ember/application';
+import { DEBUG } from '@glimmer/env';
 
 export class InterpreterService {
   @tracked service;
   @tracked currentState;
 
   constructor(machine) {
-    this.machine = machine instanceof Machine ? machine : createMachine(machine);
+    this.machine = machine;
   }
 
   get state() {
@@ -21,6 +22,7 @@ export class InterpreterService {
 
   setup() {
     this.service = interpret(this.machine, {
+      devTools: DEBUG,
       clock: {
         setTimeout(fn, ms) {
           return later.call(null, fn, ms);
@@ -82,6 +84,8 @@ setUsableManager(MANAGED_INTERPRETER, createMachineInterpreterManager);
 
 export default function useMachine(machine) {
   const configurableMachineDefinition = Object.create(MANAGED_INTERPRETER);
+
+  machine = machine instanceof Machine ? machine : createMachine(machine);
 
   configurableMachineDefinition.machine = machine;
 
