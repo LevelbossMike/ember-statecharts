@@ -1,4 +1,4 @@
-import { interpret } from 'xstate';
+import { interpret, Machine } from 'xstate';
 import { setUsableManager } from 'ember-usable';
 import { later, cancel } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
@@ -9,7 +9,7 @@ export class InterpreterService {
   @tracked currentState;
 
   constructor(machine) {
-    this.machine = machine;
+    this.machine = machine instanceof Machine ? machine : Machine(machine);
   }
 
   get state() {
