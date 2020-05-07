@@ -25,5 +25,5 @@ type UsableStatechart<Context, Schema, Events extends EventObject> =
 
 export function useMachine<Context, Schema, Events extends EventObject>(
   machineConfig: UsableStatechart<Context, Schema, Events>,
-  options: Partial<InterpreterOptions>
+  options?: Partial<InterpreterOptions>
 ): InterpretedUsable<Context, Schema, Events>;
