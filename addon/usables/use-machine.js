@@ -9,8 +9,9 @@ export class InterpreterService {
   @tracked service;
   @tracked currentState;
 
-  constructor(machine) {
+  constructor(machine, interpreterOptions) {
     this.machine = machine;
+    this.interpreterOptions = interpreterOptions || {};
   }
 
   get state() {
@@ -23,6 +24,7 @@ export class InterpreterService {
   setup() {
     this.service = interpret(this.machine, {
       devTools: DEBUG,
+      ...this.interpreterOptions,
       clock: {
         setTimeout(fn, ms) {
           return later.call(null, fn, ms);
@@ -48,10 +50,10 @@ export class InterpreterService {
 }
 
 export class MachineInterpreterManager {
-  createUsable(context, { machine }) {
+  createUsable(context, { machine, interpreterOptions }) {
     const owner = getOwner(context);
 
-    const interpreter = new InterpreterService(machine);
+    const interpreter = new InterpreterService(machine, interpreterOptions);
 
     setOwner(interpreter, owner);
 
@@ -82,12 +84,13 @@ const createMachineInterpreterManager = () => {
 const MANAGED_INTERPRETER = {};
 setUsableManager(MANAGED_INTERPRETER, createMachineInterpreterManager);
 
-export default function useMachine(machine) {
+export default function useMachine(machine, interpreterOptions = {}) {
   const configurableMachineDefinition = Object.create(MANAGED_INTERPRETER);
 
   machine = machine instanceof Machine ? machine : createMachine(machine);
 
   configurableMachineDefinition.machine = machine;
+  configurableMachineDefinition.interpreterOptions = interpreterOptions;
 
   configurableMachineDefinition.withConfig = function (config) {
     configurableMachineDefinition.machine = configurableMachineDefinition.machine.withConfig(
