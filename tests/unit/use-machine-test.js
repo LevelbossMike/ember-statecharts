@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { Machine, actions } from 'xstate';
 import { use } from 'ember-usable';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 import { useMachine, matchesState } from 'ember-statecharts';
 
@@ -207,6 +208,55 @@ module('Unit | use-machine', function (hooks) {
       await clearRender();
 
       assert.verifySteps(['service stopped'], 'service was stopped');
+    });
+
+    test('interpreted machine service does not get resetup when args change', async function (assert) {
+      const testContext = this;
+
+      const { TestMachine } = this;
+
+      class Test extends Component {
+        @tracked name;
+        @use statechart = useMachine(TestMachine)
+          .withConfig({
+            actions: {
+              lol: this.args.lol,
+            },
+          })
+          .withContext({
+            name: this.name,
+          });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+
+          this.name = 'Tomster';
+        }
+      }
+
+      this.set('lol', function () {});
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test @lol={{this.lol }}/>
+      `);
+
+      const service = testContext.test.statechart.service;
+
+      testContext.test.name = 'Zoey';
+
+      assert.deepEqual(
+        service,
+        testContext.test.statechart.service,
+        'service was not resetup after local component state used in @use was changed'
+      );
+
+      this.set('lol', function () {});
+
+      assert.deepEqual(service, testContext.test.statechart.service, 'service was not resetup');
     });
   });
 
