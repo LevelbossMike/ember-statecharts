@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { Machine } from 'xstate';
+import { Machine, actions } from 'xstate';
 import { use } from 'ember-usable';
 import Component from '@glimmer/component';
 
@@ -142,6 +142,39 @@ module('Unit | use-machine', function (hooks) {
       );
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
+    });
+
+    test('passing `interpreterOptions` works', async function (assert) {
+      class Test extends Component {
+        @use statechart = useMachine(
+          Machine({
+            initial: 'idle',
+            states: {
+              idle: {
+                entry: actions.log('Custom logger called'),
+              },
+            },
+          }),
+          {
+            logger: (string) => assert.step(string),
+          }
+        );
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          // access usable to setup usable
+          this.statechart;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test />
+      `);
+
+      assert.verifySteps(['Custom logger called'], 'Custom logger was called');
     });
   });
 
