@@ -1,4 +1,4 @@
-import { interpret, createMachine, Machine } from 'xstate';
+import { interpret, createMachine, StateNode } from 'xstate';
 import { setUsableManager } from 'ember-usable';
 import { later, cancel } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
@@ -87,7 +87,7 @@ setUsableManager(MANAGED_INTERPRETER, createMachineInterpreterManager);
 export default function useMachine(machine, interpreterOptions = {}) {
   const configurableMachineDefinition = Object.create(MANAGED_INTERPRETER);
 
-  machine = machine instanceof Machine ? machine : createMachine(machine);
+  machine = machine instanceof StateNode ? machine : createMachine(machine);
 
   configurableMachineDefinition.machine = machine;
   configurableMachineDefinition.interpreterOptions = interpreterOptions;
