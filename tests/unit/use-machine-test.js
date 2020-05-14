@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, clearRender } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Machine, actions } from 'xstate';
 import { use } from 'ember-usable';
@@ -175,6 +175,38 @@ module('Unit | use-machine', function (hooks) {
       `);
 
       assert.verifySteps(['Custom logger called'], 'Custom logger was called');
+    });
+
+    test('interpreted machine service is stopped when component is torn down', async function (assert) {
+      const testContext = this;
+      const { TestMachine } = this;
+
+      class Test extends Component {
+        @use statechart = useMachine(TestMachine);
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test />
+      `);
+
+      const service = testContext.test.statechart.service;
+
+      service.onStop(function () {
+        assert.step('service stopped');
+      });
+
+      assert.verifySteps([], 'service was not stopped');
+
+      await clearRender();
+
+      assert.verifySteps(['service stopped'], 'service was stopped');
     });
   });
 
