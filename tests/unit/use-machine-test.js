@@ -12,84 +12,137 @@ module('Unit | use-machine', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    const TestMachine = Machine(
-      {
-        initial: 'stopped',
-        states: {
-          stopped: {
-            on: {
-              START: {
-                target: 'started',
-                actions: ['lol'],
-              },
+    const TestMachineConfig = {
+      initial: 'stopped',
+      states: {
+        stopped: {
+          on: {
+            START: {
+              target: 'started',
+              actions: ['lol'],
             },
           },
-          started: {
-            on: {
-              STOP: 'stopped',
-            },
+        },
+        started: {
+          on: {
+            STOP: 'stopped',
           },
         },
       },
-      {
-        actions: {
-          lol() {},
-        },
-      }
-    );
+    };
+
+    const TestMachine = Machine(TestMachineConfig, {
+      actions: {
+        lol() {},
+      },
+    });
 
     this.set('TestMachine', TestMachine);
+    this.set('TestMachineConfig', TestMachineConfig);
   });
 
-  test('it is possible to work with `useMachine`', async function (assert) {
-    const testContext = this;
+  module('it is possible to work with `useMachine`', function () {
+    test('passing a machine works', async function (assert) {
+      const testContext = this;
 
-    const { TestMachine } = this;
+      const { TestMachine } = this;
 
-    class Test extends Component {
-      @use statechart = useMachine(TestMachine)
-        .withConfig({
-          actions: {
-            lol(context) {
-              assert.equal(context.name, 'Tomster', 'context was updated as expected');
-              assert.step('patched');
+      class Test extends Component {
+        @use statechart = useMachine(TestMachine)
+          .withConfig({
+            actions: {
+              lol(context) {
+                assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                assert.step('patched');
+              },
             },
-          },
-        })
-        .withContext({
-          name: this.name,
-        });
+          })
+          .withContext({
+            name: this.name,
+          });
 
-      constructor(owner, args) {
-        super(owner, args);
+        constructor(owner, args) {
+          super(owner, args);
 
-        testContext.test = this;
+          testContext.test = this;
 
-        this.name = 'Tomster';
+          this.name = 'Tomster';
+        }
       }
-    }
 
-    this.owner.register('component:test', Test);
+      this.owner.register('component:test', Test);
 
-    await render(hbs`
-      <Test />
-    `);
+      await render(hbs`
+        <Test />
+      `);
 
-    assert.equal(
-      testContext.test.statechart.currentState.value,
-      'stopped',
-      'statechart state is accessible'
-    );
+      assert.equal(
+        testContext.test.statechart.currentState.value,
+        'stopped',
+        'statechart state is accessible'
+      );
 
-    testContext.test.statechart.send('START');
+      testContext.test.statechart.send('START');
 
-    assert.equal(
-      testContext.test.statechart.currentState.value,
-      'started',
-      'statechart state updated'
-    );
+      assert.equal(
+        testContext.test.statechart.currentState.value,
+        'started',
+        'statechart state updated'
+      );
 
-    assert.verifySteps(['patched'], 'config can be updated via `@use`');
+      assert.verifySteps(['patched'], 'config can be updated via `@use`');
+    });
+
+    test('passing a machineConfig works', async function (assert) {
+      const testContext = this;
+
+      const { TestMachineConfig } = this;
+
+      class Test extends Component {
+        @use statechart = useMachine(TestMachineConfig)
+          .withConfig({
+            actions: {
+              lol(context) {
+                assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                assert.step('patched');
+              },
+            },
+          })
+          .withContext({
+            name: this.name,
+          });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+
+          this.name = 'Tomster';
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test />
+      `);
+
+      assert.equal(
+        testContext.test.statechart.currentState.value,
+        'stopped',
+        'statechart state is accessible'
+      );
+
+      testContext.test.statechart.send('START');
+
+      assert.equal(
+        testContext.test.statechart.currentState.value,
+        'started',
+        'statechart state updated'
+      );
+
+      assert.verifySteps(['patched'], 'config can be updated via `@use`');
+    });
   });
 
   test('`useMachine` works with `matchesState`', async function (assert) {
