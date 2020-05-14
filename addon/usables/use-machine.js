@@ -18,6 +18,7 @@ export class InterpreterService {
     return {
       currentState: this.currentState,
       send: this.service.send,
+      service: this.service,
     };
   }
 
