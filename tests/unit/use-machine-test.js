@@ -271,11 +271,11 @@ module('Unit | use-machine', function (hooks) {
     test('interpreted machine service does not get resetup when args change', async function (assert) {
       const testContext = this;
 
-      const { TestMachine } = this;
+      const { TestMachine, CreatedTestMachine } = this;
 
       class Test extends Component {
         @tracked name;
-        @use statechart = useMachine(TestMachine)
+        @use statechart = useMachine(this.args.machine)
           .withConfig({
             actions: {
               lol: this.args.lol,
@@ -295,11 +295,12 @@ module('Unit | use-machine', function (hooks) {
       }
 
       this.set('lol', function () {});
+      this.set('machine', TestMachine);
 
       this.owner.register('component:test', Test);
 
       await render(hbs`
-        <Test @lol={{this.lol }}/>
+        <Test @lol={{this.lol }} @machine={{this.machine}}/>
       `);
 
       const service = testContext.test.statechart.service;
@@ -315,6 +316,14 @@ module('Unit | use-machine', function (hooks) {
       this.set('lol', function () {});
 
       assert.deepEqual(service, testContext.test.statechart.service, 'service was not resetup');
+
+      this.set('machine', CreatedTestMachine);
+
+      assert.deepEqual(
+        service,
+        testContext.test.statechart.service,
+        'service was not resetup after component args used in @use were changed'
+      );
     });
   });
 
