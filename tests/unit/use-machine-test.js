@@ -8,6 +8,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import { useMachine, matchesState } from 'ember-statecharts';
+import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/usables/use-machine';
 
 module('Unit | use-machine', function (hooks) {
   setupRenderingTest(hooks);
@@ -268,62 +269,107 @@ module('Unit | use-machine', function (hooks) {
       assert.verifySteps(['service stopped'], 'service was stopped');
     });
 
-    test('interpreted machine service does not get resetup when args change', async function (assert) {
-      const testContext = this;
+    module('when args and local state passed to `useMachine` change', function (hooks) {
+      hooks.beforeEach(function () {
+        const testContext = this;
 
-      const { TestMachine, CreatedTestMachine } = this;
+        class Test extends Component {
+          @tracked name;
+          @use statechart = useMachine(this.args.machine)
+            .withConfig({
+              actions: {
+                lol: this.args.lol,
+              },
+            })
+            .withContext({
+              name: this.name,
+            });
 
-      class Test extends Component {
-        @tracked name;
-        @use statechart = useMachine(this.args.machine)
-          .withConfig({
-            actions: {
-              lol: this.args.lol,
-            },
-          })
-          .withContext({
-            name: this.name,
-          });
+          constructor(owner, args) {
+            super(owner, args);
 
-        constructor(owner, args) {
-          super(owner, args);
+            testContext.test = this;
 
-          testContext.test = this;
+            this.name = 'Tomster';
 
-          this.name = 'Tomster';
+            // access usable to setup usable
+            this.statechart;
+          }
         }
-      }
 
-      this.set('lol', function () {});
-      this.set('machine', TestMachine);
+        this.owner.register('component:test', Test);
+      });
 
-      this.owner.register('component:test', Test);
+      test('interpreted machine service does not get resetup when args change', async function (assert) {
+        const testContext = this;
 
-      await render(hbs`
-        <Test @lol={{this.lol }} @machine={{this.machine}}/>
-      `);
+        const { TestMachine, CreatedTestMachine } = this;
 
-      const service = testContext.test.statechart.service;
+        this.set('lol', function () {});
+        this.set('machine', TestMachine);
 
-      testContext.test.name = 'Zoey';
+        await render(hbs`
+          <Test @lol={{this.lol}} @machine={{this.machine}}/>
+        `);
 
-      assert.deepEqual(
-        service,
-        testContext.test.statechart.service,
-        'service was not resetup after local component state used in @use was changed'
-      );
+        const service = testContext.test.statechart.service;
 
-      this.set('lol', function () {});
+        testContext.test.name = 'Zoey';
 
-      assert.deepEqual(service, testContext.test.statechart.service, 'service was not resetup');
+        assert.deepEqual(
+          service,
+          testContext.test.statechart.service,
+          'service was not resetup after local component state used in `useMachine#withContext` was changed'
+        );
 
-      this.set('machine', CreatedTestMachine);
+        this.set('lol', function () {});
 
-      assert.deepEqual(
-        service,
-        testContext.test.statechart.service,
-        'service was not resetup after component args used in @use were changed'
-      );
+        assert.deepEqual(
+          service,
+          testContext.test.statechart.service,
+          'service was not resetup after args used in `useMachine#withConfig` were changed'
+        );
+
+        this.set('machine', CreatedTestMachine);
+
+        assert.deepEqual(
+          service,
+          testContext.test.statechart.service,
+          'service was not resetup after component args used in @use were changed'
+        );
+      });
+
+      test('when args or local state passed to `useMachine` is changed a warning is issued', async function (assert) {
+        const { TestMachine, CreatedTestMachine } = this;
+
+        this.set('lol', function () {});
+        this.set('machine', TestMachine);
+
+        await render(hbs`
+          <Test @lol={{this.lol}} @machine={{this.machine}}/>
+        `);
+
+        // local state change
+        this.set('test.name', 'Zoey');
+
+        assert.expectWarning(
+          ARGS_STATE_CHANGE_WARNING,
+          'warning was issued based on local state change'
+        );
+
+        // args change `withConfig`
+        this.set('lol', function () {});
+
+        assert.expectWarning(
+          ARGS_STATE_CHANGE_WARNING,
+          'warning was issued based on args change used in `withConfig`'
+        );
+
+        // args change `useMachine`
+        this.set('machine', CreatedTestMachine);
+
+        assert.expectWarning(ARGS_STATE_CHANGE_WARNING, 'warning was issued based on args change');
+      });
     });
   });
 

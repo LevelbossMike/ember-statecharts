@@ -4,6 +4,10 @@ import { later, cancel } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
 import { getOwner, setOwner } from '@ember/application';
 import { DEBUG } from '@glimmer/env';
+import { warn } from '@ember/debug';
+
+export const ARGS_STATE_CHANGE_WARNING =
+  'A change to passed `args` or a local state change triggered an update to a `useMachine`-usable. This is currently unsupported and should probably be handled explicitly in your xstate-machine. If you feel this is necessary behavior that should be supported by `ember-statecharts` please raise this as an issue and provide an example of what you are trying to do.';
 
 export class InterpreterService {
   @tracked service;
@@ -70,7 +74,8 @@ export class MachineInterpreterManager {
   }
 
   updateUsable() {
-    // not sure if it makes sense to support this
+    // not sure if it makes sense to support this - issue warning
+    warn(ARGS_STATE_CHANGE_WARNING, false, { id: 'statecharts.use-machine.args-state-change' });
   }
 
   teardownUsable({ interpreter }) {
