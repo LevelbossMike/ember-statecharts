@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, clearRender } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { Machine, actions } from 'xstate';
+import { Machine, actions, createMachine } from 'xstate';
 import { use } from 'ember-usable';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -38,12 +38,19 @@ module('Unit | use-machine', function (hooks) {
       },
     });
 
+    const CreatedTestMachine = createMachine(TestMachineConfig, {
+      actions: {
+        lol() {},
+      },
+    });
+
     this.set('TestMachine', TestMachine);
     this.set('TestMachineConfig', TestMachineConfig);
+    this.set('CreatedTestMachine', CreatedTestMachine);
   });
 
   module('it is possible to work with `useMachine`', function () {
-    test('passing a machine works', async function (assert) {
+    test('passing a machine created with `Machine` works', async function (assert) {
       const testContext = this;
 
       const { TestMachine } = this;
@@ -101,6 +108,57 @@ module('Unit | use-machine', function (hooks) {
 
       class Test extends Component {
         @use statechart = useMachine(TestMachineConfig)
+          .withConfig({
+            actions: {
+              lol(context) {
+                assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                assert.step('patched');
+              },
+            },
+          })
+          .withContext({
+            name: this.name,
+          });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+
+          this.name = 'Tomster';
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test />
+      `);
+
+      assert.equal(
+        testContext.test.statechart.currentState.value,
+        'stopped',
+        'statechart state is accessible'
+      );
+
+      testContext.test.statechart.send('START');
+
+      assert.equal(
+        testContext.test.statechart.currentState.value,
+        'started',
+        'statechart state updated'
+      );
+
+      assert.verifySteps(['patched'], 'config can be updated via `@use`');
+    });
+
+    test('passing a machine created via `createMachine` works', async function (assert) {
+      const testContext = this;
+
+      const { CreatedTestMachine } = this;
+
+      class Test extends Component {
+        @use statechart = useMachine(CreatedTestMachine)
           .withConfig({
             actions: {
               lol(context) {
