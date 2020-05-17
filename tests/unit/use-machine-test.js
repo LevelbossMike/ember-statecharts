@@ -1,11 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, clearRender } from '@ember/test-helpers';
+import { render, clearRender, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Machine, actions, createMachine } from 'xstate';
 import { use } from 'ember-usable';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { setComponentTemplate } from '@ember/component';
 
 import { useMachine, matchesState } from 'ember-statecharts';
 import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/usables/use-machine';
@@ -357,6 +359,148 @@ module('Unit | use-machine', function (hooks) {
         this.set('machine', CreatedTestMachine);
 
         assert.expectWarning(ARGS_STATE_CHANGE_WARNING, 'warning was issued based on args change');
+      });
+    });
+
+    module("xstate's built-in assign works as expected", function () {
+      hooks.beforeEach(function () {
+        this.counterMachine = Machine({
+          initial: 'active',
+          states: {
+            active: {
+              on: {
+                INCREMENT: {
+                  actions: 'increment',
+                },
+                DECREMENT: {
+                  actions: 'decrement',
+                },
+              },
+            },
+          },
+        });
+
+        this.counterTemplate = hbs`
+          <div data-test-count={{this.statechart.state.context.count}}>
+            Count: {{this.statechart.state.context.count}}
+          </div>
+          <button
+            type="button"
+            data-test-plus
+            {{on "click" this.plusClicked}}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            data-test-minus
+            {{on "click" this.minusClicked}}
+          >
+            -
+          </button>
+        `;
+      });
+
+      test('it is possible to use `assign` with an object', async function (assert) {
+        const { counterMachine } = this;
+
+        class Counter extends Component {
+          @use statechart = useMachine(counterMachine)
+            .withContext({
+              count: 0,
+            })
+            .withConfig({
+              actions: {
+                increment: actions.assign({
+                  count: (context) => context.count + 1,
+                }),
+                decrement: actions.assign({
+                  count: (context) => context.count - 1,
+                }),
+              },
+            });
+
+          @action
+          plusClicked() {
+            this.statechart.send('INCREMENT');
+          }
+
+          @action
+          minusClicked() {
+            this.statechart.send('DECREMENT');
+          }
+        }
+
+        setComponentTemplate(this.counterTemplate, Counter);
+
+        this.owner.register('component:counter', Counter);
+
+        await render(hbs`
+          <Counter />
+        `);
+
+        assert.dom('[data-test-count="0"]').exists('count is 0 initially');
+
+        await click('[data-test-plus]');
+
+        assert.dom('[data-test-count="1"]').exists('count was updated - 1');
+
+        await click('[data-test-minus]');
+
+        assert.dom('[data-test-count="0"]').exists('count was updated - 0 again');
+      });
+
+      test('it is possible to use `assign` with a function that returns the updated state', async function (assert) {
+        const { counterMachine } = this;
+
+        class Counter extends Component {
+          @use statechart = useMachine(counterMachine)
+            .withContext({
+              count: 0,
+            })
+            .withConfig({
+              actions: {
+                increment: actions.assign((context) => {
+                  return {
+                    count: context.count + 1,
+                  };
+                }),
+                decrement: actions.assign((context) => {
+                  return {
+                    count: context.count - 1,
+                  };
+                }),
+              },
+            });
+
+          @action
+          plusClicked() {
+            this.statechart.send('INCREMENT');
+          }
+
+          @action
+          minusClicked() {
+            this.statechart.send('DECREMENT');
+          }
+        }
+
+        setComponentTemplate(this.counterTemplate, Counter);
+
+        this.owner.register('component:counter', Counter);
+
+        await render(hbs`
+          <Counter />
+        `);
+
+        assert.dom('[data-test-count="0"]').exists('count is 0 initially');
+
+        await click('[data-test-plus]');
+
+        assert.dom('[data-test-count="1"]').exists('count was updated - 1');
+
+        await click('[data-test-minus]');
+
+        assert.dom('[data-test-count="0"]').exists('count was updated - 0 again');
       });
     });
   });
