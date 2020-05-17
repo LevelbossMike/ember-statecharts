@@ -502,6 +502,78 @@ module('Unit | use-machine', function (hooks) {
 
         assert.dom('[data-test-count="0"]').exists('count was updated - 0 again');
       });
+
+      test('reactive getters are possible based on `assign`ed context changes', async function (assert) {
+        const { counterMachine } = this;
+
+        class Counter extends Component {
+          @use statechart = useMachine(counterMachine)
+            .withContext({
+              count: 0,
+            })
+            .withConfig({
+              actions: {
+                increment: actions.assign({
+                  count: (context) => context.count + 1,
+                }),
+                decrement: actions.assign({
+                  count: (context) => context.count - 1,
+                }),
+              },
+            });
+
+          get plusIsDisabled() {
+            return this.statechart.state.context.count > 0;
+          }
+
+          @action
+          plusClicked() {
+            this.statechart.send('INCREMENT');
+          }
+
+          @action
+          minusClicked() {
+            this.statechart.send('DECREMENT');
+          }
+        }
+
+        setComponentTemplate(
+          hbs`
+          <div>{{this.statechart.state.context.count}}</div>
+
+          <button
+            type="button"
+            disabled={{this.plusIsDisabled}}
+            data-test-plus
+            {{on "click" this.plusClicked}}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            data-test-minus
+            {{on "click" this.minusClicked}}
+          >
+            -
+          </button>
+        `,
+          Counter
+        );
+
+        this.owner.register('component:counter', Counter);
+
+        await render(hbs`
+          <Counter />
+        `);
+
+        assert.dom('[data-test-plus]').isNotDisabled('plus button is not disabled - count is 0');
+
+        await click('[data-test-plus]');
+
+        assert
+          .dom('[data-test-plus]')
+          .isDisabled('plus button disabled updated - count is above 0');
+      });
     });
   });
 
