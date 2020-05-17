@@ -86,18 +86,14 @@ module('Unit | use-machine', function (hooks) {
       `);
 
       assert.equal(
-        testContext.test.statechart.currentState.value,
+        testContext.test.statechart.state.value,
         'stopped',
         'statechart state is accessible'
       );
 
       testContext.test.statechart.send('START');
 
-      assert.equal(
-        testContext.test.statechart.currentState.value,
-        'started',
-        'statechart state updated'
-      );
+      assert.equal(testContext.test.statechart.state.value, 'started', 'statechart state updated');
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
     });
@@ -137,18 +133,14 @@ module('Unit | use-machine', function (hooks) {
       `);
 
       assert.equal(
-        testContext.test.statechart.currentState.value,
+        testContext.test.statechart.state.value,
         'stopped',
         'statechart state is accessible'
       );
 
       testContext.test.statechart.send('START');
 
-      assert.equal(
-        testContext.test.statechart.currentState.value,
-        'started',
-        'statechart state updated'
-      );
+      assert.equal(testContext.test.statechart.state.value, 'started', 'statechart state updated');
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
     });
@@ -188,18 +180,14 @@ module('Unit | use-machine', function (hooks) {
       `);
 
       assert.equal(
-        testContext.test.statechart.currentState.value,
+        testContext.test.statechart.state.value,
         'stopped',
         'statechart state is accessible'
       );
 
       testContext.test.statechart.send('START');
 
-      assert.equal(
-        testContext.test.statechart.currentState.value,
-        'started',
-        'statechart state updated'
-      );
+      assert.equal(testContext.test.statechart.state.value, 'started', 'statechart state updated');
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
     });

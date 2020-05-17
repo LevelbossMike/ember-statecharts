@@ -11,7 +11,7 @@ export const ARGS_STATE_CHANGE_WARNING =
 
 export class InterpreterService {
   @tracked service;
-  @tracked currentState;
+  @tracked _state;
 
   constructor(machine, interpreterOptions) {
     this.machine = machine;
@@ -20,7 +20,7 @@ export class InterpreterService {
 
   get state() {
     return {
-      currentState: this.currentState,
+      state: this._state,
       send: this.service.send,
       service: this.service,
     };
@@ -40,7 +40,7 @@ export class InterpreterService {
       },
     })
       .onTransition((state) => {
-        this.currentState = state;
+        this._state = state;
       })
       .start();
   }
