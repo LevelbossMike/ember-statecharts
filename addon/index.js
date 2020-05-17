@@ -5,7 +5,7 @@ function matchesState(state, statechartPropertyName = 'statechart') {
   return function () {
     return {
       get() {
-        return xstateMatchesState(state, this[statechartPropertyName].currentState.value);
+        return xstateMatchesState(state, this[statechartPropertyName].state.value);
       },
     };
   };
