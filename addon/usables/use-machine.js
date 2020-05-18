@@ -48,10 +48,6 @@ export class InterpreterService {
   teardown() {
     this.service.stop();
   }
-
-  send() {
-    this.service.send(...arguments);
-  }
 }
 
 export class MachineInterpreterManager {
