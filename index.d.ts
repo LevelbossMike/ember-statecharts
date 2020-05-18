@@ -13,8 +13,9 @@ type WithContextParams<Context, Schema, Events extends EventObject> = Parameters
 type Send<Context, Schema, Events extends EventObject> = Interpreter<Context, Schema, Events>['send'];
 
 type InterpretedUsable<Context, Schema, Events extends EventObject> = {
-  currentState: State<Context, Events>;
+  state: State<Context, Events>;
   send: Send<Context, Schema, Events>;
+  service: Interpreter<Context, Schema, Events>;
   withConfig: (...args: WithConfigParams<Context, Schema, Events>) => InterpretedUsable<Context, Schema, Events>;
   withContext: (...args: WithContextParams<Context, Schema, Events>) => InterpretedUsable<Context, Schema, Events>;
 }
