@@ -15,7 +15,7 @@ export default class extends Component {
   @(task(function* () {
     yield timeout(1000);
 
-    if (this.get('failRequest')) {
+    if (this.failRequest) {
       throw 'wat';
     }
   }).drop())

@@ -285,8 +285,26 @@ we simply add a new transition to both states:
 Modeling the statechart for our button component is complete now. But how do
 we actually use this in our Ember.js application?
 
-It's pretty easy actually. We take the statechart we modeled in the statechart-editor
-and put it into our component via the `statechart`-computed macro `ember-statecharts` provides.
+It's pretty easy actually. We take the statechart (xstate calls them `Machine`s)
+we modeled in the statechart-editor, create an instance of it and use it in
+our component via the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567)
+that `ember-statecharts` provides.
+
+In our example application we decided to create a `machines`-folder that holds
+all the xstate-`machine`s that we plan to use in our components. We can copy
+and paste these out of the statechart-editor directly and paste them back into
+the editor when we want to see how they work.
+
+We then have to hook up the imported `machine` with our component. We can use
+the `withContext` and `withConfig` that are available when using `useMachine`.
+
+The nice thing about this is that we keep the behavior separate from our
+component implementation. The component that decides to use the statechart
+defines what it expects to happen as external effects when the statechart
+executes its behavior. We also define the `context` of the statechart
+explicitly when using `useMachine` - in this case we define a reference
+`component` on the statechart context so that we can access the component
+instance directly when the statechart executes its actions.
 
 You can see the final component in action here:
 
@@ -315,7 +333,7 @@ nothing happens. Because the `busy`-state does not handle the `SUBMIT`-event
 it won't trigger the `submitTask` again.
 
 When we want to keep the UI in sync with the statechart's state we can do this by
-using the `matchesState`-computed. 
+using the `matchesState`-decorator. 
 
 ```js
 // ...
@@ -324,18 +342,17 @@ export default class MyComponent extends Component {
   @matchesState('busy')
   isBusy;
 
-  @statechart({
+  @use statechart = useMachine({
     // ...
   })
-  statechart;
   // ...
 }
 ```
 
-The `matchesState`-computed will be `true` if the passed state matches the
+The `matchesState`-decorator will be `true` if the passed state matches the
 statechart's current state. You can match against a singular state, an array of
 states and even match against nested and parallel states with this
-computed-macro - please refer to the [working with
+decorator - please refer to the [working with
 statecharts](/docs/statecharts)-section for details.
 
 ## Refining behavior
@@ -512,8 +529,8 @@ export default class QuickstartButton extends Component {
 Statecharts decouple behavior, i.e. the functionality of an `Ember.Component` from
 the way the component looks. This means that we might want to present the button
 as `disabled` not only in the `disabled`-state but also in other states of the
-statechart that don't allow submitting the button. We can use a combination of
-computed-macros and `matchesState` to display the button correctly to our users:
+statechart that don't allow submitting the button. We can use a regular getter
+to display the button correctly to our users:
 
 ```js
 
@@ -530,8 +547,11 @@ export default class QuickstartButton extends Component {
   @matchesState({ interactivity: 'unknown' })
   isInteractivityUnknown;
 
-  @or('isDisabled', 'isBusy', 'isInteractivityUnknown')
-  showAsDisabled;
+  get showAsDisabled() {
+    const { isDisabled, isBusy, isInteractivityUnknown } = this;
+
+    return isDisabled || isBusy || isInteractivityUnknown;
+  }
 
   // ...
 }
@@ -547,10 +567,10 @@ In this tutorial you learned how you can use statecharts to explicitly model
 behavior in your Ember.js applications. You have seen how you can make use of the
 [statechart-editor](/editor) to help you visualize what your components will
 be doing. We also walked through how you can make your statechart executable via
-the `statechart`-computed-macro and how you can use the `matchesState`-macro to
+the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567) and how you can use the `matchesState`-decorator to
 declaratively adapt the looks of your component based on state changes.
 
-The rest of the guides will go into more detail of [how to work](/statecharts)
+The rest of the guides will go into more detail of [how to work](/docs/statecharts)
 with statecharts in your Ember.js applications. Please also remember that
 everything that `ember-statecharts` is doing is backed by the great
 [xstate](https://xstate.js.org)-library. You can read about all the configuration

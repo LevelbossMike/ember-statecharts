@@ -3,7 +3,9 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
-import { statechart, matchesState } from 'ember-statecharts/computed';
+import { matchesState, useMachine } from 'ember-statecharts';
+import { use } from 'ember-usable';
+import quickstartButtonMachine from '../machines/quickstart-button';
 
 function noop() {}
 
@@ -20,57 +22,29 @@ export default class QuickstartButton extends Component {
     return this.args.onError || noop;
   }
 
+  @use statechart = useMachine(quickstartButtonMachine)
+    .withContext({
+      component: this,
+    })
+    .withConfig({
+      actions: {
+        handleSubmit({ component }) {
+          component.handleSubmitTask.perform();
+        },
+        handleSuccess({ component }) {
+          component.onSuccess();
+        },
+        handleError({ component }) {
+          component.onError();
+        },
+      },
+    });
+
   @matchesState('busy')
   isBusy;
 
   @or('isBusy', 'args.disabled')
   isDisabled;
-
-  @statechart(
-    {
-      initial: 'idle',
-      states: {
-        idle: {
-          on: {
-            SUBMIT: 'busy',
-          },
-        },
-        busy: {
-          entry: ['handleSubmit'],
-          on: {
-            SUCCESS: 'success',
-            ERROR: 'error',
-          },
-        },
-        success: {
-          entry: ['handleSuccess'],
-          on: {
-            SUBMIT: 'busy',
-          },
-        },
-        error: {
-          entry: ['handleError'],
-          on: {
-            SUBMIT: 'busy',
-          },
-        },
-      },
-    },
-    {
-      actions: {
-        handleSubmit(context) {
-          context.handleSubmitTask.perform();
-        },
-        handleSuccess(context) {
-          context.onSuccess();
-        },
-        handleError(context) {
-          context.onError();
-        },
-      },
-    }
-  )
-  statechart;
 
   @task(function* () {
     try {
