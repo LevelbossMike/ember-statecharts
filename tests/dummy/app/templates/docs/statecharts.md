@@ -3,18 +3,90 @@
 ## `xstate`
 Everything that `ember-statecharts` is doing is powered by the wonderful [`xstate`-library](https://xstate.js.org/). The [`xstate`-guides](https://xstate.js.org/docs/) provide extensive documentation about how to write statechart-configurations - please make use of this invaluable resource.
 
+`ember-statecharts` is trying to provide a thin layer over `xstate`'s apis and
+make it as easy as possible to use all of `xstate`'s functionality with
+`Ember.js`. It makes sure your statecharts play nice with the Ember-runloop,
+will wait for `xstate`-delays etc. when testing your applications and takes
+care of cleaning up your statecharts when components get destroyed.
+
 ## Authoring `statechart`-configurations
 
-To implement a statechart via `ember-statecharts` all you have to do is to pass a valid `xstate`-statechart configuration to the `statechart`-computed macro exported from `ember-statecharts/computed`.
+To implement a statechart via `ember-statecharts` you will make use of the
+`useMachine`- [usable](https://github.com/emberjs/rfcs/pull/567) exported from
+`ember-statecharts`. `usable` support has yet to land in the framework so you
+will need to make use of [ember-usable](https://github.com/pzuraq/ember-usable)
+for now to use the `@use`-decorator - `ember-usable` will be installed for you
+when you install `ember-statecharts`.
 
-Here's an example that reflects the [nested statechart](https://xstate.js.org/docs/#hierarchical-nested-state-machines)-example from the [`xstate`-guides](https://xstate.js.org/docs/):
+There are three ways to create a `statechart` with `useMachine`:
+
+* use `useMachine` with an instance of an `xstate`-`Machine` - [Machine](https://xstate.js.org/docs/guides/machines.html#configuration)
+* use `useMachine` with a valid `MachineConfig` - [MachineConfig](https://xstate.js.org/docs/guides/machines.html#configuration)
+* use `useMachine` by using `xstate`'s - `createMachine` - [createMachine](https://xstate.js.org/docs/guides/typescript.html#typestates);
+
+Here's an example that reflects the [nested statechart](https://xstate.js.org/docs/#hierarchical-nested-state-machines)-example from the [`xstate`-guides](https://xstate.js.org/docs/) in all three variants:
+
+### `useMachine` with a `Machine`-instance
 
 ```js
 import Component from '@glimmer/component';
-import { statechart } from 'ember-statecharts/computed';
+
+import { Machine } from 'xstate';
+
+import { use } from 'ember-usable';
+import { useMachine } from 'ember-statecharts';
+
+const machine = Machine({
+  id: 'light',
+  initial: 'green',
+  states: {
+    green: {
+      on: {
+        TIMER: 'yellow'
+      }
+    },
+    yellow: {
+      on: {
+        TIMER: 'red'
+      }
+    },
+    red: {
+      on: {
+        TIMER: 'green'
+      },
+      initial: 'walk',
+      states: {
+        walk: {
+          on: {
+            PED_TIMER: 'wait'
+          }
+        },
+        wait: {
+          on: {
+            PED_TIMER: 'stop'
+          }
+        },
+        stop: {}
+      }
+    }
+  }
+});
 
 export default class MyComponent extends Component {
-  @statechart({
+  @use statechart = useMachine(machine)
+}
+```
+
+### `useMachine` with a `MachineConfig`
+
+```js
+import Component from '@glimmer/component';
+
+import { use } from 'ember-usable';
+import { useMachine } from 'ember-statecharts';
+
+export default class MyComponent extends Component {
+  @use statechart = useMachine({
     id: 'light',
     initial: 'green',
     states: {
@@ -49,7 +121,55 @@ export default class MyComponent extends Component {
       }
     }
   })
-  statechart;
+}
+```
+
+### `useMachine` with `createMachine`
+
+```js
+import Component from '@glimmer/component';
+
+import { createMachine } from 'xstate';
+
+import { use } from 'ember-usable';
+import { useMachine } from 'ember-statecharts';
+
+export default class MyComponent extends Component {
+  @use statechart = createMachine({
+    id: 'light',
+    initial: 'green',
+    states: {
+      green: {
+        on: {
+          TIMER: 'yellow'
+        }
+      },
+      yellow: {
+        on: {
+          TIMER: 'red'
+        }
+      },
+      red: {
+        on: {
+          TIMER: 'green'
+        },
+        initial: 'walk',
+        states: {
+          walk: {
+            on: {
+              PED_TIMER: 'wait'
+            }
+          },
+          wait: {
+            on: {
+              PED_TIMER: 'stop'
+            }
+          },
+          stop: {}
+        }
+      }
+    }
+  })
 }
 ```
 
@@ -79,10 +199,10 @@ export default class MyComponent extends Component {
 to something like the following:
 
 ```js
-export default class MyComponent extends Component {
-  // ...
+import { Machine } from 'xstate';
 
-  @statechart({
+const buttonMachine = Machine(
+  {
     initial: 'idle',
     states: {
       idle: {
@@ -100,14 +220,30 @@ export default class MyComponent extends Component {
       success: {},
       error: {}
     }
-  }, {
+  },
+  {
     actions: {
-      handleSubmit(context) {
-        context.buttonClickedTask.perform();
-      }
+      handleSubmit(/* context, event */) {}
     }
-  })
-  statechart;
+  }
+);
+
+export default class MyComponent extends Component {
+  // ...
+
+  @use statechart = useMachine(buttonMachine)
+    .withContext({
+      component: this
+    })
+    .withConfig({
+      handleSubmit(context) {
+        const { component } = context;
+
+        component.buttonClickedTask.perform();
+      }
+    })
+
+  // ...
 
   @action
   buttonClicked() {
@@ -124,49 +260,140 @@ out what needs to happen. In the above example users can't retrigger the
 `buttonClickedTask` when they trigger the `buttonClicked` repeatetly while the statechart
 finds itself in the `busy` state for example.
 
-### The statechart's context
+### The statechart's context - using `withContext`
 
-The statechart context will automatically be set to the `Ember.Object` that
-implements the statechart. This means you have the component implementing the
-statechart available when [`guards`](https://xstate.js.org/docs/guides/guards.html) and
+The Object that `@use`s the `useMachine`-usable will need to specify the
+`context` of the statechart explicitly by using `withContext`. This makes sure
+that you can design your behavior inside of `xstate`'s
+[visualizer](https://xstate.js.org/viz/) completely and then have the calling
+Object define what it considers the `context` of the statechart to be.
+
+This means you have the component decide what context will be used when
+[`guards`](https://xstate.js.org/docs/guides/guards.html) and
 [`actions`](https://xstate.js.org/docs/guides/actions.html) are executed.
 
 ```js
+import { Machine } from 'xstate';
+
+const buttonMachine = Machine({
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        SUBMIT: 'busy'
+      }
+    },
+    busy: {
+      onEntry: ['handleSubmit'],
+      on: {
+        RESOLVE: 'success',
+        REJECT: 'error'
+      }
+    },
+    success: {},
+    error: {}
+  }
+}, {
+  actions: {
+    handleSubmit(context) {
+      // `context` is set to whatever object we pass to `withContext`
+      const { component } = context;
+
+      context.buttonClickedTask.perform();
+    }
+  }
+});
+
 export default class MyComponent extends Component {
   // ...
-
-  @statechart({
-    initial: 'idle',
-    states: {
-      idle: {
-        on: {
-          SUBMIT: 'busy'
-        }
-      },
-      busy: {
-        onEntry: ['handleSubmit'],
-        on: {
-          RESOLVE: 'success',
-          REJECT: 'error'
-        }
-      },
-      success: {},
-      error: {}
-    }
-  }, {
-    actions: {
-      handleSubmit(context) {
-        // `context` references the component that implements the statechart
-        context.buttonClickedTask.perform();
-      }
-    }
-  })
-  statechart;
+  @use statechart = useMachine(buttonMachine)
+    .withContext({
+      component: this
+    })
 
   @task(function*() {
     // ...
   })
   buttonClickedTask;
+
+  @action
+  buttonClicked() {
+    this.statechart.send('SUBMIT');
+  }
+}
+```
+
+### Customizing the statechart's config - using `withConfig`
+
+As with `withContext` the calling Object can also customize the statechart's
+configuration by using `withConfig`. This makes sure that you can design your
+behavior inside of `xstate`'s [visualizer](https://xstate.js.org/viz/) completely
+and then have the calling Object define what external effects will be triggered
+when the statechart triggers `actions` or what checks to run when it executes
+`guards`.
+
+```js
+import { Machine } from 'xstate';
+
+const submitMachine = Machine({
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        SUBMIT: {
+          target: 'busy',
+          cond: 'allNecessaryDataIsAvailable'
+        }
+      }
+    },
+    busy: {
+      onEntry: ['handleSubmit'],
+      on: {
+        RESOLVE: 'success',
+        REJECT: 'error'
+      }
+    },
+    success: {},
+    error: {}
+  }
+}, {
+  actions: {
+    handleSubmit(/* context, eventObject */) {}
+  },
+  guards: {
+    allNecessaryDataIsAvailable(/* context, eventObject */) {}
+  }
+});
+
+export default class MyComponent extends Component {
+  @tracked
+  name = '';
+
+  @tracked
+  password = '';
+
+  @use statechart = useMachine(submitMachine)
+    .withContext({
+      component: this
+    })
+    .withConfig({
+      actions: {
+        handleSubmit({ component }, eventObject) {
+          const { email, password } = eventObject;
+
+          component.loginTask.perform(email, password);
+        }
+      },
+      guards: {
+        allNecessaryDataIsAvailable({ component }, eventObject) {
+          const { email, password } = component;
+
+          return email && password;
+        }
+      }
+    });
+
+  // ...
 
   @action
   buttonClicked() {
@@ -183,45 +410,59 @@ sent data will be available in [`guards`](https://xstate.js.org/docs/guides/guar
 on the sent event:
 
 ```js
-export default class MyComponent extends Component {
-  @statechart({
-    initial: 'idle',
-    states: {
-      idle: {
-        on: {
-          SUBMIT: {
-            target: 'busy',
-            cond: 'allNecessaryDataIsAvailable'
-          }
-        }
-      },
-      busy: {
-        onEntry: ['handleSubmit'],
-        on: {
-          RESOLVE: 'success',
-          REJECT: 'error'
-        }
-      },
-      success: {},
-      error: {}
-    }
-  }, {
-    actions: {
-      handleSubmit(context, eventObject) {
-        const { email, password } = eventObject;
+import { Machine } from 'xstate';
 
-        context.loginTask.perform(email, password);
+const submitMachine = Machine({
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        SUBMIT: {
+          target: 'busy',
+          cond: 'allNecessaryDataIsAvailable'
+        }
       }
     },
-    guards: {
-      allNecessaryDataIsAvailable(context, eventObject) {
-        const { email, password } = eventObject;
-
-        return email && password;
+    busy: {
+      onEntry: ['handleSubmit'],
+      on: {
+        RESOLVE: 'success',
+        REJECT: 'error'
       }
-    }
-  })
-  statechart;
+    },
+    success: {},
+    error: {}
+  }
+}, {
+  actions: {
+    handleSubmit(/* context, eventObject */) {}
+  },
+  guards: {
+    allNecessaryDataIsAvailable(/* context, eventObject */) {}
+  }
+});
+
+export default class MyComponent extends Component {
+  @use statechart = useMachine(submitMachine)
+    .withContext({
+      component: this
+    })
+    .withConfig({
+      actions: {
+        handleSubmit({ component }, eventObject) {
+          const { email, password } = eventObject;
+
+          component.loginTask.perform(email, password);
+        }
+      },
+      guards: {
+        allNecessaryDataIsAvailable(context, eventObject) {
+          const { email, password } = eventObject;
+
+          return email && password;
+        }
+      }
+    });
 
   // ...
 
@@ -237,14 +478,17 @@ export default class MyComponent extends Component {
 ## Matching state
 
 You can declaratively react to state changes in your statechart by making use
-of the `matchesState`-computed-macro. This means that when you want to for
+of the `matchesState`-decorator. This means that when you want to for
 example display a button component differently based on the state it finds
 itself in this is very easy to do with `ember-statecharts`:
 
 ```js
+import { use } from 'ember-usable';
+import { matchesState, useMachine} from 'ember-statecharts';
+
 export default class MyComponent extends Component {
   // ...
-  @statechart({
+  @use statechart = useMachine({
     initial: 'idle',
     states: {
       idle: {
@@ -262,14 +506,11 @@ export default class MyComponent extends Component {
       success: {},
       error: {}
     }
-  }, {
-    // ...
-  })
-  statechart;
+  });
 
   @matchesState('error')
   didError;
-});
+}
 ```
 
 ```hbs

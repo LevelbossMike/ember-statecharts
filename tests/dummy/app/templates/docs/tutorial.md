@@ -333,7 +333,7 @@ nothing happens. Because the `busy`-state does not handle the `SUBMIT`-event
 it won't trigger the `submitTask` again.
 
 When we want to keep the UI in sync with the statechart's state we can do this by
-using the `matchesState`-decorator. 
+using the `matchesState`-decorator.
 
 ```js
 // ...
