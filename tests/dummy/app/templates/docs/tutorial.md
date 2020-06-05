@@ -339,7 +339,8 @@ using the `matchesState`-decorator.
 // ...
 export default class MyComponent extends Component {
   // ...
-  @matchesState('busy')
+  // the second param is optional if the statechart is called `statechart`
+  @matchesState('busy', 'statechart')
   isBusy;
 
   @use statechart = useMachine({

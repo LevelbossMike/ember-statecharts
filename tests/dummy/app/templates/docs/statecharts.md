@@ -508,7 +508,7 @@ export default class MyComponent extends Component {
     }
   });
 
-  @matchesState('error')
+  @matchesState('error', 'statechart')
   didError;
 }
 ```
@@ -526,10 +526,10 @@ states:
 
 ```js
 // atomic state node
-@matchesState('idle')
+@matchesState('idle', 'statechart')
 
 // nested state
-@matchesState({ error: 'apiError' })
+@matchesState({ error: 'apiError' }, 'statechart')
 
 // parallel state
 @matchesState({
@@ -537,10 +537,11 @@ states:
   interaction: {
     changed: 'fieldBlurred'
   }
-})
+}, 'statechart')
 
-// matching multiple states
-@matchesState(['invalid', { error: 'remoteValidationError' }])
+// the second param to `matchesState` is optional when the statechart property
+// is called `statechart`
+@matchesState('idle')
 ```
 
 ## Visualizing statecharts
