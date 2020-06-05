@@ -1,9 +1,10 @@
 // BEGIN-SNIPPET quickstart-button-final.js
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { or } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
-import { statechart, matchesState } from 'ember-statecharts/computed';
+import { use } from 'ember-usable';
+import { matchesState, useMachine } from 'ember-statecharts';
+import quickstartButtonRefinedMachine from '../machines/quickstart-button-refined';
 
 function noop() {}
 
@@ -29,94 +30,32 @@ export default class QuickstartButtonFinal extends Component {
   @matchesState({ interactivity: 'unknown' })
   isInteractivityUnknown;
 
-  @or('isDisabled', 'isBusy', 'isInteractivityUnknown')
-  showAsDisabled;
+  get showAsDisabled() {
+    const { isDisabled, isBusy, isInteractivityUnknown } = this;
 
-  @statechart(
-    {
-      type: 'parallel',
-      states: {
-        interactivity: {
-          initial: 'unknown',
-          states: {
-            unknown: {
-              on: {
-                ENABLE: 'enabled',
-                DISABLE: 'disabled',
-              },
-            },
-            enabled: {
-              on: {
-                DISABLE: 'disabled',
-              },
-            },
-            disabled: {
-              on: {
-                ENABLE: 'enabled',
-              },
-            },
-          },
-        },
-        activity: {
-          initial: 'idle',
-          states: {
-            idle: {
-              on: {
-                SUBMIT: {
-                  target: 'busy',
-                  cond: 'isEnabled',
-                },
-              },
-            },
-            busy: {
-              entry: ['handleSubmit'],
-              on: {
-                SUCCESS: 'success',
-                ERROR: 'error',
-              },
-            },
-            success: {
-              entry: ['handleSuccess'],
-              on: {
-                SUBMIT: {
-                  target: 'busy',
-                  cond: 'isEnabled',
-                },
-              },
-            },
-            error: {
-              entry: ['handleError'],
-              on: {
-                SUBMIT: {
-                  target: 'busy',
-                  cond: 'isEnabled',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    {
+    return isDisabled || isBusy || isInteractivityUnknown;
+  }
+
+  @use statechart = useMachine(quickstartButtonRefinedMachine)
+    .withContext({ component: this })
+    .withConfig({
       actions: {
-        handleSubmit(context) {
-          context.handleSubmitTask.perform();
+        handleSubmit({ component }) {
+          component.handleSubmitTask.perform();
         },
-        handleSuccess(context) {
-          context.onSuccess();
+        handleSuccess({ component }) {
+          component.onSuccess();
         },
-        handleError(context) {
-          context.onError();
+        handleError({ component }) {
+          component.onError();
         },
       },
       guards: {
-        isEnabled(context) {
-          return !context.isDisabled;
+        isEnabled({ component }) {
+          return !component.isDisabled;
         },
       },
-    }
-  )
-  statechart;
+    });
 
   @task(function* () {
     try {
