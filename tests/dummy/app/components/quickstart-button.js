@@ -1,7 +1,6 @@
 // BEGIN-SNIPPET quickstart-button.js
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { or } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 import { matchesState, useMachine } from 'ember-statecharts';
 import { use } from 'ember-usable';
@@ -43,8 +42,9 @@ export default class QuickstartButton extends Component {
   @matchesState('busy')
   isBusy;
 
-  @or('isBusy', 'args.disabled')
-  isDisabled;
+  get isDisabled() {
+    return this.isBusy || this.args.disabled;
+  }
 
   @task(function* () {
     try {
