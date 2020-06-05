@@ -544,6 +544,12 @@ states:
 @matchesState('idle')
 ```
 
+## Legacy api
+
+`ember-statecharts` still ships with the legacy `computed`-macro api. If you
+want to see the documentation about how to use this api please refer to the
+[0.9.x-version](https://ember-statecharts.com/versions/v0.9.0/) of this docs page.
+
 ## Visualizing statecharts
 
 To visualize your statecharts you can use the [xstate visualizer](https://xstate.js.org/viz/).
