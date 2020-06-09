@@ -34,15 +34,15 @@ jobs:
     - stage: "Tests"
       name: "Tests"
       script:
-        - npm run lint
-        - npm run test:ember
+        - yarn lint
+        - yarn test:ember
 
     - stage: "Additional Tests"
       name: "Floating Dependencies"
       install:
-        - npm install --no-package-lock
+        - yarn install --no-lockfile --non-interactive
       script:
-        - npm run test:ember
+        - yarn test:ember
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
@@ -51,6 +51,13 @@ jobs:
     - env: EMBER_TRY_SCENARIO=ember-beta
     - env: EMBER_TRY_SCENARIO=ember-canary
     - env: EMBER_TRY_SCENARIO=ember-default-with-jquery
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+install:
+  - yarn install --non-interactive
 
 script:
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
