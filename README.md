@@ -52,11 +52,54 @@ In addition to their modeling capabilities Statecharts are executable and can be
 ```js
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { or } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
-import { statechart, matchesState } from 'ember-statecharts/computed';
+
+import { matchesState, useMachine } from 'ember-statecharts';
+import { Machine } from 'xstate';
+
+// @use (https://github.com/emberjs/rfcs/pull/567) is still WIP
+import { use } from 'ember-usable';
 
 function noop() {}
+
+const buttonMachine = Machine(
+  {
+    initial: 'idle',
+    states: {
+      idle: {
+        on: {
+          SUBMIT: 'busy',
+        },
+      },
+      busy: {
+        entry: ['handleSubmit'],
+        on: {
+          SUCCESS: 'success',
+          ERROR: 'error',
+        },
+      },
+      success: {
+        entry: ['handleSuccess'],
+        on: {
+          SUBMIT: 'busy',
+        },
+      },
+      error: {
+        entry: ['handleError'],
+        on: {
+          SUBMIT: 'busy',
+        },
+      },
+    },
+  },
+  {
+    actions: {
+      handleSubmit() {},
+      handleSuccess() {},
+      handleError() {},
+    },
+  }
+);
 
 export default class QuickstartButton extends Component {
   get onClick() {
@@ -71,57 +114,30 @@ export default class QuickstartButton extends Component {
     return this.args.onError || noop;
   }
 
+  @use statechart = useMachine(buttonMachine)
+    .withContext({
+      component: this,
+    })
+    .withConfig({
+      actions: {
+        handleSubmit({ component }) {
+          component.handleSubmitTask.perform();
+        },
+        handleSuccess({ component }) {
+          component.onSuccess();
+        },
+        handleError({ component }) {
+          component.onError();
+        },
+      },
+    });
+
   @matchesState('busy')
   isBusy;
 
-  @or('isBusy', 'args.disabled')
-  isDisabled;
-
-  @statechart(
-    {
-      initial: 'idle',
-      states: {
-        idle: {
-          on: {
-            CLICK: 'busy',
-          },
-        },
-        busy: {
-          entry: ['handleClick'],
-          on: {
-            SUCCESS: 'success',
-            ERROR: 'error',
-          },
-        },
-        success: {
-          entry: ['handleSuccess'],
-          on: {
-            CLICK: 'busy',
-          },
-        },
-        error: {
-          entry: ['handleError'],
-          on: {
-            CLICK: 'busy',
-          },
-        },
-      },
-    },
-    {
-      actions: {
-        handleClick(context) {
-          context.handleClickTask.perform();
-        },
-        handleSuccess(context) {
-          context.onSuccess();
-        },
-        handleError(context) {
-          context.onError();
-        },
-      },
-    }
-  )
-  statechart;
+  get isDisabled() {
+    return this.isBusy || this.args.disabled;
+  }
 
   @task(function* () {
     try {
@@ -131,11 +147,11 @@ export default class QuickstartButton extends Component {
       this.statechart.send('ERROR', { error: e });
     }
   })
-  handleClickTask;
+  handleSubmitTask;
 
   @action
   handleClick() {
-    this.statechart.send('CLICK');
+    this.statechart.send('SUBMIT');
   }
 }
 ```
