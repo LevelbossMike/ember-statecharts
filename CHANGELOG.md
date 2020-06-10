@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.10.0-beta.1...v0.10.0) (2020-06-10)
+
+
+### Bug Fixes
+
+* `or` not working with new `matchesState` ([118e163](https://github.com/LevelbossMike/ember-statecharts/commit/118e16328f7da96704dc29faab7636841d7c4f2b))
+
 # [0.10.0-beta.1](https://github.com/LevelbossMike/ember-statecharts/compare/v0.9.0...v0.10.0-beta.1) (2020-06-04)
 
 
