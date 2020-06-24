@@ -93,7 +93,7 @@
       "internal": ":house: Internal"
     }
   },
-  "homepage": "https://www.ember-statecharts.com",
+  "homepage": "https://ember-statecharts.com/",
   "release-it": {
     "git": {
       "commitMessage": "chore: release v${version}"
