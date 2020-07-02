@@ -577,6 +577,225 @@ module('Unit | use-machine', function (hooks) {
     });
   });
 
+  module('changes to arguments passed to `useMachine` et al. can be handled', function () {
+    test('`update` callback is called', async function (assert) {
+      const testContext = this;
+
+      const counterMachine = Machine(
+        {
+          initial: 'active',
+          context: {
+            count: 0,
+          },
+          states: {
+            active: {
+              on: {
+                INCREMENT: {
+                  target: 'active',
+                  actions: ['incrementCounter'],
+                },
+              },
+            },
+          },
+        },
+        {
+          actions: {
+            incrementCounter: actions.assign({
+              count: (context) => context.count + 1,
+            }),
+          },
+        }
+      );
+
+      class Test extends Component {
+        @use statechart = useMachine(counterMachine)
+          .withContext({
+            count: this.args.initialCount,
+          })
+          .update(() => {
+            assert.step('update called');
+          });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+
+          // access usable to setup usable
+          this.statechart;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      this.set('initialCount', 0);
+
+      await render(hbs`
+        <Test @initialCount={{this.initialCount}}/>
+      `);
+
+      this.set('initialCount', 9000);
+
+      assert.verifySteps(['update called']);
+    });
+
+    test('events can be send to the interpreter', async function (assert) {
+      const testContext = this;
+
+      const counterMachine = Machine(
+        {
+          initial: 'active',
+          context: {
+            count: 0,
+          },
+          states: {
+            active: {
+              on: {
+                INCREMENT: {
+                  target: 'active',
+                  actions: ['incrementCounter'],
+                },
+                RESET_COUNT: {
+                  target: 'active',
+                  actions: ['resetCounter'],
+                },
+              },
+            },
+          },
+        },
+        {
+          actions: {
+            incrementCounter: actions.assign({
+              count: (context) => context.count + 1,
+            }),
+          },
+        }
+      );
+
+      class Test extends Component {
+        @use statechart = useMachine(counterMachine)
+          .withContext({
+            count: this.args.initialCount,
+          })
+          .withConfig({
+            actions: {
+              resetCounter() {
+                assert.step('resetCounter action called');
+              },
+            },
+          })
+          .update(({ send }) => {
+            send('RESET_COUNT');
+          });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+
+          // access usable to setup usable
+          this.statechart;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      this.set('initialCount', 0);
+
+      await render(hbs`
+        <Test @initialCount={{this.initialCount}}/>
+      `);
+
+      this.set('initialCount', 9000);
+
+      assert.verifySteps(['resetCounter action called']);
+    });
+
+    test('the interpreter can be resetup with updated values', async function (assert) {
+      const testContext = this;
+
+      const counterMachine = Machine(
+        {
+          initial: 'inactive',
+          context: {
+            count: 0,
+          },
+          states: {
+            inactive: {
+              on: {
+                ACTIVATE: 'active',
+              },
+            },
+            active: {
+              on: {
+                INCREMENT: {
+                  target: 'active',
+                  actions: ['incrementCounter'],
+                },
+              },
+            },
+          },
+        },
+        {
+          actions: {
+            incrementCounter: actions.assign({
+              count: (context) => context.count + 1,
+            }),
+          },
+        }
+      );
+
+      class Test extends Component {
+        @use statechart = useMachine(counterMachine)
+          .withContext({
+            count: this.args.initialCount,
+          })
+          .update(({ restart }) => {
+            restart();
+          });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+
+          // access usable to setup usable
+          this.statechart;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      this.set('initialCount', 0);
+
+      await render(hbs`
+        <Test @initialCount={{this.initialCount}}/>
+      `);
+
+      this.test.statechart.send('ACTIVATE');
+
+      assert.equal(
+        this.test.statechart.state.value,
+        'active',
+        'statechart transitioned into `active`'
+      );
+
+      this.set('initialCount', 9000);
+
+      assert.equal(
+        this.test.statechart.state.value,
+        'inactive',
+        'statechart was restarted and is in initial state `inactive`'
+      );
+
+      assert.equal(
+        this.test.statechart.state.context.count,
+        9000,
+        'statechart was restarted with updated count'
+      );
+    });
+  });
+
   test('`useMachine` works with `matchesState`', async function (assert) {
     const testContext = this;
     const { TestMachine } = this;
