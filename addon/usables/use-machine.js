@@ -7,7 +7,7 @@ import { DEBUG } from '@glimmer/env';
 import { warn } from '@ember/debug';
 
 export const ARGS_STATE_CHANGE_WARNING =
-  'A change to passed `args` or a local state change triggered an update to a `useMachine`-usable. This is currently unsupported and should probably be handled explicitly in your xstate-machine. If you feel this is necessary behavior that should be supported by `ember-statecharts` please raise this as an issue and provide an example of what you are trying to do.';
+  'A change to passed `args` or a local state change triggered an update to a `useMachine`-usable. You can send a dedicated event to the machine or restart it so this is handled. This is done via the `.update`-hook of the `useMachine`-usable.';
 
 export class InterpreterService {
   @tracked service;
@@ -69,14 +69,33 @@ export class MachineInterpreterManager {
     interpreter.setup();
   }
 
-  updateUsable() {
-    // not sure if it makes sense to support this - issue warning
-    warn(ARGS_STATE_CHANGE_WARNING, false, { id: 'statecharts.use-machine.args-state-change' });
+  updateUsable(bucket, configurableMachineDefinition) {
+    const { interpreter } = bucket;
+    const { args, _update } = configurableMachineDefinition;
+
+    if (_update) {
+      const { machine, context, config } = args;
+      _update({
+        machine,
+        context,
+        config,
+        send: interpreter.service.send,
+        restart: this.restartUsable.bind(this, bucket, configurableMachineDefinition),
+      });
+    } else {
+      warn(ARGS_STATE_CHANGE_WARNING, false, { id: 'statecharts.use-machine.args-state-change' });
+    }
   }
 
   teardownUsable({ interpreter }) {
     // teardown interpreter
     interpreter.teardown();
+  }
+
+  restartUsable(bucket, configurableMachineDefinition) {
+    this.teardownUsable(bucket);
+    bucket.interpreter = this.createUsable(bucket, configurableMachineDefinition).interpreter;
+    this.setupUsable(bucket);
   }
 }
 const createMachineInterpreterManager = () => {
@@ -93,17 +112,31 @@ export default function useMachine(machine, interpreterOptions = {}) {
 
   configurableMachineDefinition.machine = machine;
   configurableMachineDefinition.interpreterOptions = interpreterOptions;
+  configurableMachineDefinition.args = {
+    machine,
+    interpreterOptions,
+  };
+
+  configurableMachineDefinition.update = function (fn) {
+    configurableMachineDefinition._update = fn;
+    return configurableMachineDefinition;
+  };
 
   configurableMachineDefinition.withConfig = function (config) {
     configurableMachineDefinition.machine = configurableMachineDefinition.machine.withConfig(
       config
     );
+    configurableMachineDefinition.args.machine = configurableMachineDefinition.machine;
+    configurableMachineDefinition.args.config = config;
     return configurableMachineDefinition;
   };
+
   configurableMachineDefinition.withContext = function (context) {
     configurableMachineDefinition.machine = configurableMachineDefinition.machine.withContext(
       context
     );
+    configurableMachineDefinition.args.machine = configurableMachineDefinition.machine;
+    configurableMachineDefinition.args.context = context;
     return configurableMachineDefinition;
   };
 
