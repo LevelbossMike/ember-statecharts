@@ -1,0 +1,34 @@
+<div class="docs">
+  Counter Count: {{this.statechart.state.context.count}}
+</div>
+<div class="docs-flex docs-justify-between">
+  <div>
+    {{#if this.isActive}}
+      <UiButton
+        {{on "click" this.deactivate}}
+      >
+        Deactivate
+      </UiButton>
+    {{else}}
+      <UiButton
+        {{on "click" this.activate}}
+      >
+        Activate
+      </UiButton>
+    {{/if}}
+  </div>
+  <div>
+    <UiButton
+      class="{{if this.isDisabled "docs-cursor-not-allowed docs-opacity-50"}}"
+      {{on "click" this.decrement}}
+    >
+      -
+    </UiButton>
+    <UiButton
+      class="{{if this.isDisabled "docs-cursor-not-allowed docs-opacity-50"}}"
+      {{on "click" this.increment}}
+    >
+      +
+    </UiButton>
+  </div>
+</div>
