@@ -10,8 +10,7 @@ export default Machine(
         states: {
           unknown: {
             on: {
-              ENABLE: 'enabled',
-              DISABLE: 'disabled',
+              '': [{ target: 'enabled', cond: 'isEnabled' }, { target: 'disabled' }],
             },
           },
           enabled: {
@@ -68,19 +67,13 @@ export default Machine(
   },
   {
     actions: {
-      handleSubmit(context) {
-        context.handleSubmitTask.perform();
-      },
-      handleSuccess(context) {
-        context.onSuccess();
-      },
-      handleError(context) {
-        context.onError();
-      },
+      handleSubmit() {},
+      handleSuccess() {},
+      handleError() {},
     },
     guards: {
       isEnabled(context) {
-        return !context.isDisabled;
+        return !context.disabled;
       },
     },
   }
