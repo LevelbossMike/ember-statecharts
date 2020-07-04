@@ -1,3 +1,24 @@
+# [0.11.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.9.0...v0.11.0) (2020-07-04)
+
+
+### Bug Fixes
+
+* `or` not working with new `matchesState` ([2168822](https://github.com/LevelbossMike/ember-statecharts/commit/2168822e0e26ca90971bf57f9fc6ee942126eeb5))
+* allow interpreter options to be passed to override devTool / other things if desired (except the clock) ([997bc9e](https://github.com/LevelbossMike/ember-statecharts/commit/997bc9e1a97c2999168ae7f1be3402a7ebbce4bd))
+* check for passed in machine ([ce31e89](https://github.com/LevelbossMike/ember-statecharts/commit/ce31e8916f391452d43909628d391cf94460d446))
+* handle machine creation in useMachine function ([22e35b8](https://github.com/LevelbossMike/ember-statecharts/commit/22e35b8475f2bd0d65427ff788aec4a8c5196fb9))
+* Update CHANGELOG.md v0.10.0-beta.0 ([2060e40](https://github.com/LevelbossMike/ember-statecharts/commit/2060e40aa457e594b5f973510c4dd8def8192490))
+
+
+### Features
+
+* add `.update`-hook for handling usable updates ([fd31747](https://github.com/LevelbossMike/ember-statecharts/commit/fd317472dcff8de372fe5657b6105378b1c04351))
+* Add type definitions ([4329796](https://github.com/LevelbossMike/ember-statecharts/commit/4329796c1e75c62a99ae2934d76e87d1d4f490c4))
+* expose interpreted machine service ([8065939](https://github.com/LevelbossMike/ember-statecharts/commit/80659398462068d6f209afa2e74412936408e0b7))
+* implement `useMachine` ([d7ce532](https://github.com/LevelbossMike/ember-statecharts/commit/d7ce5327d511aa26db9d8ea3a688c60ea4118721))
+* support machine configs ([59ff076](https://github.com/LevelbossMike/ember-statecharts/commit/59ff0761813616f047bbefcbddf1540bd9801ae6))
+* warn about usable-updates on args/state changes ([d278f97](https://github.com/LevelbossMike/ember-statecharts/commit/d278f976eecbec6e147cf430bf31045bd0643904))
+
 # [0.10.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.10.0-beta.1...v0.10.0) (2020-06-10)
 
 
