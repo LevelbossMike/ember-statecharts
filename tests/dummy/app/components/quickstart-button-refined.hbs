@@ -7,8 +7,6 @@
     {{if this.showAsDisabled "docs-cursor-not-allowed docs-opacity-50"}}
   "
   {{on "click" this.handleClick}}
-  {{did-insert this.handleDisabled @disabled}}
-  {{did-update this.handleDisabled @disabled}}
   disabled={{this.isDisabled}}
   ...attributes
 >

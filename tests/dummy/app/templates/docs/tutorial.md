@@ -25,11 +25,6 @@ passed to it. When the executed action takes time the button should indicate thi
 
 ## Modeling behavior
 
-<div class="docs-mb-6 docs-text-grey-dark docs-text-xxs">
-  If arrows in the vizualizations are a bit off try to change the browser
-  width - this will fix the arrows
-</div>
-
 We will model our behavior visually by putting our button statechart configuration
  into [`xState`'s visualizer tool](https://xstate.js.org/viz). We start by creating an `idle` and
 `busy`-state - because the button can either sit around `idle` ready to be clicked or
@@ -296,15 +291,19 @@ and paste these out of the statechart-editor directly and paste them back into
 the editor when we want to see how they work.
 
 We then have to hook up the imported `machine` with our component. We can use
-the `withContext` and `withConfig` that are available when using `useMachine`.
+the `withContext`- and `withConfig`-hooks that are available when using `useMachine`.
 
 The nice thing about this is that we keep the behavior separate from our
 component implementation. The component that decides to use the statechart
 defines what it expects to happen as external effects when the statechart
-executes its behavior. We also define the `context` of the statechart
-explicitly when using `useMachine` - in this case we define a reference
-`component` on the statechart context so that we can access the component
-instance directly when the statechart executes its actions.
+executes its behavior - we use the `withConfig`- hook to do this.
+
+In our case
+we tell the statechart to trigger the `performSubmitTask`-function and what
+should happen when the async action triggered succeeds or errors. Because we
+define these functions on the statechart itself we need to bind them to the
+component instance - we do this by using the `@action`-decorator that Ember
+provides in our example. If we didn't want to use `@action` we could use  [Function.prototype.bind](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) to achieve the same effect.
 
 You can see the final component in action here:
 
@@ -379,6 +378,7 @@ We can model two concurrent behaviors - interactivity and activity in our exampl
 with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
 
 
+
 ```js
 {
   type: 'parallel',
@@ -388,21 +388,26 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
       states: {
         unknown: {
           on: {
-            ENABLE: 'enabled',
-            DISABLE: 'disabled'
-          }
+            '': [
+              {
+                target: 'enabled',
+                cond: 'isEnabled'
+              },
+              { target: 'disabled' }
+            ],
+          },
         },
         enabled: {
           on: {
-            DISABLE: 'disabled'
-          }
+            DISABLE: 'disabled',
+          },
         },
         disabled: {
           on: {
-            ENABLE: 'enabled'
-          }
-        }
-      }
+            ENABLE: 'enabled',
+          },
+        },
+      },
     },
     activity: {
       initial: 'idle',
@@ -410,65 +415,74 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
         idle: {
           on: {
             SUBMIT: {
-              target: 'busy', cond: 'isEnabled'
-            }
-          }
+              target: 'busy',
+              cond: 'isEnabled',
+            },
+          },
         },
         busy: {
           entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
-            ERROR: 'error'
-          }
+            ERROR: 'error',
+          },
         },
         success: {
           entry: ['handleSuccess'],
           on: {
-           SUBMIT: {
-             target: 'busy', cond: 'isEnabled'
-           }
-          }
+            SUBMIT: {
+              target: 'busy',
+              cond: 'isEnabled',
+            },
+          },
         },
         error: {
           entry: ['handleError'],
           on: {
-           SUBMIT: {
-             target: 'busy', cond: 'isEnabled'
-           }
-          }
+            SUBMIT: {
+              target: 'busy',
+              cond: 'isEnabled',
+            },
+          },
         },
-      }
-    }
-  }
-}, {
+      },
+    },
+  },
+},
+{
   actions: {
     handleSubmit() {},
     handleSuccess() {},
-    handleError() {}
+    handleError() {},
   },
   guards: {
     isEnabled(context) {
-      return context.isEnabled;
-    } 
+      return !context.disabled;
+    },
   },
 }
 ```
+To decide in which state - disabled or enabled - we "start" out in when we
+first render the component we can make use of a [transient transition](https://xstate.js.org/docs/guides/transitions.html#transient-transitions). I.e. we will check the disabled property
+of the statechart's context and transition into `disabled` or `enabled` based
+on that property.
 
 You can play with the `context`-property on the statechart visualization to
-simulate a property that would be set from the outside in your Ember.js
+simulate a `disabled`-property that would be set from the outside in your Ember.js
 application.
 
 <iframe
   class="docs-h-128 docs-w-full"
- src="https://xstate.js.org/viz/?gist=4618189a77e8564c237af21119062f99&embed=1"
+ src="https://xstate.js.org/viz/?gist=1b7e330cb49ccc3367b293651fa89377&embed=1"
 />
 
-This is great! To refine this behavior we barely had to touch the existing statechart. We
-created a parallel state `interactivity` that implemenents behavior to make it
-possible to `ENABLE` or `DISABLE` the button. The parallel `activity`-state
-needs to take the `interactivity` into account when deciding if we want to transition
-into different substates when the statechart receives the `SUBMIT`-event but
-other than that we can be sure our component behaves the same way as it did before.
+This is great! To refine this behavior we barely had to touch the existing
+statechart - we only extended existing behavior. We created a parallel state
+`interactivity` that implemenents behavior to make it possible to `ENABLE` or
+`DISABLE` the button. The parallel `activity`-state needs to take the `interactivity`
+into account when deciding if we want to transition into different substates
+when the statechart receives the `SUBMIT`-event but other than that we can be
+sure our component behaves the same way as it did before.
 
 ### Handling external changes - `@disabled={{true}}`
 
@@ -490,40 +504,65 @@ because something outside of the component changed the `disabled`-parameter.
 
 
 This means we need to send an event to our button's statechart every time the
-`disabled`-argument changes. We can handle this with the
-[@ember/render-modifiers](https://github.com/emberjs/ember-render-modifiers)-addon.
-
-```hbs
-<button
-  {{!-- ... --}}
-
-  {{!-- handle @disabled when rendering --}}
-  {{did-insert this.handleDisabled @disabled}}
-  {{!-- handle @disable on every change --}}
-  {{did-update this.handleDisabled @disabled}}
-
-  {{!-- ... --}}
->
-```
-
-Finally we need to add the `handleDisabled`-action to our component code to
-notify our statechart of the argument change:
+`disabled`-argument changes. We can use the [`.update`-hook](http://localhost:4200/docs/statecharts#-update-reacting-to-changes-to-usemachine) that
+`useMachine`-provides to do that:
 
 ```js
 export default class QuickstartButton extends Component {
   // ...
 
-  @action
-  handleDisabled(_element, [disabled]) {
-    if (disabled) {
-      this.statechart.send('DISABLE');
-    } else {
-      this.statechart.send('ENABLE');
-    }
-  }
+  @use statechart = useMachine(quickstartButtonRefinedMachine)
+    .withContext({
+      disabled: this.args.disabled,
+    })
+    .withConfig({
+      actions: {
+        handleSubmit: this.performSubmitTask,
+        handleSuccess: this.onSuccess,
+        handleError: this.onError,
+      },
+      guards: {
+        isEnabled({ disabled }) {
+          return !disabled;
+        },
+      },
+    })
+    .update(({ send, context }) => {
+      const { disabled } = context;
+
+      if (disabled) {
+        send('DISABLE');
+      } else {
+        send('ENABLE');
+      }
+    });
+  // ...
 }
 ```
 
+First we define the statechart's `context` object via `withContext`. In our
+case the statechart's context is a plain object with a `disabled` property that
+depends on the passed `disabled` argument. Whenever this property set from the
+outside changes `useMachine` will reevaluate and trigger its `update`-hook. In
+the `update`-hook we can send an event to the statechart based on the new
+`context`-object that `withContext` will evaluate to.
+
+So in our example we will send the `DISABLE` or `ENABLE` event based on what
+was passed for `args.disabled`.
+
+The `update`-hook will trigger every time a property passed to `useMachine`,
+`withContext` or `withConfig` changes. `update` will be passed an object with
+the following structure:
+
+```
+send: Function - a function to send an event to the statechart
+restart:  Function - a function to teardown the old and restart a new interpreter with the new configuration
+machine: The object passed to `useMachine`
+context: the object passed to `withContext`
+config: the object passed to `withConfig`
+```
+
+As you can see we can either `send` an event to the statechart or decide to `restart` the entire statechart. In our case we decided to model the `args`-change explicitly and because we don't want to throw away the existing state of the statechart we opted not to use `restart`.
 
 ### How things look vs. how things behave
 

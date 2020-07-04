@@ -13,14 +13,6 @@ export default class QuickstartButtonFinal extends Component {
     return this.args.onClick || noop;
   }
 
-  get onSuccess() {
-    return this.args.onSuccess || noop;
-  }
-
-  get onError() {
-    return this.args.onError || noop;
-  }
-
   @matchesState({ activity: 'busy' })
   isBusy;
 
@@ -37,24 +29,29 @@ export default class QuickstartButtonFinal extends Component {
   }
 
   @use statechart = useMachine(quickstartButtonRefinedMachine)
-    .withContext({ component: this })
+    .withContext({
+      disabled: this.args.disabled,
+    })
     .withConfig({
       actions: {
-        handleSubmit({ component }) {
-          component.handleSubmitTask.perform();
-        },
-        handleSuccess({ component }) {
-          component.onSuccess();
-        },
-        handleError({ component }) {
-          component.onError();
-        },
+        handleSubmit: this.performSubmitTask,
+        handleSuccess: this.onSuccess,
+        handleError: this.onError,
       },
       guards: {
-        isEnabled({ component }) {
-          return !component.isDisabled;
+        isEnabled({ disabled }) {
+          return !disabled;
         },
       },
+    })
+    .update(({ send, context }) => {
+      const { disabled } = context;
+
+      if (disabled) {
+        send('DISABLE');
+      } else {
+        send('ENABLE');
+      }
     });
 
   @task(function* () {
@@ -73,12 +70,18 @@ export default class QuickstartButtonFinal extends Component {
   }
 
   @action
-  handleDisabled(_element, [disabled]) {
-    if (disabled) {
-      this.statechart.send('DISABLE');
-    } else {
-      this.statechart.send('ENABLE');
-    }
+  onSuccess(_context, { result }) {
+    return this.args.onSuccess(result) || noop();
+  }
+
+  @action
+  onError(_context, { error }) {
+    return this.args.onError(error) || noop();
+  }
+
+  @action
+  performSubmitTask() {
+    this.handleSubmitTask.perform();
   }
 }
 // END-SNIPPET
