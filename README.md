@@ -106,29 +106,15 @@ export default class QuickstartButton extends Component {
     return this.args.onClick || noop;
   }
 
-  get onSuccess() {
-    return this.args.onSuccess || noop;
-  }
-
-  get onError() {
-    return this.args.onError || noop;
-  }
-
   @use statechart = useMachine(buttonMachine)
     .withContext({
-      component: this,
+      disabled: this.args.disabled
     })
     .withConfig({
       actions: {
-        handleSubmit({ component }) {
-          component.handleSubmitTask.perform();
-        },
-        handleSuccess({ component }) {
-          component.onSuccess();
-        },
-        handleError({ component }) {
-          component.onError();
-        },
+        handleSubmit: this.performSubmitTask,
+        handleSuccess: this.onSuccess,
+        handleError: this.onError,
       },
     });
 
@@ -152,6 +138,21 @@ export default class QuickstartButton extends Component {
   @action
   handleClick() {
     this.statechart.send('SUBMIT');
+  }
+
+  @action
+  onSuccess(_context, { result }) {
+    return this.args.onSuccess(result) || noop();
+  }
+
+  @action
+  onError(_context, { error }) {
+    return this.args.onError(error) || noop();
+  }
+
+  @action
+  performSubmitTask() {
+    this.handleSubmitTask.perform();
   }
 }
 ```
