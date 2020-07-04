@@ -544,6 +544,82 @@ states:
 @matchesState('idle')
 ```
 
+## `.update` - Reacting to changes to `useMachine`
+
+When args or state passed to `useMachine`, `withConfig` or `withContext` change
+users are able to react to the change without needing to use
+[@ember/render-modifiers](https://github.com/emberjs/ember-render-modifiers) or
+[ember-render-helpers](https://github.com/buschtoens/ember-render-helpers) to
+send an event to the statechart.
+
+To demonstrate this behavior we'll create a `CounterMachine` that implements
+counting behavior. The component that uses it will be passed a `count`-arg.
+Whenever this arg changes we want to react to the change:
+
+We can react to the change in two ways.
+
+1) We send an event to the statechart on `update` and the statechart reacts to
+the change as it would to any other external or internal event - in our case
+this means we reset `context.count` to the count-arg we receive in the update:
+
+<DocsDemo as |demo|>
+  <demo.example>
+    {{!-- BEGIN-SNIPPET counter.md --}}
+    <Counter @count={{this.counterCount}} />
+    <div class="docs-flex docs-justify-end docs-mt-12">
+      <input
+        value={{this.count}}
+        class="docs-border-2 docs-p-1 docs-rounded-sm docs-mr-2"
+        {{on "input" this.updateCount}}
+      >
+      <UiButton
+        {{on "click" this.syncCounterCount}}
+      >
+        Update Counter-Count
+      </UiButton>
+    </div>
+    {{!-- END-SNIPPET --}}
+  </demo.example>
+  <demo.snippet @name="counter-update-event.js" @label="components.js" />
+  <demo.snippet @name="counter-machine.js" @label="counter-machine" />
+  <demo.snippet @name="counter.md" @label="template.hbs" />
+</DocsDemo>
+
+2) We restart the entire underlying [xstate-interpreter](https://xstate.js.org/docs/guides/interpretation.html) and end up with a statechart as if we accessed if for the first
+time with the update `machine`, `context` or `config`. In our case this means
+that we will end up in the `inactive`-state again even if we were in the
+`active` state before.
+
+<DocsDemo as |demo|>
+  <demo.example @name='counter-restart.md'>
+    <CounterRestart @count={{this.counterCount}} />
+    <div class="docs-flex docs-justify-end docs-mt-12">
+      <input
+        value={{this.count}}
+        class="docs-border-2 docs-p-1 docs-rounded-sm docs-mr-2"
+        {{on "input" this.updateCount}}
+      >
+      <UiButton
+        {{on "click" this.syncCounterCount}}
+      >
+        Update Counter-Count
+      </UiButton>
+    </div>
+  </demo.example>
+
+  <demo.snippet @name="counter-update-restart.js" @label="components.js" />
+  <demo.snippet @name="counter-machine.js" @label="counter-machine" />
+  <demo.snippet @name="counter-restart.md" @label="template.hbs" />
+</DocsDemo>
+
+How you choose handle an update to args/state passed to `useMachine` - either
+sending an event or restarting the interpreter - depends on the situation you
+find yourself in. If your situation allows throwing away the current state of
+the statechart restarting could be an option to consider. If you need to
+consider the current state when args change you will most likely find it easier
+to send an event to the statechart instead of restarting the entire
+interpreter.
+
 ## Legacy api
 
 `ember-statecharts` still ships with the legacy `computed`-macro api. If you
