@@ -8,6 +8,14 @@ import {
 // NOTE: there is a lot of repetition here :(
 // Repetition will be less when ember-statecharts _is_ TS?
 
+export type UpdateFnArg = {
+  machine: StateMachine<Context, Schema, Events>;
+  context: Context;
+  config: MachineConfig<Context, Schema, Events>;
+  send: Send<Context, Schema, Events>;
+  restart: () => void;
+};
+export type UpdateFn = (arg: UpdateFnArg) => void;
 
 // Private Types
 // For building the Public Types?
@@ -24,6 +32,7 @@ type InterpretedUsable<Context, Schema, Events extends EventObject> = {
   service: Interpreter<Context, Schema, Events>;
   withConfig: (...args: WithConfigParams<Context, Schema, Events>) => InterpretedUsable<Context, Schema, Events>;
   withContext: (...args: WithContextParams<Context, Schema, Events>) => InterpretedUsable<Context, Schema, Events>;
+  update: (fn: UpdateFn) => InterpretedUsable<Context, Schema, Events>;
 }
 
 type UsableStatechart<Context, Schema, Events extends EventObject> =
