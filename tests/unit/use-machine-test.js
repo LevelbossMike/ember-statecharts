@@ -831,4 +831,169 @@ module('Unit | use-machine', function (hooks) {
       'matchesState updates correctly when state updates'
     );
   });
+
+  module('starting/restarting machine in specific state', function () {
+    test('start - it is possible to start a machine at a specific state', async function (assert) {
+      const testContext = this;
+
+      const machine = Machine({
+        initial: 'inactive',
+        states: {
+          inactive: {
+            on: {
+              START: 'active',
+            },
+          },
+          active: {
+            on: {
+              STOP: 'inactive',
+            },
+          },
+        },
+      });
+
+      class Test extends Component {
+        @use statechart = useMachine(machine, { state: this.args.state });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test @state={{this.state}}/>
+      `);
+
+      this.state = 'active';
+
+      assert.equal(
+        this.test.statechart.state.value,
+        'active',
+        'statechart started in correct state'
+      );
+    });
+
+    module('restart - ', function () {
+      test('calling `restart` will restart interpreter in state passed in interpreterOptions', async function (assert) {
+        const testContext = this;
+
+        const machine = Machine({
+          initial: 'inactive',
+          states: {
+            inactive: {
+              on: {
+                START: 'active',
+              },
+            },
+            active: {
+              on: {
+                STOP: 'inactive',
+              },
+            },
+          },
+        });
+
+        class Test extends Component {
+          @use statechart = useMachine(machine, { state: this.args.state }).update(
+            ({ restart }) => {
+              restart();
+            }
+          );
+
+          constructor(owner, args) {
+            super(owner, args);
+
+            testContext.test = this;
+          }
+        }
+
+        this.owner.register('component:test', Test);
+
+        await render(hbs`
+          <Test @state={{this.state}}/>
+        `);
+
+        assert.equal(
+          this.test.statechart.state.value,
+          'inactive',
+          'no state passed initially - current state is the correct initial state'
+        );
+
+        this.set('state', 'active');
+
+        assert.equal(
+          this.test.statechart.state.value,
+          'active',
+          'state was changed from the outside interpreter was restarted with new state'
+        );
+      });
+
+      test('it is possible to restart the interpreter in a specific state within `update`', async function (assert) {
+        const testContext = this;
+
+        const machine = Machine({
+          id: 'wizard',
+          initial: 'step-a',
+          states: {
+            'step-a': {
+              on: {
+                NEXT: 'step-b',
+              },
+            },
+            'step-b': {
+              on: {
+                NEXT: 'step-c',
+                PREV: 'step-b',
+              },
+            },
+            'step-c': {
+              on: {
+                PREV: 'step-b',
+              },
+            },
+          },
+        });
+
+        class Test extends Component {
+          @use statechart = useMachine(machine)
+            .withContext({
+              currentWizardStep: this.args.step,
+            })
+            .update(({ restart, context: { currentWizardStep } }) => {
+              restart(currentWizardStep);
+            });
+
+          constructor(owner, args) {
+            super(owner, args);
+
+            testContext.test = this;
+          }
+        }
+
+        this.owner.register('component:test', Test);
+
+        await render(hbs`
+          <Test @step={{this.step}}/>
+        `);
+
+        assert.equal(
+          this.test.statechart.state.value,
+          'step-a',
+          'no state passed initially - current state is the correct initial state'
+        );
+
+        this.set('step', 'step-c');
+
+        assert.equal(
+          this.test.statechart.state.value,
+          'step-c',
+          'state was changed from the outside interpreter was restarted with new state'
+        );
+      });
+    });
+  });
 });
