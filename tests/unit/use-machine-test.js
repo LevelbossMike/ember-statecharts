@@ -996,4 +996,52 @@ module('Unit | use-machine', function (hooks) {
       });
     });
   });
+
+  module('#onTransition', function () {
+    test('it is possible to react to state changes', async function (assert) {
+      const testContext = this;
+
+      const machine = Machine({
+        initial: 'inactive',
+        states: {
+          inactive: {
+            on: {
+              START: 'active',
+            },
+          },
+          active: {
+            on: {
+              STOP: 'inactive',
+            },
+          },
+        },
+      });
+
+      class Test extends Component {
+        @use statechart = useMachine(machine).onTransition((state) => {
+          assert.step(state.value);
+        });
+
+        constructor(owner, args) {
+          super(owner, args);
+
+          testContext.test = this;
+        }
+      }
+
+      this.owner.register('component:test', Test);
+
+      await render(hbs`
+        <Test @state={{this.state}}/>
+      `);
+
+      this.test.statechart;
+
+      assert.verifySteps(['inactive'], '`onTransition` fired on initial transition');
+
+      this.test.statechart.send('START');
+
+      assert.verifySteps(['active'], '`onTransition` fired on regular state transition');
+    });
+  });
 });

@@ -13,9 +13,10 @@ export class InterpreterService {
   @tracked service;
   @tracked _state;
 
-  constructor(machine, interpreterOptions) {
+  constructor(machine, interpreterOptions, onTransition) {
     this.machine = machine;
     this.interpreterOptions = interpreterOptions || {};
+    this.onTransition = onTransition;
   }
 
   get state() {
@@ -44,6 +45,10 @@ export class InterpreterService {
       this._state = state;
     });
 
+    if (this.onTransition) {
+      this.service.onTransition(this.onTransition);
+    }
+
     this.service.start(setupOptions.initialState || state);
   }
 
@@ -53,10 +58,16 @@ export class InterpreterService {
 }
 
 export class MachineInterpreterManager {
-  createUsable(context, { machine, interpreterOptions }) {
+  createUsable(context, { machine, interpreterOptions, _onTransition }) {
     const owner = getOwner(context);
 
-    const interpreter = new InterpreterService(machine, interpreterOptions);
+    let onTransition;
+
+    if (_onTransition) {
+      onTransition = _onTransition.bind(context);
+    }
+
+    const interpreter = new InterpreterService(machine, interpreterOptions, onTransition);
 
     setOwner(interpreter, owner);
 
@@ -122,6 +133,11 @@ export default function useMachine(machine, interpreterOptions = {}) {
 
   configurableMachineDefinition.update = function (fn) {
     configurableMachineDefinition._update = fn;
+    return configurableMachineDefinition;
+  };
+
+  configurableMachineDefinition.onTransition = function (fn) {
+    configurableMachineDefinition._onTransition = fn;
     return configurableMachineDefinition;
   };
 
