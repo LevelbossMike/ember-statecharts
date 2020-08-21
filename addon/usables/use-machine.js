@@ -26,7 +26,9 @@ export class InterpreterService {
     };
   }
 
-  setup() {
+  setup(setupOptions = {}) {
+    const { state } = this.interpreterOptions;
+
     this.service = interpret(this.machine, {
       devTools: DEBUG,
       ...this.interpreterOptions,
@@ -38,11 +40,11 @@ export class InterpreterService {
           return cancel.call(null, timer);
         },
       },
-    })
-      .onTransition((state) => {
-        this._state = state;
-      })
-      .start();
+    }).onTransition((state) => {
+      this._state = state;
+    });
+
+    this.service.start(setupOptions.initialState || state);
   }
 
   teardown() {
@@ -65,8 +67,8 @@ export class MachineInterpreterManager {
     return interpreter.state;
   }
 
-  setupUsable({ interpreter }) {
-    interpreter.setup();
+  setupUsable({ interpreter, setupOptions }) {
+    interpreter.setup(setupOptions);
   }
 
   updateUsable(bucket, configurableMachineDefinition) {
@@ -92,9 +94,10 @@ export class MachineInterpreterManager {
     interpreter.teardown();
   }
 
-  restartUsable(bucket, configurableMachineDefinition) {
+  restartUsable(bucket, configurableMachineDefinition, state) {
     this.teardownUsable(bucket);
     bucket.interpreter = this.createUsable(bucket, configurableMachineDefinition).interpreter;
+    bucket.setupOptions = { initialState: state };
     this.setupUsable(bucket);
   }
 }
