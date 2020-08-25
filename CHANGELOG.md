@@ -1,5 +1,12 @@
 # [0.12.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.11.0...v0.12.0) (2020-08-25)
 
+
+### Features
+
+* add `onTransition`-hook for useMachine ([462c518](https://github.com/LevelbossMike/ember-statecharts/commit/462c51800e32e5ecc49f2e3f917e45015ea3b750))
+* start/restart in specific state is now possible([1d3e2a2](https://github.com/LevelbossMike/ember-statecharts/commit/1d3e2a2a029f5c4182591442c9d1c50fc797ebc8))
+* add types for new update method ([acf2b5d](https://github.com/LevelbossMike/ember-statecharts/commit/acf2b5dc14d77e16cde74bae5fec0433ce7e89e4))
+
 # [0.11.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.9.0...v0.11.0) (2020-07-04)
 
 
