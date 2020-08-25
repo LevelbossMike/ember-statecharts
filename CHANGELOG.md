@@ -1,3 +1,5 @@
+# [0.12.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.11.0...v0.12.0) (2020-08-25)
+
 # [0.11.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.9.0...v0.11.0) (2020-07-04)
 
 
