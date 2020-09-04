@@ -28,11 +28,13 @@ function debugState(statechartPropertyName = 'statechart') {
 }
 
 function statechart(config, options) {
+  /* eslint-disable ember/require-computed-property-dependencies */
   return computed(function () {
     const initialContext = this;
 
     const statechart = new Statechart(config, options, initialContext);
 
+    /* eslint-disable ember/no-side-effects */
     this.willDestroy = decorateStopInterpreterOnDestroy(this.willDestroy, statechart.service);
 
     return statechart;
