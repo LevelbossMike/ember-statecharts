@@ -2,7 +2,7 @@
 
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -11,13 +11,7 @@ module.exports = {
     },
   },
   plugins: ['ember', 'prettier'],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:ember/recommended',
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
   },
@@ -27,6 +21,18 @@ module.exports = {
     'ember/no-jquery': 'error',
   },
   overrides: [
+    // use different parser for ts files
+    {
+      files: ['**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:ember/recommended',
+        'prettier/@typescript-eslint',
+        'plugin:prettier/recommended',
+      ],
+    },
     // node files
     {
       files: [
