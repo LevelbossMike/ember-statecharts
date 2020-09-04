@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   interpret,
   createMachine,
@@ -183,7 +184,7 @@ export class MachineInterpreterManager<
   TTypestate extends Typestate<TContext> = { value: any; context: TContext }
 > {
   createUsable(
-    context: any,
+    context: unknown,
     {
       machine,
       interpreterOptions,
