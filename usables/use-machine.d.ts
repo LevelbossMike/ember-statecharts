@@ -143,7 +143,7 @@ export declare class MachineInterpreterManager<
   }
 > {
   createUsable(
-    context: any,
+    context: unknown,
     {
       machine,
       interpreterOptions,
