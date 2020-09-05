@@ -620,6 +620,38 @@ consider the current state when args change you will most likely find it easier
 to send an event to the statechart instead of restarting the entire
 interpreter.
 
+## `.onTransition`
+
+Sometimes you don't want to react to a particular state change on the interpreter
+but trigger behavior on the outside on __every__ single state change - e.g. when you
+want to persist a state change to be able to rehydrate the state later on.
+Usually you would trigger side-effects based on state transitions via
+[actions](https://xstate.js.org/docs/guides/actions.html) but adding the same
+action to every single state gets unergonomic quickly.
+
+To make this more ergonomic `ember-statecharts` provides the `onTransition`-hook
+that you can use to trigger a side-effect on __every__ state-change.
+
+```js
+export default class SignUpWizard extends Component {
+  @use statechart = useMachine(/* ... */)
+    .onTransition((state) => {
+      this.persistState(state);
+    })
+
+  // ...
+
+  persistState(state) {
+    // ... persist state for later rehydration
+  }
+}
+```
+
+Please be aware that `onTransition` is meant as an escape mechanism and not to
+be used as the primary way to trigger side-effects based on state transitions -
+you want to use [actions](https://xstate.js.org/docs/guides/actions.html) for
+that instead.
+
 ## Legacy api
 
 `ember-statecharts` still ships with the legacy `computed`-macro api. If you
