@@ -652,6 +652,31 @@ be used as the primary way to trigger side-effects based on state transitions -
 you want to use [actions](https://xstate.js.org/docs/guides/actions.html) for
 that instead.
 
+## Working with TypeScript
+
+`ember-statecharts` itself is implemented in TypeScript and fully supports
+Ember.js apps that are written in TypeScript. Due to the way xstate works
+internally it is rather verbose to type your machines but as always with
+TypeScript you will end up with better developer ergonomics than you would when
+not typing your code.
+
+The `useMachine` api supports both versions of typing machines:
+
+1. Without typestates: `useMachine<TContext, TStateSchema, TEvent>(/* ... */)`
+2. With typestates: `useMachine<TContext, any, TEvent, TTypestate>(/* ... */)`
+
+Please refer to the [using TypeScript](https://xstate.js.org/docs/guides/typescript.html#using-typescript) of the xstate docs for a thorough walkthrough on how to type your xstate machines.
+
+Like [ember-concurrency](https://jamescdavis.com/using-ember-concurrency-with-typescript/) `ember-statecharts` has to use a typecasting function to allow TypeScript understand what `useMachine` is trying to accomplish. Whenever you want to interact with the usable you have to wrap your statechart property in `interpreterFor`.
+
+`interpreterFor` is not doing anything special but only typecasting the usable
+so that TypeScript can provide useful type information.
+
+Next up you see an example of the `Button`-component from the tutorial
+implemented in TypeScript:
+
+<Docs::TypescriptUsage />
+
 ## Legacy api
 
 `ember-statecharts` still ships with the legacy `computed`-macro api. If you
