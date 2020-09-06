@@ -1,0 +1,44 @@
+<DocsDemo as |demo|>
+  <demo.example @name="final">
+    <div class="docs-flex docs-item-center">
+      {{!-- BEGIN-SNIPPET typed-button-used.hbs --}}
+      <TypedButton
+        @onClick={{perform this.submitTask}}
+        @onSuccess={{this.onSuccess}}
+        @onError={{this.onError}}
+        @disabled={{this.disabled}}
+      >
+        .ts FTW
+      </TypedButton>
+      {{!-- END-SNIPPET --}}
+      <div class="docs-ml-8 docs-flex docs-items-center">
+        <label for="failRequest-final">
+          Fail request?
+        </label>
+        <Input
+          @class="docs-ml-2"
+          @type="checkbox"
+          @id="failRequest-final"
+          @name="failRequest"
+          @checked={{this.failRequest}}
+        />
+      </div>
+      <div class="docs-ml-8 docs-flex docs-items-center">
+        <label for="disabled-final">
+          Disable button?
+        </label>
+        <Input
+          @class="docs-ml-2"
+          @type="checkbox"
+          @id="disabled-final"
+          @name="failRequest"
+          @checked={{this.disabled}}
+        />
+      </div>
+    </div>
+  </demo.example>
+  <demo.snippet @name="typed-button.ts" @label="components.ts" />
+  <demo.snippet @name="typed-button-machine.ts" @label="machine.ts" />
+  <demo.snippet @name="typed-button-used.hbs" label="template.hbs" />
+  <demo.snippet @name="typescript-usage.js" label="controller.js" />
+</DocsDemo>
