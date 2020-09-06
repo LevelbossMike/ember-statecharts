@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.12.0...v0.13.0) (2020-09-06)
+
+
+### Features
+
+* use TypeScript for `use-machine` ([1b1fdae](https://github.com/LevelbossMike/ember-statecharts/commit/1b1fdaeaf19d863f212de8c2dab46a4520ef7256))
+
 # [0.12.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.11.0...v0.12.0) (2020-08-25)
 
 
