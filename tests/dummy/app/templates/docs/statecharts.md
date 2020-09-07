@@ -660,12 +660,12 @@ internally it is rather verbose to type your machines but as always with
 TypeScript you will end up with better developer ergonomics than you would when
 not typing your code.
 
+Please refer to the [using TypeScript](https://xstate.js.org/docs/guides/typescript.html#using-typescript) of the xstate docs for a thorough walkthrough on how to type your xstate machines. `useMachine` will automatically pick up type information for your typed machines - if need be it is also possible to provide type information for `useMachine` explicitly.
+
 The `useMachine` api supports both versions of typing machines:
 
 1. Without typestates: `useMachine<TContext, TStateSchema, TEvent>(/* ... */)`
 2. With typestates: `useMachine<TContext, any, TEvent, TTypestate>(/* ... */)`
-
-Please refer to the [using TypeScript](https://xstate.js.org/docs/guides/typescript.html#using-typescript) of the xstate docs for a thorough walkthrough on how to type your xstate machines.
 
 Like [ember-concurrency](https://jamescdavis.com/using-ember-concurrency-with-typescript/) `ember-statecharts` has to use a typecasting function to allow TypeScript understand what `useMachine` is trying to accomplish. Whenever you want to interact with the usable you have to wrap your statechart property in `interpreterFor`.
 

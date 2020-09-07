@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
 import { useMachine, matchesState, interpreterFor } from 'ember-statecharts';
-import buttonMachine, { ButtonContext, ButtonEvent, ButtonState } from '../machines/typed-button';
+import buttonMachine, { ButtonContext, ButtonEvent } from '../machines/typed-button';
 import { TaskGenerator } from 'ember-concurrency';
 
 import { task } from 'ember-concurrency-decorators';
@@ -41,7 +41,7 @@ export default class TypedButton extends Component<ButtonArgs> {
     return isDisabled || isBusy || isInteractivityUnknown;
   }
 
-  @use statechart = useMachine<ButtonContext, any, ButtonEvent, ButtonState>(buttonMachine)
+  @use statechart = useMachine(buttonMachine)
     .withContext({
       disabled: this.args.disabled,
     })
