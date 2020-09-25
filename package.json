@@ -1,6 +1,6 @@
 {
   "name": "ember-statecharts",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Statecharts for Ember.js applications",
   "keywords": [
     "ember-addon"
