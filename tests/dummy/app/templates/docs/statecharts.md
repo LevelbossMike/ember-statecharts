@@ -519,8 +519,8 @@ export default class MyComponent extends Component {
 </button>
 ```
 
-You can pass a [`StateValue`](https://xstate.js.org/api/globals.html#statevalue) or
-an array of `StateValue`s to `matchesState`. This means you can also match
+You can pass a [`StateValue`](https://xstate.js.org/api/globals.html#statevalue)
+to `matchesState`. This means you can also match
 against nested or [parallel](https://xstate.js.org/docs/guides/parallel.html)
 states:
 
