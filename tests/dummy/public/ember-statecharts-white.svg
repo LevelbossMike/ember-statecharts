@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1101 885" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,0.5,0.5)">
+        <path d="M906.736,534.059C906.736,521.615 896.633,511.512 884.189,511.512L380.002,511.512C367.558,511.512 357.455,521.615 357.455,534.059L357.455,785.245C357.455,797.69 367.558,807.793 380.002,807.793L884.189,807.793C896.633,807.793 906.736,797.69 906.736,785.245L906.736,534.059Z" style="fill:none;stroke:white;stroke-width:16px;"/>
+        <g transform="matrix(0.729474,0,0,0.628233,170.998,245.237)">
+            <path d="M906.736,534.059C906.736,521.615 896.633,511.512 884.189,511.512L380.002,511.512C367.558,511.512 357.455,521.615 357.455,534.059L357.455,785.245C357.455,797.69 367.558,807.793 380.002,807.793L884.189,807.793C896.633,807.793 906.736,797.69 906.736,785.245L906.736,534.059Z" style="fill:none;stroke:white;stroke-width:23.5px;"/>
+        </g>
+        <g id="Layer1">
+            <g transform="matrix(0.942592,0,0,0.982008,8.56886,11.9398)">
+                <path d="M349.237,666L149.263,666" style="fill:none;stroke:white;stroke-width:16.62px;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,21.8731,36.6409)">
+                <path d="M1050.62,416.643L1069.87,454.479L1031.38,454.479L1050.62,416.643Z" style="fill:none;stroke:white;stroke-width:16px;"/>
+            </g>
+            <g transform="matrix(6.92053e-17,1,-1,6.92053e-17,755.42,-385.104)">
+                <path d="M1050.62,416.643L1069.87,454.479L1031.38,454.479L1050.62,416.643Z" style="fill:none;stroke:white;stroke-width:16px;"/>
+            </g>
+            <g transform="matrix(-0.999911,0.0133381,-0.0133381,-0.999911,2129.01,1278.43)">
+                <path d="M1050.62,416.643L1069.87,454.479L1031.38,454.479L1050.62,416.643Z" style="fill:none;stroke:white;stroke-width:16px;"/>
+            </g>
+        </g>
+        <g id="Layer2">
+            <g transform="matrix(1,0,0,1,1.00534,0)">
+                <path d="M906.736,666C1084.2,665.258 1075.65,523.667 1071.37,452.871" style="fill:none;stroke:white;stroke-width:16px;"/>
+            </g>
+            <g transform="matrix(1,0,0,-1,1.00534,1328.1)">
+                <path d="M906.736,662.103C1084.2,661.361 1075.65,522.368 1071.37,452.871" style="fill:none;stroke:white;stroke-width:16px;"/>
+            </g>
+        </g>
+        <g transform="matrix(1.11008,0,0,1.11008,-58.1082,-129.681)">
+            <text x="489.555px" y="704.207px" style="font-family:'Inter-Regular', 'Inter', sans-serif;font-size:48px;fill:white;stroke:white;stroke-width:0.9px;stroke-linecap:butt;stroke-miterlimit:2;">Ember</text>
+            <text x="489.555px" y="752.207px" style="font-family:'Inter-Regular', 'Inter', sans-serif;font-size:48px;fill:white;stroke:white;stroke-width:0.9px;stroke-linecap:butt;stroke-miterlimit:2;">Stat<tspan x="581.873px " y="752.207px ">e</tspan>char<tspan x="711.555px 728.533px " y="752.207px 752.207px ">ts</tspan></text>
+        </g>
+    </g>
+</svg>
