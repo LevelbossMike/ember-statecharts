@@ -1,4 +1,4 @@
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { statechart } from 'ember-statecharts/computed';
 import { timeout } from 'ember-concurrency';
@@ -43,11 +43,11 @@ module('Unit | computed | statechart', function () {
 
     const testData = { wat: 'lol' };
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'new');
+    assert.equal(subject.statechart.currentState.value, 'new');
 
-    get(subject, 'statechart').send('woot', testData);
+    subject.statechart.send('woot', testData);
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'foo');
+    assert.equal(subject.statechart.currentState.value, 'foo');
   });
 
   test('it is possible to pass statechart-options to the statechart when passing an array of params', async function (assert) {
@@ -86,7 +86,7 @@ module('Unit | computed | statechart', function () {
     }).create();
 
     assert.equal(
-      get(subject, 'statechart.currentState.value'),
+      subject.statechart.currentState.value,
       'powerOff',
       'passing an array as a statechart property works'
     );
@@ -94,7 +94,7 @@ module('Unit | computed | statechart', function () {
     await subject.get('statechart').send('power', { power: 1 });
 
     assert.equal(
-      get(subject, 'statechart.currentState.value'),
+      subject.statechart.currentState.value,
       'powerOff',
       'guards will not execute transition when a falsy value is returned'
     );
@@ -102,7 +102,7 @@ module('Unit | computed | statechart', function () {
     await subject.get('statechart').send('power', { power: 9001 });
 
     assert.equal(
-      get(subject, 'statechart.currentState.value'),
+      subject.statechart.currentState.value,
       'powerOn',
       'returning a truthy from a guard executes the transition'
     );
@@ -144,14 +144,14 @@ module('Unit | computed | statechart', function () {
       },
     }).create();
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOff');
-    assert.equal(get(subject, 'offCounter'), 1, 'offCounter was incremented as expected');
+    assert.equal(subject.statechart.currentState.value, 'powerOff');
+    assert.equal(subject.offCounter, 1, 'offCounter was incremented as expected');
 
-    get(subject, 'statechart').send('POWER');
+    subject.statechart.send('POWER');
 
     await timeout(300);
 
-    assert.equal(get(subject, 'statechart.currentState.value'), 'powerOn');
+    assert.equal(subject.statechart.currentState.value, 'powerOn');
 
     // will fail with `calling set on destroyed object` if  this doesn't work
     await run(() => subject.destroy());
