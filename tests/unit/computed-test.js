@@ -1,4 +1,4 @@
-import EmberObject, { get } from '@ember/object';
+import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { statechart, matchesState, debugState } from 'ember-statecharts/computed';
 
@@ -110,23 +110,23 @@ module('Unit | statechart computeds', function (hooks) {
     test('can be used to match against the current state of the statechart', async function (assert) {
       let { subject } = this;
 
-      assert.equal(get(subject, 'playerIsOff'), true, 'works for initial states');
+      assert.equal(subject.playerIsOff, true, 'works for initial states');
 
       await subject.get('statechart').send('power');
 
-      assert.equal(get(subject, 'playerIsOn'), true, 'works after updating state');
+      assert.equal(subject.playerIsOn, true, 'works after updating state');
 
-      assert.equal(get(subject, 'playerIsStopped'), true, 'works for nested states');
+      assert.equal(subject.playerIsStopped, true, 'works for nested states');
 
       await subject.get('statechart').send('play');
 
       assert.equal(
-        get(subject, 'playerIsStopped'),
+        subject.playerIsStopped,
         false,
         'works inside of nested states - stopped false - playing again'
       );
       assert.equal(
-        get(subject, 'playerIsPlaying'),
+        subject.playerIsPlaying,
         true,
         'works inside of nested states - playing true - playing'
       );
@@ -134,22 +134,22 @@ module('Unit | statechart computeds', function (hooks) {
       await subject.get('statechart').send('pause');
 
       assert.equal(
-        get(subject, 'playerIsStopped'),
+        subject.playerIsStopped,
         false,
         'works inside of nested states - stopped false - paused'
       );
       assert.equal(
-        get(subject, 'playerIsPlaying'),
+        subject.playerIsPlaying,
         false,
         'works inside of nested states - playing false - paused'
       );
       assert.equal(
-        get(subject, 'playerIsPaused'),
+        subject.playerIsPaused,
         true,
         'works inside of nested states - paused true - paused'
       );
 
-      assert.equal(get(subject, 'playerActiveMusicNotPlaying'), true, 'works when passing array');
+      assert.equal(subject.playerActiveMusicNotPlaying, true, 'works when passing array');
     });
 
     test('it can be used with other computeds not named `statechart`', async function (assert) {
