@@ -14,8 +14,8 @@ care of cleaning up your statecharts when components get destroyed.
 To implement a statechart via `ember-statecharts` you will make use of the
 `useMachine`- [usable](https://github.com/emberjs/rfcs/pull/567) exported from
 `ember-statecharts`. `usable` support has yet to land in the framework so you
-will need to make use of [ember-usable](https://github.com/pzuraq/ember-usable)
-for now to use the `@use`-decorator - `ember-usable` will be installed for you
+will need to make use of [ember-resource](https://github.com/pzuraq/ember-could-get-used-to-this)
+for now to use the `@use`-decorator - `ember-resource` (formerly known as `ember-usable`) will be installed for you
 when you install `ember-statecharts`.
 
 There are three ways to create a `statechart` with `useMachine`:
