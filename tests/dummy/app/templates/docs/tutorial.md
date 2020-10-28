@@ -26,7 +26,7 @@ passed to it. When the executed action takes time the button should indicate thi
 ## Modeling behavior
 
 We will model our behavior visually by putting our button statechart configuration
- into [`xState`'s visualizer tool](https://xstate.js.org/viz). We start by creating an `idle` and
+ into [`XState`'s visualizer tool](https://xstate.js.org/viz). We start by creating an `idle` and
 `busy`-state - because the button can either sit around `idle` ready to be clicked or
 be `busy` while the `onClick`-action we pass to it is executing.
 
@@ -280,13 +280,13 @@ we simply add a new transition to both states:
 Modeling the statechart for our button component is complete now. But how do
 we actually use this in our Ember.js application?
 
-It's pretty easy actually. We take the statechart (xstate calls them `Machine`s)
+It's pretty easy actually. We take the statechart (XState calls them `Machine`s)
 we modeled in the statechart-editor, create an instance of it and use it in
 our component via the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567)
 that `ember-statecharts` provides.
 
 In our example application we decided to create a `machines`-folder that holds
-all the xstate-`machine`s that we plan to use in our components. We can copy
+all the XState-`machine`s that we plan to use in our components. We can copy
 and paste these out of the statechart-editor directly and paste them back into
 the editor when we want to see how they work.
 
@@ -613,7 +613,7 @@ declaratively adapt the looks of your component based on state changes.
 The rest of the guides will go into more detail of [how to work](/docs/statecharts)
 with statecharts in your Ember.js applications. Please also remember that
 everything that `ember-statecharts` is doing is backed by the great
-[xstate](https://xstate.js.org)-library. You can read about all the configuration
-options that xstate provides in the [documentation](https://xstate.js.org/docs/)
+[XState](https://xstate.js.org)-library. You can read about all the configuration
+options that XState provides in the [documentation](https://xstate.js.org/docs/)
 of that project. This is a very valuable resource that you certainly want to use
 when you start using statecharts in your applications.
