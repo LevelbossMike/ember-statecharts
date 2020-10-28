@@ -73,7 +73,7 @@ in the coding phase and as a debugging and **documentation tool** in the product
 ## Documenting behavior
 
 Modeling your application behavior explicitly via `ember-statecharts` will give you documenation
-of your application behavior for free. Statecharts can be visualized via the [statechart-editor](/editor)
+of your application behavior for free. Statecharts can be visualized via the [XState-visualizer](https://xstate.js.org/viz/)
 and you will have an easier time to understand components and user-flows by looking at them.
 
 **Visalizing statecharts also gives you the opportunity to communicate about behavior
@@ -81,13 +81,13 @@ with other stakeholders** - designers, product-owners and fellow developers. Bec
 are modeling behavior explicitly with an executable statechart in your code there is
 now **always up-to-date documentation** of how components and other parts of your app behave.
 
-You can step through your behavior with the [statechart-editor](/editor) and have discussions
+You can step through your behavior with the [XState-visualizer](https://xstate.js.org/viz/) and have discussions
 about how your application behaves based on a visual language that everyone understands.
 
-## Powered by xstate
+## Powered by XState
 
 `ember-statecharts` provides a small Ember.js specific wrapper around the fabulous
-and widely-used [xstate](https://xstate.js.org/docs/)-library. All of the  powerful
+and widely-used [XState](https://xstate.js.org/docs/)-library. All of the  powerful
 features of `xstate` are supported. The purpose of `ember-statecharts` is to
 make it easy to use `xstate` in an Ember.js application without having
 to write the same boilerplate code over and over again.

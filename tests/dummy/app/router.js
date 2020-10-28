@@ -11,5 +11,4 @@ Router.map(function () {
     this.route('tutorial');
     this.route('statecharts');
   });
-  this.route('editor');
 });
