@@ -236,10 +236,12 @@ export default class MyComponent extends Component {
       component: this
     })
     .withConfig({
-      handleSubmit(context) {
-        const { component } = context;
+      actions: {
+        handleSubmit(context) {
+          const { component } = context;
 
-        component.buttonClickedTask.perform();
+          component.buttonClickedTask.perform();
+        }
       }
     })
 
