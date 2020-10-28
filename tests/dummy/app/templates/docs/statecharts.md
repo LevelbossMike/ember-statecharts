@@ -1,12 +1,12 @@
 # Working with statecharts
 
-## `xstate`
-Everything that `ember-statecharts` is doing is powered by the wonderful [`xstate`-library](https://xstate.js.org/). The [`xstate`-guides](https://xstate.js.org/docs/) provide extensive documentation about how to write statechart-configurations - please make use of this invaluable resource.
+## `XState`
+Everything that `ember-statecharts` is doing is powered by the wonderful [`XState`-library](https://xstate.js.org/). The [`XState`-guides](https://xstate.js.org/docs/) provide extensive documentation about how to write statechart-configurations - please make use of this invaluable resource.
 
-`ember-statecharts` is trying to provide a thin layer over `xstate`'s apis and
-make it as easy as possible to use all of `xstate`'s functionality with
+`ember-statecharts` is trying to provide a thin layer over `XState`'s apis and
+make it as easy as possible to use all of `XState`'s functionality with
 `Ember.js`. It makes sure your statecharts play nice with the Ember-runloop,
-will wait for `xstate`-delays etc. when testing your applications and takes
+will wait for `XState`-delays etc. when testing your applications and takes
 care of cleaning up your statecharts when components get destroyed.
 
 ## Authoring `statechart`-configurations
@@ -20,11 +20,11 @@ when you install `ember-statecharts`.
 
 There are three ways to create a `statechart` with `useMachine`:
 
-* use `useMachine` with an instance of an `xstate`-`Machine` - [Machine](https://xstate.js.org/docs/guides/machines.html#configuration)
+* use `useMachine` with an instance of an `XState`-`Machine` - [Machine](https://xstate.js.org/docs/guides/machines.html#configuration)
 * use `useMachine` with a valid `MachineConfig` - [MachineConfig](https://xstate.js.org/docs/guides/machines.html#configuration)
-* use `useMachine` by using `xstate`'s - `createMachine` - [createMachine](https://xstate.js.org/docs/guides/typescript.html#typestates);
+* use `useMachine` by using `XState`'s - `createMachine` - [createMachine](https://xstate.js.org/docs/guides/typescript.html#typestates);
 
-Here's an example that reflects the [nested statechart](https://xstate.js.org/docs/#hierarchical-nested-state-machines)-example from the [`xstate`-guides](https://xstate.js.org/docs/) in all three variants:
+Here's an example that reflects the [nested statechart](https://xstate.js.org/docs/#hierarchical-nested-state-machines)-example from the [`XState`-guides](https://xstate.js.org/docs/) in all three variants:
 
 ### `useMachine` with a `Machine`-instance
 
@@ -173,7 +173,7 @@ export default class MyComponent extends Component {
 }
 ```
 
-To get a detailed overview about the configuration options available via `xstate` please have a look at the [xstate documentation](https://xstate.js.org/docs).
+To get a detailed overview about the configuration options available via `XState` please have a look at the [XState documentation](https://xstate.js.org/docs).
 
 ## Sending events
 
@@ -266,7 +266,7 @@ finds itself in the `busy` state for example.
 
 The Object that `@use`s the `useMachine`-usable will need to specify the
 `context` of the statechart explicitly by using `withContext`. This makes sure
-that you can design your behavior inside of `xstate`'s
+that you can design your behavior inside of `XState`'s
 [visualizer](https://xstate.js.org/viz/) completely and then have the calling
 Object define what it considers the `context` of the statechart to be.
 
@@ -329,7 +329,7 @@ export default class MyComponent extends Component {
 
 As with `withContext` the calling Object can also customize the statechart's
 configuration by using `withConfig`. This makes sure that you can design your
-behavior inside of `xstate`'s [visualizer](https://xstate.js.org/viz/) completely
+behavior inside of `XState`'s [visualizer](https://xstate.js.org/viz/) completely
 and then have the calling Object define what external effects will be triggered
 when the statechart triggers `actions` or what checks to run when it executes
 `guards`.
@@ -587,7 +587,7 @@ this means we reset `context.count` to the count-arg we receive in the update:
   <demo.snippet @name="counter.md" @label="template.hbs" />
 </DocsDemo>
 
-2) We restart the entire underlying [xstate-interpreter](https://xstate.js.org/docs/guides/interpretation.html) and end up with a statechart as if we accessed if for the first
+2) We restart the entire underlying [XState-interpreter](https://xstate.js.org/docs/guides/interpretation.html) and end up with a statechart as if we accessed if for the first
 time with the update `machine`, `context` or `config`. In our case this means
 that we will end up in the `inactive`-state again even if we were in the
 `active` state before.
@@ -657,12 +657,12 @@ that instead.
 ## Working with TypeScript
 
 `ember-statecharts` itself is implemented in TypeScript and fully supports
-Ember.js apps that are written in TypeScript. Due to the way xstate works
+Ember.js apps that are written in TypeScript. Due to the way XState works
 internally it is rather verbose to type your machines but as always with
 TypeScript you will end up with better developer ergonomics than you would when
 not typing your code.
 
-Please refer to the [using TypeScript](https://xstate.js.org/docs/guides/typescript.html#using-typescript) of the xstate docs for a thorough walkthrough on how to type your xstate machines. `useMachine` will automatically pick up type information for your typed machines - if need be it is also possible to provide type information for `useMachine` explicitly.
+Please refer to the [using TypeScript](https://xstate.js.org/docs/guides/typescript.html#using-typescript) of the XState docs for a thorough walkthrough on how to type your XState machines. `useMachine` will automatically pick up type information for your typed machines - if need be it is also possible to provide type information for `useMachine` explicitly.
 
 The `useMachine` api supports both versions of typing machines:
 
@@ -687,10 +687,10 @@ want to see the documentation about how to use this api please refer to the
 
 ## Visualizing statecharts
 
-To visualize your statecharts you can use the [xstate visualizer](https://xstate.js.org/viz/).
+To visualize your statecharts you can use the [XState visualizer](https://xstate.js.org/viz/).
 
 ## Further reading
 
-`xstate` comes with a comprehensive [documentation page](https://xstate.js.org/docs/) - it goes into great detail about what things you can do in `statechecart`-configurations.
+`XState` comes with a comprehensive [documentation page](https://xstate.js.org/docs/) - it goes into great detail about what things you can do in `statechecart`-configurations.
 
-Writing statecharts configurations is very easy once you are used to the syntax but feel free to consult the [`xstate`-guides](https://xstate.js.org/docs/) as often as necessary to get the hang of it.
+Writing statecharts configurations is very easy once you are used to the syntax but feel free to consult the [`XState`-guides](https://xstate.js.org/docs/) as often as necessary to get the hang of it.
