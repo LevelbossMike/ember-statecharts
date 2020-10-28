@@ -70,7 +70,7 @@ We will model our statechart to transition based on the `SUBMIT`-event.
 />
 
 You can interact with the statechart during the modeling phase. You will see the statechart
-transitionig into the busy state when clicking on the submit event in the statechart-editor.
+transitionig into the busy state when clicking on the submit event in the statechart-visualizer.
 
 ### Triggering actions
 
@@ -216,8 +216,8 @@ both states:
   src="https://xstate.js.org/viz/?gist=75fa670f88452661b0cb1182c2391d9e&embed=1"
 />
 
-This looks pretty good - let's have a quick look at the statechart-editor again.
-When clicking through the editor we notice that our statechart behaves in kind of
+This looks pretty good - let's have a quick look at the statechart-visualizer again.
+When clicking through the visualizer we notice that our statechart behaves in kind of
 a weird way. We can transition trough to `success` and `error` but there's no way
 to exit those two states again. This might be good enough in your application but
 most likely this indicates a problem. When dealing with a generic button
@@ -281,14 +281,14 @@ Modeling the statechart for our button component is complete now. But how do
 we actually use this in our Ember.js application?
 
 It's pretty easy actually. We take the statechart (XState calls them `Machine`s)
-we modeled in the statechart-editor, create an instance of it and use it in
+we modeled in the statechart-visualizer, create an instance of it and use it in
 our component via the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567)
 that `ember-statecharts` provides.
 
 In our example application we decided to create a `machines`-folder that holds
 all the XState-`machine`s that we plan to use in our components. We can copy
-and paste these out of the statechart-editor directly and paste them back into
-the editor when we want to see how they work.
+and paste these out of the statechart-visualizer directly and paste them back into
+the visualizer when we want to see how they work.
 
 We then have to hook up the imported `machine` with our component. We can use
 the `withContext`- and `withConfig`-hooks that are available when using `useMachine`.
@@ -605,7 +605,7 @@ Here's the final component that we came up with:
 
 In this tutorial you learned how you can use statecharts to explicitly model
 behavior in your Ember.js applications. You have seen how you can make use of the
-[statechart-editor](/editor) to help you visualize what your components will
+[XState-visualizer](https://xstate.js.org/viz/) to help you visualize what your components will
 be doing. We also walked through how you can make your statechart executable via
 the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567) and how you can use the `matchesState`-decorator to
 declaratively adapt the looks of your component based on state changes.
