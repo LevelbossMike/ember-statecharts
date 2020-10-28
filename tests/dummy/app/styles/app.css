@@ -2,6 +2,10 @@
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
+.docs-fill-none {
+  fill: none;
+}
+
 .docs-w-128 {
   width: 32rem;
 }
