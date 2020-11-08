@@ -504,7 +504,7 @@ because something outside of the component changed the `disabled`-parameter.
 
 
 This means we need to send an event to our button's statechart every time the
-`disabled`-argument changes. We can use the [`.update`-hook](http://localhost:4200/docs/statecharts#-update-reacting-to-changes-to-usemachine) that
+`disabled`-argument changes. We can use the [`.update`-hook](/docs/statecharts#-update-reacting-to-changes-to-usemachine) that
 `useMachine`-provides to do that:
 
 ```js
