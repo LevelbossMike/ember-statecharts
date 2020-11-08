@@ -14,20 +14,20 @@ export default Controller.extend({
       },
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         SUCCESS: 'success',
         ERROR: 'error',
       },
     },
     success: {
-      onEntry: ['handleSuccess'],
+      entry: ['handleSuccess'],
       on: {
         SUBMIT: 'busy',
       },
     },
     error: {
-      onEntry: ['handleError'],
+      entry: ['handleError'],
       on: {
         SUBMIT: 'busy',
       },

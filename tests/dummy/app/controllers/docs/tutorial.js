@@ -41,7 +41,7 @@ export default Controller.extend({
           },
         },
         busy: {
-          onEntry: ['handleSubmit'],
+          entry: ['handleSubmit'],
         },
       },
     },
@@ -63,7 +63,7 @@ export default Controller.extend({
           },
         },
         busy: {
-          onEntry: ['handleSubmit'],
+          entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
           },
@@ -89,7 +89,7 @@ export default Controller.extend({
           },
         },
         busy: {
-          onEntry: ['handleSubmit'],
+          entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
             ERROR: 'error',
@@ -117,17 +117,17 @@ export default Controller.extend({
           },
         },
         busy: {
-          onEntry: ['handleSubmit'],
+          entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
             ERROR: 'error',
           },
         },
         success: {
-          onEntry: ['handleSuccess'],
+          entry: ['handleSuccess'],
         },
         error: {
-          onEntry: ['handleError'],
+          entry: ['handleError'],
         },
       },
     },
@@ -151,20 +151,20 @@ export default Controller.extend({
           },
         },
         busy: {
-          onEntry: ['handleSubmit'],
+          entry: ['handleSubmit'],
           on: {
             SUCCESS: 'success',
             ERROR: 'error',
           },
         },
         success: {
-          onEntry: ['handleSuccess'],
+          entry: ['handleSuccess'],
           on: {
             SUBMIT: 'busy',
           },
         },
         error: {
-          onEntry: ['handleError'],
+          entry: ['handleError'],
           on: {
             SUBMIT: 'busy',
           },
@@ -218,14 +218,14 @@ export default Controller.extend({
               },
             },
             busy: {
-              onEntry: ['handleSubmit'],
+              entry: ['handleSubmit'],
               on: {
                 SUCCESS: 'success',
                 ERROR: 'error',
               },
             },
             success: {
-              onEntry: ['handleSuccess'],
+              entry: ['handleSuccess'],
               on: {
                 SUBMIT: {
                   target: 'busy',
@@ -234,7 +234,7 @@ export default Controller.extend({
               },
             },
             error: {
-              onEntry: ['handleError'],
+              entry: ['handleError'],
               on: {
                 SUBMIT: {
                   target: 'busy',

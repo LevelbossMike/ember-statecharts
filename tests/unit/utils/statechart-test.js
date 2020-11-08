@@ -253,7 +253,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
       assert.equal(statechart.currentState.value, 'new');
     });
 
-    test("when a new state is entered the old state's `onExit` function will be called and after that the newState's `onEntry` function`", async function (assert) {
+    test("when a new state is entered the old state's `exit` function will be called and after that the newState's `entry` function`", async function (assert) {
       let someData = { woot: 'lol' };
 
       let statechart = new Statechart({
@@ -263,13 +263,13 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
             on: {
               woot: 'next',
             },
-            onExit(_context, { type, ...data }) {
+            exit(_context, { type, ...data }) {
               assert.step('exitState');
               assert.deepEqual(data, someData, 'states can pass data when they transition');
             },
           },
           next: {
-            onEntry(context, { type, ...data }) {
+            entry(context, { type, ...data }) {
               assert.step('enterState');
               assert.deepEqual(data, someData, 'states can pass data when they transition');
             },
@@ -582,10 +582,10 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
               initial: 'stopped',
               states: {
                 stopped: {
-                  onEntry(context) {
+                  entry(context) {
                     assert.deepEqual(context, testContext, 'context is available as expected');
                   },
-                  onExit(context) {
+                  exit(context) {
                     assert.equal(context.name, 'lol');
                   },
                   on: {
@@ -631,7 +631,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
       assert.equal(statechart.currentState.value, 'off');
     });
 
-    test('nested statecharts will execute onEntry handlers for the chart first and then for the initial state of the nested chart', async function (assert) {
+    test('nested statecharts will execute entry handlers for the chart first and then for the initial state of the nested chart', async function (assert) {
       let testData = {
         wat: 'lol',
       };
@@ -649,7 +649,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
             initial: 'stopped',
             states: {
               stopped: {
-                onEntry(context, { type, ...data }) {
+                entry(context, { type, ...data }) {
                   assert.deepEqual(
                     data,
                     testData,
@@ -659,12 +659,12 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
                 },
               },
               playing: {
-                onEntry() {
+                entry() {
                   assert.step('wat');
                 },
               },
             },
-            onEntry(context, { type, ...data }) {
+            entry(context, { type, ...data }) {
               assert.deepEqual(
                 data,
                 testData,
@@ -694,17 +694,17 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
             initial: 'stopped',
             states: {
               stopped: {
-                onExit() {
+                exit() {
                   assert.step('stopped');
                 },
               },
               playing: {
-                onExit() {
+                exit() {
                   assert.step('wat');
                 },
               },
             },
-            onExit() {
+            exit() {
               assert.step('on');
             },
             on: {
@@ -866,7 +866,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
                   },
                 },
                 pending: {
-                  onEntry(context, { type, ...data }) {
+                  entry(context, { type, ...data }) {
                     assert.deepEqual(data, testData, 'passing data works');
                     assert.deepEqual(context, testContext, 'context is passed as expected');
                   },
