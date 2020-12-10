@@ -6,7 +6,7 @@ import { Machine, actions, createMachine } from 'xstate';
 import { use } from 'ember-usable';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { setComponentTemplate } from '@ember/component';
 
 import { useMachine, matchesState } from 'ember-statecharts';
@@ -503,7 +503,7 @@ module('Unit | use-machine', function (hooks) {
         assert.dom('[data-test-count="0"]').exists('count was updated - 0 again');
       });
 
-      test('reactive getters are possible based on `assign`ed context changes', async function (assert) {
+      test('reactive and CP getters are possible based on `assign`ed context changes', async function (assert) {
         const { counterMachine } = this;
 
         class Counter extends Component {
@@ -526,6 +526,11 @@ module('Unit | use-machine', function (hooks) {
             return this.statechart.state.context.count > 0;
           }
 
+          @computed('statechart.state.context.count')
+          get computedCount() {
+            return this.statechart.state.context.count;
+          }
+
           @action
           plusClicked() {
             this.statechart.send('INCREMENT');
@@ -540,6 +545,7 @@ module('Unit | use-machine', function (hooks) {
         setComponentTemplate(
           hbs`
           <div>{{this.statechart.state.context.count}}</div>
+          <div data-test-computed-count={{this.computedCount}} />
 
           <button
             type="button"
@@ -567,12 +573,14 @@ module('Unit | use-machine', function (hooks) {
         `);
 
         assert.dom('[data-test-plus]').isNotDisabled('plus button is not disabled - count is 0');
+        assert.dom('[data-test-computed-count="0"]').exists('it renders the inital CP value');
 
         await click('[data-test-plus]');
 
         assert
           .dom('[data-test-plus]')
           .isDisabled('plus button disabled updated - count is above 0');
+        assert.dom('[data-test-computed-count="1"]').exists('it updates the CP value');
       });
     });
   });
