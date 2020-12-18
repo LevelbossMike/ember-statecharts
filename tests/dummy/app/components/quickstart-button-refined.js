@@ -2,7 +2,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { matchesState, useMachine } from 'ember-statecharts';
 import quickstartButtonRefinedMachine from '../machines/quickstart-button-refined';
 

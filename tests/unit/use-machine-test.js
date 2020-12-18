@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, clearRender, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Machine, actions, createMachine } from 'xstate';
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';

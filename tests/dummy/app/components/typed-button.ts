@@ -8,7 +8,7 @@ import { TaskGenerator } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import { taskFor } from 'ember-concurrency-ts';
 
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { action } from '@ember/object';
 
 interface ButtonArgs {

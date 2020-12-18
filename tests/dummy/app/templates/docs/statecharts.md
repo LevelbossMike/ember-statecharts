@@ -33,7 +33,7 @@ import Component from '@glimmer/component';
 
 import { Machine } from 'xstate';
 
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { useMachine } from 'ember-statecharts';
 
 const machine = Machine({
@@ -82,7 +82,7 @@ export default class MyComponent extends Component {
 ```js
 import Component from '@glimmer/component';
 
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { useMachine } from 'ember-statecharts';
 
 export default class MyComponent extends Component {
@@ -131,7 +131,7 @@ import Component from '@glimmer/component';
 
 import { createMachine } from 'xstate';
 
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { useMachine } from 'ember-statecharts';
 
 export default class MyComponent extends Component {
@@ -485,7 +485,7 @@ example display a button component differently based on the state it finds
 itself in this is very easy to do with `ember-statecharts`:
 
 ```js
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { matchesState, useMachine} from 'ember-statecharts';
 
 export default class MyComponent extends Component {

@@ -1,7 +1,7 @@
 // BEGIN-SNIPPET counter-update-restart.js
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import { useMachine, matchesState } from 'ember-statecharts';
 import CounterMachine from '../machines/counter-machine';
 
