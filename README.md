@@ -54,11 +54,10 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
 
-import { matchesState, useMachine } from 'ember-statecharts';
+import { matchesState, Statechart } from 'ember-statecharts';
 import { Machine } from 'xstate';
 
-// @use (https://github.com/emberjs/rfcs/pull/567) is still WIP
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 
 function noop() {}
 
@@ -106,7 +105,7 @@ export default class QuickstartButton extends Component {
     return this.args.onClick || noop;
   }
 
-  @use statechart = useMachine(buttonMachine)
+  @use statechart = new Statechart(buttonMachine)
     .withContext({
       disabled: this.args.disabled
     })
