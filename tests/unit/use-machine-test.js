@@ -9,8 +9,8 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { setComponentTemplate } from '@ember/component';
 
-import { useMachine, matchesState } from 'ember-statecharts';
-import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/usables/use-machine';
+import { useMachine, matchesState, Interpreter } from 'ember-statecharts';
+// import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/usables/use-machine';
 
 module('Unit | use-machine', function (hooks) {
   setupRenderingTest(hooks);
@@ -59,18 +59,20 @@ module('Unit | use-machine', function (hooks) {
       const { TestMachine } = this;
 
       class Test extends Component {
-        @use statechart = useMachine(TestMachine)
-          .withConfig({
-            actions: {
-              lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
-                assert.step('patched');
+        @use statechart = new Interpreter(() => {
+          return useMachine(TestMachine)
+            .withConfig({
+              actions: {
+                lol(context) {
+                  assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                  assert.step('patched');
+                },
               },
-            },
-          })
-          .withContext({
-            name: this.name,
-          });
+            })
+            .withContext({
+              name: this.name,
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -106,18 +108,20 @@ module('Unit | use-machine', function (hooks) {
       const { TestMachineConfig } = this;
 
       class Test extends Component {
-        @use statechart = useMachine(TestMachineConfig)
-          .withConfig({
-            actions: {
-              lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
-                assert.step('patched');
+        @use statechart = new Interpreter(() => {
+          return useMachine(TestMachineConfig)
+            .withConfig({
+              actions: {
+                lol(context) {
+                  assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                  assert.step('patched');
+                },
               },
-            },
-          })
-          .withContext({
-            name: this.name,
-          });
+            })
+            .withContext({
+              name: this.name,
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);

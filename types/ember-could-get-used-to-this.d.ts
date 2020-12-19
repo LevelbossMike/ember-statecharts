@@ -1,7 +1,7 @@
 type LazyTrackedArgs = {
   positional?: Array<unknown>;
   named?: Record<string, unknown>;
-}
+};
 
 export const use: PropertyDecorator;
 export class Resource<Args extends LazyTrackedArgs> {
