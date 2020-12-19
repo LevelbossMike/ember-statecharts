@@ -14,7 +14,7 @@ module('Unit | computed | statechart', function () {
           initial: 'new',
           states: {
             new: {
-              onExit() {
+              exit() {
                 assert.ok(true, 'exitState was called');
               },
               on: {
@@ -25,7 +25,7 @@ module('Unit | computed | statechart', function () {
               },
             },
             foo: {
-              onEntry(_context, { type, ...data }) {
+              entry(_context, { type, ...data }) {
                 assert.deepEqual(data, testData, 'passed data is available in eventObject');
               },
             },
@@ -116,7 +116,7 @@ module('Unit | computed | statechart', function () {
           initial: 'powerOff',
           states: {
             powerOff: {
-              onEntry: ['incrementOffCounter'],
+              entry: ['incrementOffCounter'],
               on: {
                 POWER: 'powerOn',
               },

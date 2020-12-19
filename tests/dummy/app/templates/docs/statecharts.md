@@ -211,7 +211,7 @@ const buttonMachine = Machine(
         }
       },
       busy: {
-        onEntry: ['handleSubmit'],
+        entry: ['handleSubmit'],
         on: {
           RESOLVE: 'success',
           REJECT: 'error'
@@ -286,7 +286,7 @@ const buttonMachine = Machine({
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         RESOLVE: 'success',
         REJECT: 'error'
@@ -349,7 +349,7 @@ const submitMachine = Machine({
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         RESOLVE: 'success',
         REJECT: 'error'
@@ -426,7 +426,7 @@ const submitMachine = Machine({
       }
     },
     busy: {
-      onEntry: ['handleSubmit'],
+      entry: ['handleSubmit'],
       on: {
         RESOLVE: 'success',
         REJECT: 'error'
@@ -499,7 +499,7 @@ export default class MyComponent extends Component {
         }
       },
       busy: {
-        onEntry: ['handleSubmit'],
+        entry: ['handleSubmit'],
         on: {
           RESOLVE: 'success',
           REJECT: 'error'
