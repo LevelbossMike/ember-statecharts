@@ -14,8 +14,8 @@ global application state).
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.16 or above
-* Ember CLI v2.13 or above
+* Ember.js v3.23 or above
+* Ember CLI v3.16 or above
 * Node.js v10 or above
 
 For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-version
@@ -54,11 +54,10 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
 
-import { matchesState, useMachine } from 'ember-statecharts';
+import { matchesState, Statechart } from 'ember-statecharts';
 import { Machine } from 'xstate';
 
-// @use (https://github.com/emberjs/rfcs/pull/567) is still WIP
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 
 function noop() {}
 
@@ -106,7 +105,7 @@ export default class QuickstartButton extends Component {
     return this.args.onClick || noop;
   }
 
-  @use statechart = useMachine(buttonMachine)
+  @use statechart = new Statechart(buttonMachine)
     .withContext({
       disabled: this.args.disabled
     })

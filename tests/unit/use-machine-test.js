@@ -3,14 +3,14 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, clearRender, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Machine, actions, createMachine } from 'xstate';
-import { use } from 'ember-usable';
+import { use } from 'ember-could-get-used-to-this';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { setComponentTemplate } from '@ember/component';
 
-import { useMachine, matchesState } from 'ember-statecharts';
-import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/usables/use-machine';
+import { useMachine, matchesState, Interpreter } from 'ember-statecharts';
+import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/usables/interpreter';
 
 module('Unit | use-machine', function (hooks) {
   setupRenderingTest(hooks);
@@ -59,18 +59,20 @@ module('Unit | use-machine', function (hooks) {
       const { TestMachine } = this;
 
       class Test extends Component {
-        @use statechart = useMachine(TestMachine)
-          .withConfig({
-            actions: {
-              lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
-                assert.step('patched');
+        @use statechart = new Interpreter(() => {
+          return useMachine(TestMachine)
+            .withConfig({
+              actions: {
+                lol(context) {
+                  assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                  assert.step('patched');
+                },
               },
-            },
-          })
-          .withContext({
-            name: this.name,
-          });
+            })
+            .withContext({
+              name: this.name,
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -106,18 +108,20 @@ module('Unit | use-machine', function (hooks) {
       const { TestMachineConfig } = this;
 
       class Test extends Component {
-        @use statechart = useMachine(TestMachineConfig)
-          .withConfig({
-            actions: {
-              lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
-                assert.step('patched');
+        @use statechart = new Interpreter(() => {
+          return useMachine(TestMachineConfig)
+            .withConfig({
+              actions: {
+                lol(context) {
+                  assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                  assert.step('patched');
+                },
               },
-            },
-          })
-          .withContext({
-            name: this.name,
-          });
+            })
+            .withContext({
+              name: this.name,
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -153,18 +157,20 @@ module('Unit | use-machine', function (hooks) {
       const { CreatedTestMachine } = this;
 
       class Test extends Component {
-        @use statechart = useMachine(CreatedTestMachine)
-          .withConfig({
-            actions: {
-              lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
-                assert.step('patched');
+        @use statechart = new Interpreter(() => {
+          return useMachine(CreatedTestMachine)
+            .withConfig({
+              actions: {
+                lol(context) {
+                  assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                  assert.step('patched');
+                },
               },
-            },
-          })
-          .withContext({
-            name: this.name,
-          });
+            })
+            .withContext({
+              name: this.name,
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -196,19 +202,21 @@ module('Unit | use-machine', function (hooks) {
 
     test('passing `interpreterOptions` works', async function (assert) {
       class Test extends Component {
-        @use statechart = useMachine(
-          Machine({
-            initial: 'idle',
-            states: {
-              idle: {
-                entry: actions.log('Custom logger called'),
+        @use statechart = new Interpreter(() => {
+          return useMachine(
+            Machine({
+              initial: 'idle',
+              states: {
+                idle: {
+                  entry: actions.log('Custom logger called'),
+                },
               },
-            },
-          }),
-          {
-            logger: (string) => assert.step(string),
-          }
-        );
+            }),
+            {
+              logger: (string) => assert.step(string),
+            }
+          );
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -232,7 +240,7 @@ module('Unit | use-machine', function (hooks) {
       const { TestMachine } = this;
 
       class Test extends Component {
-        @use statechart = useMachine(TestMachine);
+        @use statechart = new Interpreter(() => useMachine(TestMachine));
         constructor(owner, args) {
           super(owner, args);
 
@@ -265,15 +273,18 @@ module('Unit | use-machine', function (hooks) {
 
         class Test extends Component {
           @tracked name;
-          @use statechart = useMachine(this.args.machine)
-            .withConfig({
-              actions: {
-                lol: this.args.lol,
-              },
-            })
-            .withContext({
-              name: this.name,
-            });
+
+          @use statechart = new Interpreter(() => {
+            return useMachine(this.args.machine)
+              .withConfig({
+                actions: {
+                  lol: this.args.lol,
+                },
+              })
+              .withContext({
+                name: this.name,
+              });
+          });
 
           constructor(owner, args) {
             super(owner, args);
@@ -405,20 +416,22 @@ module('Unit | use-machine', function (hooks) {
         const { counterMachine } = this;
 
         class Counter extends Component {
-          @use statechart = useMachine(counterMachine)
-            .withContext({
-              count: 0,
-            })
-            .withConfig({
-              actions: {
-                increment: actions.assign({
-                  count: (context) => context.count + 1,
-                }),
-                decrement: actions.assign({
-                  count: (context) => context.count - 1,
-                }),
-              },
-            });
+          @use statechart = new Interpreter(() => {
+            return useMachine(counterMachine)
+              .withContext({
+                count: 0,
+              })
+              .withConfig({
+                actions: {
+                  increment: actions.assign({
+                    count: (context) => context.count + 1,
+                  }),
+                  decrement: actions.assign({
+                    count: (context) => context.count - 1,
+                  }),
+                },
+              });
+          });
 
           @action
           plusClicked() {
@@ -454,24 +467,26 @@ module('Unit | use-machine', function (hooks) {
         const { counterMachine } = this;
 
         class Counter extends Component {
-          @use statechart = useMachine(counterMachine)
-            .withContext({
-              count: 0,
-            })
-            .withConfig({
-              actions: {
-                increment: actions.assign((context) => {
-                  return {
-                    count: context.count + 1,
-                  };
-                }),
-                decrement: actions.assign((context) => {
-                  return {
-                    count: context.count - 1,
-                  };
-                }),
-              },
-            });
+          @use statechart = new Interpreter(() => {
+            return useMachine(counterMachine)
+              .withContext({
+                count: 0,
+              })
+              .withConfig({
+                actions: {
+                  increment: actions.assign((context) => {
+                    return {
+                      count: context.count + 1,
+                    };
+                  }),
+                  decrement: actions.assign((context) => {
+                    return {
+                      count: context.count - 1,
+                    };
+                  }),
+                },
+              });
+          });
 
           @action
           plusClicked() {
@@ -507,20 +522,22 @@ module('Unit | use-machine', function (hooks) {
         const { counterMachine } = this;
 
         class Counter extends Component {
-          @use statechart = useMachine(counterMachine)
-            .withContext({
-              count: 0,
-            })
-            .withConfig({
-              actions: {
-                increment: actions.assign({
-                  count: (context) => context.count + 1,
-                }),
-                decrement: actions.assign({
-                  count: (context) => context.count - 1,
-                }),
-              },
-            });
+          @use statechart = new Interpreter(() => {
+            return useMachine(counterMachine)
+              .withContext({
+                count: 0,
+              })
+              .withConfig({
+                actions: {
+                  increment: actions.assign({
+                    count: (context) => context.count + 1,
+                  }),
+                  decrement: actions.assign({
+                    count: (context) => context.count - 1,
+                  }),
+                },
+              });
+          });
 
           get plusIsDisabled() {
             return this.statechart.state.context.count > 0;
@@ -608,13 +625,15 @@ module('Unit | use-machine', function (hooks) {
       );
 
       class Test extends Component {
-        @use statechart = useMachine(counterMachine)
-          .withContext({
-            count: this.args.initialCount,
-          })
-          .update(() => {
-            assert.step('update called');
-          });
+        @use statechart = new Interpreter(() => {
+          return useMachine(counterMachine)
+            .withContext({
+              count: this.args.initialCount,
+            })
+            .update(() => {
+              assert.step('update called');
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -673,20 +692,22 @@ module('Unit | use-machine', function (hooks) {
       );
 
       class Test extends Component {
-        @use statechart = useMachine(counterMachine)
-          .withContext({
-            count: this.args.initialCount,
-          })
-          .withConfig({
-            actions: {
-              resetCounter() {
-                assert.step('resetCounter action called');
+        @use statechart = new Interpreter(() => {
+          return useMachine(counterMachine)
+            .withContext({
+              count: this.args.initialCount,
+            })
+            .withConfig({
+              actions: {
+                resetCounter() {
+                  assert.step('resetCounter action called');
+                },
               },
-            },
-          })
-          .update(({ send }) => {
-            send('RESET_COUNT');
-          });
+            })
+            .update(({ send }) => {
+              send('RESET_COUNT');
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -746,13 +767,15 @@ module('Unit | use-machine', function (hooks) {
       );
 
       class Test extends Component {
-        @use statechart = useMachine(counterMachine)
-          .withContext({
-            count: this.args.initialCount,
-          })
-          .update(({ restart }) => {
-            restart();
-          });
+        @use statechart = new Interpreter(() => {
+          return useMachine(counterMachine)
+            .withContext({
+              count: this.args.initialCount,
+            })
+            .update(({ restart }) => {
+              restart();
+            });
+        });
 
         constructor(owner, args) {
           super(owner, args);
@@ -801,7 +824,7 @@ module('Unit | use-machine', function (hooks) {
     const { TestMachine } = this;
 
     class Test extends Component {
-      @use statechart = useMachine(TestMachine);
+      @use statechart = new Interpreter(() => useMachine(TestMachine));
 
       @matchesState('stopped')
       isStopped;
@@ -853,7 +876,7 @@ module('Unit | use-machine', function (hooks) {
       });
 
       class Test extends Component {
-        @use statechart = useMachine(machine, { state: this.args.state });
+        @use statechart = new Interpreter(() => useMachine(machine, { state: this.args.state }));
 
         constructor(owner, args) {
           super(owner, args);
@@ -898,11 +921,9 @@ module('Unit | use-machine', function (hooks) {
         });
 
         class Test extends Component {
-          @use statechart = useMachine(machine, { state: this.args.state }).update(
-            ({ restart }) => {
-              restart();
-            }
-          );
+          @use statechart = new Interpreter(() => {
+            return useMachine(machine, { state: this.args.state }).update();
+          });
 
           constructor(owner, args) {
             super(owner, args);
@@ -959,13 +980,15 @@ module('Unit | use-machine', function (hooks) {
         });
 
         class Test extends Component {
-          @use statechart = useMachine(machine)
-            .withContext({
-              currentWizardStep: this.args.step,
-            })
-            .update(({ restart, context: { currentWizardStep } }) => {
-              restart(currentWizardStep);
-            });
+          @use statechart = new Interpreter(() => {
+            return useMachine(machine)
+              .withContext({
+                currentWizardStep: this.args.step,
+              })
+              .update(({ restart, context: { currentWizardStep } }) => {
+                restart(currentWizardStep);
+              });
+          });
 
           constructor(owner, args) {
             super(owner, args);
@@ -1018,8 +1041,10 @@ module('Unit | use-machine', function (hooks) {
       });
 
       class Test extends Component {
-        @use statechart = useMachine(machine).onTransition((state) => {
-          assert.step(state.value);
+        @use statechart = new Interpreter(() => {
+          return useMachine(machine).onTransition((state) => {
+            assert.step(state.value);
+          });
         });
 
         constructor(owner, args) {
