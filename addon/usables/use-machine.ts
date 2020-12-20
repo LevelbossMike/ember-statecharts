@@ -1,6 +1,6 @@
 import { DEBUG } from '@glimmer/env';
 import { tracked } from '@glimmer/tracking';
-import { assert } from '@ember/debug';
+import { assert, warn } from '@ember/debug';
 import { action } from '@ember/object';
 import { cancel, later } from '@ember/runloop';
 
@@ -17,15 +17,18 @@ import type {
 } from 'xstate';
 import type { StateListener } from 'xstate/lib/interpreter';
 
-const INTERPRETER = Symbol('interpreter');
 const CONFIG = Symbol('config');
 const MACHINE = Symbol('machine');
 
 const ERROR_CHART_MISSING = `A statechart was not passed`;
 
+export const ARGS_STATE_CHANGE_WARNING =
+  'A change to passed `args` or a local state change triggered an update to a `useMachine`-usable. You can send a dedicated event to the machine or restart it so this is handled. This is done via the `.update`-hook of the `useMachine`-usable.';
+
 export type Config<Context, Schema extends StateSchema, Event extends EventObject> = {
   onTransition?: StateListener<Context, Event, Schema, Typestate<Context>>;
   initialState?: Parameters<XStateInterpreter<Context, Schema, Event>['start']>[0];
+  update?: () => {}; // TODO
 };
 
 export type Args<Context, Schema extends StateSchema, Event extends EventObject> = {
@@ -45,7 +48,8 @@ export class Interpreter<
   Event extends EventObject
 > extends Resource<Args<Context, Schema, Event>> {
   declare [MACHINE]: StateMachine<Context, Schema, Event>;
-  declare [INTERPRETER]: XStateInterpreter<Context, Schema, Event>;
+
+  private declare _interpreter?: XStateInterpreter<Context, Schema, Event>;
 
   @tracked state?: State<Context, Event>;
 
@@ -56,7 +60,7 @@ export class Interpreter<
     state?: State<Context, Event>;
     send: Interpreter<Context, Schema, Event>['send'];
   } {
-    if (!this[INTERPRETER]) {
+    if (!this._interpreter) {
       this._setupMachine();
     }
 
@@ -80,12 +84,18 @@ export class Interpreter<
 
   @action
   send(...args: SendArgs<Context, Schema, Event>) {
-    return this[INTERPRETER].send(...args);
+    if (!this._interpreter) {
+      this._setupMachine();
+    }
+
+    assert(`Failed to set up interpreter`, this._interpreter);
+
+    return this._interpreter.send(...args);
   }
 
   @action
   private _setupMachine() {
-    this[INTERPRETER] = interpret(this[MACHINE], {
+    this._interpreter = interpret(this[MACHINE], {
       devTools: DEBUG,
       clock: {
         setTimeout(fn, ms) {
@@ -101,17 +111,19 @@ export class Interpreter<
 
     this.onTransition(this[CONFIG]?.onTransition);
 
-    this[INTERPRETER].start(this[CONFIG]?.initialState);
+    this._interpreter.start(this[CONFIG]?.initialState);
   }
 
   @action
   private onTransition(fn?: StateListener<Context, Event, Schema, Typestate<Context>>) {
-    if (!this[INTERPRETER]) {
+    if (!this._interpreter) {
       this._setupMachine();
     }
 
+    assert(`Failed to set up interpreter`, this._interpreter);
+
     if (fn) {
-      this[INTERPRETER].onTransition(fn);
+      this._interpreter.onTransition(fn);
     }
 
     return this;
@@ -121,7 +133,6 @@ export class Interpreter<
    * Lifecycle methods on Resource
    *
    */
-  @action
   protected setup() {
     const machine = this.args.named?.machine;
 
@@ -130,9 +141,20 @@ export class Interpreter<
     this[MACHINE] = machine;
   }
 
-  protected teardown() {
-    if (!this[INTERPRETER]) return;
+  protected update() {
+    if (this[CONFIG]?.update) {
+      this.teardown();
+      this.setup();
+    } else {
+      warn(ARGS_STATE_CHANGE_WARNING, false, { id: 'statecharts.use-machine.args-state-change' });
+    }
+  }
 
-    this[INTERPRETER].stop();
+  protected teardown() {
+    if (!this._interpreter) return;
+
+    this._interpreter.stop();
+
+    this._interpreter = undefined;
   }
 }
