@@ -25,10 +25,21 @@ const ERROR_CHART_MISSING = `A statechart was not passed`;
 export const ARGS_STATE_CHANGE_WARNING =
   'A change to passed `args` or a local state change triggered an update to a `useMachine`-usable. You can send a dedicated event to the machine or restart it so this is handled. This is done via the `.update`-hook of the `useMachine`-usable.';
 
+export type UpdateFunction<
+  Context,
+  Schema extends StateSchema,
+  Event extends EventObject
+> = (args: {
+  machine: StateMachine<Context, Schema, Event>;
+  context: Context;
+  send: XStateInterpreter<Context, Schema, Event>['send'];
+  restart: () => void;
+}) => void;
+
 export type Config<Context, Schema extends StateSchema, Event extends EventObject> = {
   onTransition?: StateListener<Context, Event, Schema, Typestate<Context>>;
   initialState?: Parameters<XStateInterpreter<Context, Schema, Event>['start']>[0];
-  update?: () => {}; // TODO
+  update?: UpdateFunction<Context, Schema, Event>;
 };
 
 export type Args<Context, Schema extends StateSchema, Event extends EventObject> = {
@@ -142,9 +153,20 @@ export class Interpreter<
   }
 
   protected update() {
-    if (this[CONFIG]?.update) {
-      this.teardown();
-      this.setup();
+    const updateCallback = this[CONFIG]?.update;
+
+    if (updateCallback) {
+      assert(`Expected interpreter to have been set up`, this._interpreter);
+
+      updateCallback({
+        machine: this[MACHINE],
+        context: this._interpreter.state.context,
+        send: this._interpreter.send,
+        restart: () => {
+          this.teardown();
+          this.setup();
+        },
+      });
     } else {
       warn(ARGS_STATE_CHANGE_WARNING, false, { id: 'statecharts.use-machine.args-state-change' });
     }
