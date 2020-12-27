@@ -4,8 +4,8 @@ import { statechart, matchesState, debugState } from 'ember-statecharts/computed
 
 module('Unit | statechart computeds', function (hooks) {
   hooks.beforeEach(function () {
-    this.subject = EmberObject.extend({
-      statechart: statechart({
+    class TestClass extends EmberObject {
+      @statechart({
         initial: 'playerOff',
         states: {
           playerOff: {
@@ -39,9 +39,10 @@ module('Unit | statechart computeds', function (hooks) {
             },
           },
         },
-      }),
+      })
+      statechart;
 
-      secondStatechart: statechart({
+      @statechart({
         initial: 'off',
 
         states: {
@@ -69,41 +70,56 @@ module('Unit | statechart computeds', function (hooks) {
             },
           },
         },
-      }),
+      })
+      secondStatechart;
 
-      playerIsOff: matchesState('playerOff'),
-      playerIsOn: matchesState('playerOn'),
-      playerIsStopped: matchesState({
+      @matchesState('playerOff')
+      playerIsOff;
+      @matchesState('playerOn')
+      playerIsOn;
+
+      @matchesState({
         playerOn: 'stopped',
-      }),
+      })
+      playerIsStopped;
 
-      playerIsPlaying: matchesState({
+      @matchesState({
         playerOn: 'playing',
-      }),
+      })
+      playerIsPlaying;
 
-      playerIsPaused: matchesState({
+      @matchesState({
         playerOn: 'paused',
-      }),
+      })
+      playerIsPaused;
 
-      playerActiveMusicNotPlaying: matchesState([
+      @matchesState([
         {
           playerOn: 'stopped',
         },
         {
           playerOn: 'paused',
         },
-      ]),
+      ])
+      playerActiveMusicNotPlaying;
 
-      secondIsOff: matchesState('off', 'secondStatechart'),
+      @matchesState('off', 'secondStatechart')
+      secondIsOff;
 
-      secondIsOn: matchesState('on', 'secondStatechart'),
+      @matchesState('on', 'secondStatechart')
+      secondIsOn;
 
-      secondIsStarted: matchesState({ on: 'started' }, 'secondStatechart'),
+      @matchesState({ on: 'started' }, 'secondStatechart')
+      secondIsStarted;
 
-      _debug: debugState(),
+      @debugState()
+      _debug;
 
-      _debugSecond: debugState('secondStatechart'),
-    }).create();
+      @debugState('secondStatechart')
+      _debugSecond;
+    }
+
+    this.subject = TestClass.create();
   });
 
   module('#matchesState', function () {
