@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Component from '@ember/component';
 import layout from 'ember-cli-addon-docs/components/docs-viewer/template';
 import { inject as service } from '@ember/service';
