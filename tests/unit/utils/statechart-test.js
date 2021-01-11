@@ -17,7 +17,11 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
         },
       });
 
-      assert.equal(statechart.currentState.value, 'new', 'initial state was setup correctly');
+      assert.equal(
+        statechart.currentState.value,
+        'new',
+        'initial state was setup correctly'
+      );
 
       await statechart.send('woot');
 
@@ -60,7 +64,10 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
 
       await statechart.send('woot');
 
-      assert.verifySteps(['inlineAction', 'wat'], 'functions as actions will not be ignored');
+      assert.verifySteps(
+        ['inlineAction', 'wat'],
+        'functions as actions will not be ignored'
+      );
     });
 
     module('sending event data', function () {
@@ -86,6 +93,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
           },
           {
             actions: {
+              // eslint-disable-next-line no-unused-vars
               wat(_context, { type, ...data }) {
                 assert.deepEqual(data, testData, 'data was passed as expected');
               },
@@ -118,6 +126,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
           },
           {
             actions: {
+              // eslint-disable-next-line no-unused-vars
               wat(_context, { type, ...data }) {
                 assert.deepEqual(data, testData, 'data was passed as expected');
               },
@@ -154,8 +163,16 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
           {
             actions: {
               wat(_context, { type, ...data }) {
-                assert.equal(type, 'woot', 'overriding of `type` does not work');
-                assert.deepEqual(data, { name: 'Tomster' }, 'data was passed as expected');
+                assert.equal(
+                  type,
+                  'woot',
+                  'overriding of `type` does not work'
+                );
+                assert.deepEqual(
+                  data,
+                  { name: 'Tomster' },
+                  'data was passed as expected'
+                );
                 assert.expectWarning(
                   `You passed property \`type\` as part of the data you sent with the event \`woot\` . This is not supported - \`woot\` will be used as event name.`
                 );
@@ -198,7 +215,10 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
 
       await statechart.send('woot');
 
-      assert.verifySteps(['actionA', 'actionB'], 'actions fire in the correct order');
+      assert.verifySteps(
+        ['actionA', 'actionB'],
+        'actions fire in the correct order'
+      );
     });
 
     test('when specifying multiple actions all actions will be passed the event data', async function (assert) {
@@ -223,12 +243,22 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
         },
         {
           actions: {
+            // eslint-disable-next-line no-unused-vars
             wat(_context, { type, ...data }) {
-              assert.deepEqual(data, testData, 'actionA got passed correct data');
+              assert.deepEqual(
+                data,
+                testData,
+                'actionA got passed correct data'
+              );
               assert.step('actionA');
             },
+            // eslint-disable-next-line no-unused-vars
             yo(_context, { type, ...data }) {
-              assert.deepEqual(data, testData, 'actionB got passed correct data');
+              assert.deepEqual(
+                data,
+                testData,
+                'actionB got passed correct data'
+              );
               assert.step('actionB');
             },
           },
@@ -237,7 +267,10 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
 
       await statechart.send('woot', testData);
 
-      assert.verifySteps(['actionA', 'actionB'], 'actions fire in the correct order');
+      assert.verifySteps(
+        ['actionA', 'actionB'],
+        'actions fire in the correct order'
+      );
     });
 
     test('if the currentState does not implement the sent event it does not break', async function (assert) {
@@ -263,15 +296,25 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
             on: {
               woot: 'next',
             },
+            // eslint-disable-next-line no-unused-vars
             exit(_context, { type, ...data }) {
               assert.step('exitState');
-              assert.deepEqual(data, someData, 'states can pass data when they transition');
+              assert.deepEqual(
+                data,
+                someData,
+                'states can pass data when they transition'
+              );
             },
           },
           next: {
+            // eslint-disable-next-line no-unused-vars
             entry(context, { type, ...data }) {
               assert.step('enterState');
-              assert.deepEqual(data, someData, 'states can pass data when they transition');
+              assert.deepEqual(
+                data,
+                someData,
+                'states can pass data when they transition'
+              );
             },
           },
         },
@@ -279,7 +322,11 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
 
       await statechart.send('woot', someData);
 
-      assert.equal(statechart.currentState.value, 'next', 'entered correct state');
+      assert.equal(
+        statechart.currentState.value,
+        'next',
+        'entered correct state'
+      );
       assert.verifySteps(
         ['exitState', 'enterState'],
         'exit and enter functions called in right order'
@@ -309,7 +356,11 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
         {
           actions: {
             test(context) {
-              assert.deepEqual(context, testContext, 'context is accessible in action handlers');
+              assert.deepEqual(
+                context,
+                testContext,
+                'context is accessible in action handlers'
+              );
             },
           },
         },
@@ -341,8 +392,16 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
                   target: 'next',
                   cond: (context, eventObject) => {
                     let { type, ...data } = eventObject;
-                    assert.equal(type, 'woot', 'eventName is accessible in condition');
-                    assert.deepEqual(data, testData, 'passed event data is available in condition');
+                    assert.equal(
+                      type,
+                      'woot',
+                      'eventName is accessible in condition'
+                    );
+                    assert.deepEqual(
+                      data,
+                      testData,
+                      'passed event data is available in condition'
+                    );
                     assert.deepEqual(
                       context,
                       testContext,
@@ -374,7 +433,10 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
               );
             },
             fooAction() {
-              assert.ok(true, 'returning `true` from a condition will trigger a transition');
+              assert.ok(
+                true,
+                'returning `true` from a condition will trigger a transition'
+              );
             },
           },
         }
@@ -382,11 +444,19 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
 
       statechart.send('woot', testData);
 
-      assert.equal(statechart.currentState.value, 'new', 'woot did not trigger a transition');
+      assert.equal(
+        statechart.currentState.value,
+        'new',
+        'woot did not trigger a transition'
+      );
 
       await statechart.send('foo', testData);
 
-      assert.equal(statechart.currentState.value, 'next', 'foo did trigger a transition');
+      assert.equal(
+        statechart.currentState.value,
+        'next',
+        'foo did trigger a transition'
+      );
     });
 
     test('guards can be used to conditionally transition into different states based on the same event', async function (assert) {
@@ -472,8 +542,16 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
 
               let { type, ...eventData } = eventObject;
 
-              assert.equal(type, 'power', 'eventObject contains name of event that was sent');
-              assert.deepEqual(eventData, testData, 'data passed to event is available in guards');
+              assert.equal(
+                type,
+                'power',
+                'eventObject contains name of event that was sent'
+              );
+              assert.deepEqual(
+                eventData,
+                testData,
+                'data passed to event is available in guards'
+              );
 
               return eventData.canTransition;
             },
@@ -583,7 +661,11 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
               states: {
                 stopped: {
                   entry(context) {
-                    assert.deepEqual(context, testContext, 'context is available as expected');
+                    assert.deepEqual(
+                      context,
+                      testContext,
+                      'context is available as expected'
+                    );
                   },
                   exit(context) {
                     assert.equal(context.name, 'lol');
@@ -649,6 +731,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
             initial: 'stopped',
             states: {
               stopped: {
+                // eslint-disable-next-line no-unused-vars
                 entry(context, { type, ...data }) {
                   assert.deepEqual(
                     data,
@@ -664,6 +747,7 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
                 },
               },
             },
+            // eslint-disable-next-line no-unused-vars
             entry(context, { type, ...data }) {
               assert.deepEqual(
                 data,
@@ -866,9 +950,14 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
                   },
                 },
                 pending: {
+                  // eslint-disable-next-line no-unused-vars
                   entry(context, { type, ...data }) {
                     assert.deepEqual(data, testData, 'passing data works');
-                    assert.deepEqual(context, testContext, 'context is passed as expected');
+                    assert.deepEqual(
+                      context,
+                      testContext,
+                      'context is passed as expected'
+                    );
                   },
                   on: {
                     DOWNLOAD_COMPLETE: 'success',
@@ -881,10 +970,16 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
         },
         {
           actions: {
+            // eslint-disable-next-line no-unused-vars
             handleUploadSuccess(context, { type, ...data }) {
               assert.deepEqual(data, testData, 'passing data works');
-              assert.deepEqual(context, testContext, 'context is passed as expected');
+              assert.deepEqual(
+                context,
+                testContext,
+                'context is passed as expected'
+              );
             },
+            // eslint-disable-next-line no-unused-vars
             handleInitDownload(context, { type, ...data }) {
               assert.deepEqual(data, testData, 'passing data works');
               assert.deepEqual(context, testContext, 'context is passed');

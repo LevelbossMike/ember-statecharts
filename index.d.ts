@@ -3,7 +3,10 @@ import useMachine, {
   InterpreterUsable,
 } from './usables/use-machine';
 import { EventObject, StateSchema, StateValue, Typestate } from 'xstate';
-declare function matchesState(state: StateValue, statechartPropertyName?: string): any;
+declare function matchesState(
+  state: StateValue,
+  statechartPropertyName?: string
+): any;
 /**
  * No-op typecast function that turns what TypeScript believes to be a
  * ConfigurableMachineDefinition function into a InterpreterUsable.

@@ -25,8 +25,13 @@ module('Unit | computed | statechart', function () {
               },
             },
             foo: {
+              // eslint-disable-next-line no-unused-vars
               entry(_context, { type, ...data }) {
-                assert.deepEqual(data, testData, 'passed data is available in eventObject');
+                assert.deepEqual(
+                  data,
+                  testData,
+                  'passed data is available in eventObject'
+                );
               },
             },
           },
@@ -154,7 +159,11 @@ module('Unit | computed | statechart', function () {
     let subject = TestClass.create();
 
     assert.equal(subject.statechart.currentState.value, 'powerOff');
-    assert.equal(subject.offCounter, 1, 'offCounter was incremented as expected');
+    assert.equal(
+      subject.offCounter,
+      1,
+      'offCounter was incremented as expected'
+    );
 
     subject.statechart.send('POWER');
 

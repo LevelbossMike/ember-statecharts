@@ -35,7 +35,11 @@ export declare type UpdateFunction<
   context?: TContext;
   config?: Partial<MachineOptions<TContext, TEvent>>;
   send: Send<TContext, TStateSchema, TEvent, TTypestate>;
-  restart: (initialState?: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue) => void;
+  restart: (
+    initialState?:
+      | State<TContext, TEvent, TStateSchema, TTypestate>
+      | StateValue
+  ) => void;
 }) => void;
 export declare type UsableStatechart<
   TContext,
@@ -80,16 +84,36 @@ export declare type ConfigurableMachineDefinition<
   };
   update: (
     fn: UpdateFunction<TContext, TStateSchema, TEvent, TTypestate>
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   onTransition: (
     fn: StateListener<TContext, TEvent, TStateSchema, TTypestate>
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   withConfig: (
     config: Partial<MachineOptions<TContext, TEvent>>
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   withContext: (
     context: TContext
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   _update?: UpdateFunction<TContext, TStateSchema, TEvent, TTypestate>;
   _onTransition?: StateListener<TContext, TEvent, TStateSchema, TTypestate>;
 };
@@ -104,7 +128,9 @@ export declare type UseMachineBucket<
 > = {
   interpreter: InterpreterService<TContext, TStateSchema, TEvent, TTypestate>;
   setupOptions?: {
-    initialState: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue;
+    initialState:
+      | State<TContext, TEvent, TStateSchema, TTypestate>
+      | StateValue;
   };
 };
 export declare class InterpreterService<
@@ -117,7 +143,9 @@ export declare class InterpreterService<
   _state: State<TContext, TEvent, TStateSchema, TTypestate>;
   machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
   interpreterOptions: Partial<InterpreterOptions>;
-  onTransition: StateListener<TContext, TEvent, TStateSchema, TTypestate> | undefined;
+  onTransition:
+    | StateListener<TContext, TEvent, TStateSchema, TTypestate>
+    | undefined;
   constructor(
     machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>,
     interpreterOptions: Partial<InterpreterOptions>,
@@ -129,7 +157,9 @@ export declare class InterpreterService<
     service: Interpreter<TContext, TStateSchema, TEvent, TTypestate>;
   };
   setup(setupOptions?: {
-    initialState?: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue;
+    initialState?:
+      | State<TContext, TEvent, TStateSchema, TTypestate>
+      | StateValue;
   }): void;
   teardown(): void;
 }
@@ -152,12 +182,12 @@ export declare class MachineInterpreterManager<
   ): UseMachineBucket<TContext, TStateSchema, TEvent, TTypestate>;
   getState({
     interpreter,
-  }: UseMachineBucket<TContext, TStateSchema, TEvent, TTypestate>): InterpreterService<
+  }: UseMachineBucket<
     TContext,
     TStateSchema,
     TEvent,
     TTypestate
-  >['state'];
+  >): InterpreterService<TContext, TStateSchema, TEvent, TTypestate>['state'];
   setupUsable({
     interpreter,
     setupOptions,

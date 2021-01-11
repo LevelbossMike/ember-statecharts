@@ -1,6 +1,10 @@
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
-import { statechart, matchesState, debugState } from 'ember-statecharts/computed';
+import {
+  statechart,
+  matchesState,
+  debugState,
+} from 'ember-statecharts/computed';
 
 module('Unit | statechart computeds', function (hooks) {
   hooks.beforeEach(function () {
@@ -165,13 +169,21 @@ module('Unit | statechart computeds', function (hooks) {
         'works inside of nested states - paused true - paused'
       );
 
-      assert.equal(subject.playerActiveMusicNotPlaying, true, 'works when passing array');
+      assert.equal(
+        subject.playerActiveMusicNotPlaying,
+        true,
+        'works when passing array'
+      );
     });
 
     test('it can be used with other computeds not named `statechart`', async function (assert) {
       let { subject } = this;
 
-      assert.equal(subject.get('secondIsOff'), true, 'work for initial state of second statechart');
+      assert.equal(
+        subject.get('secondIsOff'),
+        true,
+        'work for initial state of second statechart'
+      );
 
       await subject.get('secondStatechart').send('POWER');
 
