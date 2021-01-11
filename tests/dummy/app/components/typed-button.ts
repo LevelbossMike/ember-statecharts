@@ -2,7 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
 import { useMachine, matchesState, interpreterFor } from 'ember-statecharts';
-import buttonMachine, { ButtonContext, ButtonEvent } from '../machines/typed-button';
+import buttonMachine, {
+  ButtonContext,
+  ButtonEvent,
+} from '../machines/typed-button';
 import { TaskGenerator } from 'ember-concurrency';
 
 import { task } from 'ember-concurrency-decorators';
@@ -80,14 +83,20 @@ export default class TypedButton extends Component<ButtonArgs> {
   }
 
   @action
-  onSuccess(_context: ButtonContext, { result }: Extract<ButtonEvent, { type: 'SUCCESS ' }>): any {
+  onSuccess(
+    _context: ButtonContext,
+    { result }: Extract<ButtonEvent, { type: 'SUCCESS ' }>
+  ): any {
     const functionToCall = this.args.onSuccess || noop;
 
     return functionToCall(result);
   }
 
   @action
-  onError(_context: ButtonContext, { error }: Extract<ButtonEvent, { type: 'ERROR' }>): any {
+  onError(
+    _context: ButtonContext,
+    { error }: Extract<ButtonEvent, { type: 'ERROR' }>
+  ): any {
     const functionToCall = this.args.onError || noop;
 
     return functionToCall(error);

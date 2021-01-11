@@ -16,14 +16,19 @@ function matchesState(states, statechartPropertyName = 'statechart') {
     const _states = A(makeArray(states));
 
     return _states.any((state) => {
-      return xstateMatchesState(state, get(this, `${statechartPropertyName}.currentState.value`));
+      return xstateMatchesState(
+        state,
+        get(this, `${statechartPropertyName}.currentState.value`)
+      );
     });
   });
 }
 
 function debugState(statechartPropertyName = 'statechart') {
   return computed(`${statechartPropertyName}.currentState`, function () {
-    return JSON.stringify(get(this, `${statechartPropertyName}.currentState.value`));
+    return JSON.stringify(
+      get(this, `${statechartPropertyName}.currentState.value`)
+    );
   });
 }
 
@@ -35,7 +40,10 @@ function statechart(config, options) {
     const statechart = new Statechart(config, options, initialContext);
 
     /* eslint-disable ember/no-side-effects */
-    this.willDestroy = decorateStopInterpreterOnDestroy(this.willDestroy, statechart.service);
+    this.willDestroy = decorateStopInterpreterOnDestroy(
+      this.willDestroy,
+      statechart.service
+    );
 
     return statechart;
   });

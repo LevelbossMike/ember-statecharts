@@ -10,7 +10,9 @@ export default class CounterComponent extends Component {
     .withContext({
       count: this.args.count,
     })
-    .update(({ send, context }) => send('RESET_COUNT', { count: context.count }));
+    .update(({ send, context }) =>
+      send('RESET_COUNT', { count: context.count })
+    );
 
   @matchesState('active')
   isActive;

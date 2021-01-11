@@ -63,7 +63,11 @@ module('Unit | use-machine', function (hooks) {
           .withConfig({
             actions: {
               lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                assert.equal(
+                  context.name,
+                  'Tomster',
+                  'context was updated as expected'
+                );
                 assert.step('patched');
               },
             },
@@ -95,7 +99,11 @@ module('Unit | use-machine', function (hooks) {
 
       testContext.test.statechart.send('START');
 
-      assert.equal(testContext.test.statechart.state.value, 'started', 'statechart state updated');
+      assert.equal(
+        testContext.test.statechart.state.value,
+        'started',
+        'statechart state updated'
+      );
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
     });
@@ -110,7 +118,11 @@ module('Unit | use-machine', function (hooks) {
           .withConfig({
             actions: {
               lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                assert.equal(
+                  context.name,
+                  'Tomster',
+                  'context was updated as expected'
+                );
                 assert.step('patched');
               },
             },
@@ -142,7 +154,11 @@ module('Unit | use-machine', function (hooks) {
 
       testContext.test.statechart.send('START');
 
-      assert.equal(testContext.test.statechart.state.value, 'started', 'statechart state updated');
+      assert.equal(
+        testContext.test.statechart.state.value,
+        'started',
+        'statechart state updated'
+      );
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
     });
@@ -157,7 +173,11 @@ module('Unit | use-machine', function (hooks) {
           .withConfig({
             actions: {
               lol(context) {
-                assert.equal(context.name, 'Tomster', 'context was updated as expected');
+                assert.equal(
+                  context.name,
+                  'Tomster',
+                  'context was updated as expected'
+                );
                 assert.step('patched');
               },
             },
@@ -189,7 +209,11 @@ module('Unit | use-machine', function (hooks) {
 
       testContext.test.statechart.send('START');
 
-      assert.equal(testContext.test.statechart.state.value, 'started', 'statechart state updated');
+      assert.equal(
+        testContext.test.statechart.state.value,
+        'started',
+        'statechart state updated'
+      );
 
       assert.verifySteps(['patched'], 'config can be updated via `@use`');
     });
@@ -259,108 +283,114 @@ module('Unit | use-machine', function (hooks) {
       assert.verifySteps(['service stopped'], 'service was stopped');
     });
 
-    module('when args and local state passed to `useMachine` change', function (hooks) {
-      hooks.beforeEach(function () {
-        const testContext = this;
+    module(
+      'when args and local state passed to `useMachine` change',
+      function (hooks) {
+        hooks.beforeEach(function () {
+          const testContext = this;
 
-        class Test extends Component {
-          @tracked name;
-          @use statechart = useMachine(this.args.machine)
-            .withConfig({
-              actions: {
-                lol: this.args.lol,
-              },
-            })
-            .withContext({
-              name: this.name,
-            });
+          class Test extends Component {
+            @tracked name;
+            @use statechart = useMachine(this.args.machine)
+              .withConfig({
+                actions: {
+                  lol: this.args.lol,
+                },
+              })
+              .withContext({
+                name: this.name,
+              });
 
-          constructor(owner, args) {
-            super(owner, args);
+            constructor(owner, args) {
+              super(owner, args);
 
-            testContext.test = this;
+              testContext.test = this;
 
-            this.name = 'Tomster';
+              this.name = 'Tomster';
 
-            // access usable to setup usable
-            this.statechart;
+              // access usable to setup usable
+              this.statechart;
+            }
           }
-        }
 
-        this.owner.register('component:test', Test);
-      });
+          this.owner.register('component:test', Test);
+        });
 
-      test('interpreted machine service does not get resetup when args change', async function (assert) {
-        const testContext = this;
+        test('interpreted machine service does not get resetup when args change', async function (assert) {
+          const testContext = this;
 
-        const { TestMachine, CreatedTestMachine } = this;
+          const { TestMachine, CreatedTestMachine } = this;
 
-        this.set('lol', function () {});
-        this.set('machine', TestMachine);
+          this.set('lol', function () {});
+          this.set('machine', TestMachine);
 
-        await render(hbs`
+          await render(hbs`
           <Test @lol={{this.lol}} @machine={{this.machine}}/>
         `);
 
-        const service = testContext.test.statechart.service;
+          const service = testContext.test.statechart.service;
 
-        testContext.test.name = 'Zoey';
+          testContext.test.name = 'Zoey';
 
-        assert.deepEqual(
-          service,
-          testContext.test.statechart.service,
-          'service was not resetup after local component state used in `useMachine#withContext` was changed'
-        );
+          assert.deepEqual(
+            service,
+            testContext.test.statechart.service,
+            'service was not resetup after local component state used in `useMachine#withContext` was changed'
+          );
 
-        this.set('lol', function () {});
+          this.set('lol', function () {});
 
-        assert.deepEqual(
-          service,
-          testContext.test.statechart.service,
-          'service was not resetup after args used in `useMachine#withConfig` were changed'
-        );
+          assert.deepEqual(
+            service,
+            testContext.test.statechart.service,
+            'service was not resetup after args used in `useMachine#withConfig` were changed'
+          );
 
-        this.set('machine', CreatedTestMachine);
+          this.set('machine', CreatedTestMachine);
 
-        assert.deepEqual(
-          service,
-          testContext.test.statechart.service,
-          'service was not resetup after component args used in @use were changed'
-        );
-      });
+          assert.deepEqual(
+            service,
+            testContext.test.statechart.service,
+            'service was not resetup after component args used in @use were changed'
+          );
+        });
 
-      test('when args or local state passed to `useMachine` is changed a warning is issued', async function (assert) {
-        const { TestMachine, CreatedTestMachine } = this;
+        test('when args or local state passed to `useMachine` is changed a warning is issued', async function (assert) {
+          const { TestMachine, CreatedTestMachine } = this;
 
-        this.set('lol', function () {});
-        this.set('machine', TestMachine);
+          this.set('lol', function () {});
+          this.set('machine', TestMachine);
 
-        await render(hbs`
+          await render(hbs`
           <Test @lol={{this.lol}} @machine={{this.machine}}/>
         `);
 
-        // local state change
-        this.set('test.name', 'Zoey');
+          // local state change
+          this.set('test.name', 'Zoey');
 
-        assert.expectWarning(
-          ARGS_STATE_CHANGE_WARNING,
-          'warning was issued based on local state change'
-        );
+          assert.expectWarning(
+            ARGS_STATE_CHANGE_WARNING,
+            'warning was issued based on local state change'
+          );
 
-        // args change `withConfig`
-        this.set('lol', function () {});
+          // args change `withConfig`
+          this.set('lol', function () {});
 
-        assert.expectWarning(
-          ARGS_STATE_CHANGE_WARNING,
-          'warning was issued based on args change used in `withConfig`'
-        );
+          assert.expectWarning(
+            ARGS_STATE_CHANGE_WARNING,
+            'warning was issued based on args change used in `withConfig`'
+          );
 
-        // args change `useMachine`
-        this.set('machine', CreatedTestMachine);
+          // args change `useMachine`
+          this.set('machine', CreatedTestMachine);
 
-        assert.expectWarning(ARGS_STATE_CHANGE_WARNING, 'warning was issued based on args change');
-      });
-    });
+          assert.expectWarning(
+            ARGS_STATE_CHANGE_WARNING,
+            'warning was issued based on args change'
+          );
+        });
+      }
+    );
 
     module("xstate's built-in assign works as expected", function () {
       hooks.beforeEach(function () {
@@ -447,7 +477,9 @@ module('Unit | use-machine', function (hooks) {
 
         await click('[data-test-minus]');
 
-        assert.dom('[data-test-count="0"]').exists('count was updated - 0 again');
+        assert
+          .dom('[data-test-count="0"]')
+          .exists('count was updated - 0 again');
       });
 
       test('it is possible to use `assign` with a function that returns the updated state', async function (assert) {
@@ -500,7 +532,9 @@ module('Unit | use-machine', function (hooks) {
 
         await click('[data-test-minus]');
 
-        assert.dom('[data-test-count="0"]').exists('count was updated - 0 again');
+        assert
+          .dom('[data-test-count="0"]')
+          .exists('count was updated - 0 again');
       });
 
       test('reactive getters are possible based on `assign`ed context changes', async function (assert) {
@@ -566,7 +600,9 @@ module('Unit | use-machine', function (hooks) {
           <Counter />
         `);
 
-        assert.dom('[data-test-plus]').isNotDisabled('plus button is not disabled - count is 0');
+        assert
+          .dom('[data-test-plus]')
+          .isNotDisabled('plus button is not disabled - count is 0');
 
         await click('[data-test-plus]');
 
@@ -577,224 +613,227 @@ module('Unit | use-machine', function (hooks) {
     });
   });
 
-  module('changes to arguments passed to `useMachine` et al. can be handled', function () {
-    test('`update` callback is called', async function (assert) {
-      const testContext = this;
+  module(
+    'changes to arguments passed to `useMachine` et al. can be handled',
+    function () {
+      test('`update` callback is called', async function (assert) {
+        const testContext = this;
 
-      const counterMachine = Machine(
-        {
-          initial: 'active',
-          context: {
-            count: 0,
-          },
-          states: {
-            active: {
-              on: {
-                INCREMENT: {
-                  target: 'active',
-                  actions: ['incrementCounter'],
+        const counterMachine = Machine(
+          {
+            initial: 'active',
+            context: {
+              count: 0,
+            },
+            states: {
+              active: {
+                on: {
+                  INCREMENT: {
+                    target: 'active',
+                    actions: ['incrementCounter'],
+                  },
                 },
               },
             },
           },
-        },
-        {
-          actions: {
-            incrementCounter: actions.assign({
-              count: (context) => context.count + 1,
-            }),
-          },
-        }
-      );
-
-      class Test extends Component {
-        @use statechart = useMachine(counterMachine)
-          .withContext({
-            count: this.args.initialCount,
-          })
-          .update(() => {
-            assert.step('update called');
-          });
-
-        constructor(owner, args) {
-          super(owner, args);
-
-          testContext.test = this;
-
-          // access usable to setup usable
-          this.statechart;
-        }
-      }
-
-      this.owner.register('component:test', Test);
-
-      this.set('initialCount', 0);
-
-      await render(hbs`
-        <Test @initialCount={{this.initialCount}}/>
-      `);
-
-      this.set('initialCount', 9000);
-
-      assert.verifySteps(['update called']);
-    });
-
-    test('events can be send to the interpreter', async function (assert) {
-      const testContext = this;
-
-      const counterMachine = Machine(
-        {
-          initial: 'active',
-          context: {
-            count: 0,
-          },
-          states: {
-            active: {
-              on: {
-                INCREMENT: {
-                  target: 'active',
-                  actions: ['incrementCounter'],
-                },
-                RESET_COUNT: {
-                  target: 'active',
-                  actions: ['resetCounter'],
-                },
-              },
-            },
-          },
-        },
-        {
-          actions: {
-            incrementCounter: actions.assign({
-              count: (context) => context.count + 1,
-            }),
-          },
-        }
-      );
-
-      class Test extends Component {
-        @use statechart = useMachine(counterMachine)
-          .withContext({
-            count: this.args.initialCount,
-          })
-          .withConfig({
+          {
             actions: {
-              resetCounter() {
-                assert.step('resetCounter action called');
-              },
+              incrementCounter: actions.assign({
+                count: (context) => context.count + 1,
+              }),
             },
-          })
-          .update(({ send }) => {
-            send('RESET_COUNT');
-          });
+          }
+        );
 
-        constructor(owner, args) {
-          super(owner, args);
+        class Test extends Component {
+          @use statechart = useMachine(counterMachine)
+            .withContext({
+              count: this.args.initialCount,
+            })
+            .update(() => {
+              assert.step('update called');
+            });
 
-          testContext.test = this;
+          constructor(owner, args) {
+            super(owner, args);
 
-          // access usable to setup usable
-          this.statechart;
+            testContext.test = this;
+
+            // access usable to setup usable
+            this.statechart;
+          }
         }
-      }
 
-      this.owner.register('component:test', Test);
+        this.owner.register('component:test', Test);
 
-      this.set('initialCount', 0);
+        this.set('initialCount', 0);
 
-      await render(hbs`
+        await render(hbs`
         <Test @initialCount={{this.initialCount}}/>
       `);
 
-      this.set('initialCount', 9000);
+        this.set('initialCount', 9000);
 
-      assert.verifySteps(['resetCounter action called']);
-    });
+        assert.verifySteps(['update called']);
+      });
 
-    test('the interpreter can be resetup with updated values', async function (assert) {
-      const testContext = this;
+      test('events can be send to the interpreter', async function (assert) {
+        const testContext = this;
 
-      const counterMachine = Machine(
-        {
-          initial: 'inactive',
-          context: {
-            count: 0,
-          },
-          states: {
-            inactive: {
-              on: {
-                ACTIVATE: 'active',
-              },
+        const counterMachine = Machine(
+          {
+            initial: 'active',
+            context: {
+              count: 0,
             },
-            active: {
-              on: {
-                INCREMENT: {
-                  target: 'active',
-                  actions: ['incrementCounter'],
+            states: {
+              active: {
+                on: {
+                  INCREMENT: {
+                    target: 'active',
+                    actions: ['incrementCounter'],
+                  },
+                  RESET_COUNT: {
+                    target: 'active',
+                    actions: ['resetCounter'],
+                  },
                 },
               },
             },
           },
-        },
-        {
-          actions: {
-            incrementCounter: actions.assign({
-              count: (context) => context.count + 1,
-            }),
-          },
+          {
+            actions: {
+              incrementCounter: actions.assign({
+                count: (context) => context.count + 1,
+              }),
+            },
+          }
+        );
+
+        class Test extends Component {
+          @use statechart = useMachine(counterMachine)
+            .withContext({
+              count: this.args.initialCount,
+            })
+            .withConfig({
+              actions: {
+                resetCounter() {
+                  assert.step('resetCounter action called');
+                },
+              },
+            })
+            .update(({ send }) => {
+              send('RESET_COUNT');
+            });
+
+          constructor(owner, args) {
+            super(owner, args);
+
+            testContext.test = this;
+
+            // access usable to setup usable
+            this.statechart;
+          }
         }
-      );
 
-      class Test extends Component {
-        @use statechart = useMachine(counterMachine)
-          .withContext({
-            count: this.args.initialCount,
-          })
-          .update(({ restart }) => {
-            restart();
-          });
+        this.owner.register('component:test', Test);
 
-        constructor(owner, args) {
-          super(owner, args);
+        this.set('initialCount', 0);
 
-          testContext.test = this;
-
-          // access usable to setup usable
-          this.statechart;
-        }
-      }
-
-      this.owner.register('component:test', Test);
-
-      this.set('initialCount', 0);
-
-      await render(hbs`
+        await render(hbs`
         <Test @initialCount={{this.initialCount}}/>
       `);
 
-      this.test.statechart.send('ACTIVATE');
+        this.set('initialCount', 9000);
 
-      assert.equal(
-        this.test.statechart.state.value,
-        'active',
-        'statechart transitioned into `active`'
-      );
+        assert.verifySteps(['resetCounter action called']);
+      });
 
-      this.set('initialCount', 9000);
+      test('the interpreter can be resetup with updated values', async function (assert) {
+        const testContext = this;
 
-      assert.equal(
-        this.test.statechart.state.value,
-        'inactive',
-        'statechart was restarted and is in initial state `inactive`'
-      );
+        const counterMachine = Machine(
+          {
+            initial: 'inactive',
+            context: {
+              count: 0,
+            },
+            states: {
+              inactive: {
+                on: {
+                  ACTIVATE: 'active',
+                },
+              },
+              active: {
+                on: {
+                  INCREMENT: {
+                    target: 'active',
+                    actions: ['incrementCounter'],
+                  },
+                },
+              },
+            },
+          },
+          {
+            actions: {
+              incrementCounter: actions.assign({
+                count: (context) => context.count + 1,
+              }),
+            },
+          }
+        );
 
-      assert.equal(
-        this.test.statechart.state.context.count,
-        9000,
-        'statechart was restarted with updated count'
-      );
-    });
-  });
+        class Test extends Component {
+          @use statechart = useMachine(counterMachine)
+            .withContext({
+              count: this.args.initialCount,
+            })
+            .update(({ restart }) => {
+              restart();
+            });
+
+          constructor(owner, args) {
+            super(owner, args);
+
+            testContext.test = this;
+
+            // access usable to setup usable
+            this.statechart;
+          }
+        }
+
+        this.owner.register('component:test', Test);
+
+        this.set('initialCount', 0);
+
+        await render(hbs`
+        <Test @initialCount={{this.initialCount}}/>
+      `);
+
+        this.test.statechart.send('ACTIVATE');
+
+        assert.equal(
+          this.test.statechart.state.value,
+          'active',
+          'statechart transitioned into `active`'
+        );
+
+        this.set('initialCount', 9000);
+
+        assert.equal(
+          this.test.statechart.state.value,
+          'inactive',
+          'statechart was restarted and is in initial state `inactive`'
+        );
+
+        assert.equal(
+          this.test.statechart.state.context.count,
+          9000,
+          'statechart was restarted with updated count'
+        );
+      });
+    }
+  );
 
   test('`useMachine` works with `matchesState`', async function (assert) {
     const testContext = this;
@@ -821,7 +860,11 @@ module('Unit | use-machine', function (hooks) {
       <Test />
     `);
 
-    assert.equal(testContext.test.isStopped, true, 'matchesState works against initial state');
+    assert.equal(
+      testContext.test.isStopped,
+      true,
+      'matchesState works against initial state'
+    );
 
     testContext.test.statechart.send('START');
 
@@ -898,11 +941,11 @@ module('Unit | use-machine', function (hooks) {
         });
 
         class Test extends Component {
-          @use statechart = useMachine(machine, { state: this.args.state }).update(
-            ({ restart }) => {
-              restart();
-            }
-          );
+          @use statechart = useMachine(machine, {
+            state: this.args.state,
+          }).update(({ restart }) => {
+            restart();
+          });
 
           constructor(owner, args) {
             super(owner, args);
@@ -1037,11 +1080,17 @@ module('Unit | use-machine', function (hooks) {
 
       this.test.statechart;
 
-      assert.verifySteps(['inactive'], '`onTransition` fired on initial transition');
+      assert.verifySteps(
+        ['inactive'],
+        '`onTransition` fired on initial transition'
+      );
 
       this.test.statechart.send('START');
 
-      assert.verifySteps(['active'], '`onTransition` fired on regular state transition');
+      assert.verifySteps(
+        ['active'],
+        '`onTransition` fired on regular state transition'
+      );
     });
   });
 });

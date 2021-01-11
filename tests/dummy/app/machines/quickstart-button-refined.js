@@ -10,7 +10,10 @@ export default Machine(
         states: {
           unknown: {
             on: {
-              '': [{ target: 'enabled', cond: 'isEnabled' }, { target: 'disabled' }],
+              '': [
+                { target: 'enabled', cond: 'isEnabled' },
+                { target: 'disabled' },
+              ],
             },
           },
           enabled: {
