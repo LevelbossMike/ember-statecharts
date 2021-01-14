@@ -24,7 +24,7 @@ module('Integration | Component | quickstart-button', function (hooks) {
     </QuickstartButton>
   `);
 
-    assert.dom('[data-test-button').hasText('Hello World!');
+    assert.dom('[data-test-button]').hasText('Hello World!');
   });
 
   test("it's possible to pass an onClick-action handler to the button", async function (assert) {
@@ -56,13 +56,13 @@ module('Integration | Component | quickstart-button', function (hooks) {
 
     await waitFor('[data-test-loading]');
 
-    assert.dom('[data-test-loading').exists('button is displayed with loading ui while busy');
+    assert
+      .dom('[data-test-loading]')
+      .exists('button is displayed with loading ui while busy');
 
     this.set('onClick', function () {
       assert.ok(false, 'onClick should not be triggered again');
     });
-
-    await click('[data-test-button]');
 
     assert.dom('[data-test-button]').isDisabled('button is disabled when busy');
   });
@@ -81,9 +81,7 @@ module('Integration | Component | quickstart-button', function (hooks) {
       />
     `);
 
-    await click('[data-test-button]');
-
-    assert.dom('[data-test-button]').hasAttribute('disabled');
+    assert.dom('[data-test-button]').isDisabled('button is disabled');
   });
 
   test('when the triggered action resolves the `onSuccess` handler is triggered', async function (assert) {

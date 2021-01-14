@@ -45,12 +45,12 @@ export default class QuickstartButton extends Component {
 
   @action
   onSuccess(_context, { result }) {
-    return this.args.onSuccess(result) || noop();
+    return (this.args.onSuccess && this.args.onSuccess(result)) || noop();
   }
 
   @action
   onError(_context, { error }) {
-    return this.args.onError(error) || noop();
+    return (this.args.onError && this.args.onError(error)) || noop();
   }
 
   @action

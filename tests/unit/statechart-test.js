@@ -8,8 +8,8 @@ module('Unit | computed | statechart', function () {
   test('it adds statechart functionality to an ember-object', async function (assert) {
     assert.expect(5);
 
-    let subject = EmberObject.extend({
-      statechart: statechart(
+    class TestClass extends EmberObject {
+      @statechart(
         {
           initial: 'new',
           states: {
@@ -25,8 +25,13 @@ module('Unit | computed | statechart', function () {
               },
             },
             foo: {
+              // eslint-disable-next-line no-unused-vars
               entry(_context, { type, ...data }) {
-                assert.deepEqual(data, testData, 'passed data is available in eventObject');
+                assert.deepEqual(
+                  data,
+                  testData,
+                  'passed data is available in eventObject'
+                );
               },
             },
           },
@@ -38,8 +43,10 @@ module('Unit | computed | statechart', function () {
             },
           },
         }
-      ),
-    }).create();
+      )
+      statechart;
+    }
+    let subject = TestClass.create();
 
     const testData = { wat: 'lol' };
 
@@ -53,12 +60,12 @@ module('Unit | computed | statechart', function () {
   test('it is possible to pass statechart-options to the statechart when passing an array of params', async function (assert) {
     assert.expect(5);
 
-    let subject = EmberObject.extend({
-      name: 'Tomster',
+    class TestClass extends EmberObject {
+      name = 'Tomster';
 
-      power: null,
+      power = null;
 
-      statechart: statechart(
+      @statechart(
         {
           initial: 'powerOff',
           states: {
@@ -82,8 +89,11 @@ module('Unit | computed | statechart', function () {
             },
           },
         }
-      ),
-    }).create();
+      )
+      statechart;
+    }
+
+    let subject = TestClass.create();
 
     assert.equal(
       subject.statechart.currentState.value,
@@ -109,9 +119,10 @@ module('Unit | computed | statechart', function () {
   });
 
   test('statechart services will be cleaned properly when the object containing the statechart is destroyed', async function (assert) {
-    const subject = EmberObject.extend({
-      offCounter: 0,
-      statechart: statechart(
+    class TestClass extends EmberObject {
+      offCounter = 0;
+
+      @statechart(
         {
           initial: 'powerOff',
           states: {
@@ -135,17 +146,24 @@ module('Unit | computed | statechart', function () {
             },
           },
         }
-      ),
+      )
+      statechart;
 
       willDestroy() {
-        this._super(...arguments);
+        super.willDestroy(...arguments);
 
         assert.step('willDestroy hook is called correctly');
-      },
-    }).create();
+      }
+    }
+
+    let subject = TestClass.create();
 
     assert.equal(subject.statechart.currentState.value, 'powerOff');
-    assert.equal(subject.offCounter, 1, 'offCounter was incremented as expected');
+    assert.equal(
+      subject.offCounter,
+      1,
+      'offCounter was incremented as expected'
+    );
 
     subject.statechart.send('POWER');
 
@@ -154,7 +172,7 @@ module('Unit | computed | statechart', function () {
     assert.equal(subject.statechart.currentState.value, 'powerOn');
 
     // will fail with `calling set on destroyed object` if  this doesn't work
-    await run(() => subject.destroy());
+    run(() => subject.destroy());
 
     assert.verifySteps(['willDestroy hook is called correctly']);
   });

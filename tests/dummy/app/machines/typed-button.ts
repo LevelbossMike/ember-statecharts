@@ -28,7 +28,10 @@ export default createMachine<ButtonContext, ButtonEvent, ButtonState>(
         states: {
           unknown: {
             on: {
-              '': [{ target: 'enabled', cond: 'isEnabled' }, { target: 'disabled' }],
+              '': [
+                { target: 'enabled', cond: 'isEnabled' },
+                { target: 'disabled' },
+              ],
             },
           },
           enabled: {

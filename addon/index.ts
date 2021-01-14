@@ -12,7 +12,10 @@ import {
 } from 'xstate';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-function matchesState(state: StateValue, statechartPropertyName = 'statechart'): any {
+function matchesState(
+  state: StateValue,
+  statechartPropertyName = 'statechart'
+): any {
   return function () {
     return {
       get(this: any): boolean {

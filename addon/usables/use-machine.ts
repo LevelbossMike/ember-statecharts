@@ -42,7 +42,11 @@ export type UpdateFunction<
   context?: TContext;
   config?: Partial<MachineOptions<TContext, TEvent>>;
   send: Send<TContext, TStateSchema, TEvent, TTypestate>;
-  restart: (initialState?: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue) => void;
+  restart: (
+    initialState?:
+      | State<TContext, TEvent, TStateSchema, TTypestate>
+      | StateValue
+  ) => void;
 }) => void;
 
 export type UsableStatechart<
@@ -81,16 +85,36 @@ export type ConfigurableMachineDefinition<
   };
   update: (
     fn: UpdateFunction<TContext, TStateSchema, TEvent, TTypestate>
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   onTransition: (
     fn: StateListener<TContext, TEvent, TStateSchema, TTypestate>
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   withConfig: (
     config: Partial<MachineOptions<TContext, TEvent>>
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
   withContext: (
     context: TContext
-  ) => ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) => ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
 
   _update?: UpdateFunction<TContext, TStateSchema, TEvent, TTypestate>;
   _onTransition?: StateListener<TContext, TEvent, TStateSchema, TTypestate>;
@@ -104,7 +128,9 @@ export type UseMachineBucket<
 > = {
   interpreter: InterpreterService<TContext, TStateSchema, TEvent, TTypestate>;
   setupOptions?: {
-    initialState: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue;
+    initialState:
+      | State<TContext, TEvent, TStateSchema, TTypestate>
+      | StateValue;
   };
 };
 
@@ -119,7 +145,9 @@ export class InterpreterService<
 
   machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
   interpreterOptions: Partial<InterpreterOptions>;
-  onTransition: StateListener<TContext, TEvent, TStateSchema, TTypestate> | undefined = undefined;
+  onTransition:
+    | StateListener<TContext, TEvent, TStateSchema, TTypestate>
+    | undefined = undefined;
 
   constructor(
     machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>,
@@ -145,7 +173,9 @@ export class InterpreterService<
 
   setup(
     setupOptions: {
-      initialState?: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue;
+      initialState?:
+        | State<TContext, TEvent, TStateSchema, TTypestate>
+        | StateValue;
     } = {}
   ): void {
     const { state } = this.interpreterOptions;
@@ -199,7 +229,11 @@ export class MachineInterpreterManager<
       onTransition = _onTransition.bind(context);
     }
 
-    const interpreter = new InterpreterService(machine, interpreterOptions, onTransition);
+    const interpreter = new InterpreterService(
+      machine,
+      interpreterOptions,
+      onTransition
+    );
 
     setOwner(interpreter, owner);
 
@@ -208,12 +242,12 @@ export class MachineInterpreterManager<
 
   getState({
     interpreter,
-  }: UseMachineBucket<TContext, TStateSchema, TEvent, TTypestate>): InterpreterService<
+  }: UseMachineBucket<
     TContext,
     TStateSchema,
     TEvent,
     TTypestate
-  >['state'] {
+  >): InterpreterService<TContext, TStateSchema, TEvent, TTypestate>['state'] {
     return interpreter.state;
   }
 
@@ -243,10 +277,16 @@ export class MachineInterpreterManager<
         context,
         config,
         send: interpreter.service.send,
-        restart: this.restartUsable.bind(this, bucket, configurableMachineDefinition),
+        restart: this.restartUsable.bind(
+          this,
+          bucket,
+          configurableMachineDefinition
+        ),
       });
     } else {
-      warn(ARGS_STATE_CHANGE_WARNING, false, { id: 'statecharts.use-machine.args-state-change' });
+      warn(ARGS_STATE_CHANGE_WARNING, false, {
+        id: 'statecharts.use-machine.args-state-change',
+      });
     }
   }
 
@@ -267,7 +307,10 @@ export class MachineInterpreterManager<
     state: State<TContext, TEvent, TStateSchema, TTypestate> | StateValue
   ): void {
     this.teardownUsable(bucket);
-    bucket.interpreter = this.createUsable(bucket, configurableMachineDefinition).interpreter;
+    bucket.interpreter = this.createUsable(
+      bucket,
+      configurableMachineDefinition
+    ).interpreter;
     bucket.setupOptions = { initialState: state };
     this.setupUsable(bucket);
   }
@@ -291,7 +334,12 @@ export default function useMachine<
 ): ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate> {
   const configurableMachineDefinition = Object.create(
     MANAGED_INTERPRETER
-  ) as ConfigurableMachineDefinition<TContext, TStateSchema, TEvent, TTypestate>;
+  ) as ConfigurableMachineDefinition<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate
+  >;
 
   machine = machine instanceof StateNode ? machine : createMachine(machine);
 
@@ -316,7 +364,8 @@ export default function useMachine<
     configurableMachineDefinition.machine = configurableMachineDefinition.machine.withConfig(
       config
     );
-    configurableMachineDefinition.args.machine = configurableMachineDefinition.machine;
+    configurableMachineDefinition.args.machine =
+      configurableMachineDefinition.machine;
     configurableMachineDefinition.args.config = config;
     return configurableMachineDefinition;
   };
@@ -325,7 +374,8 @@ export default function useMachine<
     configurableMachineDefinition.machine = configurableMachineDefinition.machine.withContext(
       context
     ) as StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
-    configurableMachineDefinition.args.machine = configurableMachineDefinition.machine;
+    configurableMachineDefinition.args.machine =
+      configurableMachineDefinition.machine;
     configurableMachineDefinition.args.context = context;
     return configurableMachineDefinition;
   };
