@@ -1,0 +1,40 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: ember-ajax
+    versions:
+    - "> 3.1.3"
+  - dependency-name: ember-cli-template-lint
+    versions:
+    - "> 1.0.0-beta.2"
+  - dependency-name: ember-cli-update
+    versions:
+    - "> 0.27.18"
+  - dependency-name: eslint-plugin-prettier
+    versions:
+    - ">= 2.6.1.a, < 2.6.2"
+  - dependency-name: eslint-plugin-prettier
+    versions:
+    - ">= 2.6.2.a, < 2.6.3"
+  - dependency-name: eslint-plugin-prettier
+    versions:
+    - ">= 2.7.a, < 2.8"
+  - dependency-name: extend
+    versions:
+    - "> 3.0.1"
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: ember-cli-typescript
+    versions:
+    - 4.0.0
+  - dependency-name: handlebars
+    versions:
+    - 4.7.6
