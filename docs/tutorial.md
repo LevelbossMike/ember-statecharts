@@ -41,7 +41,7 @@ be `busy` while the `onClick`-action we pass to it is executing.
 ```
 <iframe
   src="https://xstate.js.org/viz/?gist=d5e74a8a8c1f05bd440dd76549a7b709&embed=1"
-  class="docs-h-64 docs-w-full"
+  class="docs-h-64 docs-w-full prose"
 >
 </iframe>
 

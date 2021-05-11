@@ -564,55 +564,10 @@ We can react to the change in two ways.
 the change as it would to any other external or internal event - in our case
 this means we reset `context.count` to the count-arg we receive in the update:
 
-<DocsDemo as |demo|>
-  <demo.example>
-    {{!-- BEGIN-SNIPPET counter.md --}}
-    <Counter @count={{this.counterCount}} />
-    <div class="docs-flex docs-justify-end docs-mt-12">
-      <input
-        value={{this.count}}
-        class="docs-border-2 docs-p-1 docs-rounded-sm docs-mr-2"
-        {{on "input" this.updateCount}}
-      >
-      <UiButton
-        {{on "click" this.syncCounterCount}}
-      >
-        Update Counter-Count
-      </UiButton>
-    </div>
-    {{!-- END-SNIPPET --}}
-  </demo.example>
-  <demo.snippet @name="counter-update-event.js" @label="components.js" />
-  <demo.snippet @name="counter-machine.js" @label="counter-machine" />
-  <demo.snippet @name="counter.md" @label="template.hbs" />
-</DocsDemo>
-
 2) We restart the entire underlying [XState-interpreter](https://xstate.js.org/docs/guides/interpretation.html) and end up with a statechart as if we accessed if for the first
 time with the update `machine`, `context` or `config`. In our case this means
 that we will end up in the `inactive`-state again even if we were in the
 `active` state before.
-
-<DocsDemo as |demo|>
-  <demo.example @name='counter-restart.md'>
-    <CounterRestart @count={{this.counterCount}} />
-    <div class="docs-flex docs-justify-end docs-mt-12">
-      <input
-        value={{this.count}}
-        class="docs-border-2 docs-p-1 docs-rounded-sm docs-mr-2"
-        {{on "input" this.updateCount}}
-      >
-      <UiButton
-        {{on "click" this.syncCounterCount}}
-      >
-        Update Counter-Count
-      </UiButton>
-    </div>
-  </demo.example>
-
-  <demo.snippet @name="counter-update-restart.js" @label="components.js" />
-  <demo.snippet @name="counter-machine.js" @label="counter-machine" />
-  <demo.snippet @name="counter-restart.md" @label="template.hbs" />
-</DocsDemo>
 
 How you choose handle an update to args/state passed to `useMachine` - either
 sending an event or restarting the interpreter - depends on the situation you

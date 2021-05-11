@@ -38,6 +38,7 @@ module.exports = {
         '.eslintrc.js',
         '.prettierrc.js',
         '.template-lintrc.js',
+        '.docfy-config.js',
         'ember-cli-build.js',
         'index.js',
         'testem.js',

@@ -1,12 +1,74 @@
-<DocsViewer as |viewer|>
-  <viewer.nav as |nav|>
-    <nav.section @label="Overview" />
-    <nav.item @label="Introduction" @route="docs.index" />
-    <nav.item @label="Tutorial" @route="docs.tutorial" />
-    <nav.section @label="Guides" />
-    <nav.item @label="Working with statecharts" @route="docs.statecharts" />
-  </viewer.nav>
-  <viewer.main>
-    {{outlet}}
-  </viewer.main>
-</DocsViewer>
+<div class='max-w-7xl mx-auto px-4 lg:px-8'>
+  <div class='relative lg:flex' data-test-docs>
+    {{! sidebar goes here }}
+    <div class='pt-12 pr-4 flex-non lg:w-64'>
+      <DocfyOutput @scope='docs' as |node|>
+        <ul class='list-inside space-y-2'>
+          {{#each node.pages as |page|}}
+            <li>
+              <DocfyLink @to={{page.url}}>
+                {{page.title}}
+              </DocfyLink>
+            </li>
+          {{/each}}
+
+          {{#each node.children as |child|}}
+            <li class='block ml-4'>
+              <div class='py-2 font-medium'>
+                {{child.label}}
+              </div>
+              <ul class='pl-2 list-inside border-l border-gray-200 space-y-2'>
+                {{#each child.pages as |page|}}
+                  <li>
+                    <DocfyLink @to={{page.url}}>
+                      {{page.title}}
+                    </DocfyLink>
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
+          {{/each}}
+        </ul>
+      </DocfyOutput>
+    </div>
+    <div class='flex-1 w-full min-w-0 px-0 pt-12 lg:px-4'>
+      {{outlet}}
+      <div
+        class='flex flex-wrap justify-between mt-5 mb-10 border-t border-gray-400 dark:border-gray-800'
+      >
+        <DocfyPreviousAndNextPage as |previous next|>
+          <div class='flex items-center pt-6 pr-2'>
+            {{#if previous}}
+              <svg class='h-4 mr-2' fill='currentColor' viewBox='0 0 20 20'>
+                <path
+                  d='M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z'
+                  clip-rule='evenodd'
+                  fill-rule='evenodd'
+                ></path>
+              </svg>
+
+              <DocfyLink @to={{previous.url}} class='text-lg text-ui-green'>
+                {{previous.title}}
+              </DocfyLink>
+            {{/if}}
+          </div>
+          <div class='flex items-center pt-5 pl-2'>
+            {{#if next}}
+              <DocfyLink @to={{next.url}} class='text-lg text-ui-green'>
+                {{next.title}}
+              </DocfyLink>
+
+              <svg class='h-4 ml-2' fill='currentColor' viewBox='0 0 20 20'>
+                <path
+                  d='M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z'
+                  clip-rule='evenodd'
+                  fill-rule='evenodd'
+                ></path>
+              </svg>
+            {{/if}}
+          </div>
+        </DocfyPreviousAndNextPage>
+      </div>
+    </div>
+  </div>
+</div>
