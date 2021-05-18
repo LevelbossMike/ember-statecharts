@@ -14,6 +14,12 @@ module.exports = function (defaults) {
         ],
       },
     },
+    snippetPaths: ['tests/dummy/app'],
+    snippetSearchPaths: ['tests/dummy'],
+    'ember-prism': {
+      theme: 'tomorrow',
+      components: ['markup-templating', 'handlebars'],
+    },
   });
 
   /*

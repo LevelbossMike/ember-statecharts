@@ -2,7 +2,7 @@
 
 You can install `ember-statecharts` like any other ember addon:
  
-```
+```sh
 ember install ember-statecharts
 ```
 
@@ -41,7 +41,7 @@ be `busy` while the `onClick`-action we pass to it is executing.
 ```
 <iframe
   src="https://xstate.js.org/viz/?gist=d5e74a8a8c1f05bd440dd76549a7b709&embed=1"
-  class="docs-h-64 docs-w-full prose"
+  class="w-full h-64 my-12 prose"
 >
 </iframe>
 
@@ -66,7 +66,7 @@ We will model our statechart to transition based on the `SUBMIT`-event.
 
 <iframe
  src="https://xstate.js.org/viz/?gist=9ff6131e1098dcc824921fc001dce356&embed=1"
- class="docs-h-64 docs-w-full"
+ class="w-full h-64 my-12 prose"
 />
 
 You can interact with the statechart during the modeling phase. You will see the statechart
@@ -83,15 +83,15 @@ of a transition:
 * **exit** - when a state is exited
 * on a **transition** - when you want to trigger actions only on a specific transition
 
-{{#docs-demo as |demo|}}
-  {{demo.snippet "quickstart-on-entry.js" label="entry"}}
-  {{demo.snippet "quickstart-on-exit.js" label="exit"}}
-  {{demo.snippet "quickstart-transition.js" label="transition"}}
-{{/docs-demo}}
+<Demo @onlySnippets={{true}} as |demo|>
+  <demo.ui.useSnippet @name="quickstart-on-entry.js" @title="entry" />
+  <demo.ui.useSnippet @name="quickstart-on-exit.js" @title="exit" />
+  <demo.ui.useSnippet @name="quickstart-transition.js" @title="transition" />
+</Demo>
 
 <iframe
   src="https://xstate.js.org/viz/?gist=9fa21784f2531f6473fbc6e8881c8482&embed=1"
-  class="docs-h-64 docs-w-full"
+  class="w-full h-64 my-12 prose"
 />
 
 To model the behavior  of our button component we decide to trigger the
@@ -128,7 +128,7 @@ nowhere to transition to after `busy`. We seem to are missing a `success` state.
 ```
 
 <iframe
-  class="docs-w-full docs-h-64"
+  class="w-full h-64 my-12 prose"
   src="https://xstate.js.org/viz/?gist=2130bab30555d3f19fa274cdf1a9eec5&embed=1"
 />
 
@@ -169,7 +169,7 @@ gets very easy to add states if you discover you missed something:
 ```
 
 <iframe
-  class="docs-h-64 docs-w-full"
+  class="w-full h-64 my-12 prose"
   src="https://xstate.js.org/viz/?gist=451d65175a1a572c2816f1a04a1cf149&embed=1"
 />
 
@@ -212,7 +212,7 @@ both states:
 ```
 
 <iframe
-  class="docs-h-64 docs-w-full"
+  class="w-full h-64 my-12 prose"
   src="https://xstate.js.org/viz/?gist=75fa670f88452661b0cb1182c2391d9e&embed=1"
 />
 
@@ -273,7 +273,7 @@ we simply add a new transition to both states:
 }
 ```
 
-<iframe class="docs-w-full docs-h-64" src="https://xstate.js.org/viz/?gist=ea9c345de6903dd1d3eb4992c85bb92a&embed=1" />
+<iframe class="w-full h-64 my-12 prose" src="https://xstate.js.org/viz/?gist=ea9c345de6903dd1d3eb4992c85bb92a&embed=1" />
 
 ### Executing the modeled statechart
 
@@ -307,7 +307,7 @@ provides in our example. If we didn't want to use `@action` we could use  [Funct
 
 You can see the final component in action here:
 
-{{docs/quickstart-guide}}
+<Docs::QuickstartGuide />
 
 To trigger transitions on the statechart we implement regular Ember Component actions
 that forward `events` to our component. If the user clicks the button we will send the
@@ -472,7 +472,7 @@ simulate a `disabled`-property that would be set from the outside in your Ember.
 application.
 
 <iframe
-  class="docs-h-128 docs-w-full"
+  class="w-full my-12 h-128 prose"
  src="https://xstate.js.org/viz/?gist=1b7e330cb49ccc3367b293651fa89377&embed=1"
 />
 
@@ -484,14 +484,14 @@ into account when deciding if we want to transition into different substates
 when the statechart receives the `SUBMIT`-event but other than that we can be
 sure our component behaves the same way as it did before.
 
-### Handling external changes - `@disabled={{true}}`
+### Handling external changes
 
 We want to be able to disable the button via a param we pass to it:
 
-```hbs
+```html
 <QuickstartButton
   @onClick=this.doSomething
-  @disabled={{disableButton}}
+  @disabled={{@disableButton}}
 >
   Click me!
 </QuickstartButton>
@@ -599,7 +599,7 @@ export default class QuickstartButton extends Component {
 
 Here's the final component that we came up with:
 
-{{docs/quickstart-final}}
+<Docs::QuickstartFinal />
 
 ## Summary
 

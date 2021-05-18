@@ -1,5 +1,5 @@
 /* eslint-disable */
-export default // BEGIN-SNIPPET quickstart-transition.js
+export default // BEGIN-SNIPPET quickstart-transition
 ({
   initial: 'idle',
   states: {
@@ -16,9 +16,7 @@ export default // BEGIN-SNIPPET quickstart-transition.js
 },
 {
   actions: {
-    handleSubmit(/*context, event*/) {
-      // `context` will be the Ember.Object implementing the statechart
-    },
+    handleSubmit(/*context, event*/) {},
   },
 });
 // END-SNIPPET

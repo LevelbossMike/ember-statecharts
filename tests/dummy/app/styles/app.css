@@ -74,3 +74,8 @@
 .text-underline-under {
   text-underline-position: under;
 }
+
+/* for easier styling of demo blocks - prism and prose will be overidden */
+pre[class*="language-"] {
+  margin: 0;
+}

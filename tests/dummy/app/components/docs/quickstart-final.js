@@ -10,7 +10,7 @@ export default class extends Component {
   @tracked
   disabled = false;
 
-  // BEGIN-SNIPPET quickstart-button-final-used.js
+  // BEGIN-SNIPPET quickstart-button-final-used
 
   // ...
 
