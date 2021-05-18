@@ -10,7 +10,7 @@ export default class extends Component {
   @tracked
   disabled = false;
 
-  // BEGIN-SNIPPET typescript-usage.js
+  // BEGIN-SNIPPET typescript-usage
 
   // ...
 
