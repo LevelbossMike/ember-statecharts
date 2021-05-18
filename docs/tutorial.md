@@ -1,3 +1,6 @@
+---
+order: 2
+---
 # Tutorial
 
 You can install `ember-statecharts` like any other ember addon:

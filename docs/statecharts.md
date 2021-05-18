@@ -1,3 +1,6 @@
+---
+order: 3
+---
 # Working with statecharts
 
 ## `XState`

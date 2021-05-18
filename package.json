@@ -81,6 +81,7 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-metrics": "^0.16.0",
     "ember-metrics-matomo-adapter": "^0.1.0",
+    "ember-modifier": "^2.1.1",
     "ember-page-title": "^6.0.3",
     "ember-qunit": "^5.1.1",
     "ember-qunit-assert-helpers": "^0.2.2",

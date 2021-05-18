@@ -1,3 +1,6 @@
+---
+order: 1
+---
 # Introduction
 
 <div class="my-6 font-serif prose">
