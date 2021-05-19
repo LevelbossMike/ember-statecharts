@@ -4,6 +4,15 @@
   <DocfyOutput @fromCurrentURL={{true}} as |page|>
     {{#if page.headings.length}}
       <ul>
+        <li class='pb-2 border-l border-gray-400'>
+          <button
+            type='button'
+            class='block px-2 py-1 border-l-2 hover:text-ember border-transparent focus:outline-none'
+            {{on 'click' this.scrollToTop}}
+          >
+            {{page.title}}
+          </button>
+        </li>
         {{#each page.headings as |heading|}}
           <li class='pb-2 border-l border-gray-400'>
             <a

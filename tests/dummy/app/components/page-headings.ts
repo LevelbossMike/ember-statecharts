@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { scrollToElement } from '../utils/scroll-to';
+import scrollTo, { scrollToElement } from '../utils/scroll-to';
 import { action } from '@ember/object';
 
 interface PageHeadingsArgs {} //eslint-disable-line
@@ -12,5 +12,9 @@ export default class PageHeadings extends Component<PageHeadingsArgs> {
 
       scrollToElement(toElement);
     }
+  }
+
+  @action scrollToTop(): void {
+    scrollTo(0);
   }
 }
