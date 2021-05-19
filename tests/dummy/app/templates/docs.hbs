@@ -1,45 +1,12 @@
 <div class='px-4 mx-auto max-w-7xl lg:px-8'>
   <div class='relative lg:flex' data-test-docs>
-    {{! sidebar goes here }}
-    <div class='pt-12 pr-4 flex-non lg:w-64'>
-      <DocfyOutput @scope='docs' as |node|>
-        <ul class='list-inside space-y-2'>
-          {{#each node.pages as |page|}}
-            <li>
-              <DocfyLink
-                @to={{page.url}}
-                class='hover:text-ember'
-                @activeClass='text-ember font-semibold'
-              >
-                {{page.title}}
-              </DocfyLink>
-            </li>
-          {{/each}}
-
-          {{#each node.children as |child|}}
-            <li class='block ml-4'>
-              <div class='py-2 font-medium'>
-                {{child.label}}
-              </div>
-              <ul class='pl-2 list-inside border-l border-gray-200 space-y-2'>
-                {{#each child.pages as |page|}}
-                  <li>
-                    <DocfyLink
-                      @to={{page.url}}
-                      class='hover:text-ember'
-                      @activeClass='text-ember font-semibold'
-                    >
-                      {{page.title}}
-                    </DocfyLink>
-                  </li>
-                {{/each}}
-              </ul>
-            </li>
-          {{/each}}
-        </ul>
-      </DocfyOutput>
+    <div class='hidden lg:block pt-12 pr-4 flex-non lg:w-64 h-full'>
+      <div class='fixed'>
+        <DocsToc />
+      </div>
     </div>
     <div class='flex-1 w-full min-w-0 px-0 pt-12 lg:px-4'>
+      <MobileDocsToc class='block mb-4 lg:hidden' />
       <DocfyOutput @fromCurrentURL={{true}} as |page|>
         <div
           {{intersect-headings this.setCurrentHeadingId headings=page.headings}}

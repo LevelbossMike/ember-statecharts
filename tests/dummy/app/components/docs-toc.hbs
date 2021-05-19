@@ -1,0 +1,36 @@
+<DocfyOutput @scope='docs' as |node|>
+  <ul class='list-inside space-y-2'>
+    {{#each node.pages as |page|}}
+      <li>
+        <DocfyLink
+          @to={{page.url}}
+          class='hover:text-ember'
+          @activeClass='text-ember font-semibold'
+        >
+          {{page.title}}
+        </DocfyLink>
+      </li>
+    {{/each}}
+
+    {{#each node.children as |child|}}
+      <li class='block ml-4'>
+        <div class='py-2 font-medium'>
+          {{child.label}}
+        </div>
+        <ul class='pl-2 list-inside border-l border-gray-200 space-y-2'>
+          {{#each child.pages as |page|}}
+            <li>
+              <DocfyLink
+                @to={{page.url}}
+                class='hover:text-ember'
+                @activeClass='text-ember font-semibold'
+              >
+                {{page.title}}
+              </DocfyLink>
+            </li>
+          {{/each}}
+        </ul>
+      </li>
+    {{/each}}
+  </ul>
+</DocfyOutput>
