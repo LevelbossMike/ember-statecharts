@@ -1,5 +1,5 @@
 'use strict';
-
+const crawl = require('prember-crawler');
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function (defaults) {
@@ -19,6 +19,19 @@ module.exports = function (defaults) {
     'ember-prism': {
       theme: 'tomorrow',
       components: ['markup-templating', 'handlebars', 'typescript'],
+    },
+    prember: {
+      urls: async ({ visit }) => {
+        let docsURLs = await crawl({
+          visit,
+          startingFrom: ['/docs'],
+          selector: 'a[data-prember]',
+        });
+
+        let otherURLS = ['/', '/docs'];
+
+        return docsURLs.concat(otherURLS);
+      },
     },
   });
 
