@@ -39,6 +39,7 @@ module.exports = {
         '.prettierrc.js',
         '.template-lintrc.js',
         '.docfy-config.js',
+        'tailwind.config.js',
         'ember-cli-build.js',
         'index.js',
         'testem.js',
@@ -61,6 +62,10 @@ module.exports = {
       },
       plugins: ['node'],
       extends: ['plugin:node/recommended'],
+      rules: {
+        'node/no-unpublished-require': 'off',
+        'node/no-extraneous-require': 'off',
+      },
     },
   ],
 };
