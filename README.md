@@ -1,4 +1,4 @@
-ember-statecharts [![Build Status](https://travis-ci.org/LevelbossMike/ember-statecharts.svg?branch=master)](https://travis-ci.org/LevelbossMike/ember-statecharts) [![Ember Observer Score](https://emberobserver.com/badges/ember-statecharts.svg)](https://emberobserver.com/addons/ember-statecharts)
+ember-statecharts [![CI](https://github.com/LevelbossMike/ember-statecharts/actions/workflows/ci.yml/badge.svg)](https://github.com/LevelbossMike/ember-statecharts/actions/workflows/ci.yml) [![Ember Observer Score](https://emberobserver.com/badges/ember-statecharts.svg)](https://emberobserver.com/addons/ember-statecharts)
 ==============================================================================
 
 This addon provides a statechart abstraction based on [xstate](https://xstate.js.org/)
