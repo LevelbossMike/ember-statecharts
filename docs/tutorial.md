@@ -11,7 +11,7 @@ ember install ember-statecharts
 
 ## A button component
 
-To help you getting started with `ember-statecharts` we will walk through an
+To help you get started with `ember-statecharts` we will walk through an
 example of implementing a button component.
 
 ## Requirements
@@ -48,8 +48,8 @@ be `busy` while the `onClick`-action we pass to it is executing.
 >
 </iframe>
 
-When the user clicks the button we want to `transition` from the `idle`-state to the
-`busy`-state. Statechart transitions happen based on events sent to the statechart.
+When the user clicks the button we want to `transition` from the `idle` state to the
+`busy` state. Statechart transitions happen based on events sent to the statechart.
 We will model our statechart to transition based on the `SUBMIT`-event.
 
 ```js
@@ -73,13 +73,13 @@ We will model our statechart to transition based on the `SUBMIT`-event.
 />
 
 You can interact with the statechart during the modeling phase. You will see the statechart
-transitionig into the busy state when clicking on the submit event in the statechart-visualizer.
+transitioning into the busy state when clicking on the submit event in the statechart-visualizer.
 
 ### Triggering actions
 
 Transitioning between states is not enough for our statechart to actually do something.
 To have our statechart 'do' something we can implement `actions` that we will tell
-the statechart to execute on state-transitions. You can trigger actions at specific points
+the statechart to execute on state transitions. You can trigger actions at specific points
 of a transition:
 
 * **entry** - when a state is entered
@@ -99,7 +99,7 @@ of a transition:
 
 To model the behavior  of our button component we decide to trigger the
 `handleSubmit`-action every time we enter the `busy` state. The button will be in
-the busy state and we  can then decide where to transition afterwards based on the
+the busy state and we  can then decide where to transition afterward based on the
 outcome of the triggered action.
 
 This leads us to the conclusion that we actually are missing a state. There's
@@ -176,7 +176,7 @@ gets very easy to add states if you discover you missed something:
   src="https://xstate.js.org/viz/?gist=451d65175a1a572c2816f1a04a1cf149&embed=1"
 />
 
-Ok now we can now transition into `error` and `success` but we want developers to
+Ok, we can now transition into `error` and `success` but we want developers to
 be able to handle these events so we will need to trigger behavior when each of
 those states is entered. This is easy to do - we add a new actions `entry` for
 both states:
@@ -221,7 +221,7 @@ both states:
 
 This looks pretty good - let's have a quick look at the statechart-visualizer again.
 When clicking through the visualizer we notice that our statechart behaves in kind of
-a weird way. We can transition trough to `success` and `error` but there's no way
+a weird way. We can transition through to `success` and `error` but there's no way
 to exit those two states again. This might be good enough in your application but
 most likely this indicates a problem. When dealing with a generic button
 component it seems like we should be able to submit the button again after we
@@ -233,7 +233,7 @@ setting conditional properties like `isLoading` on the button component directly
 and you might have some kind of condition in your code that makes sure that your
 button can not be submitted while its `isLoading` property is true. You then
 would need to make sure to reset that property `onError` or `onSuccess` - but
-this is easy to forget, very error prone and hard to reason about.
+this is easy to forget, very error-prone, and hard to reason about.
 In contrast to working with implicit behavior with ember-statecharts
 we simply add a new transition to both states:
 
@@ -280,18 +280,14 @@ we simply add a new transition to both states:
 
 ### Executing the modeled statechart
 
-Modeling the statechart for our button component is complete now. But how do
-we actually use this in our Ember.js application?
+Modeling the statechart for our button component is complete now. But how do we actually use this in our Ember.js application?
 
-It's pretty easy actually. We take the statechart (XState calls them `Machine`s)
-we modeled in the statechart-visualizer, create an instance of it and use it in
-our component via the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567)
-that `ember-statecharts` provides.
+It's pretty easy actually. We take the statechart (XState calls them
+`Machine`s) we modeled in the statechart-visualizer, create an instance of it
+and use it in our component via the
+`useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567)´that `ember-statecharts` provides.
 
-In our example application we decided to create a `machines`-folder that holds
-all the XState-`machine`s that we plan to use in our components. We can copy
-and paste these out of the statechart-visualizer directly and paste them back into
-the visualizer when we want to see how they work.
+In our example application, we decided to create a `machines`-folder that holds all the XState-`machine`s that we plan to use in our components. We can copy and paste these out of the statechart-visualizer directly and paste them back into the visualizer when we want to see how they work.
 
 We then have to hook up the imported `machine` with our component. We can use
 the `withContext`- and `withConfig`-hooks that are available when using `useMachine`.
@@ -301,8 +297,7 @@ component implementation. The component that decides to use the statechart
 defines what it expects to happen as external effects when the statechart
 executes its behavior - we use the `withConfig`- hook to do this.
 
-In our case
-we tell the statechart to trigger the `performSubmitTask`-function and what
+In our case, we tell the statechart to trigger the `performSubmitTask`-function and what
 should happen when the async action triggered succeeds or errors. Because we
 define these functions on the statechart itself we need to bind them to the
 component instance - we do this by using the `@action`-decorator that Ember
@@ -329,13 +324,9 @@ export default class MyComponent extends Component {
 }
 ```
 
-If a states doesn't understand an event nothing happens. You can see this
-while the submit-task is performed. If the user clicks the button repeatedly
-nothing happens. Because the `busy`-state does not handle the `SUBMIT`-event
-it won't trigger the `submitTask` again.
+If a state doesn't understand an event nothing happens. You can see this while the `submitTask` is performed. If the user clicks the button repeatedly nothing happens. Because the `busy` state does not handle the `SUBMIT`-event it won't trigger the `submitTask` again.
 
-When we want to keep the UI in sync with the statechart's state we can do this by
-using the `matchesState`-decorator.
+When we want to keep the UI in sync with the statechart's state we can do this by using the `matchesState`-decorator.
 
 ```js
 // ...
@@ -369,10 +360,10 @@ The disabled-state is somewhat of an odd state because it concerns how the butto
 (e.g. a disabled button might show as greyed out) and how the button behaves 
 (clicking the button won't trigger its `onClick`-action). Statecharts are used
 to model behavior so we don't want to concern ourselves with the looks of the
-button for now - we will get to that later. But first of all we need to figure out
+button for now - we will get to that later. But first of all, we need to figure out
 how disabling the button fits into our statechart.
 
-If we think about it the way the button handles clicks and the fact if the button
+If we think about it, the way the button handles clicks and the fact if the button
 should be interactive are really two concurrent things. We could for example decide
 to disable the button while the button is in the `busy`-state. Disabling the interactivity
 of the button should most likely not cancel the submit-action.
@@ -481,7 +472,7 @@ application.
 
 This is great! To refine this behavior we barely had to touch the existing
 statechart - we only extended existing behavior. We created a parallel state
-`interactivity` that implemenents behavior to make it possible to `ENABLE` or
+`interactivity` that implements behavior to make it possible to `ENABLE` or
 `DISABLE` the button. The parallel `activity`-state needs to take the `interactivity`
 into account when deciding if we want to transition into different substates
 when the statechart receives the `SUBMIT`-event but other than that we can be
@@ -501,7 +492,7 @@ We want to be able to disable the button via a param we pass to it:
 ```
 
 In the context of statecharts we are modeling behavior based on states that
-continiously react to internal and external events. In our button
+continuously react to internal and external events. In our button
 component changing the `disabled`-argument can be treated as an external event
 because something outside of the component changed the `disabled`-parameter.
 
@@ -543,14 +534,14 @@ export default class QuickstartButton extends Component {
 }
 ```
 
-First we define the statechart's `context` object via `withContext`. In our
-case the statechart's context is a plain object with a `disabled` property that
-depends on the passed `disabled` argument. Whenever this property set from the
-outside changes `useMachine` will reevaluate and trigger its `update`-hook. In
+First, we define the statechart's `context` object via `withContext`. In our
+case, the statechart's context is a plain object with a `disabled` property that
+depends on the passed `disabled` argument. Whenever this property is changed from the
+outside `useMachine` will reevaluate and trigger its `update`-hook. In
 the `update`-hook we can send an event to the statechart based on the new
 `context`-object that `withContext` will evaluate to.
 
-So in our example we will send the `DISABLE` or `ENABLE` event based on what
+So in our example, we will send the `DISABLE` or `ENABLE` event based on what
 was passed for `args.disabled`.
 
 The `update`-hook will trigger every time a property passed to `useMachine`,
@@ -569,7 +560,7 @@ As you can see we can either `send` an event to the statechart or decide to `res
 
 ### How things look vs. how things behave
 
-Statecharts decouple behavior, i.e. the functionality of an `Ember.Component` from
+Statecharts decouple behavior, i.e. the functionality of a component from
 the way the component looks. This means that we might want to present the button
 as `disabled` not only in the `disabled`-state but also in other states of the
 statechart that don't allow submitting the button. We can use a regular getter
@@ -606,14 +597,14 @@ Here's the final component that we came up with:
 
 ## Summary
 
-In this tutorial you learned how you can use statecharts to explicitly model
+In this tutorial, you learned how you can use statecharts to explicitly model
 behavior in your Ember.js applications. You have seen how you can make use of the
 [XState-visualizer](https://xstate.js.org/viz/) to help you visualize what your components will
 be doing. We also walked through how you can make your statechart executable via
 the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567) and how you can use the `matchesState`-decorator to
 declaratively adapt the looks of your component based on state changes.
 
-The rest of the guides will go into more detail of [how to work](/docs/statecharts)
+The rest of the guides will go into more detail about [how to work](/docs/statecharts)
 with statecharts in your Ember.js applications. Please also remember that
 everything that `ember-statecharts` is doing is backed by the great
 [XState](https://xstate.js.org)-library. You can read about all the configuration
