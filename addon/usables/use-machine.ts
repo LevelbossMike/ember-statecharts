@@ -58,6 +58,12 @@ export type UsableStatechart<
   | MachineConfig<TContext, TStateSchema, TEvent>
   | StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
 
+/**
+ * An object that makes an XState-[Interpreter](https://xstate.js.org/docs/guides/interpretation.html)
+ * accessible to the outside world and allows `send`ing events to it.
+ *
+ * This is actually the return value of {@link InterpreterService.state}.
+ */
 export type InterpreterUsable<
   TContext,
   TStateSchema extends StateSchema,
@@ -134,6 +140,13 @@ export type UseMachineBucket<
   };
 };
 
+/**
+ * The actual usable that gets started when a {@link ConfigurableMachineDefinition} is `@use`d.
+ *
+ * On initial access this class will setup an XState-[Interpreter](https://xstate.js.org/docs/guides/interpretation.html)
+ * and make its state available to the outside world.
+ *
+ */
 export class InterpreterService<
   TContext,
   TStateSchema extends StateSchema,
@@ -159,6 +172,25 @@ export class InterpreterService<
     this.onTransition = onTransition;
   }
 
+  /**
+   * The object that gets returned when you access the Usable.
+   *
+   * ```js
+   * import Component from '@glimmer/component';
+   * import buttonMachine from '../machines/button';
+   *
+   * export default ButtonComponent extends Component {
+   *  @use statechart = useMachine(buttonMachine)
+   *
+   *  @action
+   *  buttonClicked() {
+   *    // acessing `statechart` will return the return value of this getter
+   *    this.statechart.send('CLICK');
+   *  }
+   * }
+   *
+   * ```
+   */
   get state(): {
     state: State<TContext, TEvent, TStateSchema, TTypestate>;
     send: Send<TContext, TStateSchema, TEvent, TTypestate>;
@@ -323,6 +355,81 @@ const createMachineInterpreterManager = () => {
 const MANAGED_INTERPRETER = {};
 setUsableManager(MANAGED_INTERPRETER, createMachineInterpreterManager);
 
+/**
+ * A function that lets you define a {@link ConfigurableMachineDefinition} that can be
+ * `@use`d.
+ *
+ *
+ * ```ts
+ * import Component from '@glimmer/component';
+ * import buttonMachine from '../machines/button';
+ *
+ * export default ButtonComponent extends Component {
+ *  @use statechart = useMachine(buttonMachine)
+ *
+ *  @action
+ *  buttonClicked() {
+ *    this.statechart.send('CLICK');
+ *  }
+ * }
+ * ```
+ *
+ * The {@link ConfigurableMachineDefinition} can be used to override properties
+ * of the {@link UsableStatechart} that was passed to `useMachine`.
+ *
+ * ```ts
+ * import Component from '@glimmer/component';
+ * import formMachine from '../machines/form';
+ * // ...
+ *
+ * export default FormComponent extends Component {
+ *  // ...
+ *  @use statechart = useMachine(formMachine)
+ *    .withContext({
+ *      // we can override the machine's context here
+ *      formObject: this.formObject
+ *    })
+ *    .withConfig({
+ *      services: {
+ *        // to override an async function that can be invoked
+ *        submitForm: this.submitForm
+ *      },
+ *      actions: {
+ *        notifyFormSubmission: this.notifyFormSubmission
+ *      },
+ *      guards: {
+ *        // ...
+ *      }
+ *    })
+ *    .onTransition((state) => {
+ *      // when you want to react to transitions manually
+ *    })
+ *    .update(({ send }) => {
+ *      // decide how to handle properties passed to `useMachine` changing
+ *      send('MY_EVENT_TO_HANDLE_ARGS_CHANGES');
+ *    })
+ *
+ *  @action
+ *  submitForm(context, event) {
+ *    return this.onSubmitForm(context.formObject);
+ *  }
+ *
+ *  @action
+ *  notifyFormSubmission() {
+ *    this.notifications.notify('Form was submitted');
+ *  }
+ * }
+ * ```
+ *
+ * A {@link ConfigurableMachineDefinition} is only used to configure how the
+ * interpreted {@link UsableStatechart} will behave when interacting with it.
+ *
+ * When accessing the `@use`d value you are actually dealing with a {@link
+ * InterpreterUsable} - i.e. an object that gives you access to the
+ * `state`-property of an XState-[Interpreter](https://xstate.js.org/docs/guides/interpretation.html)
+ * and a `send`-function that can be used to send events to the interpreter.
+ *
+ */
 export default function useMachine<
   TContext,
   TStateSchema extends StateSchema,
