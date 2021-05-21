@@ -1,6 +1,8 @@
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import config from 'dummy/config/environment';
+import { action } from '@ember/object';
 
 import MetricsService from 'ember-metrics/services/metrics';
 
@@ -16,6 +18,17 @@ export default class ApplicationRoute extends Route {
     super(...arguments);
 
     this.setupTracking();
+  }
+
+  @action
+  didTransition(): void {
+    if (
+      config.environment !== 'test' &&
+      window &&
+      typeof window.scrollTo === 'function'
+    ) {
+      window.scrollTo(0, 0);
+    }
   }
 
   private setupTracking() {

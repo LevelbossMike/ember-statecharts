@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET quickstart-button-machine.js
+// BEGIN-SNIPPET quickstart-button-machine
 import { Machine } from 'xstate';
 
 export default Machine(

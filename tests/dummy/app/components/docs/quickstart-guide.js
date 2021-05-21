@@ -6,7 +6,7 @@ import { action } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 
 export default class extends Component {
-  // BEGIN-SNIPPET quickstart-button-used.js
+  // BEGIN-SNIPPET quickstart-button-used
 
   // ...
   @tracked

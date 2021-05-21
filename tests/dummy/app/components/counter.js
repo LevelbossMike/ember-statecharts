@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET counter-update-event.js
+// BEGIN-SNIPPET counter-update-event
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { use } from 'ember-usable';

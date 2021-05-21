@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET quickstart-button.js
+// BEGIN-SNIPPET quickstart-button
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';

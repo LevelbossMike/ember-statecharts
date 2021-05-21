@@ -1,14 +1,14 @@
-{{!-- BEGIN-SNIPPET quickstart-button.hbs --}}
+{{! BEGIN-SNIPPET quickstart-button }}
 <button
-  type="button"
-  class="
-    docs-w-32 docs-border docs-p-4 docs-bg-brand docs-border-brand docs-shadow
-    docs-rounded docs-outline-none docs-text-white docs-font-bold
-    {{if this.isDisabled "docs-cursor-not-allowed docs-opacity-50"}}
-  "
-  {{on "click" this.handleClick}}
+  type='button'
+  class='
+  w-32 border p-4 bg-ember border-ember shadow
+    rounded outline-none text-white font-bold
+  {{if this.isDisabled 'cursor-not-allowed opacity-50'}}
+  '
   disabled={{this.isDisabled}}
   ...attributes
+  {{on 'click' this.handleClick}}
 >
   {{#if this.isBusy}}
     <UiLoading data-test-loading />
@@ -16,4 +16,4 @@
     {{yield}}
   {{/if}}
 </button>
-{{!-- END-SNIPPET --}}
+{{! END-SNIPPET }}

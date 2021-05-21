@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET counter-update-restart.js
+// BEGIN-SNIPPET counter-update-restart
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { use } from 'ember-usable';

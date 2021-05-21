@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-// BEGIN-SNIPPET typed-button-machine.ts
+// BEGIN-SNIPPET typed-button-machine
 import { createMachine } from 'xstate';
 
 export interface ButtonContext {
