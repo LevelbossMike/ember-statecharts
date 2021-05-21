@@ -6,11 +6,9 @@ order: 3
 ## `XState`
 Everything that `ember-statecharts` is doing is powered by the wonderful [`XState`-library](https://xstate.js.org/). The [`XState`-guides](https://xstate.js.org/docs/) provide extensive documentation about how to write statechart-configurations - please make use of this invaluable resource.
 
-`ember-statecharts` is trying to provide a thin layer over `XState`'s apis and
+`ember-statecharts` is trying to provide a thin layer over `XState`'s APIs and
 make it as easy as possible to use all of `XState`'s functionality with
-`Ember.js`. It makes sure your statecharts play nice with the Ember-runloop,
-will wait for `XState`-delays etc. when testing your applications and takes
-care of cleaning up your statecharts when components get destroyed.
+`Ember.js`. It makes sure your statecharts play nice with the Ember-runloop and can react to outside arguments changing and takes care of cleaning up your statecharts when components get destroyed.
 
 ## Authoring `statechart`-configurations
 
@@ -259,10 +257,10 @@ export default class MyComponent extends Component {
 
 This might seem like an annoying level of indirection first but soon you will notice
 that this indirection provides a safety net for your application behavior. Instead
-of the burden of keeping track of the implicit states that your application can find itself in
+of the burden of keeping track of the implicit states that your application can find itself in,
 in your head all the time you will model your behavior explicitly and let the statechart figure
-out what needs to happen. In the above example users can't retrigger the 
-`buttonClickedTask` when they trigger the `buttonClicked` repeatetly while the statechart
+out what needs to happen. In the above example, users can't retrigger the 
+`buttonClickedTask` when they trigger the `buttonClicked`-action repeatedly while the statechart
 finds itself in the `busy` state for example.
 
 ### The statechart's context - using `withContext`
@@ -552,7 +550,7 @@ states:
 ## `.update` - Reacting to changes to `useMachine`
 
 When args or state passed to `useMachine`, `withConfig` or `withContext` change
-users are able to react to the change without needing to use
+users can react to the change without needing to use
 [@ember/render-modifiers](https://github.com/emberjs/ember-render-modifiers) or
 [ember-render-helpers](https://github.com/buschtoens/ember-render-helpers) to
 send an event to the statechart.
@@ -563,16 +561,51 @@ Whenever this arg changes we want to react to the change:
 
 We can react to the change in two ways.
 
-1) We send an event to the statechart on `update` and the statechart reacts to
-the change as it would to any other external or internal event - in our case
-this means we reset `context.count` to the count-arg we receive in the update:
+1) We send an event to the statechart on `update` and the statechart reacts to the change as it would to any other external or internal event - in our case this means we reset `context.count` to the count-arg we receive in the update:
 
-2) We restart the entire underlying [XState-interpreter](https://xstate.js.org/docs/guides/interpretation.html) and end up with a statechart as if we accessed if for the first
-time with the update `machine`, `context` or `config`. In our case this means
-that we will end up in the `inactive`-state again even if we were in the
-`active` state before.
+<Demo as |demo|>
+  {{!-- BEGIN-SNIPPET counter-example --}}
+  <Counter @count={{this.counterCount}} />
+  <div class="flex justify-end mt-12">
+    <input
+      value={{this.count}}
+      class="p-1 mr-2 border-2 rounded-sm"
+      {{on "input" this.updateCount}}
+    >
+    <UiButton
+      {{on "click" this.syncCounterCount}}
+    >
+      Update Counter-Count
+    </UiButton>
+  </div>
+  {{!-- END-SNIPPET --}}
+  <demo.ui.useSnippet @name="counter-update-event.js" @title="components.js" />
+  <demo.ui.useSnippet @name="counter-machine.js" @title="counter-machine" />
+  <demo.ui.useSnippet @name="counter-example.md" @title="template.hbs" @language="handlebars" />
+</Demo>
 
-How you choose handle an update to args/state passed to `useMachine` - either
+2) We restart the entire underlying [XState-interpreter](https://xstate.js.org/docs/guides/interpretation.html) and end up with a statechart as if we accessed it for the first time with the update `machine`, `context` or `config`. In our case, this means that we will end up in the `inactive`-state again even if we were in the `active` state before.
+
+<Demo as |demo|>
+  {{!-- BEGIN-SNIPPET counter-restart --}}
+  <CounterRestart @count={{this.counterCount}} />
+  <div class="flex justify-end mt-12">
+    <input
+      value={{this.count}}
+      class="p-1 mr-2 border-2 rounded-sm"
+      {{on "input" this.updateCount}}
+    >
+    <UiButton {{on "click" this.syncCounterCount}}>
+      Update Counter-Count
+    </UiButton>
+  </div>
+  {{!-- END-SNIPPET --}}
+  <demo.ui.useSnippet @name="counter-update-restart.js" @title="components.js" />
+  <demo.ui.useSnippet @name="counter-machine.js" @title="counter-machine" />
+  <demo.ui.useSnippet @name="counter-restart.md" @title="template.hbs" @language="handlebars" />
+</Demo>
+
+How you choose to handle an update to args/state passed to `useMachine` - either
 sending an event or restarting the interpreter - depends on the situation you
 find yourself in. If your situation allows throwing away the current state of
 the statechart restarting could be an option to consider. If you need to
@@ -585,12 +618,12 @@ interpreter.
 Sometimes you don't want to react to a particular state change on the interpreter
 but trigger behavior on the outside on __every__ single state change - e.g. when you
 want to persist a state change to be able to rehydrate the state later on.
-Usually you would trigger side-effects based on state transitions via
+Usually, you would trigger side-effects based on state transitions via
 [actions](https://xstate.js.org/docs/guides/actions.html) but adding the same
 action to every single state gets unergonomic quickly.
 
 To make this more ergonomic `ember-statecharts` provides the `onTransition`-hook
-that you can use to trigger a side-effect on __every__ state-change.
+that you can use to trigger a side-effect on __every__ state change.
 
 ```js
 export default class SignUpWizard extends Component {
@@ -616,18 +649,18 @@ that instead.
 
 `ember-statecharts` itself is implemented in TypeScript and fully supports
 Ember.js apps that are written in TypeScript. Due to the way XState works
-internally it is rather verbose to type your machines but as always with
+internally, it is rather verbose to type your machines but as always with
 TypeScript you will end up with better developer ergonomics than you would when
 not typing your code.
 
 Please refer to the [using TypeScript](https://xstate.js.org/docs/guides/typescript.html#using-typescript) of the XState docs for a thorough walkthrough on how to type your XState machines. `useMachine` will automatically pick up type information for your typed machines - if need be it is also possible to provide type information for `useMachine` explicitly.
 
-The `useMachine` api supports both versions of typing machines:
+The `useMachine`-API supports both versions of typing machines:
 
 1. Without typestates: `useMachine<TContext, TStateSchema, TEvent>(/* ... */)`
 2. With typestates: `useMachine<TContext, any, TEvent, TTypestate>(/* ... */)`
 
-Like [ember-concurrency](https://jamescdavis.com/using-ember-concurrency-with-typescript/) `ember-statecharts` has to use a typecasting function to allow TypeScript understand what `useMachine` is trying to accomplish. Whenever you want to interact with the usable you have to wrap your statechart property in `interpreterFor`.
+Like [ember-concurrency](https://jamescdavis.com/using-ember-concurrency-with-typescript/) `ember-statecharts` has to use a typecasting function to allow TypeScript to understand what `useMachine` is trying to accomplish. Whenever you want to interact with the usable you have to wrap your statechart property in `interpreterFor`.
 
 `interpreterFor` is not doing anything special but only typecasting the usable
 so that TypeScript can provide useful type information.

@@ -15,7 +15,7 @@ module.exports = function (defaults) {
       },
     },
     snippetPaths: ['tests/dummy/app'],
-    snippetSearchPaths: ['tests/dummy'],
+    snippetSearchPaths: ['tests/dummy', 'docs'],
     'ember-prism': {
       theme: 'tomorrow',
       components: ['markup-templating', 'handlebars', 'typescript'],

@@ -1,4 +1,4 @@
-// BEGIN-SNIPPET counter-machine.js
+// BEGIN-SNIPPET counter-machine
 import { Machine, assign } from 'xstate';
 
 export default Machine({
