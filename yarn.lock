@@ -3547,13 +3547,21 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ember-qunit@^3.4.9":
-  version "3.4.9"
-  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.4.9.tgz#df08d29609f906a081dc8f1c0e00b390fec3b4d7"
-  integrity sha512-XFe9EK9CVo431TJjS2a/bEcdRBCWFZeDYvYwZEDAlAVvVj9oApAX3bU4OEu9R9xHe6UhyvsgSa7dEr1tComRFQ==
+"@types/ember-qunit@^3.4.14":
+  version "3.4.14"
+  resolved "https://registry.yarnpkg.com/@types/ember-qunit/-/ember-qunit-3.4.14.tgz#4c10ce71e1eb6618ef7c680616beff8358e9c486"
+  integrity sha512-gVjul0Gei69Ftstd8gOPbKvIs9ywmtdBkvOTxq1uXsFU2EiVUWBtIzP9bMT9CrD39nKnB/rFdRXAwFcSnPUNJg==
   dependencies:
     "@types/ember" "*"
     "@types/ember-test-helpers" "*"
+    "@types/qunit" "*"
+
+"@types/ember-resolver@^5.0.10":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@types/ember-resolver/-/ember-resolver-5.0.10.tgz#bb265571a9cea9c4e6b095c8318df4e7f7837d5f"
+  integrity sha512-NTN4blgVUXi0wE6XTsuUjks15cI6em4sdTcgDlE8FvL8gkrxQFLSByyKDTBofHCncM6LwZcHz/eVVm13rwfC2w==
+  dependencies:
+    "@types/ember" "*"
 
 "@types/ember-test-helpers@*":
   version "1.0.8"
@@ -3600,10 +3608,28 @@
     "@types/ember__object" "*"
     "@types/ember__routing" "*"
 
+"@types/ember__application@^3.16.3":
+  version "3.16.3"
+  resolved "https://registry.yarnpkg.com/@types/ember__application/-/ember__application-3.16.3.tgz#f16e852b3200d5601b6f073be5a030cfadebb778"
+  integrity sha512-kx7euIQ+zy7EjyBMoWTOMPxkbGmLitwKp7Cxga2xeKnpMPrZCIaLcFM50XnbnbjzmlSMmJEn5EDIEYwlqnfzvg==
+  dependencies:
+    "@types/ember__application" "*"
+    "@types/ember__engine" "*"
+    "@types/ember__object" "*"
+    "@types/ember__routing" "*"
+
 "@types/ember__array@*":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/ember__array/-/ember__array-3.0.5.tgz#46bd3a92f8cf4e996e147601856205316f55a0f3"
   integrity sha512-NPv5tmvlSgpvAwzIqTNxpR1qqAppMbZBXpasr1Y4TGWlgmWjHRTzhU09sv828Guvd+PXsAluj0n1Jj8o1tuWDw==
+  dependencies:
+    "@types/ember__array" "*"
+    "@types/ember__object" "*"
+
+"@types/ember__array@^3.16.4":
+  version "3.16.4"
+  resolved "https://registry.yarnpkg.com/@types/ember__array/-/ember__array-3.16.4.tgz#d61b5b876e4976de03aa027ea89cb48cd640d49d"
+  integrity sha512-K21LKDNDW3ug0fLsFUTHZPyaFnzUUZEOtsmzmmeXKI6apJcoaz/yF3V0fvM2FUWNLs6rXB3PXegtzik6lq44Yw==
   dependencies:
     "@types/ember__array" "*"
     "@types/ember__object" "*"
@@ -3617,6 +3643,15 @@
     "@types/ember__object" "*"
     "@types/jquery" "*"
 
+"@types/ember__component@^3.16.6":
+  version "3.16.6"
+  resolved "https://registry.yarnpkg.com/@types/ember__component/-/ember__component-3.16.6.tgz#affc4798ee97f58747f5d173b8f739ddab26e551"
+  integrity sha512-Zi82wppu0wtijXKAsyn75KBauJKIIHoYk5cbk7OmOKE2zmV1qzCfsxjM8x9iTJpu97T1P0vXWZ91aXM7KeQFMw==
+  dependencies:
+    "@types/ember__component" "*"
+    "@types/ember__object" "*"
+    "@types/jquery" "*"
+
 "@types/ember__controller@*":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@types/ember__controller/-/ember__controller-3.0.7.tgz#ae1e897c38d5764e1263d8a9af34286c16b990f6"
@@ -3624,10 +3659,26 @@
   dependencies:
     "@types/ember__object" "*"
 
+"@types/ember__controller@^3.16.5":
+  version "3.16.5"
+  resolved "https://registry.yarnpkg.com/@types/ember__controller/-/ember__controller-3.16.5.tgz#29a7b9fb11bc940097964d84d11945b89f713226"
+  integrity sha512-T+MJI6HMJ/HOf91Eq/nhESNPLHeUwIacidTiLZiLysMWzbrcT9Opih8+vf7V6CNTxaWfMiSWn5iSB2WblhzLyw==
+  dependencies:
+    "@types/ember__object" "*"
+
 "@types/ember__debug@*":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@types/ember__debug/-/ember__debug-3.0.6.tgz#fa8bbc58249d8bdeea9be5b4ab8e974b33c39b07"
   integrity sha512-he07ArVIGzXw79NDEePawpkQSmiDc9C6Z/K6MkD2sUJdVSFaggGXBKvGh/QdenaP8hdYz36/umXGabq/Z862SA==
+  dependencies:
+    "@types/ember__debug" "*"
+    "@types/ember__engine" "*"
+    "@types/ember__object" "*"
+
+"@types/ember__debug@^3.16.4":
+  version "3.16.4"
+  resolved "https://registry.yarnpkg.com/@types/ember__debug/-/ember__debug-3.16.4.tgz#b5fca2a568505f7e0a39b5ab5f489f8d32990caf"
+  integrity sha512-Tlz6TB2nRbRczGa+v2+nGPvF8Cw0WRp29t3uT6Ryog6W2Alocqclsqc57EsGgLi1g4jEPP53NUI3dIJGa3AUig==
   dependencies:
     "@types/ember__debug" "*"
     "@types/ember__engine" "*"
@@ -3641,10 +3692,23 @@
     "@types/ember__engine" "*"
     "@types/ember__object" "*"
 
+"@types/ember__engine@^3.16.3":
+  version "3.16.3"
+  resolved "https://registry.yarnpkg.com/@types/ember__engine/-/ember__engine-3.16.3.tgz#f61114922ed7d1a65f468bfd3e9dd5b128f32822"
+  integrity sha512-D9cLOlkQjT+b+9vszgAfxnTelx1H/GiL9FNmPcYQbLd+Ta8+FdKssb2Vt4DbHZrc5MsBJ8LMRs5/xPhkHuCDMA==
+  dependencies:
+    "@types/ember__engine" "*"
+    "@types/ember__object" "*"
+
 "@types/ember__error@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/ember__error/-/ember__error-3.0.3.tgz#73e5d9f05212d7965e7c2f4df39abdbf5ea41ab1"
   integrity sha512-P1+YLJJ9xzc8w5mKYtXsrS070MOTjsNeoGoEHnj7nO5IfeyC34yTHdceW9hoBMRLZs2tZ+cjElUNdR1kxpl+oA==
+
+"@types/ember__error@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__error/-/ember__error-3.16.1.tgz#752d977f4ee35d4fa66bcfeebae6e85240fc62a6"
+  integrity sha512-bnB58krc18B8qgSMsRBbrVbNb4msyb8pMzS9Yo3brw/bRjuPb1ONUrjieAVHeespXlXNJOusvvX/pji641iCPQ==
 
 "@types/ember__object@*":
   version "3.1.2"
@@ -3654,15 +3718,39 @@
     "@types/ember__object" "*"
     "@types/rsvp" "*"
 
+"@types/ember__object@^3.12.6":
+  version "3.12.6"
+  resolved "https://registry.yarnpkg.com/@types/ember__object/-/ember__object-3.12.6.tgz#5f77662881e3c6f877d63e08b46861c52a36714a"
+  integrity sha512-LAGldyJmFpErWLCm1HOAGd3G4E7Sem+AzQycKH+zSiYSwKVxNSpzUIU1yewlScHn5WvKwLEVE2H6mPvwvkQ+yA==
+  dependencies:
+    "@types/ember__object" "*"
+    "@types/rsvp" "*"
+
 "@types/ember__polyfills@*":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@types/ember__polyfills/-/ember__polyfills-3.0.6.tgz#18908e2583c1175df1e10a22c6656bab8a4cd0de"
   integrity sha512-jNp+88chKEeJB/QdqWKApl5bKDf8AXP38WodrhecHlLnZh7AWTHqSV9wZNXReKZAOaPeYibs6J1oEE5baQt4Tg==
 
+"@types/ember__polyfills@^3.12.1":
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__polyfills/-/ember__polyfills-3.12.1.tgz#aed838e35a3e8670d247333d4c7ea2c2f7b3c43e"
+  integrity sha512-Xw9RxFizB8guT6YGg3VNi5tjbzAjqk+bLtAJ1oVl2I1FylKrRFh0bwobxT2K0BF/i0QFEYlqckHpN/OoCpkvkA==
+
 "@types/ember__routing@*":
   version "3.0.12"
   resolved "https://registry.yarnpkg.com/@types/ember__routing/-/ember__routing-3.0.12.tgz#4a42e5c0276e2eea2665ac08a890991efdc1c09d"
   integrity sha512-uguCrJdycNJtLrdgiu3bfqpcQ4dhCCrS7wB5CyTAvy0SNcqfRBxGOlPUBzgljxPYCtQ1kIqJpmoPorG56hTi0A==
+  dependencies:
+    "@types/ember__component" "*"
+    "@types/ember__controller" "*"
+    "@types/ember__object" "*"
+    "@types/ember__routing" "*"
+    "@types/ember__service" "*"
+
+"@types/ember__routing@^3.16.15":
+  version "3.16.15"
+  resolved "https://registry.yarnpkg.com/@types/ember__routing/-/ember__routing-3.16.15.tgz#14e7e98ae331d05b19aacc29c9759c9f3dc222ec"
+  integrity sha512-M+QujBvUQZJgcLo/vj1aYVdEZaQWxuD+GM2CLp2jmkb4RYGhdYPuNYK7KkDMhJH5vMICOeK7KVVKrmN1KhAQHg==
   dependencies:
     "@types/ember__component" "*"
     "@types/ember__controller" "*"
@@ -3677,10 +3765,24 @@
   dependencies:
     "@types/ember__runloop" "*"
 
+"@types/ember__runloop@^3.16.3":
+  version "3.16.3"
+  resolved "https://registry.yarnpkg.com/@types/ember__runloop/-/ember__runloop-3.16.3.tgz#c37ed507aed0f642ef19cbc4b5d0b3a167e3ada6"
+  integrity sha512-iYT7+9z6lVOi4RSyM9tBwIOidRI0Y5nyaRtIMP1DhP8n2UZjvVG6ao4PkpFnpFWR4R8Ajj2p13SaPGxpEV62jg==
+  dependencies:
+    "@types/ember__runloop" "*"
+
 "@types/ember__service@*":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/ember__service/-/ember__service-3.0.5.tgz#6e566ae03eb26ec16ea6cc84e9cc190d926b791b"
   integrity sha512-mThqrHMYVGSvsLRwJRWW0HV2DJ9WwLxiC13kSffhRqAKjQfeyq6ELoGtbXXMY3ri/nnGQJ6MVYY142s7AWdT/A==
+  dependencies:
+    "@types/ember__object" "*"
+
+"@types/ember__service@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__service/-/ember__service-3.16.1.tgz#e8f941ec50ff4a7531487dc60830b4e6c7da6a47"
+  integrity sha512-XYl75IZGE+ZqRiCr9tBLXNYBVM9WX18AQHw/73QSQP/7sfyv5QFP/C/KvJrwP9wJmqh0BS2lVAXP3Nx4/BRNTw==
   dependencies:
     "@types/ember__object" "*"
 
@@ -3691,15 +3793,27 @@
   dependencies:
     "@types/ember__template" "*"
 
+"@types/ember__string@^3.16.3":
+  version "3.16.3"
+  resolved "https://registry.yarnpkg.com/@types/ember__string/-/ember__string-3.16.3.tgz#6c474d422dfae5c382a3c52bd3c994048d04b72e"
+  integrity sha512-0T9ofzm9LL/bSG5u1SxKx/j2h/bHKkl5NKjGCNbFQxEKBw4f2cs6+AMDgWke9z+qrRRIz9vGEtMXnA3yJrO2xA==
+  dependencies:
+    "@types/ember__template" "*"
+
 "@types/ember__template@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/ember__template/-/ember__template-3.0.0.tgz#d499ebf000faa371c1c98124633b9864be69b968"
   integrity sha512-aWNg/kL2QToE0fwI8MVgAr2upWyAUwqRv2sp3CpypsMTOC1lZizIehz8QI6w1m1+Eh1WYs/89gvuM3mTc4OyIw==
 
-"@types/ember__test-helpers@^1.7.2":
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-1.7.2.tgz#6b6f7beab6463a7fcf88ea22a0a86d5a42bedc5f"
-  integrity sha512-PjY2dmlfQIrHjy+spE1SR8W97n9Ufvzvzr2SaaTH1rOnz7v9xDJfn1jKN81fBpbfguS4fyEaEwdi/cHBtq2CVA==
+"@types/ember__template@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__template/-/ember__template-3.16.1.tgz#30d7f50a49b190934db0f5a56dd76ad86c21efc6"
+  integrity sha512-APQINizzizl2LHWGMFBCanRjKZQsdzqn7b+us17zbNhnx/R0IZAJq901x/i7eozCRwxsDKmGzNABSCIu6uc1Tg==
+
+"@types/ember__test-helpers@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-2.0.1.tgz#6ef0ebd2443cdf432bc03991d8d7fb3492c772a8"
+  integrity sha512-eAya0Nx/9k4WCqH9GSAQuK95PM+N0AuwEgfWotGCAoyaDhbW1wN3uQOc2wrPFwk2CZAWlqpndrvzkpIYfFrsXQ==
   dependencies:
     "@types/ember" "*"
     "@types/ember__application" "*"
@@ -3713,10 +3827,22 @@
   dependencies:
     "@types/ember__application" "*"
 
+"@types/ember__test@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__test/-/ember__test-3.16.1.tgz#8407e42b9835a13ef0c6ef7a7ce3aa3d7ebcb7ed"
+  integrity sha512-0ICnkM4BDwOKhqmLQRpfvNuZlb6QOqE+FhP5fPaWXWy7bgcL9CY7kMRc7N+wZQbTvbSKqgEdfbvjd0bJsIrz5w==
+  dependencies:
+    "@types/ember__application" "*"
+
 "@types/ember__utils@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/ember__utils/-/ember__utils-3.0.3.tgz#c7bfe0ea89411f3376965a1214028561fdcd24eb"
   integrity sha512-GhXlUsGln/7PzLMqmtplqLSG8IWu2F9AjEKlqds/BrZlQtbMVS3MCvIkH1R8xlatYml02PqIdd9rZLi7r6QS6Q==
+
+"@types/ember__utils@^3.16.2":
+  version "3.16.2"
+  resolved "https://registry.yarnpkg.com/@types/ember__utils/-/ember__utils-3.16.2.tgz#3fa9a0666a3e8204262e2a2960289aaf01f29467"
+  integrity sha512-tBbqewgegiKSpGZvGh3pbcoXwLCMvKVdLRE97vys75nAEz/vBzkGJm+PDz1HVaTkRukWbRhlDiTm2qFH8qRnSw==
 
 "@types/events@*":
   version "3.0.0"
@@ -3770,7 +3896,7 @@
   dependencies:
     "@types/unist" "*"
 
-"@types/htmlbars-inline-precompile@*":
+"@types/htmlbars-inline-precompile@*", "@types/htmlbars-inline-precompile@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/htmlbars-inline-precompile/-/htmlbars-inline-precompile-1.0.1.tgz#de564513fabb165746aecd76369c87bd85e5bbb4"
   integrity sha512-sVD2e6QAAHW0Y6Btse+tTA9k9g0iKm87wjxRsgZRU5EwSooz80tenbV+fA+f2BI2g0G2CqxsS1rIlwQCtPRQow==
@@ -3846,10 +3972,10 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@types/qunit@^2.9.1":
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/@types/qunit/-/qunit-2.9.1.tgz#6083a42907ae6c9eecece794844bc3f8659e6c03"
-  integrity sha512-v51Fz/orMOkBGzrRvskky3UN0I81ka6rokAxkcuVyLHAh0qNKp+Roqympg/gTia8vGOIEbeSykevI0VKiIF13Q==
+"@types/qunit@*", "@types/qunit@^2.11.2":
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/@types/qunit/-/qunit-2.11.2.tgz#4cb99ae3ea6afe94b9c4cfd3ab715a285729ca9c"
+  integrity sha512-Bt0fz9l8sWxqP+cjoqWQyNVyOPPK+7GPhKIKLLTi7llR0FV+pyd50FXTXafZeZnsFVUgXw4pdupydz75E6vxjQ==
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -3871,10 +3997,15 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/rsvp@*", "@types/rsvp@^4.0.3":
+"@types/rsvp@*":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@types/rsvp/-/rsvp-4.0.3.tgz#4a1223158453257bce09d42b9eef7cfa6d257482"
   integrity sha512-OpRwxbgx16nL/0/7ol0WoLLyLaMXBvtPOHjqLljnzAB/E7Qk1wtjytxgBhOTBMZvuLXnJUqfnjb4W/QclNFvSA==
+
+"@types/rsvp@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@types/rsvp/-/rsvp-4.0.4.tgz#55e93e7054027f1ad4b4ebc1e60e59eb091e2d32"
+  integrity sha512-J3Ol++HCC7/hwZhanDvggFYU/GtxHxE/e7cGRWxR04BF7Tt3TqJZ84BkzQgDxmX0uu8IagiyfmfoUlBACh2Ilg==
 
 "@types/serve-static@*":
   version "1.13.3"
@@ -4386,6 +4517,13 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     "@types/color-name" "^1.1.1"
     color-convert "^2.0.1"
+
+ansi-to-html@^0.6.15:
+  version "0.6.15"
+  resolved "https://registry.yarnpkg.com/ansi-to-html/-/ansi-to-html-0.6.15.tgz#ac6ad4798a00f6aa045535d7f6a9cb9294eebea7"
+  integrity sha512-28ijx2aHJGdzbs+O5SNQF65r6rrKYnkuwTYm8lZlChuoJ9P1vVzIpWO20sQTqTPDXYp6NFwk326vApTtLVFXpQ==
+  dependencies:
+    entities "^2.0.0"
 
 ansi-to-html@^0.6.6:
   version "0.6.11"
@@ -8864,6 +9002,22 @@ ember-cli-typescript@^4.1.0:
   integrity sha512-zSuKG8IQuYE3vS+c7V0mHJqwrN/4Wo9Wr50+0NUjnZH3P99ChynczQHu/P7WSifkO6pF6jaxwzf09XzWvG8sVw==
   dependencies:
     ansi-to-html "^0.6.6"
+    broccoli-stew "^3.0.0"
+    debug "^4.0.0"
+    execa "^4.0.0"
+    fs-extra "^9.0.1"
+    resolve "^1.5.0"
+    rsvp "^4.8.1"
+    semver "^7.3.2"
+    stagehand "^1.0.0"
+    walk-sync "^2.2.0"
+
+ember-cli-typescript@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-4.2.1.tgz#54d08fc90318cc986f3ea562f93ce58a6cc4c24d"
+  integrity sha512-0iKTZ+/wH6UB/VTWKvGuXlmwiE8HSIGcxHamwNhEC5x1mN3z8RfvsFZdQWYUzIWFN2Tek0gmepGRPTwWdBYl/A==
+  dependencies:
+    ansi-to-html "^0.6.15"
     broccoli-stew "^3.0.0"
     debug "^4.0.0"
     execa "^4.0.0"
@@ -17889,10 +18043,10 @@ typescript-memoize@^1.0.0-alpha.3:
   dependencies:
     core-js "2.4.1"
 
-typescript@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.2.tgz#7ea7c88777c723c681e33bf7988be5d008d05ac2"
-  integrity sha512-e4ERvRV2wb+rRZ/IQeb3jm2VxBsirQLpQhdxplZ2MEzGvDkkMmPglecnNDfSUBivMjP93vRbngYYDQqQ/78bcQ==
+typescript@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.5"
