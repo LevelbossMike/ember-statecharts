@@ -67,5 +67,10 @@ module.exports = {
         'node/no-extraneous-require': 'off',
       },
     },
+    {
+      // Test files:
+      files: ['tests/**/*-test.{js,ts}'],
+      extends: ['plugin:qunit/recommended'],
+    },
   ],
 };
