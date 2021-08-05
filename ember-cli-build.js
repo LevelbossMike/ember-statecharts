@@ -7,9 +7,10 @@ module.exports = function (defaults) {
     // Add options here
     postcssOptions: {
       compile: {
+        includePaths: ['app'],
+        cacheInclude: [/.*\.hbs$/, /.*\.css$/, /.*\.html/],
         plugins: [
-          require('postcss-import'),
-          require('tailwindcss'),
+          require('tailwindcss')('./tailwind.config.js'),
           require('autoprefixer'),
         ],
       },

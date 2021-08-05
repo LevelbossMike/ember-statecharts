@@ -1,5 +1,11 @@
 module.exports = {
-  purge: [],
+  mode: 'jit',
+  purge: [
+    './tests/dummy/app/index.html',
+    './tests/dummy/app/**/*.{hbs,js}',
+    './tests/dummy/public/**/*.svg',
+    './docs/**/*.md',
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
