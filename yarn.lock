@@ -3067,10 +3067,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@docfy/core@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@docfy/core/-/core-0.4.2.tgz#6e33378d0bee4e612a9d66bb98050bd08bcd1aad"
-  integrity sha512-Y/AC+wsKCgBtXT+NxmjgjU44QVrLg4N3/VQD0Yg36XVegqCRZGFR6jXfDt8qf2ysCL6TJAqrC6Rm2zhHXl76+A==
+"@docfy/core@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@docfy/core/-/core-0.4.4.tgz#041157870abcde99e64068cdbd79767b2c1a97b4"
+  integrity sha512-m1q0KsRQZepXO5xZouOPXH9K8KJS7lnM6eDutHbYJsiUOG8e4ZpYYGJ+ckOTGzLKSXJGYFoRJRxO82Y9yaPhMA==
   dependencies:
     debug "^4.3.1"
     fast-glob "^3.2.5"
@@ -3093,12 +3093,12 @@
     unist-util-visit "^2.0.2"
     yaml "^1.9.2"
 
-"@docfy/ember@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@docfy/ember/-/ember-0.4.3.tgz#b0b7c9a3fc6ca44cf0a7c182b7c7f0498675173e"
-  integrity sha512-24Q7mIhJFD/bHt+Lma1MvdGc3oakPp7JZ/VewMtlyRkM+/ejXP2ZHy25bk2RHRLSt+txn8Qyntro8Ocu5ZhwWQ==
+"@docfy/ember@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@docfy/ember/-/ember-0.4.4.tgz#62449bea940ec276838d7f2a726b1483d6735857"
+  integrity sha512-vEgGYdPZKNoJT5vJiehNgVDyaFcY5AZ3AJ+4QUmy/10dYecCSbbvnCViUncUqoNqTJ6WuzOSICZE1BVpqkYshg==
   dependencies:
-    "@docfy/core" "^0.4.2"
+    "@docfy/core" "^0.4.4"
     broccoli-bridge "^1.0.0"
     broccoli-file-creator "^2.1.1"
     broccoli-funnel "^3.0.3"
@@ -3117,12 +3117,12 @@
     unist-util-find "^1.0.2"
     unist-util-visit "^2.0.2"
 
-"@docfy/plugin-with-prose@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@docfy/plugin-with-prose/-/plugin-with-prose-0.4.2.tgz#6d4f97a4fb414e65af353ef1cdb9b359ff891591"
-  integrity sha512-0Ps62o42BmbHr1pmCjOTDM5aq4Kdu79bDC1BVjrv13n9nJKjZwAIsOzrJp0PxZRw40O3CfJg3rksKjyXElV60g==
+"@docfy/plugin-with-prose@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@docfy/plugin-with-prose/-/plugin-with-prose-0.4.4.tgz#39ee124a6dd3d43419ae6165a1ec5bdd90db6042"
+  integrity sha512-x+7jj08QxA3RpFx2urd/dH2lGa9jJ4NOnTOz/zB5A7Hj219jTnqofbqU0sD75JO2NBtvlMRvkvH5kLMo1tzaew==
   dependencies:
-    "@docfy/core" "^0.4.2"
+    "@docfy/core" "^0.4.4"
 
 "@ember-data/rfc395-data@^0.0.4":
   version "0.0.4"
