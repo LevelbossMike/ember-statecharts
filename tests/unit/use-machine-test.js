@@ -54,6 +54,8 @@ module('Unit | use-machine', function (hooks) {
 
   module('it is possible to work with `useMachine`', function () {
     test('passing a machine created with `Machine` works', async function (assert) {
+      assert.expect(5);
+
       const testContext = this;
 
       const { TestMachine } = this;
@@ -109,6 +111,8 @@ module('Unit | use-machine', function (hooks) {
     });
 
     test('passing a machineConfig works', async function (assert) {
+      assert.expect(5);
+
       const testContext = this;
 
       const { TestMachineConfig } = this;
@@ -164,6 +168,8 @@ module('Unit | use-machine', function (hooks) {
     });
 
     test('passing a machine created via `createMachine` works', async function (assert) {
+      assert.expect(5);
+
       const testContext = this;
 
       const { CreatedTestMachine } = this;
@@ -392,7 +398,7 @@ module('Unit | use-machine', function (hooks) {
       }
     );
 
-    module("xstate's built-in assign works as expected", function () {
+    module("xstate's built-in assign works as expected", function (hooks) {
       hooks.beforeEach(function () {
         this.counterMachine = Machine({
           initial: 'active',
@@ -860,17 +866,15 @@ module('Unit | use-machine', function (hooks) {
       <Test />
     `);
 
-    assert.equal(
+    assert.true(
       testContext.test.isStopped,
-      true,
       'matchesState works against initial state'
     );
 
     testContext.test.statechart.send('START');
 
-    assert.equal(
+    assert.false(
       testContext.test.isStopped,
-      false,
       'matchesState updates correctly when state updates'
     );
   });

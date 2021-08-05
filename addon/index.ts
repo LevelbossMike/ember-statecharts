@@ -130,7 +130,7 @@ function interpreterFor<
     TTypestate
   >
 ): InterpreterUsable<TContext, TStateSchema, TEvent> {
-  return (configurableMachineDefinition as unknown) as InterpreterUsable<
+  return configurableMachineDefinition as unknown as InterpreterUsable<
     TContext,
     TStateSchema,
     TEvent,

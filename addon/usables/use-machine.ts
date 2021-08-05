@@ -468,9 +468,8 @@ export default function useMachine<
   };
 
   configurableMachineDefinition.withConfig = function (config) {
-    configurableMachineDefinition.machine = configurableMachineDefinition.machine.withConfig(
-      config
-    );
+    configurableMachineDefinition.machine =
+      configurableMachineDefinition.machine.withConfig(config);
     configurableMachineDefinition.args.machine =
       configurableMachineDefinition.machine;
     configurableMachineDefinition.args.config = config;
@@ -478,9 +477,10 @@ export default function useMachine<
   };
 
   configurableMachineDefinition.withContext = function (context) {
-    configurableMachineDefinition.machine = configurableMachineDefinition.machine.withContext(
-      context
-    ) as StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
+    configurableMachineDefinition.machine =
+      configurableMachineDefinition.machine.withContext(
+        context
+      ) as StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
     configurableMachineDefinition.args.machine =
       configurableMachineDefinition.machine;
     configurableMachineDefinition.args.context = context;
