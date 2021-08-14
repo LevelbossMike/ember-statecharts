@@ -50,6 +50,7 @@
     "@embroider/test-setup": "^0.41.0",
     "@glimmer/component": "^1.0.4",
     "@glimmer/manager": "^0.80.0",
+    "@glimmer/runtime": "^0.80.0",
     "@glimmer/validator": "^0.80.0",
     "@mapbox/rehype-prism": "^0.7.0",
     "@release-it/conventional-changelog": "^1.1.4",

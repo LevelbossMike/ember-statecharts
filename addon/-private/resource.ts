@@ -13,7 +13,7 @@ import type { Cache } from '@glimmer/validator';
 
 type Owner = Record<string, unknown>;
 
-interface TemplateArgs {
+export interface TemplateArgs {
   positional: readonly unknown[];
   named: Record<string, unknown>;
 }
@@ -35,7 +35,7 @@ export abstract class Resource<Args extends TemplateArgs = TemplateArgs> {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setup(): void {}
 
-  update?(): void;
+  update?(args: Args): void;
   teardown?(): void;
 }
 
@@ -70,7 +70,7 @@ class ResourceManager {
         if (instance === undefined) {
           instance = setupInstance(cache, Class, owner, args, hasTeardown);
         } else {
-          instance.update!(); // eslint-disable-line
+          instance.update!(args); // eslint-disable-line
         }
 
         return instance;
