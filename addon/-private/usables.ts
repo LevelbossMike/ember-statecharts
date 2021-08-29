@@ -163,7 +163,7 @@ export function useMachine<
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = { value: any; context: TContext }
 >(
-  context: Record<string, unknown>,
+  context: object,
   computeArgs: () => {
     machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>;
     update?(opts: {

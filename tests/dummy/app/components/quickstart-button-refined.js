@@ -2,8 +2,8 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { use } from 'ember-usable';
-import { matchesState, useMachine } from 'ember-statecharts';
+import { matchesState } from 'ember-statecharts';
+import { useMachine } from 'ember-statecharts/-private/usables';
 import quickstartButtonRefinedMachine from '../machines/quickstart-button-refined';
 
 function noop() {}
@@ -28,31 +28,35 @@ export default class QuickstartButtonFinal extends Component {
     return isDisabled || isBusy || isInteractivityUnknown;
   }
 
-  @use statechart = useMachine(quickstartButtonRefinedMachine)
-    .withContext({
-      disabled: this.args.disabled,
-    })
-    .withConfig({
-      actions: {
-        handleSubmit: this.performSubmitTask,
-        handleSuccess: this.onSuccess,
-        handleError: this.onError,
-      },
-      guards: {
-        isEnabled({ disabled }) {
-          return !disabled;
-        },
-      },
-    })
-    .update(({ send, context }) => {
-      const { disabled } = context;
+  statechart = useMachine(this, () => {
+    return {
+      machine: quickstartButtonRefinedMachine
+        .withContext({
+          disabled: this.args.disabled,
+        })
+        .withConfig({
+          actions: {
+            handleSubmit: this.performSubmitTask,
+            handleSuccess: this.onSuccess,
+            handleError: this.onError,
+          },
+          guards: {
+            isEnabled({ disabled }) {
+              return !disabled;
+            },
+          },
+        }),
+      update: ({ send, machine: { context } }) => {
+        const { disabled } = context;
 
-      if (disabled) {
-        send('DISABLE');
-      } else {
-        send('ENABLE');
-      }
-    });
+        if (disabled) {
+          send('DISABLE');
+        } else {
+          send('ENABLE');
+        }
+      },
+    };
+  });
 
   @task(function* () {
     try {

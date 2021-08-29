@@ -290,7 +290,8 @@ and use it in our component via the
 In our example application, we decided to create a `machines`-folder that holds all the XState-`machine`s that we plan to use in our components. We can copy and paste these out of the statechart-visualizer directly and paste them back into the visualizer when we want to see how they work.
 
 We then have to hook up the imported `machine` with our component. We can use
-the `withContext`- and `withConfig`-hooks that are available when using `useMachine`.
+the `withContext`- and `withConfig`-hooks that are [available to extend
+a XState-Machine](https://xstate.js.org/docs/guides/machines.html#extending-machines).
 
 The nice thing about this is that we keep the behavior separate from our
 component implementation. The component that decides to use the statechart
@@ -336,7 +337,7 @@ export default class MyComponent extends Component {
   @matchesState('busy', 'statechart')
   isBusy;
 
-  @use statechart = useMachine({
+  statechart = useMachine(this, () => {
     // ...
   })
   // ...
@@ -505,36 +506,41 @@ This means we need to send an event to our button's statechart every time the
 export default class QuickstartButton extends Component {
   // ...
 
-  @use statechart = useMachine(quickstartButtonRefinedMachine)
-    .withContext({
-      disabled: this.args.disabled,
-    })
-    .withConfig({
-      actions: {
-        handleSubmit: this.performSubmitTask,
-        handleSuccess: this.onSuccess,
-        handleError: this.onError,
-      },
-      guards: {
-        isEnabled({ disabled }) {
-          return !disabled;
-        },
-      },
-    })
-    .update(({ send, context }) => {
-      const { disabled } = context;
+  statechart = useMachine(this, () => {
+    return {
+      machine: quickstartButtonRefinedMachine
+        .withContext({
+          disabled: this.args.disabled,
+        })
+        .withConfig({
+          actions: {
+            handleSubmit: this.performSubmitTask,
+            handleSuccess: this.onSuccess,
+            handleError: this.onError,
+          },
+          guards: {
+            isEnabled({ disabled }) {
+              return !disabled;
+            },
+          },
+        }),
+      update: ({ send, machine: { context } }) => {
+        const { disabled } = context;
 
-      if (disabled) {
-        send('DISABLE');
-      } else {
-        send('ENABLE');
+        if (disabled) {
+          send('DISABLE');
+        } else {
+          send('ENABLE');
+        }
       }
-    });
+    }
+  })
+
   // ...
 }
 ```
 
-First, we define the statechart's `context` object via `withContext`. In our
+First, we define the statechart's `context` object via <a href="https://xstate.js.org/api/interfaces/statemachine.html#withcontext" target="_blank" rel="noreferrer noopener"><code>withContext</code></a>. In our
 case, the statechart's context is a plain object with a `disabled` property that
 depends on the passed `disabled` argument. Whenever this property is changed from the
 outside `useMachine` will reevaluate and trigger its `update`-hook. In
@@ -544,16 +550,13 @@ the `update`-hook we can send an event to the statechart based on the new
 So in our example, we will send the `DISABLE` or `ENABLE` event based on what
 was passed for `args.disabled`.
 
-The `update`-hook will trigger every time a property passed to `useMachine`,
-`withContext` or `withConfig` changes. `update` will be passed an object with
-the following structure:
+The `update`-hook will trigger every time a property passed to `useMachine`
+changes. `update` will be passed an object with the following structure:
 
 ```
 send: Function - a function to send an event to the statechart
 restart:  Function - a function to teardown the old and restart a new interpreter with the new configuration
-machine: The object passed to `useMachine`
-context: the object passed to `withContext`
-config: the object passed to `withConfig`
+machine: The machine-property passed to `useMachine` - you can destructue the evaluated `config` and `context` out of this property
 ```
 
 As you can see we can either `send` an event to the statechart or decide to `restart` the entire statechart. In our case we decided to model the `args`-change explicitly and because we don't want to throw away the existing state of the statechart we opted not to use `restart`.
