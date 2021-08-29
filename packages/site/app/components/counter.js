@@ -1,18 +1,21 @@
 // BEGIN-SNIPPET counter-update-event
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { use } from 'ember-usable';
-import { useMachine, matchesState } from 'ember-statecharts';
+import { matchesState } from 'ember-statecharts';
+import { useMachine } from 'ember-statecharts/-private/usables';
 import CounterMachine from '../machines/counter-machine';
 
 export default class CounterComponent extends Component {
-  @use statechart = useMachine(CounterMachine)
-    .withContext({
-      count: this.args.count,
-    })
-    .update(({ send, context }) =>
-      send('RESET_COUNT', { count: context.count })
-    );
+  statechart = useMachine(this, () => {
+    return {
+      machine: CounterMachine.withContext({
+        count: this.args.count,
+      }),
+      update: ({ send, machine: { context } }) => {
+        send('RESET_COUNT', { count: context.count });
+      },
+    };
+  });
 
   @matchesState('active')
   isActive;
