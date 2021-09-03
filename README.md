@@ -14,9 +14,14 @@ global application state).
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.20 or above
+* Ember.js v3.24 or above - technically v3.23 should work as well but we aren't
+  testing against it.
 * Ember CLI v3.20 or above
 * Node.js v12 or above
+
+For Ember.js-versions pre `v3.23` please use the `0.13.x`-versions of this
+addon. The current implementation of the addon relies on [invokeHelper](https://api.emberjs.com/ember/3.23/functions/@ember%2Fhelper/invokeHelper) and
+[setHelperManager](https://api.emberjs.com/ember/3.23/functions/@ember%2Fhelper/setHelperManager) - both APIs landed in `v3.23`.
 
 For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-version
 of this addon.
