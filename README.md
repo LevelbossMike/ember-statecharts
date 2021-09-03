@@ -16,7 +16,7 @@ Compatibility
 
 * Ember.js v3.20 or above
 * Ember CLI v3.20 or above
-* Node.js v10 or above
+* Node.js v12 or above
 
 For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-version
 of this addon.
