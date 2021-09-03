@@ -30,6 +30,9 @@ module.exports = {
         'plugin:ember/recommended',
         'plugin:prettier/recommended',
       ],
+      rules: {
+        '@typescript-eslint/ban-types': ['off', { object: null }],
+      },
     },
     // node files
     {
