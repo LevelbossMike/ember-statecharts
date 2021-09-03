@@ -2,8 +2,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { matchesState } from 'ember-statecharts';
-import { useMachine } from 'ember-statecharts/-private/usables';
+import { matchesState, useMachine } from 'ember-statecharts';
 import quickstartButtonRefinedMachine from '../machines/quickstart-button-refined';
 
 function noop() {}

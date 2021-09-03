@@ -7,11 +7,8 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { setComponentTemplate } from '@ember/component';
-import { matchesState } from 'ember-statecharts';
-import {
-  useMachine,
-  ARGS_STATE_CHANGE_WARNING,
-} from 'ember-statecharts/-private/usables';
+import { matchesState, useMachine } from 'ember-statecharts';
+import { ARGS_STATE_CHANGE_WARNING } from 'ember-statecharts/-private/usables';
 
 module('Unit | use-machine', function (hooks) {
   setupRenderingTest(hooks);

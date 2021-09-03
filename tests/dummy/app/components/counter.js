@@ -1,8 +1,7 @@
 // BEGIN-SNIPPET counter-update-event
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { matchesState } from 'ember-statecharts';
-import { useMachine } from 'ember-statecharts/-private/usables';
+import { matchesState, useMachine } from 'ember-statecharts';
 import CounterMachine from '../machines/counter-machine';
 
 export default class CounterComponent extends Component {
