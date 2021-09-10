@@ -462,7 +462,6 @@ example display a button component differently based on the state it finds
 itself in this is very easy to do with `ember-statecharts`:
 
 ```js
-import { use } from 'ember-usable';
 import { matchesState, useMachine} from 'ember-statecharts';
 
 export default class MyComponent extends Component {
