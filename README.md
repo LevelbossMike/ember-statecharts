@@ -62,9 +62,6 @@ import { task } from 'ember-concurrency';
 import { matchesState, useMachine } from 'ember-statecharts';
 import { Machine } from 'xstate';
 
-// @use (https://github.com/emberjs/rfcs/pull/567) is still WIP
-import { use } from 'ember-usable';
-
 function noop() {}
 
 const buttonMachine = Machine(
@@ -111,17 +108,19 @@ export default class QuickstartButton extends Component {
     return this.args.onClick || noop;
   }
 
-  @use statechart = useMachine(buttonMachine)
-    .withContext({
-      disabled: this.args.disabled
-    })
-    .withConfig({
-      actions: {
-        handleSubmit: this.performSubmitTask,
-        handleSuccess: this.onSuccess,
-        handleError: this.onError,
-      },
-    });
+  statechart = useMachine(this, () => {
+    const { performSubmitTask, onSuccess, onError } = this;
+
+    return {
+      machine: quickstartButtonMachine.withConfig({
+        actions: {
+          handleSubmit: performSubmitTask,
+          handleSuccess: onSuccess,
+          handleError: onError,
+        },
+      }),
+    };
+  });
 
   @matchesState('busy')
   isBusy;
@@ -147,12 +146,12 @@ export default class QuickstartButton extends Component {
 
   @action
   onSuccess(_context, { result }) {
-    return this.args.onSuccess(result) || noop();
+    return (this.args.onSuccess && this.args.onSuccess(result)) || noop();
   }
 
   @action
   onError(_context, { error }) {
-    return this.args.onError(error) || noop();
+    return (this.args.onError && this.args.onError(error)) || noop();
   }
 
   @action
