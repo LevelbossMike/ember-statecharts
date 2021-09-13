@@ -29,6 +29,9 @@ Installation
 ember install ember-statecharts
 ```
 
+This will also automatically install `xstate` which is a `peerDependency` of
+this addon.
+
 
 Usage
 ------------------------------------------------------------------------------
