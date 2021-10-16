@@ -13,6 +13,7 @@
 /.pnp*
 /.sass-cache
 /.eslintcache
+/*.tsbuildinfo
 /connect.lock
 /coverage/
 /libpeerconnection.log
