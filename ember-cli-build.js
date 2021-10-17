@@ -1,38 +1,9 @@
 'use strict';
-const crawl = require('prember-crawler');
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function (defaults) {
   let app = new EmberAddon(defaults, {
     // Add options here
-    postcssOptions: {
-      compile: {
-        plugins: [
-          require('postcss-import'),
-          require('tailwindcss'),
-          require('autoprefixer'),
-        ],
-      },
-    },
-    snippetPaths: ['tests/dummy/app'],
-    snippetSearchPaths: ['tests/dummy', 'docs'],
-    'ember-prism': {
-      theme: 'tomorrow',
-      components: ['markup-templating', 'handlebars', 'typescript'],
-    },
-    prember: {
-      urls: async ({ visit }) => {
-        let docsURLs = await crawl({
-          visit,
-          startingFrom: ['/docs'],
-          selector: 'a[data-prember]',
-        });
-
-        let otherURLS = ['/', '/docs'];
-
-        return docsURLs.concat(otherURLS);
-      },
-    },
   });
 
   /*
