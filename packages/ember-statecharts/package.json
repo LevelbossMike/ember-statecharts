@@ -1,0 +1,131 @@
+{
+  "name": "ember-statecharts",
+  "version": "0.13.2",
+  "description": "Statecharts for Ember.js applications",
+  "keywords": [
+    "ember-addon"
+  ],
+  "homepage": "https://ember-statecharts.com/",
+  "repository": "https://github.com/LevelbossMike/ember-statecharts",
+  "license": "MIT",
+  "author": "",
+  "types": "./index.d.ts",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "api-docs": "typedoc addon --out ../site/public/api-docs",
+    "build": "ember build --environment=production",
+    "changelog": "lerna-changelog",
+    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel 'lint:!(fix)'",
+    "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
+    "lint:hbs": "ember-template-lint .",
+    "lint:hbs:fix": "ember-template-lint . --fix",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix",
+    "prepublishOnly": "ember ts:precompile",
+    "postpublish": "ember ts:clean",
+    "start": "ember serve",
+    "test": "npm-run-all lint test:*",
+    "test:ember": "ember test",
+    "test:ember-compatibility": "ember try:each"
+  },
+  "dependencies": {
+    "@glimmer/tracking": "^1.0.3",
+    "ember-auto-import": "^1.10.1",
+    "ember-cli-babel": "^7.23.0",
+    "ember-cli-htmlbars": "^5.3.1",
+    "ember-cli-typescript": "^3.1.4",
+    "ember-usable": "https://github.com/pzuraq/ember-usable#0d03a50",
+    "xstate": "^4.12.0"
+  },
+  "devDependencies": {
+    "@ember/optional-features": "^2.0.0",
+    "@ember/render-modifiers": "^1.0.2",
+    "@ember/test-helpers": "^2.1.4",
+    "@glimmer/component": "^1.0.3",
+    "@mapbox/rehype-prism": "^0.6.0",
+    "@release-it/conventional-changelog": "^1.1.4",
+    "@types/ember": "^3.16.0",
+    "@types/ember-qunit": "^3.4.9",
+    "@types/ember__test-helpers": "^1.7.2",
+    "@types/qunit": "^2.9.1",
+    "@types/rsvp": "^4.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "autoprefixer": "^10.2.5",
+    "babel-eslint": "^10.1.0",
+    "broccoli-asset-rev": "^3.0.0",
+    "ember-angle-bracket-invocation-polyfill": "^2.0.2",
+    "ember-cli": "~3.24.0",
+    "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli-inject-live-reload": "^2.0.2",
+    "ember-cli-sri": "^2.1.1",
+    "ember-cli-terser": "^4.0.1",
+    "ember-cli-typescript-blueprints": "^3.0.0",
+    "ember-concurrency": "^1.2.1",
+    "ember-concurrency-async": "^0.3.1",
+    "ember-concurrency-decorators": "^2.0.1",
+    "ember-concurrency-ts": "^0.2.0",
+    "ember-disable-prototype-extensions": "^1.1.3",
+    "ember-export-application-global": "^2.0.1",
+    "ember-load-initializers": "^2.1.2",
+    "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-modifier": "^2.1.1",
+    "ember-page-title": "^6.2.1",
+    "ember-qunit": "^5.1.1",
+    "ember-qunit-assert-helpers": "^0.2.2",
+    "ember-resolver": "^8.0.2",
+    "ember-source": "~3.24.0",
+    "ember-source-channel-url": "^3.0.0",
+    "ember-template-lint": "^2.15.0",
+    "ember-try": "^1.4.0",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-ember": "^10.1.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "loader.js": "^4.7.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "qunit": "^2.13.0",
+    "qunit-dom": "^1.6.0",
+    "release-it": "^13.6.2",
+    "typedoc": "^0.20.36",
+    "typescript": "^4.0.2"
+  },
+  "engines": {
+    "node": "10.* || >= 12"
+  },
+  "changelog": {
+    "repo": "levelbossmike/ember-statecharts",
+    "labels": {
+      ":boom: Breaking": ":boom: Breaking Change",
+      "Feature / Enhancement": ":rocket: Feature / Enhancement",
+      "Bug": ":bug: Bug Fix",
+      "Documentation": ":memo: Documentation",
+      "internal": ":house: Internal"
+    }
+  },
+  "ember": {
+    "edition": "octane"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
+      }
+    }
+  }
+}
