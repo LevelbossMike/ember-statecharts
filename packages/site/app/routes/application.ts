@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import config from 'dummy/config/environment';
+import config from 'site/config/environment';
 import { action } from '@ember/object';
 
 import MetricsService from 'ember-metrics/services/metrics';
