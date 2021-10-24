@@ -53,9 +53,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Lint
-        run: yarn lint
+        run: yarn workspaces run lint
       - name: Browser Tests
-        run: yarn test:ember
+        run: yarn workspaces run test:ember
 
   test-old-dependencies:
     name: Oldest Supported Env
@@ -70,7 +70,7 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Browser Tests
-        run: yarn test:ember
+        run: yarn workspaces run test:ember
 
   test-try:
     name: Ember Try (${{ matrix.scenario }})
@@ -99,5 +99,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Try Scenario
-        run: yarn ember try:one ${{ matrix.scenario }}
+        run: yarn workspace ember-statecharts run ember try:one ${{ matrix.scenario }}
         continue-on-error: ${{ matrix.allow-failure }}
