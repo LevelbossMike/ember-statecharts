@@ -56,7 +56,7 @@ jobs:
         run: yarn test:ember
 
   test-try:
-    name: Ember Try
+    name: Ember Try (${{ matrix.scenario }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
