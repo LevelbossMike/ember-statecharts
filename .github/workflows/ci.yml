@@ -56,17 +56,22 @@ jobs:
         run: yarn test:ember
 
   test-try:
-    name: Ember Try
+    name: Ember Try (${{ matrix.scenario }})
     runs-on: ubuntu-latest
-    needs: [test-locked-deps]
     strategy:
+      fail-fast: false
       matrix:
-        scenario:
-          - ember-lts-3.16
-          - ember-lts-3.20
-          - ember-release
-          - ember-beta
-          - ember-canary
+        include:
+          - scenario: ember-lts-3.16
+            allow-failure: false
+          - scenario: ember-lts-3.20
+            allow-failure: false
+          - scenario: ember-release
+            allow-failure: false
+          - scenario: ember-beta
+            allow-failure: true
+          - scenario: ember-canary
+            allow-failure: true
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -78,3 +83,4 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Try Scenario
         run: yarn ember try:one ${{ matrix.scenario }}
+        continue-on-error: ${{ matrix.allow-failure }}
