@@ -35,6 +35,8 @@ jobs:
           node-version: 14
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Lint
         run: yarn workspaces run lint
       - name: Tests
@@ -52,6 +54,8 @@ jobs:
           node-version: 14
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Lint
         run: yarn workspaces run lint
       - name: Browser Tests
@@ -69,6 +73,8 @@ jobs:
           node-version: 12
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Browser Tests
         run: yarn workspaces run test:ember
 
@@ -98,6 +104,8 @@ jobs:
           node-version: 14
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Try Scenario
         run: yarn workspace ember-statecharts run ember try:one ${{ matrix.scenario }}
         continue-on-error: ${{ matrix.allow-failure }}
