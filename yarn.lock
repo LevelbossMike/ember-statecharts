@@ -3225,14 +3225,6 @@
     "@handlebars/parser" "^1.1.0"
     simple-html-tokenizer "^0.5.10"
 
-"@glimmer/tracking@^1.0.1":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@glimmer/tracking/-/tracking-1.0.4.tgz#f1bc1412fe5e2236d0f8d502994a8f88af1bbb21"
-  integrity sha512-F+oT8I55ba2puSGIzInmVrv/8QA2PcK1VD+GWgFMhF6WC97D+uZX7BFg+a3s/2N4FVBq5KHE+QxZzgazM151Yw==
-  dependencies:
-    "@glimmer/env" "^0.1.7"
-    "@glimmer/validator" "^0.44.0"
-
 "@glimmer/tracking@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@glimmer/tracking/-/tracking-1.0.3.tgz#8b9b42aff6c206edeaaea178a95acc1eff62e61e"
@@ -9449,41 +9441,6 @@ ember-auto-import@^1.10.0, ember-auto-import@^1.10.1:
     walk-sync "^0.3.3"
     webpack "^4.43.0"
 
-ember-auto-import@^1.6.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/ember-auto-import/-/ember-auto-import-1.12.0.tgz#52246b04891090e2608244e65c4c6af7710df12b"
-  integrity sha512-fzMGnyHGfUNFHchpLbJ98Vs/c5H2wZBMR9r/XwW+WOWPisZDGLUPPyhJQsSREPoUQ+o8GvyLaD/rkrKqW8bmgw==
-  dependencies:
-    "@babel/core" "^7.1.6"
-    "@babel/preset-env" "^7.10.2"
-    "@babel/traverse" "^7.1.6"
-    "@babel/types" "^7.1.6"
-    "@embroider/core" "^0.33.0"
-    babel-core "^6.26.3"
-    babel-loader "^8.0.6"
-    babel-plugin-syntax-dynamic-import "^6.18.0"
-    babylon "^6.18.0"
-    broccoli-debug "^0.6.4"
-    broccoli-node-api "^1.7.0"
-    broccoli-plugin "^4.0.0"
-    broccoli-source "^3.0.0"
-    debug "^3.1.0"
-    ember-cli-babel "^7.0.0"
-    enhanced-resolve "^4.0.0"
-    fs-extra "^6.0.1"
-    fs-tree-diff "^2.0.0"
-    handlebars "^4.3.1"
-    js-string-escape "^1.0.1"
-    lodash "^4.17.19"
-    mkdirp "^0.5.1"
-    resolve-package-path "^3.1.0"
-    rimraf "^2.6.2"
-    semver "^7.3.4"
-    symlink-or-copy "^1.2.0"
-    typescript-memoize "^1.0.0-alpha.3"
-    walk-sync "^0.3.3"
-    webpack "^4.43.0"
-
 ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.0.tgz#de3baedd093163b6c2461f95964888c1676325ac"
@@ -10459,19 +10416,6 @@ ember-source@~3.24.0:
     semver "^6.1.1"
     silent-error "^1.1.1"
 
-ember-statecharts@0.13.2:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/ember-statecharts/-/ember-statecharts-0.13.2.tgz#dbfe00b6a8ba54da8e01af416225d7a0d12e141c"
-  integrity sha512-4TJCAWIs7vwmZbfH+c9xkXUrMsGho8lcYZQaqgmVEa3A1yzal/ToJHSFqaXm07ckNHkVNoC88Byh4WnbcKKpqA==
-  dependencies:
-    "@glimmer/tracking" "^1.0.1"
-    ember-auto-import "^1.6.0"
-    ember-cli-babel "^7.22.1"
-    ember-cli-htmlbars "^5.3.1"
-    ember-cli-typescript "^3.1.4"
-    ember-usable "https://github.com/pzuraq/ember-usable#0d03a50"
-    xstate "^4.12.0"
-
 ember-svg-jar@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/ember-svg-jar/-/ember-svg-jar-2.3.3.tgz#aede3f23e58bdcacc0e59a297c1ebad71a472e31"
@@ -10563,14 +10507,6 @@ ember-try@^1.4.0:
     rimraf "^2.6.3"
     rsvp "^4.7.0"
     walk-sync "^1.1.3"
-
-"ember-usable@git+https://github.com/pzuraq/ember-usable.git#0d03a50":
-  version "0.0.0"
-  uid "0d03a500a2f49041a4ddff0bb05b077c3907ed7d"
-  resolved "git+https://github.com/pzuraq/ember-usable.git#0d03a500a2f49041a4ddff0bb05b077c3907ed7d"
-  dependencies:
-    ember-cli-babel "^7.13.0"
-    ember-cli-htmlbars "^4.2.0"
 
 "ember-usable@https://github.com/pzuraq/ember-usable#0d03a50":
   version "0.0.0"
