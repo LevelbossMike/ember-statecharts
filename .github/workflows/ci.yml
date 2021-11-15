@@ -23,6 +23,25 @@ env:
   CI: true
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
+      - name: Lint
+        run: yarn workspaces run lint
+      - name: Tests
+        run: yarn workspaces run test:ember
+
   test-locked-deps:
     name: Locked Deps
     runs-on: ubuntu-latest
@@ -35,10 +54,12 @@ jobs:
           node-version: 14
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Lint
-        run: yarn lint
+        run: yarn workspaces run lint
       - name: Browser Tests
-        run: yarn test:ember
+        run: yarn workspaces run test:ember
 
   test-old-dependencies:
     name: Oldest Supported Env
@@ -52,8 +73,10 @@ jobs:
           node-version: 12
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Browser Tests
-        run: yarn test:ember
+        run: yarn workspaces run test:ember
 
   test-try:
     name: Ember Try (${{ matrix.scenario }})
@@ -81,6 +104,8 @@ jobs:
           node-version: 14
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+      - name: Lerna Bootstrap
+        run: yarn run lerna bootstrap
       - name: Try Scenario
-        run: yarn ember try:one ${{ matrix.scenario }}
+        run: yarn workspace ember-statecharts run ember try:one ${{ matrix.scenario }}
         continue-on-error: ${{ matrix.allow-failure }}

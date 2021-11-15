@@ -1,21 +1,21 @@
 'use strict';
 const crawl = require('prember-crawler');
-const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
-  let app = new EmberAddon(defaults, {
+  let app = new EmberApp(defaults, {
     // Add options here
     postcssOptions: {
       compile: {
         plugins: [
           require('postcss-import'),
-          require('tailwindcss'),
+          require('tailwindcss')('./tailwind.config.js'),
           require('autoprefixer'),
         ],
       },
     },
-    snippetPaths: ['tests/dummy/app'],
-    snippetSearchPaths: ['tests/dummy', 'docs'],
+    snippetPaths: ['app'],
+    snippetSearchPaths: ['app'], //, '../../docs'],
     'ember-prism': {
       theme: 'tomorrow',
       components: ['markup-templating', 'handlebars', 'typescript'],

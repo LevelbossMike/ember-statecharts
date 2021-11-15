@@ -36,6 +36,7 @@ module.exports = {
     {
       files: [
         '.eslintrc.js',
+        '.eslintrc.base.js',
         '.prettierrc.js',
         '.template-lintrc.js',
         '.docfy-config.js',
