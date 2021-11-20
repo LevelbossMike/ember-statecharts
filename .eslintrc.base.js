@@ -47,6 +47,7 @@ module.exports = {
         'blueprints/*/index.js',
         'config/**/*.js',
         'tests/dummy/config/**/*.js',
+        'addon-main.js',
       ],
       excludedFiles: [
         'addon/**',
