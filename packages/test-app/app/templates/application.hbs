@@ -5,13 +5,25 @@
 </h2>
 
 <div>
-  Current state:
+  computed - Current state:
   <strong>
     {{this.statechart.currentState.value}}
   </strong>
 </div>
 <div>
   <button type='button' {{on 'click' this.toggle}}>
+    Toggle
+  </button>
+</div>
+
+<div>
+  useMachine - Current state:
+  <strong>
+    {{this.wat.state.value}}
+  </strong>
+</div>
+<div>
+  <button type='button' {{on 'click' this.fubar}}>
     Toggle
   </button>
 </div>
