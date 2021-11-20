@@ -47,6 +47,7 @@
     "ember-qunit": "^5.1.1",
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.24.0",
+    "ember-statecharts": "^0.13.2",
     "ember-template-lint": "^2.15.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
