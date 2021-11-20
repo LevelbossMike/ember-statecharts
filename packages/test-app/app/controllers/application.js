@@ -1,20 +1,27 @@
-import Controller from '@ember/application';
-import { createMachine } from 'xstate';
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { statechart } from 'ember-statecharts/computed';
 
-const toggleMachine = createMachine({
-  initial: 'off',
-  states: {
-    off: {
+export default class ApplicationController extends Controller {
+  @statechart({
+    initial: 'off',
+    states: {
+      off: {
+        on: {
+          TOGGLE: 'on',
+        },
+      },
       on: {
-        ON: 'on',
+        on: {
+          TOGGLE: 'off',
+        },
       },
     },
-    on: {
-      on: {
-        OFF: 'off',
-      },
-    },
-  },
-});
+  })
+  statechart;
 
-export default class ApplicationController extends Controller {}
+  @action
+  toggle() {
+    this.statechart.send('TOGGLE');
+  }
+}

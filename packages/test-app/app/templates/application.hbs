@@ -1,5 +1,17 @@
-{{page-title "TestApp"}}
+{{page-title 'TestApp'}}
 
-<h2 id="title">Welcome to Ember</h2>
+<h2 id='title'>
+  Welcome to Ember
+</h2>
 
-{{outlet}}
+<div>
+  Current state:
+  <strong>
+    {{this.statechart.currentState.value}}
+  </strong>
+</div>
+<div>
+  <button type='button' {{on 'click' this.toggle}}>
+    Toggle
+  </button>
+</div>
