@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    ["@babel/plugin-transform-typescript"],
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-proposal-class-properties",
+    "@embroider/addon-dev/template-colocation-plugin"
+  ]
+}
