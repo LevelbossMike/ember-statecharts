@@ -14,6 +14,10 @@
     "doc": "doc",
     "test": "tests"
   },
+  "files": [
+    "addon-main.js",
+    "dist"
+  ],
   "scripts": {
     "api-docs": "typedoc addon --out ../site/public/api-docs",
     "build": "rollup --config",
