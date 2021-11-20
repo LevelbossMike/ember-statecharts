@@ -31,6 +31,9 @@ module.exports = {
         'prettier/@typescript-eslint',
         'plugin:prettier/recommended',
       ],
+      rules: {
+        '@typescript-eslint/ban-types': ['off', { object: null }],
+      },
     },
     // node files
     {
