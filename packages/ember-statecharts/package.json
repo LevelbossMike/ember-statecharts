@@ -25,7 +25,9 @@
   },
   "scripts": {
     "api-docs": "typedoc addon --out ../site/public/api-docs",
-    "build": "rollup --config",
+    "build": "FORCE_COLOR=1 npm-run-all --aggregate-output --parallel \"build:*\"",
+    "build:js": "rollup --config",
+    "build:types": "tsc --build",
     "changelog": "lerna-changelog",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel 'lint:!(fix)'",
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
@@ -40,7 +42,6 @@
     "prepare": "yarn build"
   },
   "peerDependencies": {
-    "ember-usable": "https://github.com/pzuraq/ember-usable#0d03a50",
     "xstate": "^4.12.0"
   },
   "devDependencies": {
