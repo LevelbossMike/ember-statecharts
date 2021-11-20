@@ -59,7 +59,9 @@
     "prettier": "^2.2.1",
     "qunit": "^2.13.0",
     "qunit-dom": "^1.6.0",
-    "webpack": "^5.64.1"
+    "webpack": "^5.64.1",
+    "xstate": "^4.12.0",
+    "ember-usable": "https://github.com/pzuraq/ember-usable#0d03a50"
   },
   "engines": {
     "node": "10.* || >= 12"

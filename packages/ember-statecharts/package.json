@@ -39,12 +39,7 @@
     "test": "echo 'Addon does not have tests, run tests in test-app'",
     "prepare": "yarn build"
   },
-  "dependencies": {
-    "@glimmer/tracking": "^1.0.3",
-    "ember-auto-import": "^1.10.1",
-    "ember-cli-babel": "^7.23.0",
-    "ember-cli-htmlbars": "^5.3.1",
-    "ember-cli-typescript": "^3.1.4",
+  "peerDependencies": {
     "ember-usable": "https://github.com/pzuraq/ember-usable#0d03a50",
     "xstate": "^4.12.0"
   },
