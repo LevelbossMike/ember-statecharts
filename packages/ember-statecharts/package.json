@@ -18,6 +18,11 @@
     "addon-main.js",
     "dist"
   ],
+  "exports": {
+    ".":  "./dist/index.js",
+    "./*": "./dist/*",
+    "./addon-main.js": "./addon-main.js"
+  },
   "scripts": {
     "api-docs": "typedoc addon --out ../site/public/api-docs",
     "build": "rollup --config",
