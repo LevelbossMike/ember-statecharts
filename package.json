@@ -13,6 +13,9 @@
   "devDependencies": {
     "lerna": "^4.0.0"
   },
+  "scripts": {
+    "prepare": "lerna run build --scope ember-statecharts"
+  },
   "volta": {
     "node": "14.18.1",
     "yarn": "1.22.17"

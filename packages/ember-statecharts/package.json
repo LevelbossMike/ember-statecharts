@@ -19,7 +19,7 @@
     "dist"
   ],
   "exports": {
-    ".":  "./dist/index.js",
+    ".": "./dist/index.js",
     "./*": "./dist/*",
     "./addon-main.js": "./addon-main.js"
   },
@@ -35,10 +35,9 @@
     "lint:js:fix": "eslint . --fix",
     "prepublishOnly": "ember ts:precompile",
     "postpublish": "ember ts:clean",
-    "start": "ember serve",
-    "test": "npm-run-all lint test:*",
-    "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each"
+    "start": "rollup --config --watch",
+    "test": "echo 'Addon does not have tests, run tests in test-app'",
+    "prepare": "yarn build"
   },
   "dependencies": {
     "@glimmer/tracking": "^1.0.3",
