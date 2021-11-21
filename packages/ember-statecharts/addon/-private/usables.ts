@@ -44,7 +44,7 @@ interface StatechartArgs<
   };
 }
 
-class Statechart<
+export class Statechart<
   TContext,
   TStateSchema extends StateSchema,
   TEvent extends EventObject,

@@ -1,8 +1,7 @@
 // BEGIN-SNIPPET typed-button
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
-import { matchesState } from 'ember-statecharts';
-import { useMachine } from 'ember-statecharts/-private/usables';
+import { useMachine, matchesState } from 'ember-statecharts';
 import buttonMachine, {
   ButtonContext,
   ButtonEvent,
