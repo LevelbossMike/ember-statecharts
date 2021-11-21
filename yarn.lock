@@ -3663,7 +3663,7 @@
     "@glimmer/env" "^0.1.7"
     "@glimmer/global-context" "0.65.1"
 
-"@glimmer/validator@0.83.1":
+"@glimmer/validator@0.83.1", "@glimmer/validator@^0.83.1":
   version "0.83.1"
   resolved "https://registry.yarnpkg.com/@glimmer/validator/-/validator-0.83.1.tgz#7578cb2284f728c8e9302c51fc6e7660b570ac54"
   integrity sha512-LaILSNnQgDHZpaUsfjVndbS1JfVn0xdTlJdFJblPbhoVklOBSReZVekens3EQ6xOr3BC612sRm1hBnEPixOY6A==
