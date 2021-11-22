@@ -37,7 +37,7 @@ export function useResource<
 >(destroyable: object, definition: object, args?: () => TArgs): T {
   const target = useUnproxiedResource<TArgs, T>(destroyable, definition, args);
 
-  return (new Proxy(target, {
+  return new Proxy(target, {
     get(target, key): unknown {
       const instance = target.value;
       const value = Reflect.get(instance, key, instance);
@@ -50,5 +50,5 @@ export function useResource<
     getOwnPropertyDescriptor(target, key): PropertyDescriptor | undefined {
       return Reflect.getOwnPropertyDescriptor(target.value, key);
     },
-  }) as never) as T;
+  }) as never as T;
 }

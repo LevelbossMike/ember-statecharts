@@ -130,48 +130,42 @@ module('Unit | statechart computeds', function (hooks) {
     test('can be used to match against the current state of the statechart', async function (assert) {
       let { subject } = this;
 
-      assert.equal(subject.playerIsOff, true, 'works for initial states');
+      assert.true(subject.playerIsOff, 'works for initial states');
 
       await subject.get('statechart').send('power');
 
-      assert.equal(subject.playerIsOn, true, 'works after updating state');
+      assert.true(subject.playerIsOn, 'works after updating state');
 
-      assert.equal(subject.playerIsStopped, true, 'works for nested states');
+      assert.true(subject.playerIsStopped, 'works for nested states');
 
       await subject.get('statechart').send('play');
 
-      assert.equal(
+      assert.false(
         subject.playerIsStopped,
-        false,
         'works inside of nested states - stopped false - playing again'
       );
-      assert.equal(
+      assert.true(
         subject.playerIsPlaying,
-        true,
         'works inside of nested states - playing true - playing'
       );
 
       await subject.get('statechart').send('pause');
 
-      assert.equal(
+      assert.false(
         subject.playerIsStopped,
-        false,
         'works inside of nested states - stopped false - paused'
       );
-      assert.equal(
+      assert.false(
         subject.playerIsPlaying,
-        false,
         'works inside of nested states - playing false - paused'
       );
-      assert.equal(
+      assert.true(
         subject.playerIsPaused,
-        true,
         'works inside of nested states - paused true - paused'
       );
 
-      assert.equal(
+      assert.true(
         subject.playerActiveMusicNotPlaying,
-        true,
         'works when passing array'
       );
     });
@@ -179,31 +173,27 @@ module('Unit | statechart computeds', function (hooks) {
     test('it can be used with other computeds not named `statechart`', async function (assert) {
       let { subject } = this;
 
-      assert.equal(
+      assert.true(
         subject.get('secondIsOff'),
-        true,
         'work for initial state of second statechart'
       );
 
       await subject.get('secondStatechart').send('POWER');
 
-      assert.equal(
+      assert.false(
         subject.get('secondIsOff'),
-        false,
         'matchesState updates with custom named statecharts'
       );
 
-      assert.equal(
+      assert.true(
         subject.get('secondIsOn'),
-        true,
         'matchesState computeds work as expected for second statechart'
       );
 
       await subject.get('secondStatechart').send('START');
 
-      assert.equal(
+      assert.true(
         subject.get('secondIsStarted'),
-        true,
         'matchesState computeds work as expected for nested states for second statechart'
       );
     });
@@ -230,7 +220,7 @@ module('Unit | statechart computeds', function (hooks) {
       );
     });
 
-    test('can be used to log the current state of the statechart as a string', async function (assert) {
+    test('can be used to log the current state of the statechart as a string - custom name', async function (assert) {
       let { subject } = this;
 
       assert.deepEqual(subject.get('_debugSecond'), '"off"');

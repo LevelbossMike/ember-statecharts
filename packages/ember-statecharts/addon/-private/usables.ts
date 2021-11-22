@@ -52,12 +52,8 @@ export class Statechart<
 > extends Resource<StatechartArgs<TContext, TStateSchema, TEvent, TTypestate>> {
   @tracked service: Interpreter<TContext, TStateSchema, TEvent, TTypestate>;
   @tracked state: State<TContext, TEvent, TStateSchema, TTypestate>;
-  @tracked services: Interpreter<
-    TContext,
-    TStateSchema,
-    TEvent,
-    TTypestate
-  >[] = [];
+  @tracked services: Interpreter<TContext, TStateSchema, TEvent, TTypestate>[] =
+    [];
 
   constructor(
     owner: Record<string, unknown>,
