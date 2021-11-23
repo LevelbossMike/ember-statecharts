@@ -28,6 +28,8 @@ module('Integration | Component | quickstart-button', function (hooks) {
   });
 
   test("it's possible to pass an onClick-action handler to the button", async function (assert) {
+    assert.expect(1);
+
     this.set('wat', function () {
       assert.ok(true, 'action handler was called');
     });
@@ -43,6 +45,8 @@ module('Integration | Component | quickstart-button', function (hooks) {
   });
 
   test("when the action triggered by the button clicked gets fired and takes time it's not possible to trigger it again", async function (assert) {
+    assert.expect(3);
+
     this.set('onClick', function () {
       assert.ok(true, 'onClick was triggered');
       return new Promise(function () {});
@@ -68,6 +72,8 @@ module('Integration | Component | quickstart-button', function (hooks) {
   });
 
   test("when passing the disabled property the button is disabled and won't trigger its action", async function (assert) {
+    assert.expect(1);
+
     this.set('onClick', function () {
       assert.ok(false, 'onClick should not be triggered');
     });
@@ -85,6 +91,8 @@ module('Integration | Component | quickstart-button', function (hooks) {
   });
 
   test('when the triggered action resolves the `onSuccess` handler is triggered', async function (assert) {
+    assert.expect(1);
+
     this.set('onClick', function () {
       return resolve();
     });
@@ -106,6 +114,8 @@ module('Integration | Component | quickstart-button', function (hooks) {
   });
 
   test('when the triggered action rejects the `onError` handler is triggered', async function (assert) {
+    assert.expect(1);
+
     this.set('onClick', function () {
       return reject();
     });
