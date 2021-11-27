@@ -1,6 +1,5 @@
 import Statechart from 'dummy/utils/statechart';
 import { module, test } from 'qunit';
-import { timeout } from 'ember-concurrency';
 
 module('Unit | Utility | statechart', function (/*hooks*/) {
   module('#send', function () {
@@ -1043,87 +1042,6 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
         },
         'parallel states have expected end states'
       );
-    });
-  });
-
-  module('delays', function () {
-    test('delays work as expected', async function (assert) {
-      assert.expect(7);
-
-      const statechart = new Statechart(
-        {
-          initial: 'powerOff',
-          states: {
-            powerOff: {
-              on: {
-                POWER: 'powerOn',
-              },
-            },
-            powerOn: {
-              initial: 'red',
-              on: {
-                POWER: 'powerOff',
-              },
-              states: {
-                red: {
-                  after: {
-                    LIGHT_DELAY: 'yellow',
-                  },
-                },
-                yellow: {
-                  after: {
-                    50: 'green',
-                  },
-                },
-                green: {
-                  after: {
-                    100: 'red',
-                  },
-                },
-              },
-            },
-          },
-        },
-        {
-          delays: {
-            LIGHT_DELAY: 200,
-          },
-        }
-      );
-
-      assert.equal(statechart.currentState.value, 'powerOff');
-
-      statechart.send('POWER');
-
-      await timeout(100);
-
-      // transition will happen after 200ms not 100ms
-      assert.deepEqual(statechart.currentState.value, { powerOn: 'red' });
-
-      await timeout(105);
-
-      // 205ms elapsed we should be in yellow
-      assert.deepEqual(statechart.currentState.value, { powerOn: 'yellow' });
-
-      await timeout(25);
-
-      // 230ms we should still be in yellow
-      assert.deepEqual(statechart.currentState.value, { powerOn: 'yellow' });
-
-      await timeout(70);
-
-      // 300ms we should be in green by now
-      assert.deepEqual(statechart.currentState.value, { powerOn: 'green' });
-
-      await timeout(60);
-
-      // 360ms we should be back in red
-      assert.deepEqual(statechart.currentState.value, { powerOn: 'red' });
-
-      // turn of light
-      statechart.send('POWER');
-
-      assert.deepEqual(statechart.currentState.value, 'powerOff');
     });
   });
 });
