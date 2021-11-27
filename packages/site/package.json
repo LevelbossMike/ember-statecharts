@@ -101,7 +101,8 @@
     "remark-autolink-headings": "^6.0.1",
     "tailwindcss": "^2.1.2",
     "typedoc": "^0.20.36",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "xstate": "^4.12.0"
   },
   "engines": {
     "node": "10.* || >= 12"
