@@ -90,9 +90,9 @@ jobs:
           - scenario: ember-release
             allow-failure: false
           - scenario: ember-beta
-            allow-failure: true
+            allow-failure: false
           - scenario: ember-canary
-            allow-failure: true
+            allow-failure: false
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
