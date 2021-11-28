@@ -34,6 +34,8 @@ module('Acceptance | smoke', function (hooks) {
   setupApplicationTest(hooks);
 
   test('@statechart computed api works', async function (assert) {
+    assert.expect(3);
+
     await visit('/');
 
     const page = new TogglePage('[data-test-computed]');
@@ -42,6 +44,8 @@ module('Acceptance | smoke', function (hooks) {
   });
 
   test('use-machine api works', async function (assert) {
+    assert.expect(3);
+
     await visit('/');
 
     const page = new TogglePage('[data-test-use-machine]');
