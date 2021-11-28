@@ -20,7 +20,7 @@
     "postpublish": "ember ts:clean",
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
-    "test:ember": "ember test"
+    "test:ember": "ember test --test-port=0"
   },
   "dependencies": {
     "@glimmer/tracking": "^1.0.3",
