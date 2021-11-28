@@ -38,9 +38,9 @@ jobs:
       - name: Lerna Bootstrap
         run: yarn run lerna bootstrap
       - name: Lint
-        run: yarn workspaces run lint
+        run: yarn run lerna run lint
       - name: Tests
-        run: yarn workspaces run test:ember
+        run: yarn run lerna run test:ember
 
   test-locked-deps:
     name: Locked Deps
@@ -57,9 +57,9 @@ jobs:
       - name: Lerna Bootstrap
         run: yarn run lerna bootstrap
       - name: Lint
-        run: yarn workspaces run lint
+        run: yarn run lerna run lint
       - name: Browser Tests
-        run: yarn workspaces run test:ember
+        run: yarn run lerna run test:ember
 
   test-old-dependencies:
     name: Oldest Supported Env
@@ -76,7 +76,7 @@ jobs:
       - name: Lerna Bootstrap
         run: yarn run lerna bootstrap
       - name: Browser Tests
-        run: yarn workspaces run test:ember
+        run: yarn run lerna run test:ember
 
   test-try:
     name: Ember Try (${{ matrix.scenario }})
@@ -105,5 +105,5 @@ jobs:
       - name: Lerna Bootstrap
         run: yarn run lerna bootstrap
       - name: Try Scenario
-        run: yarn workspace ember-statecharts run ember try:one ${{ matrix.scenario }}
+        run: yarn run lerna exec --stream --scope test-app ember try:one ${{ matrix.scenario }}
         continue-on-error: ${{ matrix.allow-failure }}
