@@ -39,6 +39,14 @@ interface StatechartArgs<
     initialState?: State<TContext, TEvent, TStateSchema, TTypestate>;
   };
 }
+/**
+ *
+ * A [resource](https://www.pzuraq.com/introducing-use/) that starts
+ * a [XState-interpreter](https://xstate.js.org/docs/guides/interpretation.html)
+ * when accessed and will allow handling args-updates when args change after
+ * the interpreter has started.
+ *
+ */
 export declare class Statechart<
   TContext,
   TStateSchema extends StateSchema,
@@ -80,6 +88,26 @@ export declare class Statechart<
     service: Interpreter<TContext, TStateSchema, TEvent, TTypestate>
   ): void;
 }
+/**
+ * A function that can be used to create a {@link Statechart}-resource
+ * that starts a [XState-interpreter](https://xstate.js.org/docs/guides/interpretation.html)
+ * when accessed and makes the state of the interpreter accessible to the calling
+ * context.
+ *
+ * ```js
+ * export default class Button extends Component {
+ *   statechart = useMachine(this, () => {
+ *     return {
+ *       machine: toggleMachine
+ *     }
+ *   })
+ *
+ *   @action toggleButton() {
+ *     this.statechart.send('TOGGLE');
+ *   }
+ * }
+ * ```
+ */
 export declare function useMachine<
   TContext,
   TStateSchema extends StateSchema,
