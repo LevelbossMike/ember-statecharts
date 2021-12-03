@@ -1,17 +1,17 @@
 // BEGIN-SNIPPET typed-button
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
-import { useMachine, matchesState, interpreterFor } from 'ember-statecharts';
+import { useMachine, matchesState } from 'ember-statecharts';
 import buttonMachine, {
   ButtonContext,
   ButtonEvent,
+  ButtonState,
 } from '../machines/typed-button';
 import { TaskGenerator } from 'ember-concurrency';
 
 import { task } from 'ember-concurrency-decorators';
 import { taskFor } from 'ember-concurrency-ts';
 
-import { use } from 'ember-usable';
 import { action } from '@ember/object';
 
 interface ButtonArgs {
@@ -44,42 +44,47 @@ export default class TypedButton extends Component<ButtonArgs> {
     return isDisabled || isBusy || isInteractivityUnknown;
   }
 
-  @use statechart = useMachine(buttonMachine)
-    .withContext({
-      disabled: this.args.disabled,
-    })
-    .withConfig({
-      actions: {
-        handleSubmit: this.performSubmitTask,
-        handleSuccess: this.onSuccess,
-        handleError: this.onError,
-      },
-    })
-    .update(({ context, send }) => {
-      const disabled = context?.disabled;
+  statechart = useMachine<ButtonContext, any, ButtonEvent, ButtonState>(
+    this,
+    () => {
+      return {
+        machine: buttonMachine
+          .withContext({
+            disabled: this.args.disabled,
+          })
+          .withConfig({
+            actions: {
+              handleSubmit: this.performSubmitTask,
+              handleSuccess: this.onSuccess,
+              handleError: this.onError,
+            },
+          }),
+        update: ({ machine, send }) => {
+          const disabled = machine.context?.disabled;
 
-      if (disabled) {
-        send('DISABLE');
-      } else {
-        send('ENABLE');
-      }
-    });
+          if (disabled) {
+            send('DISABLE');
+          } else {
+            send('ENABLE');
+          }
+        },
+      };
+    }
+  );
 
   @task *submitTask(): TaskGenerator<void> {
     try {
       const result = yield this.onClick();
 
-      interpreterFor(this.statechart).send('SUCCESS', { result });
+      this.statechart.send('SUCCESS', { result });
     } catch (e) {
-      interpreterFor(this.statechart).send('ERROR', { error: e });
+      this.statechart.send('ERROR', { error: e });
     }
   }
 
   @action
   handleClick(): void {
-    const interpreter = interpreterFor(this.statechart);
-
-    interpreter.send('SUBMIT');
+    this.statechart.send('SUBMIT');
   }
 
   @action

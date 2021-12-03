@@ -2,8 +2,9 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { matchesState, useMachine } from 'ember-statecharts';
-import { use } from 'ember-usable';
+import { matchesState } from 'ember-statecharts';
+import { useMachine } from 'ember-statecharts/-private/usables';
+
 import quickstartButtonMachine from '../machines/quickstart-button';
 
 function noop() {}
@@ -13,12 +14,18 @@ export default class QuickstartButton extends Component {
     return this.args.onClick || noop;
   }
 
-  @use statechart = useMachine(quickstartButtonMachine).withConfig({
-    actions: {
-      handleSubmit: this.performSubmitTask,
-      handleSuccess: this.onSuccess,
-      handleError: this.onError,
-    },
+  statechart = useMachine(this, () => {
+    const { performSubmitTask, onSuccess, onError } = this;
+
+    return {
+      machine: quickstartButtonMachine.withConfig({
+        actions: {
+          handleSubmit: performSubmitTask,
+          handleSuccess: onSuccess,
+          handleError: onError,
+        },
+      }),
+    };
   });
 
   @matchesState('busy')

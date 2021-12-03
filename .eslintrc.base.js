@@ -28,25 +28,27 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:ember/recommended',
-        'prettier/@typescript-eslint',
         'plugin:prettier/recommended',
       ],
+      rules: {
+        '@typescript-eslint/ban-types': ['off', { object: null }],
+      },
     },
     // node files
     {
       files: [
-        '.eslintrc.js',
-        '.eslintrc.base.js',
-        '.prettierrc.js',
-        '.template-lintrc.js',
-        '.docfy-config.js',
-        'tailwind.config.js',
-        'ember-cli-build.js',
-        'index.js',
-        'testem.js',
-        'blueprints/*/index.js',
-        'config/**/*.js',
-        'tests/dummy/config/**/*.js',
+        './.eslintrc.js',
+        './.eslintrc.base.js',
+        './.prettierrc.js',
+        './.template-lintrc.js',
+        './.docfy-config.js',
+        './tailwind.config.js',
+        './ember-cli-build.js',
+        './index.js',
+        './testem.js',
+        './blueprints/*/index.js',
+        './config/**/*.js',
+        './tests/dummy/config/**/*.js',
       ],
       excludedFiles: [
         'addon/**',
@@ -67,6 +69,11 @@ module.exports = {
         'node/no-unpublished-require': 'off',
         'node/no-extraneous-require': 'off',
       },
+    },
+    {
+      // Test files:
+      files: ['tests/**/*-test.{js,ts}'],
+      extends: ['plugin:qunit/recommended'],
     },
   ],
 };
