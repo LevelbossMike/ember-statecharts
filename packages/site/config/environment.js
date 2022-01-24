@@ -46,6 +46,11 @@ module.exports = function (environment) {
     ],
   };
 
+  if (process.env.DEPLOY_TARGET) {
+    const versionedDocInfo = require('../lib/versioned-doc-info');
+    ENV.rootURL = versionedDocInfo(process.env.DEPLOY_TARGET).rootURL;
+  }
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;

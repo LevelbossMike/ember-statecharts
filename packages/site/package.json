@@ -111,5 +111,10 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/deploy-versioned-doc"
+    ]
   }
 }
