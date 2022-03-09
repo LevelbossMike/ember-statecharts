@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+<meta name="site/config/environment" content="%7B%22modulePrefix%22%3A%22site%22%2C%22deployTarget%22%3A%22tag%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22%2Fversions%2Fv0.14.0%2F%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%2C%22_APPLICATION_TEMPLATE_WRAPPER%22%3Afalse%2C%22_DEFAULT_ASYNC_OBSERVERS%22%3Atrue%2C%22_JQUERY_INTEGRATION%22%3Afalse%2C%22_TEMPLATE_ONLY_GLIMMER_COMPONENTS%22%3Atrue%7D%2C%22APP%22%3A%7B%7D%2C%22metricsAdapters%22%3A%5B%7B%22name%22%3A%22Matomo%22%2C%22environments%22%3A%5B%22development%22%2C%22production%22%5D%2C%22config%22%3A%7B%22scriptUrl%22%3A%22%2F%2Fcdn.matomo.cloud%2Feffective-ember.matomo.cloud%22%2C%22trackerUrl%22%3A%22https%3A%2F%2Feffective-ember.matomo.cloud%22%2C%22siteId%22%3A%222%22%2C%22disableCookies%22%3Atrue%7D%7D%5D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<!-- EMBER_CLI_FASTBOOT_TITLE --><title>ember-statecharts</title>
+
+    <link integrity="" rel="stylesheet" href="/versions/v0.14.0/assets/vendor-93bb1f846906ab54d3e4d1131e0887ff.css">
+    <link integrity="" rel="stylesheet" href="/versions/v0.14.0/assets/site-e5db72457095c60a61eb08909a10342f.css">
+
+    
+  </head>
+  <body>
+    <script type="x/boundary" id="fastboot-body-start"></script>
+<div class="sticky top-0 z-50 h-16 shadow-md bg-ember">
+  <div class="flex h-full px-4 mx-auto sm:px-6 max-w-7xl">
+    <div class="flex items-center mr-4 text-white">
+      <a href="/versions/v0.14.0/" id="ember52" class="active ember-view flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 512 512" class="fill-none transform translate-y-0.5"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><g transform="translate(391.636 94.812)"><path class="stroke-current" d="M24.364 137.191c57.05.66 54.3 124.332 52.925 186.169M-273.827 25.188c-91.6-.223-87.183-42.741-84.974-64" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><circle cx="23" cy="23" r="23" transform="translate(-383.636 -70.812)" class="text-current fill-current"/><path class="stroke-current" d="M-250.136 25.72L-270.6 41.18l-1.031-29.439z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="15.99376"/><path class="stroke-current" d="M24.364 1.54c0-13.44-6.327-24.352-14.121-24.352h-315.758c-7.793 0-14.121 10.912-14.121 24.352v271.3c0 13.441 6.327 24.353 14.121 24.353H10.243c7.793 0 14.121-10.912 14.121-24.353zM77.262 337.986l14.738-21H62.532zM24.364 137.188c57.05-.66 54.3-124.332 52.925-186.169" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><path class="stroke-current" d="M77.262-63.607l14.738 21H62.532z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/></g><g class="fill-current" fill-rule="evenodd"><path d="M396.599 251.08s-7.637 5.924-14.359 5.263-4.611-15.682-4.611-15.682 1.449-13.775-2.51-14.933-8.823 3.59-8.823 3.59a49.6 49.6 0 00-8.96 15.293l-.8.263s.924-15.03-.126-18.454c-.788-1.712-8.035-1.576-9.222 1.449s-6.989 24.116-7.389 32.949c0 0-11.333 9.621-21.207 11.2s-12.258-4.611-12.258-4.611 26.879-7.51 25.955-28.99-21.67-13.535-24.015-11.774c-2.275 1.712-14.407 9.028-17.948 29.291-.117.681-.331 3.7-.331 3.7s-10.409 6.975-16.207 8.823c0 0 16.207-27.278-3.551-39.662-5.557-3.345-10.4-.268-13.281 2.558-1.771 1.735 23.953-26.4 18.019-51.579-2.822-11.987-8.814-13.271-14.311-11.325-8.347 3.288-11.508 8.162-11.508 8.162a92.066 92.066 0 00-13.318 39.01c-2.5 23.318-6.187 51.52-6.187 51.52s-5.146 5.01-9.884 5.273-2.636-14.106-2.636-14.106 3.687-21.869 3.434-25.566c-.272-3.687-.535-5.662-4.884-6.975s-9.1 4.212-9.1 4.212-12.51 18.97-13.561 21.869l-.671 1.2-.652-.8s8.823-25.828.4-26.217-13.967 9.224-13.967 9.224-9.621 16.078-10.02 17.917l-.652-.788s3.95-18.707 3.162-23.328a4.23 4.23 0 00-5.136-3.687s-5.535-.662-6.985 2.9-6.722 27.142-7.384 34.652c0 0-13.833 9.884-22.929 10.01s-8.162-5.759-8.162-5.759 33.338-11.417 24.243-33.943c-4.086-5.8-8.823-7.617-15.546-7.491s-15.059 4.232-20.458 16.353a53.769 53.769 0 00-4.057 15.419s-5.827 1.2-8.989-1.44-4.8 0-4.8 0-5.428 6.926-.029 9.028 13.833 3.094 13.833 3.094a25.221 25.221 0 009.611 14.952c9.884 7.51 28.844-.691 28.844-.691l7.773-4.358s.263 7.131 5.934 8.172 8.035-.019 17.919-24c5.8-12.258 6.2-11.6 6.2-11.6.652-.136-3.823 23.318-2.111 29.642s9.222 5.672 9.222 5.672 4.086.788 7.384-10.808a168.849 168.849 0 019.621-24.379c.778 0-1.985 23.98 2.228 31.626s15.157 2.568 15.157 2.568 7.646-3.852 8.833-5.039a31.045 31.045 0 0021.859 6.323c28.6-5.633 38.777-13.24 38.777-13.24a23.616 23.616 0 0020.137 13.61c17.384 1.313 26.879-9.621 26.879-9.621s-.136 7.111 5.924 9.621 10.146-11.577 10.146-11.577l10.147-27.959c.924 0 1.449 18.182 11.47 21.081s23.056-6.79 23.056-6.79 3.162-1.741 2.636-7.014-5.268-3.303-5.268-3.303zm-263.928-13.191c3.551 3.424 2.237 10.8-4.485 15.409s-9.748 3.7-9.748 3.7c.399-15.685 10.682-22.543 14.233-19.109zm131.106-54.157c2.237 11.859-19.631 47.172-19.631 47.172.263-7.909 8.035-34.652 8.035-34.652s9.349-24.379 11.596-12.52zm-21.616 90s-1.712-5.8 3.162-22.005 16.343-9.884 16.343-9.884 7.909 6.061 1.712 22.268-21.217 9.616-21.217 9.616zm66.677-31.757c5.4-9.884 9.621-4.485 9.621-4.485s4.611 5.01-.662 12.52a15.522 15.522 0 01-12.908 6.985s-1.45-5.146 3.949-15.02z"/><path d="M362.77 281.965v-1.892h1.2c.167 0 .333.018.508.035a1.928 1.928 0 01.482.131.827.827 0 01.35.263.7.7 0 01.14.464c0 .438-.131.718-.394.832a2.6 2.6 0 01-1.017.166zm-1.428-3v7.2h1.428v-3.079h.894l1.751 3.075h1.5l-1.93-3.141a3.4 3.4 0 00.745-.158 1.742 1.742 0 00.6-.342 1.46 1.46 0 00.4-.578 2.066 2.066 0 00.15-.85 1.824 1.824 0 00-.727-1.647 3.8 3.8 0 00-2.094-.482zm-2.287 3.609a5.234 5.234 0 01.377-2.024 4.924 4.924 0 011.034-1.586 4.685 4.685 0 011.533-1.051 4.78 4.78 0 011.9-.377 4.754 4.754 0 013.426 1.428 5.09 5.09 0 011.042 1.586 5.237 5.237 0 01.385 2.024 5.313 5.313 0 01-.385 2.032 5.174 5.174 0 01-1.042 1.6 4.612 4.612 0 01-1.542 1.06 4.7 4.7 0 01-1.884.377 4.778 4.778 0 01-1.9-.377 4.578 4.578 0 01-1.533-1.06 5 5 0 01-1.034-1.6 5.31 5.31 0 01-.377-2.036zm-1.761 0a6.26 6.26 0 002 4.7 6.415 6.415 0 002.111 1.288 7.226 7.226 0 005 0 6.227 6.227 0 003.565-3.32 6.866 6.866 0 000-5.309 6.243 6.243 0 00-1.454-2.024 6.44 6.44 0 00-2.111-1.288 7.1 7.1 0 00-5 0 6.415 6.415 0 00-2.111 1.288 6.244 6.244 0 00-1.456 2.011 6.327 6.327 0 00-.544 2.65z"/></g></g></svg>
+
+        <span class="ml-2 text-xl font-semibold leading-none md:text-2xl transform -translate-x-1">
+          statecharts
+        </span>
+      </a>
+    </div>
+    <div class="flex items-center justify-between flex-grow px-2 md:px-6 overflow-x-scroll">
+      <ul>
+        <li>
+          <a href="/versions/v0.14.0/docs" id="ember53" class="ember-view pb-1 text-white border-b-2 border-transparent hover:border-white focus:outline-none focus-visible:shadow-outline">
+            Documentation
+          </a>
+        </li>
+      </ul>
+
+      <div class="flex items-center">
+        <div>
+<!----></div>
+
+        <a href="https://github.com/levelbossmike/ember-statecharts" target="_blank" rel="noopener noreferrer" class="ml-4 text-white md:ml-6 focus:outline-none focus-visible:shadow-outline transform scale-100 hover:scale-110 transition-transform ease-in-out">
+          <svg viewbox="0 0 20 20" class="w-8 h-8 fill-current">
+            <title>
+              GitHub
+            </title>
+            <path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="bg-white">
+  <main>
+    <div class="pt-10 bg-gray-900 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+          <div class="max-w-md px-4 mx-auto sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
+            <div class="lg:py-24">
+              <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
+                <span class="block">
+                  A better way to
+                </span>
+                <span class="block pb-3 text-transparent bg-clip-text bg-gradient-to-r from-ember to-red-50 sm:pb-5">
+                  build Ember.js apps
+                </span>
+              </h1>
+              <p class="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl">
+                <strong class="align-middle">
+                  ember-statecharts
+                </strong>
+                <span class="align-middle">
+                  provides an easy way to use
+                </span>
+                <a href="https://xstate.js.org/" target="_blank" rel="noopener noreferrer">
+                  <svg viewBox="0 0 279.8 98.5" class="inline w-16 h-8 align-middle fill-current text-current hover:text-white"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+                </a>
+                <strong class="align-middle">
+                  statecharts
+                </strong>
+                <span class="align-middle">
+                  in Ember.js applications
+                </span>
+              </p>
+              <div class="mt-4 sm:mt-6">
+                <div class="items-center sm:flex">
+                  <div class="flex-1 min-w-0">
+                    <div class="px-4 py-2 my-6 overflow-hidden bg-gray-100 rounded-md">
+                      <code class="select-all">
+                        ember install ember-statecharts
+                      </code>
+                    </div>
+                  </div>
+                  <div class="mt-3 sm:mt-0 sm:ml-3">
+                    <a href="/versions/v0.14.0/docs" id="ember54" class="ember-view">
+                      <button class="block w-full px-4 py-3 font-medium text-white shadow rounded-md bg-ember focus:outline-none" type="button">
+                        Read the docs
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-12 -mb-16 sm:-mb-48 lg:m-0 lg:relative">
+            <div class="max-w-md px-4 mx-auto sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
+              <img class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none" src="/architect.svg" alt="Female drawing an architecture sketch">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="relative pt-16 bg-gray-50 sm:pt-24 lg:pt-32">
+      <div class="max-w-md px-4 mx-auto text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
+        <div>
+          <h2 class="text-base font-semibold tracking-wider uppercase text-ember">
+            Architect Behavior
+          </h2>
+          <p class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            Complex user flows? No problem.
+          </p>
+          <p class="mx-auto mt-5 text-xl text-gray-500 max-w-prose">
+            Modeling  complex user flows with a
+            <strong>
+              visual language
+            </strong>
+            based on
+            <strong>
+              states
+            </strong>
+            and
+            <strong>
+              events
+            </strong>
+            has proven itself to be an efficient method to develop complex reactive applications. Modeling with
+            <strong>
+              statecharts
+            </strong>
+            allows you to
+            <strong>
+              visualize
+            </strong>
+            your application's behavior and simplifies communication with the rest of your team.
+          </p>
+        </div>
+        <div class="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
+          <a href="https://xstate.js.org/viz/" target="_blank" rel="noreferrer noopener">
+            <img class="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5" src="/xstate-viz-24802a8166dcf03e8e8e9ca692341efc.png" alt="XState visualizer application">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="relative py-16 bg-white sm:py-24 lg:py-32">
+      <div class="max-w-md px-4 mx-auto text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+        <h2 class="text-base font-semibold tracking-wider uppercase text-ember">
+          Architect robust applications
+        </h2>
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          Model application behavior that cannot break
+        </p>
+        <p class="mx-auto mt-5 text-xl text-gray-500 max-w-prose">
+          With
+          <strong>
+            ember-statecharts
+          </strong>
+          you model how your application and its components behave explicitly. These models can be interpreted and executed by ember-statecharts and
+          <strong>
+            make it impossible to trigger invalid application behavior.
+          </strong>
+        </p>
+        <div class="mt-12">
+          <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="pt-6">
+              <div class="px-6 pb-8 rounded-lg flow-root bg-gray-50">
+                <div class="-mt-6">
+                  <div>
+                    <span class="inline-flex items-center justify-center p-3 shadow-lg bg-ember rounded-md">
+                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 class="mt-8 text-lg font-medium tracking-tight text-gray-900">
+                    Model behavior explicitly
+                  </h3>
+                  <p class="mt-5 text-base text-gray-500">
+                    Instead of relying on implicit states that you manage by setting properties on your objects, you will model your behavior as a set of explicit states that handle events.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6">
+              <div class="px-6 pb-8 rounded-lg flow-root bg-gray-50">
+                <div class="-mt-6">
+                  <div>
+                    <span class="inline-flex items-center justify-center p-3 shadow-lg bg-ember rounded-md">
+                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 class="mt-8 text-lg font-medium tracking-tight text-gray-900">
+                    Create Apps that don't break
+                  </h3>
+                  <p class="mt-5 text-base text-gray-500">
+                    Because behavior is only executed when a given state understands an event that is being received it is impossible to trigger invalid or unexpected application behavior.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6">
+              <div class="px-6 pb-8 rounded-lg flow-root bg-gray-50">
+                <div class="-mt-6">
+                  <div>
+                    <span class="inline-flex items-center justify-center p-3 shadow-lg bg-ember rounded-md">
+                      <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 class="mt-8 text-lg font-medium tracking-tight text-gray-900">
+                    Refactor and refine with confidence
+                  </h3>
+                  <p class="mt-5 text-base text-gray-500">
+                    Application flows modeled with statecharts are easy to change without the risk of breaking existing behavior.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6">
+              <div class="px-6 pb-8 rounded-lg flow-root bg-gray-50">
+                <div class="-mt-6">
+                  <div>
+                    <span class="inline-flex items-center justify-center p-3 shadow-lg bg-ember rounded-md">
+                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 class="mt-8 text-lg font-medium tracking-tight text-gray-900">
+                    Document behavior
+                  </h3>
+                  <p class="mt-5 text-base text-gray-500">
+                    Statecharts can be visualized - you are automatically documenting the existing behavior of all parts of your app that you model with them.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6">
+              <div class="px-6 pb-8 rounded-lg flow-root bg-gray-50">
+                <div class="-mt-6">
+                  <div>
+                    <span class="inline-flex items-center justify-center p-3 shadow-lg bg-ember rounded-md">
+                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 class="mt-8 text-lg font-medium tracking-tight text-gray-900">
+                    Identify missing requirements
+                  </h3>
+                  <p class="mt-5 text-base text-gray-500">
+                    Because you make use of a visual language that describes behavior it gets very easy to identify what is missing in requirement specifications.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-6">
+              <div class="px-6 pb-8 rounded-lg flow-root bg-gray-50">
+                <div class="-mt-6">
+                  <div>
+                    <span class="inline-flex items-center justify-center p-3 shadow-lg bg-ember rounded-md">
+                      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                  <h3 class="mt-8 text-lg font-medium tracking-tight text-gray-900">
+                    Collaborate with other stakeholders
+                  </h3>
+                  <p class="mt-5 text-base text-gray-500">
+                    Statecharts make it possible to collaborate with non-technical stakeholders
+                    who have a much easier time thinking in states and events than they have
+                    understanding code.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pb-16 bg-ember lg:pb-0 lg:z-10 lg:relative">
+      <div class="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-8">
+        <div class="relative lg:-my-8">
+          <div aria-hidden="true" class="absolute inset-x-0 top-0 bg-white h-1/2 lg:hidden"></div>
+          <div class="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:p-0 lg:h-full">
+            <div class="overflow-hidden border shadow-2xl aspect-w-10 aspect-h-6 rounded-xl sm:aspect-w-16 sm:aspect-h-7 lg:aspect-none lg:h-full">
+              <a href="http://www.wisdom.weizmann.ac.il/~harel/SCANNED.PAPERS/Statecharts.pdf" alt="Statecharts: A Visual Formalism For Complex Systems" target="_blank" rel="noreferrer noopener">
+                <img class="object-cover lg:h-full lg:w-full" src="/harel-statechart-paper-76feeea863f044e4413e7734aaffd097.png" alt="The first page of David Harel's statechart paper">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 lg:m-0 lg:col-span-2 lg:pl-8">
+          <div class="max-w-md px-4 mx-auto sm:max-w-2xl sm:px-6 lg:px-0 lg:py-20 lg:max-w-none">
+            <blockquote>
+              <a href="http://www.wisdom.weizmann.ac.il/~harel/SCANNED.PAPERS/Statecharts.pdf" alt="Statecharts: A Visual Formalism For Complex Systems" target="_blank" rel="noreferrer noopener">
+                <div>
+                  <svg class="w-12 h-12 text-white opacity-25" fill="currentColor" viewbox="0 0 32 32" aria-hidden="true">
+                    <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"></path>
+                  </svg>
+                  <p class="mt-6 text-2xl font-medium text-white">
+                    The behavior of a reactive system is really the set of allowed sequences of input and output events, conditions, and actions (...) Statecharts provide one possible fitting formalism for specifying reactive behavior.
+                  </p>
+                </div>
+                <footer class="mt-6">
+                  <p class="text-base font-medium text-white">
+                    David Harel
+                  </p>
+                  <p class="text-base font-medium text-red-900 underline text-underline-under">
+                    Statecharts: A Visual Formalism for Complex Systems, 1986
+                  </p>
+                </footer>
+              </a>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="relative py-16 bg-gray-50 sm:py-24 lg:py-32">
+      <div class="relative">
+        <div class="max-w-md px-4 mx-auto text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+          <h2 class="text-base font-semibold tracking-wider uppercase text-ember">
+            Learn
+          </h2>
+          <p class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            Helpful Resources
+          </p>
+          <p class="mx-auto mt-5 text-xl text-gray-500 max-w-prose">
+            <span class="align-middle">
+              Statecharts have proven themselves to be a valuable tool to model complex reactive systems for other parts of the software engineering industry. Getting to know a new technique to model your Ember.js applications explicitly based on
+            </span>
+
+            <a href="https://xstate.js.org/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 279.8 98.5" class="inline w-16 h-8 align-middle fill-current text-current hover:text-gray-700"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+            </a>
+            <span class="align-middle">
+              and statecharts can feel like a daunting task though - here are some resources to help you get started.
+            </span>
+          </p>
+        </div>
+        <div class="max-w-md px-4 mx-auto mt-12 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl">
+          <div class="flex flex-col overflow-hidden bg-white rounded-lg shadow-lg transform hover:scale-105 transition-all ease-in-out">
+            <a href="/versions/v0.14.0/docs/tutorial" id="ember55" class="ember-view">
+              <div class="flex-shrink-0">
+                <img class="object-cover w-full h-48 filter brightness-90" src="/tutorial-5d09c06a1b03f532686eedcca9e8d823.png" alt="Tutorial page">
+              </div>
+              <div class="flex flex-col justify-between flex-1 p-6 bg-white">
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-ember">
+                    Tutorial
+                  </p>
+                  <div class="mt-2">
+                    <p class="text-xl font-semibold text-gray-900">
+                      Read the Getting Started guide
+                    </p>
+                    <p class="mt-3 text-base text-gray-500">
+                      <strong>
+                        ember-statecharts'
+                      </strong>
+                      tutorial will get you up to speed quickly. The tutorial walks you through how you can implement an async button component from scratch. You will learn how to model behavior explicitly based on the requirements you get and how to use that model to implement an
+                      <code>
+                        AsyncButton
+                      </code>
+                      component.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="flex flex-col overflow-hidden bg-white rounded-lg shadow-lg transform hover:scale-105 transition-all ease-in-out">
+            <a href="https://xstate.js.org/docs/" target="_blank" rel="noreferrer noopener">
+              <div class="flex-shrink-0">
+                <img class="object-cover w-full h-48" src="/xstate-guides-e651952442e1e9298153c7261f8f49d8.png" alt="XState guides">
+              </div>
+              <div class="flex flex-col justify-between flex-1 p-6 bg-white">
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-ember">
+                    XState Documentation
+                  </p>
+                  <div class="mt-2">
+                    <p class="text-xl font-semibold text-gray-900">
+                      A deep dive into XState
+                    </p>
+                    <p class="mt-3 text-base text-gray-500">
+                      <span class="align-middle">
+                        Everything that ember-statecharts is doing is powered by the wonderful
+                      </span>
+                      <svg viewBox="0 0 279.8 98.5" class="inline h-6 align-middle fill-current w-14 text-current"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+                      <span class="align-middle">
+                        library. The XState guides provide extensive documentation about how to write statechart configurations - please make use of this invaluable resource.
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="flex flex-col overflow-hidden bg-white rounded-lg shadow-lg hover:scale-105 transform transition-all ease-in-out">
+            <a href="https://www.effective-ember.com/blog/robust-uis-with-statecharts/">
+              <div class="flex-shrink-0">
+                <img class="object-cover w-full h-48 filter brightness-90" src="/statecharts-blog-d35feff641a23d570fe664801d77b7b6.png" alt="Statecharts blogpost">
+              </div>
+              <div class="flex flex-col justify-between flex-1 p-6 mb-4">
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-ember">
+                    Blog
+                  </p>
+                  <div class="mt-2">
+                    <p class="text-xl font-semibold text-gray-900">
+                      Constructing robust Ember.js UIs with Statecharts
+                    </p>
+                    <p class="mt-3 text-base text-gray-500">
+                      <span class="align-middle">
+                        This post on the
+                      </span>
+                      <span class="inline-flex items-center normal-case align-middle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" class="w-6 h-6 fill-current text-ember"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><path fill="none" d="M0 0h512v512H0z"/><path d="M45.636 224.548L261.555 43.371l40.835 48.666a10 10 0 01-1.232 14.088L100.56 274.447a10 10 0 01-14.088-1.233l-40.836-48.666zM124.409 318.425l215.919-181.177 47.263 56.326-215.918 181.177zM203.181 412.303l97.958-82.196a20 20 0 0128.177 2.465l34.407 41.005-113.278 95.052-47.264-56.326zM359.319 281.288l59.781-50.162 47.264 56.326-75.102 63.018-34.408-41.005a20 20 0 012.465-28.177z"/></g></svg>
+                        <span class="ml-1 font-bold tracking-tighter">
+                          effective ember
+                        </span>
+                      </span>
+                      <span class="align-middle">
+                        blog shows you how to build a complex feature with ember-statecharts from scratch. The post starts out with explicitly modeling the behavior of a typeahead component and ends with the implementation of a Glimmer component that uses the modeled behavior via ember-statecharts'
+                        <strong>
+                          useMachine
+                        </strong>
+                        -usable.
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="relative bg-gray-900">
+      <div class="relative h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2">
+        <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=3578&amp;q=80" alt="Architect doing a sketch">
+        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-r from-ember to-red-200 mix-blend-multiply"></div>
+      </div>
+      <div class="relative max-w-md px-4 py-12 mx-auto sm:max-w-7xl sm:px-6 sm:py-20 md:py-28 lg:px-8 lg:py-32">
+        <div class="md:ml-auto md:w-1/2 md:pl-10">
+          <h2 class="text-base font-semibold tracking-wider text-gray-300 uppercase">
+            <span class="align-middle">
+              Developed by
+            </span>
+            <a href="https://www.effective-ember.com" target="_blank" rel="noreferrer noopener">
+              <span class="inline-flex items-center normal-case align-middle transform hover:scale-105 transition-transform ease-in-out">
+                <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" class="w-6 h-6 fill-current text-ember"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><path fill="none" d="M0 0h512v512H0z"/><path d="M45.636 224.548L261.555 43.371l40.835 48.666a10 10 0 01-1.232 14.088L100.56 274.447a10 10 0 01-14.088-1.233l-40.836-48.666zM124.409 318.425l215.919-181.177 47.263 56.326-215.918 181.177zM203.181 412.303l97.958-82.196a20 20 0 0128.177 2.465l34.407 41.005-113.278 95.052-47.264-56.326zM359.319 281.288l59.781-50.162 47.264 56.326-75.102 63.018-34.408-41.005a20 20 0 012.465-28.177z"/></g></svg>
+                <span class="ml-1 font-bold tracking-tighter">
+                  effective ember
+                </span>
+              </span>
+            </a>
+          </h2>
+          <p class="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            We're here to help
+          </p>
+          <p class="mt-3 text-lg text-gray-300">
+            As the creators of
+            <strong>
+              ember-statecharts,
+            </strong>
+            <span>
+              we are very excited about the possibilities that statecharts open up when developing Ember.js applications and have
+              <strong>
+                multiple years of experience in modeling ambitious applications with the concept.
+              </strong>
+              When you are getting started with modeling your Ember.js apps with statecharts and feel you might want some support to get a head start on this exciting paradigm we are more than happy to help.
+            </span>
+          </p>
+          <div class="mt-8">
+            <div class="inline-flex shadow rounded-md">
+              <a href="https://www.effective-ember.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-gray-900 bg-white border border-transparent rounded-md hover:bg-gray-50">
+                Get help getting started
+                <svg class="w-5 h-5 ml-3 -mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+                  <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</div>
+<footer class="bg-gray-50" aria-labelledby="footerHeading">
+  <div class="mx-auto max-w-7xl lg:px-8">
+    <h2 id="footerHeading" class="sr-only">
+      Footer
+    </h2>
+    <div class="max-w-md px-4 pt-12 mx-auto sm:max-w-7xl sm:px-6 lg:pt-16 lg:px-8">
+      <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div class="space-y-6 xl:col-span-1">
+          <div class="flex items-center text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 512 512" class="fill-none transform translate-y-0.5"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><g transform="translate(391.636 94.812)"><path class="stroke-current" d="M24.364 137.191c57.05.66 54.3 124.332 52.925 186.169M-273.827 25.188c-91.6-.223-87.183-42.741-84.974-64" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><circle cx="23" cy="23" r="23" transform="translate(-383.636 -70.812)" class="text-current fill-current"/><path class="stroke-current" d="M-250.136 25.72L-270.6 41.18l-1.031-29.439z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="15.99376"/><path class="stroke-current" d="M24.364 1.54c0-13.44-6.327-24.352-14.121-24.352h-315.758c-7.793 0-14.121 10.912-14.121 24.352v271.3c0 13.441 6.327 24.353 14.121 24.353H10.243c7.793 0 14.121-10.912 14.121-24.353zM77.262 337.986l14.738-21H62.532zM24.364 137.188c57.05-.66 54.3-124.332 52.925-186.169" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><path class="stroke-current" d="M77.262-63.607l14.738 21H62.532z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/></g><g class="fill-current" fill-rule="evenodd"><path d="M396.599 251.08s-7.637 5.924-14.359 5.263-4.611-15.682-4.611-15.682 1.449-13.775-2.51-14.933-8.823 3.59-8.823 3.59a49.6 49.6 0 00-8.96 15.293l-.8.263s.924-15.03-.126-18.454c-.788-1.712-8.035-1.576-9.222 1.449s-6.989 24.116-7.389 32.949c0 0-11.333 9.621-21.207 11.2s-12.258-4.611-12.258-4.611 26.879-7.51 25.955-28.99-21.67-13.535-24.015-11.774c-2.275 1.712-14.407 9.028-17.948 29.291-.117.681-.331 3.7-.331 3.7s-10.409 6.975-16.207 8.823c0 0 16.207-27.278-3.551-39.662-5.557-3.345-10.4-.268-13.281 2.558-1.771 1.735 23.953-26.4 18.019-51.579-2.822-11.987-8.814-13.271-14.311-11.325-8.347 3.288-11.508 8.162-11.508 8.162a92.066 92.066 0 00-13.318 39.01c-2.5 23.318-6.187 51.52-6.187 51.52s-5.146 5.01-9.884 5.273-2.636-14.106-2.636-14.106 3.687-21.869 3.434-25.566c-.272-3.687-.535-5.662-4.884-6.975s-9.1 4.212-9.1 4.212-12.51 18.97-13.561 21.869l-.671 1.2-.652-.8s8.823-25.828.4-26.217-13.967 9.224-13.967 9.224-9.621 16.078-10.02 17.917l-.652-.788s3.95-18.707 3.162-23.328a4.23 4.23 0 00-5.136-3.687s-5.535-.662-6.985 2.9-6.722 27.142-7.384 34.652c0 0-13.833 9.884-22.929 10.01s-8.162-5.759-8.162-5.759 33.338-11.417 24.243-33.943c-4.086-5.8-8.823-7.617-15.546-7.491s-15.059 4.232-20.458 16.353a53.769 53.769 0 00-4.057 15.419s-5.827 1.2-8.989-1.44-4.8 0-4.8 0-5.428 6.926-.029 9.028 13.833 3.094 13.833 3.094a25.221 25.221 0 009.611 14.952c9.884 7.51 28.844-.691 28.844-.691l7.773-4.358s.263 7.131 5.934 8.172 8.035-.019 17.919-24c5.8-12.258 6.2-11.6 6.2-11.6.652-.136-3.823 23.318-2.111 29.642s9.222 5.672 9.222 5.672 4.086.788 7.384-10.808a168.849 168.849 0 019.621-24.379c.778 0-1.985 23.98 2.228 31.626s15.157 2.568 15.157 2.568 7.646-3.852 8.833-5.039a31.045 31.045 0 0021.859 6.323c28.6-5.633 38.777-13.24 38.777-13.24a23.616 23.616 0 0020.137 13.61c17.384 1.313 26.879-9.621 26.879-9.621s-.136 7.111 5.924 9.621 10.146-11.577 10.146-11.577l10.147-27.959c.924 0 1.449 18.182 11.47 21.081s23.056-6.79 23.056-6.79 3.162-1.741 2.636-7.014-5.268-3.303-5.268-3.303zm-263.928-13.191c3.551 3.424 2.237 10.8-4.485 15.409s-9.748 3.7-9.748 3.7c.399-15.685 10.682-22.543 14.233-19.109zm131.106-54.157c2.237 11.859-19.631 47.172-19.631 47.172.263-7.909 8.035-34.652 8.035-34.652s9.349-24.379 11.596-12.52zm-21.616 90s-1.712-5.8 3.162-22.005 16.343-9.884 16.343-9.884 7.909 6.061 1.712 22.268-21.217 9.616-21.217 9.616zm66.677-31.757c5.4-9.884 9.621-4.485 9.621-4.485s4.611 5.01-.662 12.52a15.522 15.522 0 01-12.908 6.985s-1.45-5.146 3.949-15.02z"/><path d="M362.77 281.965v-1.892h1.2c.167 0 .333.018.508.035a1.928 1.928 0 01.482.131.827.827 0 01.35.263.7.7 0 01.14.464c0 .438-.131.718-.394.832a2.6 2.6 0 01-1.017.166zm-1.428-3v7.2h1.428v-3.079h.894l1.751 3.075h1.5l-1.93-3.141a3.4 3.4 0 00.745-.158 1.742 1.742 0 00.6-.342 1.46 1.46 0 00.4-.578 2.066 2.066 0 00.15-.85 1.824 1.824 0 00-.727-1.647 3.8 3.8 0 00-2.094-.482zm-2.287 3.609a5.234 5.234 0 01.377-2.024 4.924 4.924 0 011.034-1.586 4.685 4.685 0 011.533-1.051 4.78 4.78 0 011.9-.377 4.754 4.754 0 013.426 1.428 5.09 5.09 0 011.042 1.586 5.237 5.237 0 01.385 2.024 5.313 5.313 0 01-.385 2.032 5.174 5.174 0 01-1.042 1.6 4.612 4.612 0 01-1.542 1.06 4.7 4.7 0 01-1.884.377 4.778 4.778 0 01-1.9-.377 4.578 4.578 0 01-1.533-1.06 5 5 0 01-1.034-1.6 5.31 5.31 0 01-.377-2.036zm-1.761 0a6.26 6.26 0 002 4.7 6.415 6.415 0 002.111 1.288 7.226 7.226 0 005 0 6.227 6.227 0 003.565-3.32 6.866 6.866 0 000-5.309 6.243 6.243 0 00-1.454-2.024 6.44 6.44 0 00-2.111-1.288 7.1 7.1 0 00-5 0 6.415 6.415 0 00-2.111 1.288 6.244 6.244 0 00-1.456 2.011 6.327 6.327 0 00-.544 2.65z"/></g></g></svg>
+
+            <span class="ml-2 text-lg font-semibold leading-none md:text-xl transform -translate-x-1">
+              statecharts
+            </span>
+          </div>
+          <p class="text-base text-gray-500">
+            <span class="align-middle">
+              The easiest way to use
+            </span>
+            <a href="https://xstate.js.org/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 279.8 98.5" class="inline w-16 h-8 align-middle fill-current text-current hover:text-gray-700"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+            </a>
+            <strong class="align-middle">
+              statecharts
+            </strong>
+            <span class="align-middle">
+              in Ember.js applications.
+            </span>
+          </p>
+          <div class="flex space-x-6">
+            <a href="https://github.com/LevelbossMike/ember-statecharts" target="_blank" rel="noreferrer noopener" class="text-gray-400 hover:text-gray-500">
+              <span class="sr-only">
+                GitHub
+              </span>
+              <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://discord.com/invite/emberjs#e-statecharts" target="_blank" rel="noreferrer noopener" class="text-gray-400 hover:text-gray-500">
+              <span class="sr-only">
+                Discord
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-6 h-6 fill-current" viewBox="0 0 16 16"><path d="M6.552 6.712c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888.008-.488-.36-.888-.816-.888zm2.92 0c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888s-.36-.888-.816-.888z"/><path d="M13.36 0H2.64C1.736 0 1 .736 1 1.648v10.816c0 .912.736 1.648 1.64 1.648h9.072l-.424-1.48 1.024.952.968.896L15 16V1.648C15 .736 14.264 0 13.36 0zm-3.088 10.448s-.288-.344-.528-.648c1.048-.296 1.448-.952 1.448-.952-.328.216-.64.368-.92.472-.4.168-.784.28-1.16.344a5.604 5.604 0 01-2.072-.008 6.716 6.716 0 01-1.176-.344 4.688 4.688 0 01-.584-.272c-.024-.016-.048-.024-.072-.04-.016-.008-.024-.016-.032-.024-.144-.08-.224-.136-.224-.136s.384.64 1.4.944c-.24.304-.536.664-.536.664-1.768-.056-2.44-1.216-2.44-1.216 0-2.576 1.152-4.664 1.152-4.664 1.152-.864 2.248-.84 2.248-.84l.08.096c-1.44.416-2.104 1.048-2.104 1.048s.176-.096.472-.232c.856-.376 1.536-.48 1.816-.04.048-.008.088-.016.136-.016a6.521 6.521 0 014.024.752s-.632-.6-1.992-1.016l.112-.128s1.096-.024 2.248.84c0 0 1.152 2.088 1.152 4.664 0 0-.68 1.16-2.448 1.216z"/></svg>
+            </a>
+            <div class="text-gray-400" title="Coming Soon">
+              <span class="sr-only">
+                Youtube
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-6 h-6 fill-current" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 011.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 01-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 01-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 010 7.68v-.122C.002 7.343.01 6.6.064 5.78l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 011.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 017.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+          <div class="hidden md:grid md:grid-cols-2 md:gap-8"></div>
+          <div class="grid grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-sm font-semibold tracking-wider text-gray-400 uppercase">
+                Help
+              </h3>
+              <ul class="mt-4 space-y-4">
+                <li>
+                  <a href="/versions/v0.14.0/docs" id="ember56" class="ember-view text-base text-gray-500 hover:text-gray-900">
+                    Documentation
+                  </a>
+                </li>
+
+                <li>
+                  <a href="https://xstate.js.org/docs/" target="_blank" rel="noreferrer noopener" class="flex items-center text-base text-gray-500 hover:text-gray-700">
+                    <svg viewBox="0 0 279.8 98.5" class="w-16 h-8 fill-current text-current"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+                    <span>
+                      Guides
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/LevelbossMike/ember-statecharts" target="_blank" rel="noreferrer noopener" class="text-base text-gray-500 hover:text-gray-900">
+                    GitHub
+                  </a>
+                </li>
+
+                <li>
+                  <a href="https://discord.com/invite/emberjs#e-statecharts" target="_blank" rel="noreferrer noopener" class="text-base text-gray-500 hover:text-gray-900">
+                    Discord
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="md:mt-0">
+              <h3 class="text-sm font-semibold tracking-wider text-gray-400 uppercase">
+                Support
+              </h3>
+              <ul class="mt-4 space-y-4">
+                <li>
+                  <a href="https://www.effective-ember.com/" target="_blank" rel="noopener noreferrer" class="flex items-center text-base text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" class="w-6 h-6 fill-current"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><path fill="none" d="M0 0h512v512H0z"/><path d="M45.636 224.548L261.555 43.371l40.835 48.666a10 10 0 01-1.232 14.088L100.56 274.447a10 10 0 01-14.088-1.233l-40.836-48.666zM124.409 318.425l215.919-181.177 47.263 56.326-215.918 181.177zM203.181 412.303l97.958-82.196a20 20 0 0128.177 2.465l34.407 41.005-113.278 95.052-47.264-56.326zM359.319 281.288l59.781-50.162 47.264 56.326-75.102 63.018-34.408-41.005a20 20 0 012.465-28.177z"/></g></svg>
+                    <span class="ml-1 font-semibold tracking-tighter">
+                      effective ember
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-8 mt-12 border-t border-gray-200">
+        <p class="text-base text-gray-400 xl:text-center">
+          © 2021
+          <span class="font-semibold tracking-tighter">
+            effective ember
+          </span>
+          . All rights reserved.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="x/boundary" id="fastboot-body-end"></script>
+
+    <script src="/versions/v0.14.0/assets/vendor-3472d5782b460b78e7fd9135e0923f38.js"></script>
+    <script src="/versions/v0.14.0/assets/site-05cfa1a2345fe0b5137d73d0eb441f17.js"></script>
+
+    
+  </body>
+</html>
