@@ -301,7 +301,7 @@ f(this,u)
 for(var e=arguments.length,n=new Array(e),a=0;a<e;a++)n[a]=arguments[a]
 return v(y(t=s.call.apply(s,[this].concat(n))),"statechart",(0,o.useMachine)(y(t),(function(){var e=y(t).loadVersions
 return{machine:S.withConfig({services:{loadVersions:e}})}}))),d(y(t),"isSuccess",p,y(t)),t}return e=u,(n=[{key:"redirectTo",value:function(t){var e=t.target.value
-window.location.href=e}},{key:"loadVersions",value:(i=j(regeneratorRuntime.mark((function t(){var e
+window.location.href="/".concat(e)}},{key:"loadVersions",value:(i=j(regeneratorRuntime.mark((function t(){var e
 return regeneratorRuntime.wrap((function(t){for(;;)switch(t.prev=t.next){case 0:return t.next=2,fetch("/versions.json")
 case 2:if(!(e=t.sent).ok){t.next=7
 break}return t.next=6,e.json()
