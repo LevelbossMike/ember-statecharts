@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
-<meta name="dummy/config/environment" content="%7B%22modulePrefix%22%3A%22dummy%22%2C%22deployTarget%22%3A%22production%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22%2F%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%2C%22_APPLICATION_TEMPLATE_WRAPPER%22%3Afalse%2C%22_DEFAULT_ASYNC_OBSERVERS%22%3Atrue%2C%22_JQUERY_INTEGRATION%22%3Afalse%2C%22_TEMPLATE_ONLY_GLIMMER_COMPONENTS%22%3Atrue%7D%2C%22APP%22%3A%7B%7D%2C%22metricsAdapters%22%3A%5B%7B%22name%22%3A%22Matomo%22%2C%22environments%22%3A%5B%22development%22%2C%22production%22%5D%2C%22config%22%3A%7B%22scriptUrl%22%3A%22%2F%2Fcdn.matomo.cloud%2Feffective-ember.matomo.cloud%22%2C%22trackerUrl%22%3A%22https%3A%2F%2Feffective-ember.matomo.cloud%22%2C%22siteId%22%3A%223%22%2C%22disableCookies%22%3Atrue%7D%7D%5D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<meta name="site/config/environment" content="%7B%22modulePrefix%22%3A%22site%22%2C%22deployTarget%22%3A%22latest%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22%2F%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%2C%22_APPLICATION_TEMPLATE_WRAPPER%22%3Afalse%2C%22_DEFAULT_ASYNC_OBSERVERS%22%3Atrue%2C%22_JQUERY_INTEGRATION%22%3Afalse%2C%22_TEMPLATE_ONLY_GLIMMER_COMPONENTS%22%3Atrue%7D%2C%22APP%22%3A%7B%7D%2C%22metricsAdapters%22%3A%5B%7B%22name%22%3A%22Matomo%22%2C%22environments%22%3A%5B%22development%22%2C%22production%22%5D%2C%22config%22%3A%7B%22scriptUrl%22%3A%22%2F%2Fcdn.matomo.cloud%2Feffective-ember.matomo.cloud%22%2C%22trackerUrl%22%3A%22https%3A%2F%2Feffective-ember.matomo.cloud%22%2C%22siteId%22%3A%222%22%2C%22disableCookies%22%3Atrue%7D%7D%5D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
 <!-- EMBER_CLI_FASTBOOT_TITLE --><title>ember-statecharts</title>
 
     <link integrity="" rel="stylesheet" href="/assets/vendor-93bb1f846906ab54d3e4d1131e0887ff.css">
-    <link integrity="" rel="stylesheet" href="/assets/dummy-e5db72457095c60a61eb08909a10342f.css">
+    <link integrity="" rel="stylesheet" href="/assets/site-e5db72457095c60a61eb08909a10342f.css">
 
     
   </head>
@@ -28,7 +28,7 @@
         </span>
       </a>
     </div>
-    <div class="flex items-center justify-between flex-grow px-2 md:px-6">
+    <div class="flex items-center justify-between flex-grow px-2 md:px-6 overflow-x-scroll">
       <ul>
         <li>
           <a href="/docs" id="ember55" class="border-white ember-view pb-1 text-white border-b-2 border-transparent hover:border-white focus:outline-none focus-visible:shadow-outline">
@@ -38,6 +38,9 @@
       </ul>
 
       <div class="flex items-center">
+        <div>
+<!----></div>
+
         <a href="https://github.com/levelbossmike/ember-statecharts" target="_blank" rel="noopener noreferrer" class="ml-4 text-white md:ml-6 focus:outline-none focus-visible:shadow-outline transform scale-100 hover:scale-110 transition-transform ease-in-out">
           <svg viewbox="0 0 20 20" class="w-8 h-8 fill-current">
             <title>
@@ -79,7 +82,7 @@
 
         <ul class="list-inside text-sm mt-5">
   <li class="font-medium">
-    <a href="/api-docs/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center pb-2 hover:text-ember">
+    <a href="api-docs/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center pb-2 hover:text-ember">
       <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
       </svg>
@@ -87,17 +90,17 @@
     </a>
   </li>
   <li class="font-mono text-xs">
-    <a href="/api-docs/modules/usables_use_machine.html#default" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
+    <a href="api-docs/modules/usables_use_machine.html#default" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
       useMachine
     </a>
   </li>
   <li class="font-mono text-xs">
-    <a href="/api-docs/modules/index.html#matchesstate" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
+    <a href="api-docs/modules/index.html#matchesstate" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
       matchesState
     </a>
   </li>
   <li class="font-mono text-xs">
-    <a href="/api-docs/modules/index.html#interpreterfor" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
+    <a href="api-docs/modules/index.html#interpreterfor" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
       interpreterFor
     </a>
   </li>
@@ -445,8 +448,8 @@ You can see examples of how to use <code>ember-concurrency</code> and <code>embe
 </footer>
 <script type="x/boundary" id="fastboot-body-end"></script>
 
-    <script src="/assets/vendor-aab7b8b5b4f95bfa3866b9ce51822a20.js"></script>
-    <script src="/assets/dummy-f79fcf013c3ba1a05c93d8bf21f7a425.js"></script>
+    <script src="/assets/vendor-3472d5782b460b78e7fd9135e0923f38.js"></script>
+    <script src="/assets/site-05cfa1a2345fe0b5137d73d0eb441f17.js"></script>
 
     
   </body>
