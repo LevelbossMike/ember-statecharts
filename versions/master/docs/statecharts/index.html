@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+<meta name="site/config/environment" content="%7B%22modulePrefix%22%3A%22site%22%2C%22deployTarget%22%3A%22branch%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22%2Fversions%2Fmaster%2F%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%2C%22EXTEND_PROTOTYPES%22%3A%7B%22Date%22%3Afalse%7D%2C%22_APPLICATION_TEMPLATE_WRAPPER%22%3Afalse%2C%22_DEFAULT_ASYNC_OBSERVERS%22%3Atrue%2C%22_JQUERY_INTEGRATION%22%3Afalse%2C%22_TEMPLATE_ONLY_GLIMMER_COMPONENTS%22%3Atrue%7D%2C%22APP%22%3A%7B%7D%2C%22metricsAdapters%22%3A%5B%7B%22name%22%3A%22Matomo%22%2C%22environments%22%3A%5B%22development%22%2C%22production%22%5D%2C%22config%22%3A%7B%22scriptUrl%22%3A%22%2F%2Fcdn.matomo.cloud%2Feffective-ember.matomo.cloud%22%2C%22trackerUrl%22%3A%22https%3A%2F%2Feffective-ember.matomo.cloud%22%2C%22siteId%22%3A%222%22%2C%22disableCookies%22%3Atrue%7D%7D%5D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+<!-- EMBER_CLI_FASTBOOT_TITLE --><title>ember-statecharts</title>
+
+    <link integrity="" rel="stylesheet" href="/versions/master/assets/vendor-93bb1f846906ab54d3e4d1131e0887ff.css">
+    <link integrity="" rel="stylesheet" href="/versions/master/assets/site-e5db72457095c60a61eb08909a10342f.css">
+
+    
+  </head>
+  <body>
+    <script type="x/boundary" id="fastboot-body-start"></script>
+<div class="sticky top-0 z-50 h-16 shadow-md bg-ember">
+  <div class="flex h-full px-4 mx-auto sm:px-6 max-w-7xl">
+    <div class="flex items-center mr-4 text-white">
+      <a href="/versions/master/" id="ember72" class="ember-view flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 512 512" class="fill-none transform translate-y-0.5"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><g transform="translate(391.636 94.812)"><path class="stroke-current" d="M24.364 137.191c57.05.66 54.3 124.332 52.925 186.169M-273.827 25.188c-91.6-.223-87.183-42.741-84.974-64" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><circle cx="23" cy="23" r="23" transform="translate(-383.636 -70.812)" class="text-current fill-current"/><path class="stroke-current" d="M-250.136 25.72L-270.6 41.18l-1.031-29.439z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="15.99376"/><path class="stroke-current" d="M24.364 1.54c0-13.44-6.327-24.352-14.121-24.352h-315.758c-7.793 0-14.121 10.912-14.121 24.352v271.3c0 13.441 6.327 24.353 14.121 24.353H10.243c7.793 0 14.121-10.912 14.121-24.353zM77.262 337.986l14.738-21H62.532zM24.364 137.188c57.05-.66 54.3-124.332 52.925-186.169" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><path class="stroke-current" d="M77.262-63.607l14.738 21H62.532z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/></g><g class="fill-current" fill-rule="evenodd"><path d="M396.599 251.08s-7.637 5.924-14.359 5.263-4.611-15.682-4.611-15.682 1.449-13.775-2.51-14.933-8.823 3.59-8.823 3.59a49.6 49.6 0 00-8.96 15.293l-.8.263s.924-15.03-.126-18.454c-.788-1.712-8.035-1.576-9.222 1.449s-6.989 24.116-7.389 32.949c0 0-11.333 9.621-21.207 11.2s-12.258-4.611-12.258-4.611 26.879-7.51 25.955-28.99-21.67-13.535-24.015-11.774c-2.275 1.712-14.407 9.028-17.948 29.291-.117.681-.331 3.7-.331 3.7s-10.409 6.975-16.207 8.823c0 0 16.207-27.278-3.551-39.662-5.557-3.345-10.4-.268-13.281 2.558-1.771 1.735 23.953-26.4 18.019-51.579-2.822-11.987-8.814-13.271-14.311-11.325-8.347 3.288-11.508 8.162-11.508 8.162a92.066 92.066 0 00-13.318 39.01c-2.5 23.318-6.187 51.52-6.187 51.52s-5.146 5.01-9.884 5.273-2.636-14.106-2.636-14.106 3.687-21.869 3.434-25.566c-.272-3.687-.535-5.662-4.884-6.975s-9.1 4.212-9.1 4.212-12.51 18.97-13.561 21.869l-.671 1.2-.652-.8s8.823-25.828.4-26.217-13.967 9.224-13.967 9.224-9.621 16.078-10.02 17.917l-.652-.788s3.95-18.707 3.162-23.328a4.23 4.23 0 00-5.136-3.687s-5.535-.662-6.985 2.9-6.722 27.142-7.384 34.652c0 0-13.833 9.884-22.929 10.01s-8.162-5.759-8.162-5.759 33.338-11.417 24.243-33.943c-4.086-5.8-8.823-7.617-15.546-7.491s-15.059 4.232-20.458 16.353a53.769 53.769 0 00-4.057 15.419s-5.827 1.2-8.989-1.44-4.8 0-4.8 0-5.428 6.926-.029 9.028 13.833 3.094 13.833 3.094a25.221 25.221 0 009.611 14.952c9.884 7.51 28.844-.691 28.844-.691l7.773-4.358s.263 7.131 5.934 8.172 8.035-.019 17.919-24c5.8-12.258 6.2-11.6 6.2-11.6.652-.136-3.823 23.318-2.111 29.642s9.222 5.672 9.222 5.672 4.086.788 7.384-10.808a168.849 168.849 0 019.621-24.379c.778 0-1.985 23.98 2.228 31.626s15.157 2.568 15.157 2.568 7.646-3.852 8.833-5.039a31.045 31.045 0 0021.859 6.323c28.6-5.633 38.777-13.24 38.777-13.24a23.616 23.616 0 0020.137 13.61c17.384 1.313 26.879-9.621 26.879-9.621s-.136 7.111 5.924 9.621 10.146-11.577 10.146-11.577l10.147-27.959c.924 0 1.449 18.182 11.47 21.081s23.056-6.79 23.056-6.79 3.162-1.741 2.636-7.014-5.268-3.303-5.268-3.303zm-263.928-13.191c3.551 3.424 2.237 10.8-4.485 15.409s-9.748 3.7-9.748 3.7c.399-15.685 10.682-22.543 14.233-19.109zm131.106-54.157c2.237 11.859-19.631 47.172-19.631 47.172.263-7.909 8.035-34.652 8.035-34.652s9.349-24.379 11.596-12.52zm-21.616 90s-1.712-5.8 3.162-22.005 16.343-9.884 16.343-9.884 7.909 6.061 1.712 22.268-21.217 9.616-21.217 9.616zm66.677-31.757c5.4-9.884 9.621-4.485 9.621-4.485s4.611 5.01-.662 12.52a15.522 15.522 0 01-12.908 6.985s-1.45-5.146 3.949-15.02z"/><path d="M362.77 281.965v-1.892h1.2c.167 0 .333.018.508.035a1.928 1.928 0 01.482.131.827.827 0 01.35.263.7.7 0 01.14.464c0 .438-.131.718-.394.832a2.6 2.6 0 01-1.017.166zm-1.428-3v7.2h1.428v-3.079h.894l1.751 3.075h1.5l-1.93-3.141a3.4 3.4 0 00.745-.158 1.742 1.742 0 00.6-.342 1.46 1.46 0 00.4-.578 2.066 2.066 0 00.15-.85 1.824 1.824 0 00-.727-1.647 3.8 3.8 0 00-2.094-.482zm-2.287 3.609a5.234 5.234 0 01.377-2.024 4.924 4.924 0 011.034-1.586 4.685 4.685 0 011.533-1.051 4.78 4.78 0 011.9-.377 4.754 4.754 0 013.426 1.428 5.09 5.09 0 011.042 1.586 5.237 5.237 0 01.385 2.024 5.313 5.313 0 01-.385 2.032 5.174 5.174 0 01-1.042 1.6 4.612 4.612 0 01-1.542 1.06 4.7 4.7 0 01-1.884.377 4.778 4.778 0 01-1.9-.377 4.578 4.578 0 01-1.533-1.06 5 5 0 01-1.034-1.6 5.31 5.31 0 01-.377-2.036zm-1.761 0a6.26 6.26 0 002 4.7 6.415 6.415 0 002.111 1.288 7.226 7.226 0 005 0 6.227 6.227 0 003.565-3.32 6.866 6.866 0 000-5.309 6.243 6.243 0 00-1.454-2.024 6.44 6.44 0 00-2.111-1.288 7.1 7.1 0 00-5 0 6.415 6.415 0 00-2.111 1.288 6.244 6.244 0 00-1.456 2.011 6.327 6.327 0 00-.544 2.65z"/></g></g></svg>
+
+        <span class="ml-2 text-xl font-semibold leading-none md:text-2xl transform -translate-x-1">
+          statecharts
+        </span>
+      </a>
+    </div>
+    <div class="flex items-center justify-between flex-grow px-2 md:px-6 overflow-x-scroll">
+      <ul>
+        <li>
+          <a href="/versions/master/docs" id="ember73" class="border-white ember-view pb-1 text-white border-b-2 border-transparent hover:border-white focus:outline-none focus-visible:shadow-outline">
+            Documentation
+          </a>
+        </li>
+      </ul>
+
+      <div class="flex items-center">
+        <div>
+<!----></div>
+
+        <a href="https://github.com/levelbossmike/ember-statecharts" target="_blank" rel="noopener noreferrer" class="ml-4 text-white md:ml-6 focus:outline-none focus-visible:shadow-outline transform scale-100 hover:scale-110 transition-transform ease-in-out">
+          <svg viewbox="0 0 20 20" class="w-8 h-8 fill-current">
+            <title>
+              GitHub
+            </title>
+            <path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="px-4 mx-auto max-w-7xl lg:px-8">
+  <div class="relative lg:flex" data-test-docs>
+    <div class="hidden h-full pt-12 pr-4 lg:block flex-non lg:w-64">
+      <div class="fixed">
+        
+  <ul class="list-inside space-y-2">
+      <li>
+        <a class="hover:text-ember" data-prember href="/versions/master/docs">
+          Introduction
+        </a>
+      </li>
+      <li>
+        <a class="hover:text-ember" data-prember href="/versions/master/docs/tutorial">
+          Tutorial
+        </a>
+      </li>
+      <li>
+        <a class="text-ember font-semibold hover:text-ember" data-prember href="/versions/master/docs/statecharts">
+          Working with statecharts
+        </a>
+      </li>
+
+<!---->  </ul>
+
+
+
+        <ul class="list-inside text-sm mt-5">
+  <li class="font-medium">
+    <a href="api-docs/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center pb-2 hover:text-ember">
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+      </svg>
+      API Reference
+    </a>
+  </li>
+  <li class="font-mono text-xs">
+    <a href="api-docs/modules/usables_use_machine.html#default" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
+      useMachine
+    </a>
+  </li>
+  <li class="font-mono text-xs">
+    <a href="api-docs/modules/index.html#matchesstate" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
+      matchesState
+    </a>
+  </li>
+  <li class="font-mono text-xs">
+    <a href="api-docs/modules/index.html#interpreterfor" target="_blank" rel="noopener noreferrer" class="block px-2 pb-2 border-l-2 hover:text-ember">
+      interpreterFor
+    </a>
+  </li>
+</ul>
+
+      </div>
+    </div>
+    <div class="flex-1 w-full min-w-0 px-0 pt-12 lg:px-4">
+      <div class="block mb-4 lg:hidden">
+  <button class="inline-flex items-center px-3 py-2 border border-gray-700 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 focus:outline-none" type="button">
+    <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path>
+    </svg>
+    Content
+  </button>
+<!----></div>
+
+      
+        <div>
+          <div class="prose">
+<h1 id="working-with-statecharts"><a href="#working-with-statecharts">Working with statecharts</a></h1>
+<h2 id="xstate"><a href="#xstate"><code>XState</code></a></h2>
+<p>Everything that <code>ember-statecharts</code> is doing is powered by the wonderful <a href="https://xstate.js.org/"><code>XState</code>-library</a>. The <a href="https://xstate.js.org/docs/"><code>XState</code>-guides</a> provide extensive documentation about how to write statechart-configurations - please make use of this invaluable resource.</p>
+<p><code>ember-statecharts</code> is trying to provide a thin layer over <code>XState</code>'s APIs and
+make it as easy as possible to use all of <code>XState</code>'s functionality with
+<code>Ember.js</code>. It makes sure your statecharts play nice with the Ember-runloop and can react to outside arguments changing and takes care of cleaning up your statecharts when components get destroyed.</p>
+<h2 id="authoring-statechart-configurations"><a href="#authoring-statechart-configurations">Authoring <code>statechart</code>-configurations</a></h2>
+<p>To implement a statechart via <code>ember-statecharts</code> you will make use of the
+<code>useMachine</code>- <a href="https://github.com/emberjs/rfcs/pull/567">usable</a> exported from
+<code>ember-statecharts</code>.</p>
+<p>There are multiple ways to create a <code>statechart</code> that can be used by <code>useMachine</code>:</p>
+<ul>
+<li>use <code>useMachine</code> with an instance of an <code>XState</code>-<code>Machine</code> - <a href="https://xstate.js.org/docs/guides/machines.html#configuration">Machine</a></li>
+<li>use <code>useMachine</code> by using <code>XState</code>'s - <code>createMachine</code> - <a href="https://xstate.js.org/docs/guides/typescript.html#typestates">createMachine</a>;</li>
+</ul>
+<p>The important thing is to pass an <a href="https://xstate.js.org/docs/guides/machines.html">XState-Machine</a> as the machine property of the object that gets returned from <code>useMachine</code>.</p>
+<p>Here's an example that reflects the <a href="https://xstate.js.org/docs/#hierarchical-nested-state-machines">nested statechart</a>-example from the <a href="https://xstate.js.org/docs/"><code>XState</code>-guides</a> in all two variants:</p>
+<h3 id="usemachine-with-a-machine-instance"><a href="#usemachine-with-a-machine-instance"><code>useMachine</code> with a <code>Machine</code>-instance</a></h3>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Component</span></span> <span class="token keyword module">from</span> <span class="token string">'@glimmer/component'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">Machine</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'xstate'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> useMachine <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'ember-statecharts'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> machine <span class="token operator">=</span> <span class="token function"><span class="token maybe-class-name">Machine</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  id<span class="token operator">:</span> <span class="token string">'light'</span><span class="token punctuation">,</span>
+  initial<span class="token operator">:</span> <span class="token string">'green'</span><span class="token punctuation">,</span>
+  states<span class="token operator">:</span> <span class="token punctuation">{</span>
+    green<span class="token operator">:</span> <span class="token punctuation">{</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">TIMER</span><span class="token operator">:</span> <span class="token string">'yellow'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    yellow<span class="token operator">:</span> <span class="token punctuation">{</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">TIMER</span><span class="token operator">:</span> <span class="token string">'red'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    red<span class="token operator">:</span> <span class="token punctuation">{</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">TIMER</span><span class="token operator">:</span> <span class="token string">'green'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      initial<span class="token operator">:</span> <span class="token string">'walk'</span><span class="token punctuation">,</span>
+      states<span class="token operator">:</span> <span class="token punctuation">{</span>
+        walk<span class="token operator">:</span> <span class="token punctuation">{</span>
+          on<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token constant">PED_TIMER</span><span class="token operator">:</span> <span class="token string">'wait'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        wait<span class="token operator">:</span> <span class="token punctuation">{</span>
+          on<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token constant">PED_TIMER</span><span class="token operator">:</span> <span class="token string">'stop'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        stop<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="usemachine-with-createmachine"><a href="#usemachine-with-createmachine"><code>useMachine</code> with <code>createMachine</code></a></h3>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">Component</span></span> <span class="token keyword module">from</span> <span class="token string">'@glimmer/component'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> createMachine <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'xstate'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> useMachine <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'ember-statecharts'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span> <span class="token function">createMachine</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        id<span class="token operator">:</span> <span class="token string">'light'</span><span class="token punctuation">,</span>
+        initial<span class="token operator">:</span> <span class="token string">'green'</span><span class="token punctuation">,</span>
+        states<span class="token operator">:</span> <span class="token punctuation">{</span>
+          green<span class="token operator">:</span> <span class="token punctuation">{</span>
+            on<span class="token operator">:</span> <span class="token punctuation">{</span>
+              <span class="token constant">TIMER</span><span class="token operator">:</span> <span class="token string">'yellow'</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          yellow<span class="token operator">:</span> <span class="token punctuation">{</span>
+            on<span class="token operator">:</span> <span class="token punctuation">{</span>
+              <span class="token constant">TIMER</span><span class="token operator">:</span> <span class="token string">'red'</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          red<span class="token operator">:</span> <span class="token punctuation">{</span>
+            on<span class="token operator">:</span> <span class="token punctuation">{</span>
+              <span class="token constant">TIMER</span><span class="token operator">:</span> <span class="token string">'green'</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            initial<span class="token operator">:</span> <span class="token string">'walk'</span><span class="token punctuation">,</span>
+            states<span class="token operator">:</span> <span class="token punctuation">{</span>
+              walk<span class="token operator">:</span> <span class="token punctuation">{</span>
+                on<span class="token operator">:</span> <span class="token punctuation">{</span>
+                  <span class="token constant">PED_TIMER</span><span class="token operator">:</span> <span class="token string">'wait'</span>
+                <span class="token punctuation">}</span>
+              <span class="token punctuation">}</span><span class="token punctuation">,</span>
+              wait<span class="token operator">:</span> <span class="token punctuation">{</span>
+                on<span class="token operator">:</span> <span class="token punctuation">{</span>
+                  <span class="token constant">PED_TIMER</span><span class="token operator">:</span> <span class="token string">'stop'</span>
+                <span class="token punctuation">}</span>
+              <span class="token punctuation">}</span><span class="token punctuation">,</span>
+              stop<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>To get a detailed overview about the configuration options available via <code>XState</code> please have a look at the <a href="https://xstate.js.org/docs">XState documentation</a>.</p>
+<h2 id="sending-events"><a href="#sending-events">Sending events</a></h2>
+<p>When implementing behavior with statecharts you have to switch your mental model
+a bit when implementing Ember.js application behavior. The important thing is that
+you won't trigger behavior directly based on user-interaction or external events
+anymore - you will forward the event that happened to your statechart and let the
+statechart figure out what will happen based on the event that you forwarded.</p>
+<p>This means that you will want to change actions like this:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+
+  @action
+  <span class="token function">buttonClicked</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">buttonClickedTask</span><span class="token punctuation">.</span><span class="token method function property-access">perform</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>to something like the following:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">Machine</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'xstate'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> buttonMachine <span class="token operator">=</span> <span class="token function"><span class="token maybe-class-name">Machine</span></span><span class="token punctuation">(</span>
+  <span class="token punctuation">{</span>
+    initial<span class="token operator">:</span> <span class="token string">'idle'</span><span class="token punctuation">,</span>
+    states<span class="token operator">:</span> <span class="token punctuation">{</span>
+      idle<span class="token operator">:</span> <span class="token punctuation">{</span>
+        on<span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token constant">SUBMIT</span><span class="token operator">:</span> <span class="token string">'busy'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      busy<span class="token operator">:</span> <span class="token punctuation">{</span>
+        entry<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'handleSubmit'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        on<span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token constant">RESOLVE</span><span class="token operator">:</span> <span class="token string">'success'</span><span class="token punctuation">,</span>
+          <span class="token constant">REJECT</span><span class="token operator">:</span> <span class="token string">'error'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      success<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      error<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token comment">/* context, event */</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+
+  @use statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> buttonClickedTask <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span> buttonMachine
+        <span class="token punctuation">.</span><span class="token method function property-access">withContext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          buttonClickedTask
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token method function property-access">withConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> <span class="token punctuation">{</span> buttonClickedTask <span class="token punctuation">}</span> <span class="token operator">=</span> context<span class="token punctuation">;</span>
+
+              buttonClickedTask<span class="token punctuation">.</span><span class="token method function property-access">perform</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+  <span class="token comment">// ...</span>
+
+  @action
+  <span class="token function">buttonClicked</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">statechart</span><span class="token punctuation">.</span><span class="token method function property-access">send</span><span class="token punctuation">(</span><span class="token string">'SUBMIT'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>This might seem like an annoying level of indirection first but soon you will notice
+that this indirection provides a safety net for your application behavior. Instead
+of the burden of keeping track of the implicit states that your application can find itself in,
+in your head all the time you will model your behavior explicitly and let the statechart figure
+out what needs to happen. In the above example, users can't retrigger the
+<code>buttonClickedTask</code> when they trigger the <code>buttonClicked</code>-action repeatedly while the statechart
+finds itself in the <code>busy</code> state for example.</p>
+<h3 id="the-statecharts-context---using-withcontext"><a href="#the-statecharts-context---using-withcontext">The statechart's context - using <code>withContext</code></a></h3>
+<p>The Object that uses the <code>useMachine</code>-usable can specify the
+<code>context</code> of the statechart explicitly by using <a href="https://xstate.js.org/docs/guides/machines.html#extending-machines" target="_blank" rel="noopener noreferrer"><code>withContext</code></a>. This makes sure
+that you can design your behavior inside of <code>XState</code>'s
+<a href="https://xstate.js.org/viz/">visualizer</a> completely and then have the calling
+Object define what it considers the <code>context</code> of the statechart to be.</p>
+<p>This means you have the component decide what context will be used when
+<a href="https://xstate.js.org/docs/guides/guards.html"><code>guards</code></a> and
+<a href="https://xstate.js.org/docs/guides/actions.html"><code>actions</code></a> are executed.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">Machine</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'xstate'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> buttonMachine <span class="token operator">=</span> <span class="token function"><span class="token maybe-class-name">Machine</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  initial<span class="token operator">:</span> <span class="token string">'idle'</span><span class="token punctuation">,</span>
+  states<span class="token operator">:</span> <span class="token punctuation">{</span>
+    idle<span class="token operator">:</span> <span class="token punctuation">{</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">SUBMIT</span><span class="token operator">:</span> <span class="token string">'busy'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    busy<span class="token operator">:</span> <span class="token punctuation">{</span>
+      entry<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'handleSubmit'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">RESOLVE</span><span class="token operator">:</span> <span class="token string">'success'</span><span class="token punctuation">,</span>
+        <span class="token constant">REJECT</span><span class="token operator">:</span> <span class="token string">'error'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    success<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    error<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token parameter">context</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// `context` is set to whatever object we pass to `withContext`</span>
+      <span class="token keyword">const</span> <span class="token punctuation">{</span> buttonClickedTask <span class="token punctuation">}</span> <span class="token operator">=</span> context<span class="token punctuation">;</span>
+
+      buttonClickedTask<span class="token punctuation">.</span><span class="token method function property-access">perform</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> buttonClickedTask <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span> buttonMachine
+        <span class="token punctuation">.</span><span class="token method function property-access">withContext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          buttonClickedTask
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  @<span class="token function">task</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  buttonClickedTask<span class="token punctuation">;</span>
+
+  @action
+  <span class="token function">buttonClicked</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">statechart</span><span class="token punctuation">.</span><span class="token method function property-access">send</span><span class="token punctuation">(</span><span class="token string">'SUBMIT'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="customizing-the-statecharts-config---using-withconfig"><a href="#customizing-the-statecharts-config---using-withconfig">Customizing the statechart's config - using <code>withConfig</code></a></h3>
+<p>As with <code>withContext</code> the calling Object can also customize the statechart's
+configuration by using <a href="https://xstate.js.org/docs/guides/machines.html#extending-machines" target="_blank" rel="noopener noreferrer"><code>withConfig</code></a>. This makes sure that you can design your
+behavior inside of <code>XState</code>'s <a href="https://xstate.js.org/viz/">visualizer</a> completely
+and then have the calling Object define what external effects will be triggered
+when the statechart triggers <code>actions</code> or what checks to run when it executes
+<code>guards</code>.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">Machine</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'xstate'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> submitMachine <span class="token operator">=</span> <span class="token function"><span class="token maybe-class-name">Machine</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  initial<span class="token operator">:</span> <span class="token string">'idle'</span><span class="token punctuation">,</span>
+  states<span class="token operator">:</span> <span class="token punctuation">{</span>
+    idle<span class="token operator">:</span> <span class="token punctuation">{</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">SUBMIT</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          target<span class="token operator">:</span> <span class="token string">'busy'</span><span class="token punctuation">,</span>
+          cond<span class="token operator">:</span> <span class="token string">'allNecessaryDataIsAvailable'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    busy<span class="token operator">:</span> <span class="token punctuation">{</span>
+      entry<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'handleSubmit'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">RESOLVE</span><span class="token operator">:</span> <span class="token string">'success'</span><span class="token punctuation">,</span>
+        <span class="token constant">REJECT</span><span class="token operator">:</span> <span class="token string">'error'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    success<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    error<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token comment">/* context, eventObject */</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  guards<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">allNecessaryDataIsAvailable</span><span class="token punctuation">(</span><span class="token comment">/* context, eventObject */</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  @tracked
+  name <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+  @tracked
+  password <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span> submitMachine
+        <span class="token punctuation">.</span><span class="token method function property-access">withContext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          component<span class="token operator">:</span> <span class="token keyword">this</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token method function property-access">withConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> component <span class="token punctuation">}</span><span class="token punctuation">,</span> eventObject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> password <span class="token punctuation">}</span> <span class="token operator">=</span> eventObject<span class="token punctuation">;</span>
+
+              component<span class="token punctuation">.</span><span class="token property-access">loginTask</span><span class="token punctuation">.</span><span class="token method function property-access">perform</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          guards<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token function">allNecessaryDataIsAvailable</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> component <span class="token punctuation">}</span><span class="token punctuation">,</span> eventObject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> password <span class="token punctuation">}</span> <span class="token operator">=</span> component<span class="token punctuation">;</span>
+
+              <span class="token keyword control-flow">return</span> email <span class="token operator">&amp;&amp;</span> password<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// ...</span>
+
+  @action
+  <span class="token function">buttonClicked</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">statechart</span><span class="token punctuation">.</span><span class="token method function property-access">send</span><span class="token punctuation">(</span><span class="token string">'SUBMIT'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="including-event-data"><a href="#including-event-data">Including event data</a></h3>
+<p>When sending an event to your statechart you can send data with that event. The
+sent data will be available in <a href="https://xstate.js.org/docs/guides/guards.html"><code>guards</code></a> and
+<a href="https://xstate.js.org/docs/guides/actions.html"><code>actions</code></a> that are executed based
+on the sent event:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> <span class="token maybe-class-name">Machine</span> <span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'xstate'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> submitMachine <span class="token operator">=</span> <span class="token function"><span class="token maybe-class-name">Machine</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  initial<span class="token operator">:</span> <span class="token string">'idle'</span><span class="token punctuation">,</span>
+  states<span class="token operator">:</span> <span class="token punctuation">{</span>
+    idle<span class="token operator">:</span> <span class="token punctuation">{</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">SUBMIT</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          target<span class="token operator">:</span> <span class="token string">'busy'</span><span class="token punctuation">,</span>
+          cond<span class="token operator">:</span> <span class="token string">'allNecessaryDataIsAvailable'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    busy<span class="token operator">:</span> <span class="token punctuation">{</span>
+      entry<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'handleSubmit'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+      on<span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token constant">RESOLVE</span><span class="token operator">:</span> <span class="token string">'success'</span><span class="token punctuation">,</span>
+        <span class="token constant">REJECT</span><span class="token operator">:</span> <span class="token string">'error'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    success<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    error<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token comment">/* context, eventObject */</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  guards<span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token function">allNecessaryDataIsAvailable</span><span class="token punctuation">(</span><span class="token comment">/* context, eventObject */</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span> submitMachine
+        <span class="token punctuation">.</span><span class="token method function property-access">withContext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          component<span class="token operator">:</span> <span class="token keyword">this</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token method function property-access">withConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          actions<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token function">handleSubmit</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> component <span class="token punctuation">}</span><span class="token punctuation">,</span> eventObject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> password <span class="token punctuation">}</span> <span class="token operator">=</span> eventObject<span class="token punctuation">;</span>
+
+              component<span class="token punctuation">.</span><span class="token property-access">loginTask</span><span class="token punctuation">.</span><span class="token method function property-access">perform</span><span class="token punctuation">(</span>email<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          guards<span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token function">allNecessaryDataIsAvailable</span><span class="token punctuation">(</span><span class="token parameter">context<span class="token punctuation">,</span> eventObject</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> password <span class="token punctuation">}</span> <span class="token operator">=</span> eventObject<span class="token punctuation">;</span>
+
+              <span class="token keyword control-flow">return</span> email <span class="token operator">&amp;&amp;</span> password<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// ...</span>
+
+  @action
+  <span class="token function">buttonClicked</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> password <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token property-access">statechart</span><span class="token punctuation">.</span><span class="token method function property-access">send</span><span class="token punctuation">(</span><span class="token string">'SUBMIT'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> email<span class="token punctuation">,</span> password <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="matching-state"><a href="#matching-state">Matching state</a></h2>
+<p>You can declaratively react to state changes in your statechart by making use
+of the <code>matchesState</code>-decorator. This means that when you want to for
+example display a button component differently based on the state it finds
+itself in this is very easy to do with <code>ember-statecharts</code>:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token punctuation">{</span> matchesState<span class="token punctuation">,</span> useMachine<span class="token punctuation">}</span></span> <span class="token keyword module">from</span> <span class="token string">'ember-statecharts'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">MyComponent</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span>  <span class="token function"><span class="token maybe-class-name">Machine</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        initial<span class="token operator">:</span> <span class="token string">'idle'</span><span class="token punctuation">,</span>
+        states<span class="token operator">:</span> <span class="token punctuation">{</span>
+          idle<span class="token operator">:</span> <span class="token punctuation">{</span>
+            on<span class="token operator">:</span> <span class="token punctuation">{</span>
+              <span class="token constant">SUBMIT</span><span class="token operator">:</span> <span class="token string">'busy'</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          busy<span class="token operator">:</span> <span class="token punctuation">{</span>
+            entry<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'handleSubmit'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            on<span class="token operator">:</span> <span class="token punctuation">{</span>
+              <span class="token constant">RESOLVE</span><span class="token operator">:</span> <span class="token string">'success'</span><span class="token punctuation">,</span>
+              <span class="token constant">REJECT</span><span class="token operator">:</span> <span class="token string">'error'</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          success<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+          error<span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  @<span class="token function">matchesState</span><span class="token punctuation">(</span><span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token string">'statechart'</span><span class="token punctuation">)</span>
+  didError<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class="language-hbs"><code class="language-hbs"><span class="token punctuation">&lt;</span><span class="token variable">button</span> <span class="token variable">class</span><span class="token punctuation">=</span><span class="token string">"{{if this.didError "</span><span class="token variable">btn</span> <span class="token variable">btn__error</span><span class="token string">" "</span><span class="token variable">btn</span><span class="token string">"}}"</span><span class="token punctuation">&gt;</span>
+  <span class="token variable">Click</span> <span class="token variable">me</span>
+<span class="token punctuation">&lt;</span><span class="token punctuation">/</span><span class="token variable">button</span><span class="token punctuation">&gt;</span>
+</code></pre>
+<p>You can pass a <a href="https://xstate.js.org/api/globals.html#statevalue"><code>StateValue</code></a>
+to <code>matchesState</code>. This means you can also match
+against nested or <a href="https://xstate.js.org/docs/guides/parallel.html">parallel</a>
+states:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// atomic state node</span>
+@<span class="token function">matchesState</span><span class="token punctuation">(</span><span class="token string">'idle'</span><span class="token punctuation">,</span> <span class="token string">'statechart'</span><span class="token punctuation">)</span>
+
+<span class="token comment">// nested state</span>
+@<span class="token function">matchesState</span><span class="token punctuation">(</span><span class="token punctuation">{</span> error<span class="token operator">:</span> <span class="token string">'apiError'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'statechart'</span><span class="token punctuation">)</span>
+
+<span class="token comment">// parallel state</span>
+@<span class="token function">matchesState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  validity<span class="token operator">:</span> <span class="token string">'invalid'</span><span class="token punctuation">,</span>
+  interaction<span class="token operator">:</span> <span class="token punctuation">{</span>
+    changed<span class="token operator">:</span> <span class="token string">'fieldBlurred'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token string">'statechart'</span><span class="token punctuation">)</span>
+
+<span class="token comment">// the second param to `matchesState` is optional when the statechart property</span>
+<span class="token comment">// is called `statechart`</span>
+@<span class="token function">matchesState</span><span class="token punctuation">(</span><span class="token string">'idle'</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="update---reacting-to-changes-to-usemachine"><a href="#update---reacting-to-changes-to-usemachine"><code>.update</code> - Reacting to changes to <code>useMachine</code></a></h2>
+<p>When args or state passed to <code>useMachine</code>, <code>withConfig</code> or <code>withContext</code> change
+users can react to the change without needing to use
+<a href="https://github.com/emberjs/ember-render-modifiers">@ember/render-modifiers</a> or
+<a href="https://github.com/buschtoens/ember-render-helpers">ember-render-helpers</a> to
+send an event to the statechart.</p>
+<p>To demonstrate this behavior we'll create a <code>CounterMachine</code> that implements
+counting behavior. The component that uses it will be passed a <code>count</code>-arg.
+Whenever this arg changes we want to react to the change:</p>
+<p>We can react to the change in two ways.</p>
+<ol>
+<li>We send an event to the statechart on <code>update</code> and the statechart reacts to the change as it would to any other external or internal event - in our case this means we reset <code>context.count</code> to the count-arg we receive in the update:</li>
+</ol>
+</div>
+
+  <div class="mt-6 mb-4 overflow-hidden border border-gray-800 rounded-md prose">
+    <div class="p-4 bg-white">
+      
+<div class="docs">
+  Counter Count: 0
+</div>
+<div class="flex justify-between">
+  <div>
+      <button class="font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+        Activate
+      
+</button>
+
+  </div>
+  <div>
+    <button class="cursor-not-allowed opacity-50 font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+      -
+    
+</button>
+
+    <button class="cursor-not-allowed opacity-50 font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+      +
+    
+</button>
+
+  </div>
+</div>
+
+  <div class="flex justify-end mt-12">
+    <input value="0" class="p-1 mr-2 border-2 rounded-sm">
+    <button class="font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+      Update Counter-Count
+    
+</button>
+
+  </div>
+  <div></div>
+
+  <div></div>
+
+  <div></div>
+
+
+    </div>
+    <div class="bg-gray-800 border-gray-800">
+      <div class="flex flex-wrap px-4 py-2 border-b">
+<!---->      </div>
+<!---->    </div>
+  </div>
+
+
+
+<div class="prose">
+<ol start="2">
+<li>We restart the entire underlying <a href="https://xstate.js.org/docs/guides/interpretation.html">XState-interpreter</a> and end up with a statechart as if we accessed it for the first time with the update <code>machine</code>, <code>context</code> or <code>config</code>. In our case, this means that we will end up in the <code>inactive</code>-state again even if we were in the <code>active</code> state before.</li>
+</ol>
+</div>
+
+  <div class="mt-6 mb-4 overflow-hidden border border-gray-800 rounded-md prose">
+    <div class="p-4 bg-white">
+      
+<div class="docs">
+  Counter Count: 0
+</div>
+<div class="flex justify-between">
+  <div>
+      <button class="font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+        Activate
+      
+</button>
+
+  </div>
+  <div>
+    <button class="cursor-not-allowed opacity-50 font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+      -
+    
+</button>
+
+    <button class="cursor-not-allowed opacity-50 font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+      +
+    
+</button>
+
+  </div>
+</div>
+
+  <div class="flex justify-end mt-12">
+    <input value="0" class="p-1 mr-2 border-2 rounded-sm">
+    <button class="font-bold text-sm outline-none rounded px-3 py-2 relative bg-ember text-white" type="button">
+  
+      Update Counter-Count
+    
+</button>
+
+  </div>
+  <div></div>
+
+  <div></div>
+
+  <div></div>
+
+
+    </div>
+    <div class="bg-gray-800 border-gray-800">
+      <div class="flex flex-wrap px-4 py-2 border-b">
+<!---->      </div>
+<!---->    </div>
+  </div>
+
+
+
+<div class="prose">
+<p>How you choose to handle an update to args/state passed to <code>useMachine</code> - either
+sending an event or restarting the interpreter - depends on the situation you
+find yourself in. If your situation allows throwing away the current state of
+the statechart restarting could be an option to consider. If you need to
+consider the current state when args change you will most likely find it easier
+to send an event to the statechart instead of restarting the entire
+interpreter.</p>
+<h2 id="ontransition"><a href="#ontransition"><code>.onTransition</code></a></h2>
+<p>Sometimes you don't want to react to a particular state change on the interpreter
+but trigger behavior on the outside on <strong>every</strong> single state change - e.g. when you
+want to persist a state change to be able to rehydrate the state later on.
+Usually, you would trigger side-effects based on state transitions via
+<a href="https://xstate.js.org/docs/guides/actions.html">actions</a> but adding the same
+action to every single state gets unergonomic quickly.</p>
+<p>To make this more ergonomic <code>ember-statecharts</code> provides the <code>onTransition</code>-hook
+that you can use to trigger a side-effect on <strong>every</strong> state change.</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword module">import</span> <span class="token imports"><span class="token maybe-class-name">SomeMachine</span></span> <span class="token keyword module">from</span> <span class="token string">'../machines/some-machine'</span><span class="token punctuation">;</span>
+
+<span class="token keyword module">export</span> <span class="token keyword module">default</span> <span class="token keyword">class</span> <span class="token class-name">SignUpWizard</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  statechart <span class="token operator">=</span> <span class="token function">useMachine</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+      machine<span class="token operator">:</span> <span class="token maybe-class-name">SomeMachine</span><span class="token punctuation">,</span>
+      <span class="token function-variable function">onTransition</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token arrow operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token method function property-access">persistState</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// ...</span>
+
+  <span class="token function">persistState</span><span class="token punctuation">(</span><span class="token parameter">state</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ... persist state for later rehydration</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Please be aware that <code>onTransition</code> is meant as an escape mechanism and not to
+be used as the primary way to trigger side-effects based on state transitions -
+you want to use <a href="https://xstate.js.org/docs/guides/actions.html">actions</a> for
+that instead.</p>
+<h2 id="working-with-typescript"><a href="#working-with-typescript">Working with TypeScript</a></h2>
+<p><code>ember-statecharts</code> itself is implemented in TypeScript and fully supports
+Ember.js apps that are written in TypeScript. Due to the way XState works
+internally, it is rather verbose to type your machines but as always with
+TypeScript you will end up with better developer ergonomics than you would when
+not typing your code.</p>
+<p>Please refer to the <a href="https://xstate.js.org/docs/guides/typescript.html#using-typescript">using TypeScript</a> of the XState docs for a thorough walkthrough on how to type your XState machines. For <code>useMachine</code> to pickup types correctly you will need to provide type information for <code>useMachine</code> explicitly.</p>
+<p>The <code>useMachine</code>-API supports both versions of typing machines:</p>
+<ol>
+<li>Without typestates: <code>useMachine&lt;TContext, TStateSchema, TEvent&gt;(/* ... */)</code></li>
+<li>With typestates: <code>useMachine&lt;TContext, any, TEvent, TTypestate&gt;(/* ... */)</code></li>
+</ol>
+<p>Next up you see an example of the <code>Button</code>-component from the tutorial
+implemented in TypeScript:</p>
+</div>
+
+  <div class="mt-6 mb-4 overflow-hidden border border-gray-800 rounded-md prose">
+    <div class="p-4 bg-white">
+      
+  <div class="lg:flex item-center">
+    <button class="
+  w-32 border p-4 bg-ember border-ember shadow
+    rounded outline-none text-white font-bold
+  
+  " type="button">
+    
+      .ts FTW
+    
+</button>
+
+    <div class="mt-4 lg:mt-0 lg:ml-8 flex items-center">
+      <label for="failRequest-final">
+        Fail request?
+      </label>
+      <input name="failRequest" id="failRequest-final" class="ml-2 ember-checkbox ember-view" type="checkbox">
+    </div>
+    <div class="flex items-center lg:ml-8">
+      <label for="disabled-final">
+        Disable button?
+      </label>
+      <input name="failRequest" id="disabled-final" class="ml-2 ember-checkbox ember-view" type="checkbox">
+    </div>
+  </div>
+  <div></div>
+
+  <div></div>
+
+  <div></div>
+
+  <div></div>
+
+
+    </div>
+    <div class="bg-gray-800 border-gray-800">
+      <div class="flex flex-wrap px-4 py-2 border-b">
+<!---->      </div>
+<!---->    </div>
+  </div>
+
+
+
+
+<div class="prose">
+<h2 id="visualizing-statecharts"><a href="#visualizing-statecharts">Visualizing statecharts</a></h2>
+<p>To visualize your statecharts you can use the <a href="https://xstate.js.org/viz/">XState visualizer</a>.</p>
+<h2 id="further-reading"><a href="#further-reading">Further reading</a></h2>
+<p><code>XState</code> comes with a comprehensive <a href="https://xstate.js.org/docs/">documentation page</a> - it goes into great detail about what things you can do in <code>statechecart</code>-configurations.</p>
+<p>Writing statecharts configurations is very easy once you are used to the syntax but feel free to consult the <a href="https://xstate.js.org/docs/"><code>XState</code>-guides</a> as often as necessary to get the hang of it.</p>
+</div>
+        </div>
+      
+
+      <div class="flex flex-wrap justify-between mt-5 mb-10 border-t border-gray-400 dark:border-gray-800">
+        
+          <div class="flex items-center pt-6 pr-2">
+              <svg class="h-4 mr-2 text-ember" fill="currentColor" viewbox="0 0 20 20">
+                <path d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" fill-rule="evenodd"></path>
+              </svg>
+
+              <a class="text-lg text-ember" href="/versions/master/docs/tutorial">
+                Tutorial
+              </a>
+          </div>
+          <div class="flex items-center pt-5 pl-2">
+<!---->          </div>
+        
+      </div>
+    </div>
+    <div class="flex-none hidden w-56 pl-4 lg:block">
+      <div class="overflow-y-auto sticky top-16 max-h-(screen-16) pt-12 pb-4 -mt-12 text-sm">
+  
+      <ul>
+        <li class="pb-2 border-l border-gray-400">
+          <button class="block px-2 py-1 border-l-2 hover:text-ember border-transparent focus:outline-none" type="button">
+            Working with statecharts
+          </button>
+        </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#xstate" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              XState
+            </a>
+
+<!---->          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#authoring-statechart-configurations" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              Authoring statechart-configurations
+            </a>
+
+              <ul class>
+                  <li>
+                    <a href="#usemachine-with-a-machine-instance" class="block pl-6 py-1 border-l-2  border-l-2 hover:text-ember
+                      border-transparent">
+                      useMachine with a Machine-instance
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#usemachine-with-createmachine" class="block pl-6 py-1 border-l-2  border-l-2 hover:text-ember
+                      border-transparent">
+                      useMachine with createMachine
+                    </a>
+                  </li>
+              </ul>
+          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#sending-events" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              Sending events
+            </a>
+
+              <ul class>
+                  <li>
+                    <a href="#the-statecharts-context---using-withcontext" class="block pl-6 py-1 border-l-2  border-l-2 hover:text-ember
+                      border-transparent">
+                      The statechart's context - using withContext
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#customizing-the-statecharts-config---using-withconfig" class="block pl-6 py-1 border-l-2  border-l-2 hover:text-ember
+                      border-transparent">
+                      Customizing the statechart's config - using withConfig
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#including-event-data" class="block pl-6 py-1 border-l-2  border-l-2 hover:text-ember
+                      border-transparent">
+                      Including event data
+                    </a>
+                  </li>
+              </ul>
+          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#matching-state" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              Matching state
+            </a>
+
+<!---->          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#update---reacting-to-changes-to-usemachine" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              .update - Reacting to changes to useMachine
+            </a>
+
+<!---->          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#ontransition" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              .onTransition
+            </a>
+
+<!---->          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#working-with-typescript" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              Working with TypeScript
+            </a>
+
+<!---->          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#visualizing-statecharts" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              Visualizing statecharts
+            </a>
+
+<!---->          </li>
+          <li class="pb-2 border-l border-gray-400">
+            <a href="#further-reading" class="block px-2 py-1 border-l-2 hover:text-ember
+              border-transparent">
+              Further reading
+            </a>
+
+<!---->          </li>
+      </ul>
+  
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+<footer class="bg-gray-50" aria-labelledby="footerHeading">
+  <div class="mx-auto max-w-7xl lg:px-8">
+    <h2 id="footerHeading" class="sr-only">
+      Footer
+    </h2>
+    <div class="max-w-md px-4 pt-12 mx-auto sm:max-w-7xl sm:px-6 lg:pt-16 lg:px-8">
+      <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div class="space-y-6 xl:col-span-1">
+          <div class="flex items-center text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 512 512" class="fill-none transform translate-y-0.5"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><g transform="translate(391.636 94.812)"><path class="stroke-current" d="M24.364 137.191c57.05.66 54.3 124.332 52.925 186.169M-273.827 25.188c-91.6-.223-87.183-42.741-84.974-64" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><circle cx="23" cy="23" r="23" transform="translate(-383.636 -70.812)" class="text-current fill-current"/><path class="stroke-current" d="M-250.136 25.72L-270.6 41.18l-1.031-29.439z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="15.99376"/><path class="stroke-current" d="M24.364 1.54c0-13.44-6.327-24.352-14.121-24.352h-315.758c-7.793 0-14.121 10.912-14.121 24.352v271.3c0 13.441 6.327 24.353 14.121 24.353H10.243c7.793 0 14.121-10.912 14.121-24.353zM77.262 337.986l14.738-21H62.532zM24.364 137.188c57.05-.66 54.3-124.332 52.925-186.169" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/><path class="stroke-current" d="M77.262-63.607l14.738 21H62.532z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" stroke-width="16"/></g><g class="fill-current" fill-rule="evenodd"><path d="M396.599 251.08s-7.637 5.924-14.359 5.263-4.611-15.682-4.611-15.682 1.449-13.775-2.51-14.933-8.823 3.59-8.823 3.59a49.6 49.6 0 00-8.96 15.293l-.8.263s.924-15.03-.126-18.454c-.788-1.712-8.035-1.576-9.222 1.449s-6.989 24.116-7.389 32.949c0 0-11.333 9.621-21.207 11.2s-12.258-4.611-12.258-4.611 26.879-7.51 25.955-28.99-21.67-13.535-24.015-11.774c-2.275 1.712-14.407 9.028-17.948 29.291-.117.681-.331 3.7-.331 3.7s-10.409 6.975-16.207 8.823c0 0 16.207-27.278-3.551-39.662-5.557-3.345-10.4-.268-13.281 2.558-1.771 1.735 23.953-26.4 18.019-51.579-2.822-11.987-8.814-13.271-14.311-11.325-8.347 3.288-11.508 8.162-11.508 8.162a92.066 92.066 0 00-13.318 39.01c-2.5 23.318-6.187 51.52-6.187 51.52s-5.146 5.01-9.884 5.273-2.636-14.106-2.636-14.106 3.687-21.869 3.434-25.566c-.272-3.687-.535-5.662-4.884-6.975s-9.1 4.212-9.1 4.212-12.51 18.97-13.561 21.869l-.671 1.2-.652-.8s8.823-25.828.4-26.217-13.967 9.224-13.967 9.224-9.621 16.078-10.02 17.917l-.652-.788s3.95-18.707 3.162-23.328a4.23 4.23 0 00-5.136-3.687s-5.535-.662-6.985 2.9-6.722 27.142-7.384 34.652c0 0-13.833 9.884-22.929 10.01s-8.162-5.759-8.162-5.759 33.338-11.417 24.243-33.943c-4.086-5.8-8.823-7.617-15.546-7.491s-15.059 4.232-20.458 16.353a53.769 53.769 0 00-4.057 15.419s-5.827 1.2-8.989-1.44-4.8 0-4.8 0-5.428 6.926-.029 9.028 13.833 3.094 13.833 3.094a25.221 25.221 0 009.611 14.952c9.884 7.51 28.844-.691 28.844-.691l7.773-4.358s.263 7.131 5.934 8.172 8.035-.019 17.919-24c5.8-12.258 6.2-11.6 6.2-11.6.652-.136-3.823 23.318-2.111 29.642s9.222 5.672 9.222 5.672 4.086.788 7.384-10.808a168.849 168.849 0 019.621-24.379c.778 0-1.985 23.98 2.228 31.626s15.157 2.568 15.157 2.568 7.646-3.852 8.833-5.039a31.045 31.045 0 0021.859 6.323c28.6-5.633 38.777-13.24 38.777-13.24a23.616 23.616 0 0020.137 13.61c17.384 1.313 26.879-9.621 26.879-9.621s-.136 7.111 5.924 9.621 10.146-11.577 10.146-11.577l10.147-27.959c.924 0 1.449 18.182 11.47 21.081s23.056-6.79 23.056-6.79 3.162-1.741 2.636-7.014-5.268-3.303-5.268-3.303zm-263.928-13.191c3.551 3.424 2.237 10.8-4.485 15.409s-9.748 3.7-9.748 3.7c.399-15.685 10.682-22.543 14.233-19.109zm131.106-54.157c2.237 11.859-19.631 47.172-19.631 47.172.263-7.909 8.035-34.652 8.035-34.652s9.349-24.379 11.596-12.52zm-21.616 90s-1.712-5.8 3.162-22.005 16.343-9.884 16.343-9.884 7.909 6.061 1.712 22.268-21.217 9.616-21.217 9.616zm66.677-31.757c5.4-9.884 9.621-4.485 9.621-4.485s4.611 5.01-.662 12.52a15.522 15.522 0 01-12.908 6.985s-1.45-5.146 3.949-15.02z"/><path d="M362.77 281.965v-1.892h1.2c.167 0 .333.018.508.035a1.928 1.928 0 01.482.131.827.827 0 01.35.263.7.7 0 01.14.464c0 .438-.131.718-.394.832a2.6 2.6 0 01-1.017.166zm-1.428-3v7.2h1.428v-3.079h.894l1.751 3.075h1.5l-1.93-3.141a3.4 3.4 0 00.745-.158 1.742 1.742 0 00.6-.342 1.46 1.46 0 00.4-.578 2.066 2.066 0 00.15-.85 1.824 1.824 0 00-.727-1.647 3.8 3.8 0 00-2.094-.482zm-2.287 3.609a5.234 5.234 0 01.377-2.024 4.924 4.924 0 011.034-1.586 4.685 4.685 0 011.533-1.051 4.78 4.78 0 011.9-.377 4.754 4.754 0 013.426 1.428 5.09 5.09 0 011.042 1.586 5.237 5.237 0 01.385 2.024 5.313 5.313 0 01-.385 2.032 5.174 5.174 0 01-1.042 1.6 4.612 4.612 0 01-1.542 1.06 4.7 4.7 0 01-1.884.377 4.778 4.778 0 01-1.9-.377 4.578 4.578 0 01-1.533-1.06 5 5 0 01-1.034-1.6 5.31 5.31 0 01-.377-2.036zm-1.761 0a6.26 6.26 0 002 4.7 6.415 6.415 0 002.111 1.288 7.226 7.226 0 005 0 6.227 6.227 0 003.565-3.32 6.866 6.866 0 000-5.309 6.243 6.243 0 00-1.454-2.024 6.44 6.44 0 00-2.111-1.288 7.1 7.1 0 00-5 0 6.415 6.415 0 00-2.111 1.288 6.244 6.244 0 00-1.456 2.011 6.327 6.327 0 00-.544 2.65z"/></g></g></svg>
+
+            <span class="ml-2 text-lg font-semibold leading-none md:text-xl transform -translate-x-1">
+              statecharts
+            </span>
+          </div>
+          <p class="text-base text-gray-500">
+            <span class="align-middle">
+              The easiest way to use
+            </span>
+            <a href="https://xstate.js.org/" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 279.8 98.5" class="inline w-16 h-8 align-middle fill-current text-current hover:text-gray-700"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+            </a>
+            <strong class="align-middle">
+              statecharts
+            </strong>
+            <span class="align-middle">
+              in Ember.js applications.
+            </span>
+          </p>
+          <div class="flex space-x-6">
+            <a href="https://github.com/LevelbossMike/ember-statecharts" target="_blank" rel="noreferrer noopener" class="text-gray-400 hover:text-gray-500">
+              <span class="sr-only">
+                GitHub
+              </span>
+              <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://discord.com/invite/emberjs#e-statecharts" target="_blank" rel="noreferrer noopener" class="text-gray-400 hover:text-gray-500">
+              <span class="sr-only">
+                Discord
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-6 h-6 fill-current" viewBox="0 0 16 16"><path d="M6.552 6.712c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888.008-.488-.36-.888-.816-.888zm2.92 0c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888s-.36-.888-.816-.888z"/><path d="M13.36 0H2.64C1.736 0 1 .736 1 1.648v10.816c0 .912.736 1.648 1.64 1.648h9.072l-.424-1.48 1.024.952.968.896L15 16V1.648C15 .736 14.264 0 13.36 0zm-3.088 10.448s-.288-.344-.528-.648c1.048-.296 1.448-.952 1.448-.952-.328.216-.64.368-.92.472-.4.168-.784.28-1.16.344a5.604 5.604 0 01-2.072-.008 6.716 6.716 0 01-1.176-.344 4.688 4.688 0 01-.584-.272c-.024-.016-.048-.024-.072-.04-.016-.008-.024-.016-.032-.024-.144-.08-.224-.136-.224-.136s.384.64 1.4.944c-.24.304-.536.664-.536.664-1.768-.056-2.44-1.216-2.44-1.216 0-2.576 1.152-4.664 1.152-4.664 1.152-.864 2.248-.84 2.248-.84l.08.096c-1.44.416-2.104 1.048-2.104 1.048s.176-.096.472-.232c.856-.376 1.536-.48 1.816-.04.048-.008.088-.016.136-.016a6.521 6.521 0 014.024.752s-.632-.6-1.992-1.016l.112-.128s1.096-.024 2.248.84c0 0 1.152 2.088 1.152 4.664 0 0-.68 1.16-2.448 1.216z"/></svg>
+            </a>
+            <div class="text-gray-400" title="Coming Soon">
+              <span class="sr-only">
+                Youtube
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-6 h-6 fill-current" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 011.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 01-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 01-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 010 7.68v-.122C.002 7.343.01 6.6.064 5.78l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 011.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 017.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+          <div class="hidden md:grid md:grid-cols-2 md:gap-8"></div>
+          <div class="grid grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-sm font-semibold tracking-wider text-gray-400 uppercase">
+                Help
+              </h3>
+              <ul class="mt-4 space-y-4">
+                <li>
+                  <a href="/versions/master/docs" id="ember74" class="active ember-view text-base text-gray-500 hover:text-gray-900">
+                    Documentation
+                  </a>
+                </li>
+
+                <li>
+                  <a href="https://xstate.js.org/docs/" target="_blank" rel="noreferrer noopener" class="flex items-center text-base text-gray-500 hover:text-gray-700">
+                    <svg viewBox="0 0 279.8 98.5" class="w-16 h-8 fill-current text-current"><path d="M55.8 10.4h19.5L55.6 44.6c-6-10.7-5.9-23.7.2-34.2zM75.4 88.1L30.5 10.4H11l22.4 38.9L11 88.1h19.5l12.7-21.9 12.6 21.9z"/><g class="st0"><path d="M89.1 59.8c3.2 2.7 6.9 4 11.3 4.1 5.2-.1 7.8-2 7.9-5.7 0-3.1-1.7-4.9-5.2-5.5-1.6-.2-3.4-.5-5.3-.8-3.4-.6-6-1.9-7.8-3.9-1.8-2.1-2.8-4.6-2.8-7.6 0-3.6 1.2-6.5 3.5-8.7 2.2-2.2 5.4-3.3 9.5-3.3 4.9.1 9.2 1.5 12.9 4.2l-3.4 5.1c-3-2-6.3-3.1-9.8-3.2-1.9 0-3.4.5-4.6 1.4-1.3 1-2 2.5-2 4.4 0 1.2.4 2.3 1.3 3.2.9 1 2.3 1.7 4.3 2 1.1.2 2.6.4 4.5.6 3.7.5 6.5 1.9 8.3 4.1 1.8 2.2 2.6 4.7 2.6 7.7-.3 8.1-4.9 12-14 12.1-5.9 0-10.9-1.9-15.2-5.6l4-4.6zM135.5 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM180.9 60.5h-15.1l-3.1 9.2h-6.4l14.4-41h5l14.4 41H184l-3.1-9.2zm-1.7-5.5l-5.7-17.9h-.1L167.6 55h11.6zM205.4 34.2h-10.9v-5.5h27.8v5.5h-10.9v35.5h-6V34.2zM234.2 28.7h25.4v5.8h-19.4v11.7h16.5v5.5h-16.5v12.1h19.4v5.8h-25.4V28.7z"/></g></svg>
+                    <span>
+                      Guides
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/LevelbossMike/ember-statecharts" target="_blank" rel="noreferrer noopener" class="text-base text-gray-500 hover:text-gray-900">
+                    GitHub
+                  </a>
+                </li>
+
+                <li>
+                  <a href="https://discord.com/invite/emberjs#e-statecharts" target="_blank" rel="noreferrer noopener" class="text-base text-gray-500 hover:text-gray-900">
+                    Discord
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="md:mt-0">
+              <h3 class="text-sm font-semibold tracking-wider text-gray-400 uppercase">
+                Support
+              </h3>
+              <ul class="mt-4 space-y-4">
+                <li>
+                  <a href="https://www.effective-ember.com/" target="_blank" rel="noopener noreferrer" class="flex items-center text-base text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" class="w-6 h-6 fill-current"><defs><clipPath id="a"><path d="M0 0h512v512H0z"/></clipPath></defs><g clip-path="url(#a)"><path fill="none" d="M0 0h512v512H0z"/><path d="M45.636 224.548L261.555 43.371l40.835 48.666a10 10 0 01-1.232 14.088L100.56 274.447a10 10 0 01-14.088-1.233l-40.836-48.666zM124.409 318.425l215.919-181.177 47.263 56.326-215.918 181.177zM203.181 412.303l97.958-82.196a20 20 0 0128.177 2.465l34.407 41.005-113.278 95.052-47.264-56.326zM359.319 281.288l59.781-50.162 47.264 56.326-75.102 63.018-34.408-41.005a20 20 0 012.465-28.177z"/></g></svg>
+                    <span class="ml-1 font-semibold tracking-tighter">
+                      effective ember
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-8 mt-12 border-t border-gray-200">
+        <p class="text-base text-gray-400 xl:text-center">
+          © 2021
+          <span class="font-semibold tracking-tighter">
+            effective ember
+          </span>
+          . All rights reserved.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="x/boundary" id="fastboot-body-end"></script>
+
+    <script src="/versions/master/assets/vendor-ae4946763298382f95083d18a77913e1.js"></script>
+    <script src="/versions/master/assets/site-c0304fde2820828abb54a1a639e69767.js"></script>
+
+    
+  </body>
+</html>
