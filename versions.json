@@ -36,7 +36,7 @@
     "tag": "v0.13.0"
   },
   "master": {
-    "path": "/versions/master/",
+    "path": "versions/master",
     "name": "master",
     "sha": "4d7198fcf2be3b2399f7d0f7731d824c4e80ddd3",
     "tag": null
