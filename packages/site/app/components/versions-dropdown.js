@@ -96,7 +96,7 @@ export default class VersionsDropdown extends Component {
   }
 
   @action redirectTo({ target: { value } }) {
-    window.location.href = value;
+    window.location.href = `/${value}`;
   }
 
   @action async loadVersions() {

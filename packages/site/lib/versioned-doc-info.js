@@ -4,7 +4,7 @@
 const getRepoInfo = require('git-repo-info');
 
 module.exports = function (deployTarget) {
-  let dir, name, rootURL;
+  let dir, name, rootURL, _path;
   let { sha, tag, branch } = getRepoInfo();
 
   if (deployTarget === 'tag') {
@@ -26,8 +26,10 @@ module.exports = function (deployTarget) {
 
   if (deployTarget === 'latest') {
     rootURL = '/';
+    _path = '';
   } else {
     rootURL = `/${destDir}/`;
+    _path = destDir;
   }
 
   return {
@@ -38,5 +40,6 @@ module.exports = function (deployTarget) {
     destDir,
     rootURL,
     deployTarget,
+    path: _path,
   };
 };

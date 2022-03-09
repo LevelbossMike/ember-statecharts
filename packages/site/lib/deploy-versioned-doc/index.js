@@ -20,7 +20,7 @@ module.exports = {
           gitDeploy: { worktreePath },
         } = context;
 
-        const { name, destDir, rootURL, sha, tag } = versionedDocInfo(
+        const { name, destDir, sha, tag, path: _path } = versionedDocInfo(
           deployTarget
         );
 
@@ -63,7 +63,7 @@ module.exports = {
         }
 
         versionsJSON[key] = {
-          path: rootURL,
+          path: _path,
           name,
           sha,
           tag,
