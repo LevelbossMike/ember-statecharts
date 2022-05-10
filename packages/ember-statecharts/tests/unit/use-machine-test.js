@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, clearRender, click, waitUntil } from '@ember/test-helpers';
+import { registerWarnHandler } from '@ember/debug';
 import hbs from 'htmlbars-inline-precompile';
 import { Machine, actions, createMachine } from 'xstate';
 import Component from '@glimmer/component';
@@ -323,36 +324,49 @@ module('Unit | use-machine', function (hooks) {
         });
 
         test('when args or local state passed to `useMachine` is changed a warning is issued', async function (assert) {
+          let warnings = [];
+
+          registerWarnHandler((message) => {
+            warnings = [...warnings, message];
+          });
+
           const { TestMachine, CreatedTestMachine } = this;
 
           this.set('lol', function () {});
           this.set('machine', TestMachine);
 
           await render(hbs`
-            <Test @lol={{this.lol}} @machine={{this.machine}}/>
-          `);
+        <Test @lol={{this.lol}} @machine={{this.machine}}/>
+        `);
 
           // local state change
           this.set('test.name', 'Zoey');
 
-          assert.expectWarning(
-            ARGS_STATE_CHANGE_WARNING,
+          assert.deepEqual(
+            warnings,
+            [ARGS_STATE_CHANGE_WARNING],
             'warning was issued based on local state change'
           );
 
           // args change `withConfig`
+          warnings = [];
+
           this.set('lol', function () {});
 
-          assert.expectWarning(
-            ARGS_STATE_CHANGE_WARNING,
+          assert.deepEqual(
+            warnings,
+            [ARGS_STATE_CHANGE_WARNING],
             'warning was issued based on args change used in `withConfig`'
           );
 
           // args change `useMachine`
+          warnings = [];
+
           this.set('machine', CreatedTestMachine);
 
-          assert.expectWarning(
-            ARGS_STATE_CHANGE_WARNING,
+          assert.deepEqual(
+            warnings,
+            [ARGS_STATE_CHANGE_WARNING],
             'warning was issued based on args change'
           );
         });

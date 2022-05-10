@@ -14,11 +14,15 @@ global application state).
 - Ember.js v3.24 or above
 - Ember CLI v3.20 or above
 - Node.js v12 or above
+- ember-auto-import-v2
 
 For classic Ember.js-versions pre Ember Octane please use the `0.8.x`-version
 of this addon.
 
 For Ember.js versions `< 3.24` please use the `0.13.x`-version of this addon.
+
+If you are not using ember-auto-import-v2 please use the `0.14.x`-version of
+this addon.
 
 ## Installation
 

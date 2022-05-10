@@ -1,5 +1,6 @@
 import Statechart from 'dummy/utils/statechart';
 import { module, test } from 'qunit';
+import { registerWarnHandler } from '@ember/debug';
 
 module('Unit | Utility | statechart', function (/*hooks*/) {
   module('#send', function () {
@@ -144,6 +145,12 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
       test('if sent data contains a type property a warning is issued', async function (assert) {
         assert.expect(3);
 
+        let warnings = [];
+
+        registerWarnHandler((message) => {
+          warnings = [message];
+        });
+
         const testData = {
           name: 'Tomster',
           type: 'trolol',
@@ -177,9 +184,9 @@ module('Unit | Utility | statechart', function (/*hooks*/) {
                   { name: 'Tomster' },
                   'data was passed as expected'
                 );
-                assert.expectWarning(
-                  `You passed property \`type\` as part of the data you sent with the event \`woot\` . This is not supported - \`woot\` will be used as event name.`
-                );
+                assert.deepEqual(warnings, [
+                  `You passed property \`type\` as part of the data you sent with the event \`woot\` . This is not supported - \`woot\` will be used as event name.`,
+                ]);
               },
             },
           }

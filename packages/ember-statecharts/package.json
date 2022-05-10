@@ -32,6 +32,7 @@
     "npm-publish": "release-it"
   },
   "dependencies": {
+    "ember-auto-import": "^2.4.1",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-cli-typescript": "^3.1.4"
@@ -61,8 +62,8 @@
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-angle-bracket-invocation-polyfill": "^2.0.2",
-    "ember-cli": "~3.28.4",
     "ember-auto-import": "^1.11.3",
+    "ember-cli": "~3.28.4",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
@@ -79,7 +80,6 @@
     "ember-modifier": "^2.1.1",
     "ember-page-title": "^6.2.2",
     "ember-qunit": "^5.1.4",
-    "ember-qunit-assert-helpers": "^0.2.2",
     "ember-resolver": "^8.0.2",
     "ember-source": "~3.28.0",
     "ember-template-lint": "^3.6.0",
@@ -96,7 +96,9 @@
     "qunit-dom": "^1.6.0",
     "release-it": "^13.6.2",
     "typedoc": "^0.20.36",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "webpack": "^5.70.0",
+    "xstate": "^4.12.0"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"

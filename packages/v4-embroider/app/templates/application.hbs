@@ -1,0 +1,14 @@
+{{page-title 'V4Embroider'}}
+
+<h2 id='title'>{{this.text}}</h2>
+
+{{#if this.isOff}}
+  <div>Off</div>
+{{else}}
+  <div>On</div>
+{{/if}}
+<button type='button' {{on 'click' (fn this.statechart.send 'TOGGLE')}}>
+  Toggle
+</button>
+
+{{outlet}}
