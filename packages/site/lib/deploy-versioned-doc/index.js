@@ -20,9 +20,13 @@ module.exports = {
           gitDeploy: { worktreePath },
         } = context;
 
-        const { name, destDir, sha, tag, path: _path } = versionedDocInfo(
-          deployTarget
-        );
+        const {
+          name,
+          destDir,
+          sha,
+          tag,
+          path: _path,
+        } = versionedDocInfo(deployTarget);
 
         // cache current build
         let currentBuild = path.join(os.tmpdir(), 'current-build-');
