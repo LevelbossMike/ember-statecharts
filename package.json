@@ -10,9 +10,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "devDependencies": {
-    "lerna": "^4.0.0"
-  },
   "volta": {
     "node": "14.18.1",
     "yarn": "1.22.17"
