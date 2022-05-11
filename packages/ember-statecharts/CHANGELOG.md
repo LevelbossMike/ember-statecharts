@@ -1,3 +1,15 @@
+# [0.15.0-beta.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.14.0...v0.15.0-beta.0) (2022-05-11)
+
+
+### Bug Fixes
+
+* make linter happy ([af41285](https://github.com/LevelbossMike/ember-statecharts/commit/af412858e0822ac841d24a9e0d2ef9280f6ea762))
+* make sure addon works with embroider ([3178b07](https://github.com/LevelbossMike/ember-statecharts/commit/3178b0790e9ccd92d253ef159491dd2c76349481))
+* more fixes for embroider ([4ddc193](https://github.com/LevelbossMike/ember-statecharts/commit/4ddc193f14102bf511a977c541a3aa2089f2c72f))
+* pin eslint to 7.29 ([cc327c5](https://github.com/LevelbossMike/ember-statecharts/commit/cc327c5c3face9ad319440ec507bfb5c0640e653))
+* remove ember-auto-import from dev dependencies ([0b6a4f7](https://github.com/LevelbossMike/ember-statecharts/commit/0b6a4f7ead4ffdd81dd5b02fed819e41351a8a27))
+* test-setup test-app / site ([15d29e9](https://github.com/LevelbossMike/ember-statecharts/commit/15d29e976e7545126bf6a9811e302a27663a5fc2))
+
 # [0.14.0](https://github.com/LevelbossMike/ember-statecharts/compare/v0.13.2...v0.14.0) (2022-03-09)
 
 
