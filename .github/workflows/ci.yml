@@ -28,55 +28,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/checkout@v3
+      - name: Use Volta
+        uses: volta-cli/action@v1
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
         with:
-          node-version: 14
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 6.32.6
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
+        run: pnpm install
       - name: Lint
-        run: yarn run lerna run lint
+        run: pnpm -r lint
       - name: Tests
-        run: yarn run lerna run test:ember
-
-  test-locked-deps:
-    name: Locked Deps
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
-      - name: Lint
-        run: yarn run lerna run lint
-      - name: Browser Tests
-        run: yarn run lerna run test:ember
-
-  test-old-dependencies:
-    name: Oldest Supported Env
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 12
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
-      - name: Browser Tests
-        run: yarn run lerna run test:ember
+        run: pnpm -r test:ember
 
   test-try:
     name: Ember Try (${{ matrix.scenario }})
@@ -87,23 +57,35 @@ jobs:
         include:
           - scenario: ember-lts-3.24
             allow-failure: false
+          - scenario: ember-lts-3.28
+            allow-failure: false
           - scenario: ember-release
             allow-failure: false
           - scenario: ember-beta
             allow-failure: false
           - scenario: ember-canary
             allow-failure: false
+          - scenario: embroider-safe
+            allow-failure: false
+          - scenario: embroider-optimized
+            allow-failure: false
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
+        uses: actions/checkout@v3
+      - name: Use Volta
+        uses: volta-cli/action@v1
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
         with:
-          node-version: 14
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 6.32.6
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
+        run: pnpm install
       - name: Try Scenario
-        run: yarn run lerna exec --stream --scope test-app ember try:one ${{ matrix.scenario }}
+        run: pnpm --filter test-app exec ember try:one ${{ matrix.scenario }}
         continue-on-error: ${{ matrix.allow-failure }}
