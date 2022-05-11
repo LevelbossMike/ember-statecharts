@@ -87,5 +87,5 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Try Scenario
-        run: pnpm --filter test-app exec ember try:one ${{ matrix.scenario }}
+        run: pnpm test:try ${{ matrix.scenario }} --filter test-app
         continue-on-error: ${{ matrix.allow-failure }}
