@@ -78,7 +78,18 @@ export declare class Statechart<
   _interpretMachine(
     machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>,
     opts?: InterpreterOptions
-  ): Interpreter<TContext, TStateSchema, TEvent, TTypestate>;
+  ): Interpreter<
+    TContext,
+    TStateSchema,
+    TEvent,
+    TTypestate,
+    import('xstate').ResolveTypegenMeta<
+      import('xstate').TypegenDisabled,
+      import('xstate').NoInfer<TEvent>,
+      import('xstate').BaseActionObject,
+      import('xstate').ServiceMap
+    >
+  >;
   _restart(
     machine: StateMachine<TContext, TStateSchema, TEvent, TTypestate>,
     initialState?: State<TContext, TEvent, TStateSchema, TTypestate>

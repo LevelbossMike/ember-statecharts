@@ -44,7 +44,7 @@ export function useResource<
 
       return typeof value === 'function' ? value.bind(instance) : value;
     },
-    ownKeys(target): (string | number | symbol)[] {
+    ownKeys(target): (string | symbol)[] {
       return Reflect.ownKeys(target.value);
     },
     getOwnPropertyDescriptor(target, key): PropertyDescriptor | undefined {
