@@ -282,10 +282,9 @@ export default class MyComponent extends Component {
     }
   })
 
-  @task(function*() {
+  buttonClickedTask = task(async () => {
     // ...
-  })
-  buttonClickedTask;
+  });
 
   @action
   buttonClicked() {

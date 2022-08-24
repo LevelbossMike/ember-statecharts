@@ -7,10 +7,8 @@ import buttonMachine, {
   ButtonEvent,
   ButtonState,
 } from '../machines/typed-button';
-import { TaskGenerator } from 'ember-concurrency';
 
-import { task } from 'ember-concurrency-decorators';
-import { taskFor } from 'ember-concurrency-ts';
+import { task } from 'ember-concurrency';
 
 import { action } from '@ember/object';
 
@@ -72,15 +70,15 @@ export default class TypedButton extends Component<ButtonArgs> {
     }
   );
 
-  @task *submitTask(): TaskGenerator<void> {
+  submitTask = task(this, async () => {
     try {
-      const result = yield this.onClick();
+      const result = await this.onClick();
 
       this.statechart.send('SUCCESS', { result });
     } catch (e) {
       this.statechart.send('ERROR', { error: e });
     }
-  }
+  });
 
   @action
   handleClick(): void {
@@ -109,7 +107,7 @@ export default class TypedButton extends Component<ButtonArgs> {
 
   @action
   performSubmitTask(): void {
-    taskFor(this.submitTask).perform();
+    this.submitTask.perform();
   }
 }
 // END-SNIPPET

@@ -58,15 +58,14 @@ export default class QuickstartButtonFinal extends Component {
     };
   });
 
-  @task(function* () {
+  handleSubmitTask = task(async () => {
     try {
-      const result = yield this.onClick();
+      const result = await this.onClick();
       this.statechart.send('SUCCESS', { result });
     } catch (e) {
       this.statechart.send('ERROR', { error: e });
     }
-  })
-  handleSubmitTask;
+  });
 
   @action
   handleClick() {
