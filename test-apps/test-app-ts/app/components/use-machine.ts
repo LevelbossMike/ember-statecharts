@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { useMachine } from 'ember-statecharts';
-import toggleMachine from '../machines/toggle-machine';
+import toggleMachine from '../machines/toggle';
 
 export default class UseMachineTest extends Component {
   statechart = useMachine(this, () => {
@@ -10,11 +10,11 @@ export default class UseMachineTest extends Component {
   });
 
   get isOn() {
-    return this.statechart.state.matches('on');
+    return this.statechart.state?.matches('on');
   }
 
   get isOff() {
-    return this.statechart.state.matches('off');
+    return this.statechart.state?.matches('off');
   }
 
   toggle = () => {

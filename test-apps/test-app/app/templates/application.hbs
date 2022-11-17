@@ -1,11 +1,7 @@
 {{page-title 'TestApp'}}
 
-<h2 id='title'>Welcome to Ember</h2>
+<h2 id='title'>Welcome to Test-App</h2>
 
-<div>{{this.statechart.state.value}}</div>
-<button
-  type='button'
-  {{on 'click' (fn this.statechart.send 'TOGGLE')}}
->TOGGLE</button>
+<UseMachine />
 
 {{outlet}}
