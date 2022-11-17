@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - v2-addon
   pull_request: {}
 
 concurrency:
