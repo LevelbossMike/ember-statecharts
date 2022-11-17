@@ -21,12 +21,26 @@ For Ember.js versions `< 3.24` please use the `0.13.x`-version of this addon.
 
 ## Installation
 
+
 ```
 ember install ember-statecharts
 ```
 
+ember-statecharts implemens the `useMachine`-resource. You need to install
+[ember-resources](https://github.com/NullVoxPopuli/ember-resources) to work with it.
+
+```
+ember install ember-resources
+```
+
 Because ember-statecharts works with [XState](https://xstate.js.org) internally
 you have to install it as a dependency as well.
+
+```
+pnpm install -D xstate
+```
+
+or
 
 ```
 yarn add --dev xstate
@@ -58,15 +72,14 @@ In addition to their modeling capabilities Statecharts are executable and can be
 
 ```js
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
-import { task } from 'ember-concurrency';
 
-import { matchesState, useMachine } from 'ember-statecharts';
-import { Machine } from 'xstate';
+import { useMachine } from 'ember-statecharts';
+
+import { createMachine } from 'xstate';
 
 function noop() {}
 
-const buttonMachine = Machine(
+const buttonMachine = createMachine(
   {
     initial: 'idle',
     states: {
@@ -76,20 +89,20 @@ const buttonMachine = Machine(
         },
       },
       busy: {
-        entry: ['handleSubmit'],
-        on: {
-          SUCCESS: 'success',
-          ERROR: 'error',
-        },
+        invoke: {
+          src: 'onSubmit',
+          onDone: 'success',
+          onError: 'error'
+        }
       },
       success: {
-        entry: ['handleSuccess'],
+        entry: ['onSuccess'],
         on: {
           SUBMIT: 'busy',
         },
       },
       error: {
-        entry: ['handleError'],
+        entry: ['onError'],
         on: {
           SUBMIT: 'busy',
         },
@@ -98,67 +111,54 @@ const buttonMachine = Machine(
   },
   {
     actions: {
-      handleSubmit() {},
-      handleSuccess() {},
-      handleError() {},
+      onSuccess() {},
+      onError() {},
     },
+    services: {
+      onSubmit: async () => {}
+    }
   }
 );
 
 export default class QuickstartButton extends Component {
-  get onClick() {
-    return this.args.onClick || noop;
-  }
-
   statechart = useMachine(this, () => {
-    const { performSubmitTask, onSuccess, onError } = this;
+    const { onSubmit, onSuccess, onError } = this;
 
     return {
       machine: quickstartButtonMachine.withConfig({
         actions: {
-          handleSubmit: performSubmitTask,
-          handleSuccess: onSuccess,
-          handleError: onError,
+          onSuccess,
+          onError,
         },
+        services: {
+          onSubmit
+        }
       }),
     };
   });
 
-  @matchesState('busy')
-  isBusy;
+  get isBusy() {
+    return this.statechart.state.matches('busy');
+  }
 
   get isDisabled() {
     return this.isBusy || this.args.disabled;
   }
 
-  @task(function* () {
-    try {
-      const result = yield this.onClick();
-      this.statechart.send('SUCCESS', { result });
-    } catch (e) {
-      this.statechart.send('ERROR', { error: e });
-    }
-  })
-  handleSubmitTask;
-
-  @action
-  handleClick() {
+  handleClick = () => {
     this.statechart.send('SUBMIT');
   }
 
-  @action
-  onSuccess(_context, { result }) {
-    return (this.args.onSuccess && this.args.onSuccess(result)) || noop();
+  async onSubmit() {
+    await (this.args.onSubmit || noop)();
   }
 
-  @action
-  onError(_context, { error }) {
-    return (this.args.onError && this.args.onError(error)) || noop();
+  onSuccess = (_context, { data }) => {
+    return this.args.onSuccess?(data);
   }
 
-  @action
-  performSubmitTask() {
-    this.handleSubmitTask.perform();
+  onError = (_context, { data }) => {
+    return this.args.onError?(data);
   }
 }
 ```
