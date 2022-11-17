@@ -1,0 +1,19 @@
+{{! BEGIN-SNIPPET quickstart-button-final }}
+<button
+  type='button'
+  class='
+  w-32 border p-4 bg-ember border-ember shadow
+    rounded outline-none text-white font-bold
+  {{if this.showAsDisabled 'cursor-not-allowed opacity-50'}}
+  '
+  disabled={{this.isDisabled}}
+  ...attributes
+  {{on 'click' this.handleClick}}
+>
+  {{#if this.isBusy}}
+    <UiLoading data-test-loading />
+  {{else}}
+    {{yield}}
+  {{/if}}
+</button>
+{{! END-SNIPPET }}

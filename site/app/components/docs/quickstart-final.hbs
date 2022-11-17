@@ -1,0 +1,54 @@
+<Demo as |demo|>
+  <div class='lg:flex item-center'>
+    {{! BEGIN-SNIPPET quickstart-button-final-used }}
+    <QuickstartButtonRefined
+      @onClick={{perform this.submitTask}}
+      @onSuccess={{this.onSuccess}}
+      @onError={{this.onError}}
+      @disabled={{this.disabled}}
+    >
+      Click me!
+    </QuickstartButtonRefined>
+    {{! END-SNIPPET }}
+    <div class='mt-4 lg:mt-0 lg:ml-8 flex items-center'>
+      <label for='failRequest-final'>
+        Fail request?
+      </label>
+      <Input
+        @class='ml-2'
+        @type='checkbox'
+        @id='failRequest-final'
+        @name='failRequest'
+        @checked={{this.failRequest}}
+      />
+    </div>
+    <div class='flex items-center lg:ml-8'>
+      <label for='disabled-final'>
+        Disable button?
+      </label>
+      <Input
+        @class='ml-2'
+        @type='checkbox'
+        @id='disabled-final'
+        @name='failRequest'
+        @checked={{this.disabled}}
+      />
+    </div>
+  </div>
+  <demo.ui.useSnippet
+    @name='quickstart-button-final.js'
+    @title='quickstart-button/component.js'
+  />
+  <demo.ui.useSnippet
+    @name='quickstart-button-final.hbs'
+    @title='quickstart-button/template.hbs'
+  />
+  <demo.ui.useSnippet
+    @name='quickstart-button-final-used.hbs'
+    @title='template.hbs'
+  />
+  <demo.ui.useSnippet
+    @name='quickstart-button-final-used.js'
+    @title='controller.js'
+  />
+</Demo>

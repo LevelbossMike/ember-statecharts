@@ -3,24 +3,29 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd my-addon`
-* `yarn`
+* `cd ember-statecharts`
+* `pnpm install`
 
 ## Linting
 
-* `yarn run lint:hbs`
-* `yarn run lint:js`
-* `yarn run lint:js -- --fix`
+* `pnpm lint`
+* `pnpm lint:fix`
+
+## Building the addon
+
+* `cd ember-statecharts`
+* `pnpm build`
 
 ## Running tests
 
-* `ember test` – Runs the test suite on the current Ember version
-* `ember test --server` – Runs the test suite in "watch mode"
-* `ember try:each` – Runs the test suite against multiple Ember versions
+* `cd test-app`
+* `pnpm test` – Runs the test suite on the current Ember version
+* `pnpm test:watch` – Runs the test suite in "watch mode"
 
-## Running the dummy application
+## Running the test application
 
-* `ember serve`
-* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
+* `cd test-app`
+* `pnpm start`
+* Visit the test application at [http://localhost:4200](http://localhost:4200).
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+For more information on using ember-cli, visit [https://cli.emberjs.com/release/](https://cli.emberjs.com/release/).

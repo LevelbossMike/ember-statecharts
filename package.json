@@ -1,20 +1,28 @@
 {
-  "name": "ember-statecharts-root",
-  "version": "0.13.2",
+  "name": "ember-statecharts",
+  "version": "0.0.0",
   "private": true,
-  "description": "Statecharts for Ember.js applications",
-  "homepage": "https://ember-statecharts.com/",
-  "repository": "https://github.com/LevelbossMike/ember-statecharts",
+  "repository": "",
   "license": "MIT",
   "author": "",
-  "workspaces": [
-    "packages/*"
-  ],
-  "devDependencies": {
-    "lerna": "^4.0.0"
+  "scripts": {
+    "prepare": "pnpm build",
+    "build": "pnpm --filter ember-statecharts build",
+    "start": "concurrently 'npm:start:*' --restart-after 5000 --prefix-colors cyan,white,yellow",
+    "start:tests": "pnpm --filter test-app start",
+    "start:test-ts": "pnpm --filter test-app-ts start --port=0",
+    "start:addon": "pnpm --filter ember-statecharts start --no-watch.clearScreen",
+    "test": "pnpm --filter test-app test",
+    "test:ts": "pnpm --filter test-app-ts test",
+    "lint": "pnpm --filter '*' lint",
+    "lint:fix": "pnpm --filter '*' lint:fix"
   },
-  "volta": {
-    "node": "14.18.1",
-    "yarn": "1.22.17"
-  }
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "prettier": "^2.5.1"
+  },
+  "workspaces": [
+    "ember-statecharts",
+    "test-app"
+  ]
 }
