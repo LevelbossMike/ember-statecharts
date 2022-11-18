@@ -52,7 +52,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --no-lockfile
       - name: Run Tests
-        run: npm run test
+        run: pnpm test
 
   try-scenarios:
     name: ${{ matrix.try-scenario }}
