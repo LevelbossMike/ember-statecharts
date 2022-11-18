@@ -20,7 +20,7 @@
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "npm-run-all --print-name \"lint\" \"test:*\"",
-    "test:ember": "ember test"
+    "test:ember": "ember test --test-port=0"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",

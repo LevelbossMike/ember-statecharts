@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'test-app-ts/tests/helpers';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | use-machine', function (hooks) {
+module('Integration | Component | use-machine-ts', function (hooks) {
   setupRenderingTest(hooks);
 
   test('smoke test', async function (assert) {
