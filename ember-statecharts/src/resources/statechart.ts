@@ -9,6 +9,7 @@ import {
   SCXML,
   SingleOrArray,
   StateFrom,
+  StateValueFrom,
 } from 'xstate';
 import type {
   AreAllImplementationsAssumedToBeProvided,
@@ -79,6 +80,30 @@ interface StatechartArgs<
         TResolvedTypesMeta
       >['send'];
     }) => void;
+    initialState?: StateValueFrom<
+      StateMachine<
+        TContext,
+        TStateSchema,
+        TEvent,
+        TTypestate,
+        TAction,
+        TServiceMap,
+        TResolvedTypesMeta
+      >
+    >;
+    onTransition?: (
+      state: StateFrom<
+        StateMachine<
+          TContext,
+          TStateSchema,
+          TEvent,
+          TTypestate,
+          TAction,
+          TServiceMap,
+          TResolvedTypesMeta
+        >
+      >
+    ) => void;
   };
 }
 
@@ -161,17 +186,22 @@ export class Statechart<
     if (!this.#interpreter) {
       this._setupInterpreter(named);
     } else {
-      // handle update; if there's no #update we might want to issue warning
       if (named.update) {
         named.update.call(null, {
           machine: named.machine,
-          restart: () => {
-            this._setupInterpreter(named);
+          restart: (initialState?: typeof named['initialState']) => {
+            const opts = {
+              ...named,
+            };
+
+            if (initialState) {
+              opts.initialState = initialState;
+            }
+
+            this._setupInterpreter(opts);
           },
           send: this.#interpreter.send,
         });
-      } else {
-        console.log('args changed - warn');
       }
     }
   }
@@ -196,15 +226,19 @@ export class Statechart<
       >
     >['Named']
   ) {
-    const { machine } = named;
+    const { machine, initialState, onTransition } = named;
 
     const interpreter = interpret(machine).onTransition((state) => {
       this.state = state;
     });
 
+    if (onTransition) {
+      interpreter.onTransition(onTransition);
+    }
+
     this.#interpreters = [...this.#interpreters, interpreter];
 
-    interpreter.start();
+    interpreter.start(initialState || interpreter.machine.initialState);
 
     this.#interpreter = interpreter;
 
