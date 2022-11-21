@@ -1,3 +1,4 @@
 packages:
   - 'ember-statecharts'
+  - 'site'
   - 'test-apps/*'
