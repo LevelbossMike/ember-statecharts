@@ -11,7 +11,7 @@ module.exports = {
   tocMaxDepth: 3,
   sources: [
     {
-      root: path.resolve(__dirname, '../../docs'),
+      root: path.resolve(__dirname, './app/docs'),
       pattern: '**/*.md',
       urlPrefix: 'docs',
     },

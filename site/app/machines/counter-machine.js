@@ -1,7 +1,7 @@
 // BEGIN-SNIPPET counter-machine
-import { Machine, assign } from 'xstate';
+import { createMachine, assign } from 'xstate';
 
-export default Machine({
+export default createMachine({
   id: 'counterMachine',
   initial: 'inactive',
   context: {

@@ -1,13 +1,11 @@
 // BEGIN-SNIPPET quickstart-button
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { task } from 'ember-concurrency';
-import { matchesState } from 'ember-statecharts';
 import { useMachine } from 'ember-statecharts/-private/usables';
 
 import quickstartButtonMachine from '../machines/quickstart-button';
 
-function noop() {}
+async function noop() {}
 
 export default class QuickstartButton extends Component {
   get onClick() {
@@ -15,54 +13,39 @@ export default class QuickstartButton extends Component {
   }
 
   statechart = useMachine(this, () => {
-    const { performSubmitTask, onSuccess, onError } = this;
+    const { onClick, onSuccess, onError } = this;
 
     return {
       machine: quickstartButtonMachine.withConfig({
         actions: {
-          handleSubmit: performSubmitTask,
           handleSuccess: onSuccess,
           handleError: onError,
+        },
+        services: {
+          handleSubmit: onClick,
         },
       }),
     };
   });
 
-  @matchesState('busy')
-  isBusy;
+  get isBusy() {
+    return this.statechart.state.matches('busy');
+  }
 
   get isDisabled() {
     return this.isBusy || this.args.disabled;
   }
 
-  @task(function* () {
-    try {
-      const result = yield this.onClick();
-      this.statechart.send('SUCCESS', { result });
-    } catch (e) {
-      this.statechart.send('ERROR', { error: e });
-    }
-  })
-  handleSubmitTask;
-
-  @action
-  handleClick() {
+  @action handleClick() {
     this.statechart.send('SUBMIT');
   }
 
-  @action
-  onSuccess(_context, { result }) {
+  @action onSuccess(_context, { data: result }) {
     return (this.args.onSuccess && this.args.onSuccess(result)) || noop();
   }
 
-  @action
-  onError(_context, { error }) {
+  @action onError(_context, { data: error }) {
     return (this.args.onError && this.args.onError(error)) || noop();
-  }
-
-  @action
-  performSubmitTask() {
-    this.handleSubmitTask.perform();
   }
 }
 // END-SNIPPET

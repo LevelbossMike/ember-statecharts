@@ -1,7 +1,7 @@
 // BEGIN-SNIPPET counter-update-restart
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { useMachine, matchesState } from 'ember-statecharts';
+import { useMachine } from 'ember-statecharts';
 import CounterMachine from '../machines/counter-machine';
 
 export default class CounterComponent extends Component {
@@ -16,29 +16,27 @@ export default class CounterComponent extends Component {
     };
   });
 
-  @matchesState('active')
-  isActive;
+  get isActive() {
+    return this.statechart.state.matches('active');
+  }
 
-  @matchesState('inactive')
-  isDisabled;
+  get isDisabled() {
+    return this.statechart.state.matches('inactive');
+  }
 
-  @action
-  decrement() {
+  @action decrement() {
     this.statechart.send('DECREMENT');
   }
 
-  @action
-  increment() {
+  @action increment() {
     this.statechart.send('INCREMENT');
   }
 
-  @action
-  activate() {
+  @action activate() {
     this.statechart.send('ACTIVATE');
   }
 
-  @action
-  deactivate() {
+  @action deactivate() {
     this.statechart.send('DEACTIVATE');
   }
 }

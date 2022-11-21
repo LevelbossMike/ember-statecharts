@@ -1,7 +1,7 @@
 // BEGIN-SNIPPET quickstart-button-machine
-import { Machine } from 'xstate';
+import { createMachine } from 'xstate';
 
-export default Machine(
+export default createMachine(
   {
     initial: 'idle',
     states: {
@@ -11,10 +11,10 @@ export default Machine(
         },
       },
       busy: {
-        entry: ['handleSubmit'],
-        on: {
-          SUCCESS: 'success',
-          ERROR: 'error',
+        invoke: {
+          src: 'handleSubmit',
+          onDone: 'success',
+          onError: 'error',
         },
       },
       success: {
@@ -33,9 +33,11 @@ export default Machine(
   },
   {
     actions: {
-      handleSubmit() {},
       handleSuccess() {},
       handleError() {},
+    },
+    services: {
+      handleSubmit: async () => {},
     },
   }
 );

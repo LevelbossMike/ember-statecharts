@@ -1,27 +1,27 @@
 // BEGIN-SNIPPET quickstart-button-final
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { task } from 'ember-concurrency';
-import { matchesState } from 'ember-statecharts';
-import { useMachine } from 'ember-statecharts/-private/usables';
+import { useMachine } from 'ember-statecharts';
 import quickstartButtonRefinedMachine from '../machines/quickstart-button-refined';
 
-function noop() {}
+async function noop() {}
 
 export default class QuickstartButtonFinal extends Component {
   get onClick() {
     return this.args.onClick || noop;
   }
 
-  @matchesState({ activity: 'busy' })
-  isBusy;
+  get isBusy() {
+    return this.statechart.state.matches({ activity: 'busy' });
+  }
 
-  @matchesState({ interactivity: 'disabled' })
-  isDisabled;
+  get isDisabled() {
+    return this.statechart.state.matches({ interactivity: 'disabled' });
+  }
 
-  @matchesState({ interactivity: 'unknown' })
-  isInteractivityUnknown;
-
+  get isInteractivityUnknown() {
+    return this.statechart.state.matches({ interactivity: 'unknown' });
+  }
   get showAsDisabled() {
     const { isDisabled, isBusy, isInteractivityUnknown } = this;
 
@@ -29,16 +29,21 @@ export default class QuickstartButtonFinal extends Component {
   }
 
   statechart = useMachine(this, () => {
+    const { onSuccess, onError, onClick } = this;
+    const { disabled } = this.args;
+
     return {
       machine: quickstartButtonRefinedMachine
         .withContext({
-          disabled: this.args.disabled,
+          disabled,
         })
         .withConfig({
           actions: {
-            handleSubmit: this.performSubmitTask,
-            handleSuccess: this.onSuccess,
-            handleError: this.onError,
+            handleSuccess: onSuccess,
+            handleError: onError,
+          },
+          services: {
+            handleSubmit: onClick,
           },
           guards: {
             isEnabled({ disabled }) {
@@ -58,34 +63,19 @@ export default class QuickstartButtonFinal extends Component {
     };
   });
 
-  @task(function* () {
-    try {
-      const result = yield this.onClick();
-      this.statechart.send('SUCCESS', { result });
-    } catch (e) {
-      this.statechart.send('ERROR', { error: e });
-    }
-  })
-  handleSubmitTask;
-
   @action
   handleClick() {
     this.statechart.send('SUBMIT');
   }
 
   @action
-  onSuccess(_context, { result }) {
+  onSuccess(_context, { data: result }) {
     return this.args.onSuccess(result) || noop();
   }
 
   @action
-  onError(_context, { error }) {
+  onError(_context, { data: error }) {
     return this.args.onError(error) || noop();
-  }
-
-  @action
-  performSubmitTask() {
-    this.handleSubmitTask.perform();
   }
 }
 // END-SNIPPET
