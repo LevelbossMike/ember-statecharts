@@ -1,19 +1,12 @@
+/* eslint-disable no-undef */
 // BEGIN-SNIPPET typed-button
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Component from '@glimmer/component';
-import { useMachine, matchesState } from 'ember-statecharts';
+import { useMachine } from 'ember-statecharts';
 import buttonMachine, {
   ButtonContext,
   ButtonEvent,
   ButtonState,
 } from '../machines/typed-button';
-import { TaskGenerator } from 'ember-concurrency';
-
-import { task } from 'ember-concurrency-decorators';
-import { taskFor } from 'ember-concurrency-ts';
-
-import { action } from '@ember/object';
-
 interface ButtonArgs {
   disabled?: boolean;
   onClick?: () => any;
@@ -21,7 +14,6 @@ interface ButtonArgs {
   onError?: (error: any) => any;
 }
 
-/* eslint-disable-next-line @typescript-eslint/no-empty-function */
 function noop() {}
 
 export default class TypedButton extends Component<ButtonArgs> {
@@ -29,16 +21,19 @@ export default class TypedButton extends Component<ButtonArgs> {
     return this.args.onClick || noop;
   }
 
-  @matchesState({ activity: 'busy' })
-  isBusy!: boolean;
+  get isBusy() {
+    return this.statechart.state.matches({ activity: 'busy' });
+  }
 
-  @matchesState({ interactivity: 'disabled' })
-  isDisabled!: boolean;
+  get isDisabled() {
+    return this.statechart.state.matches({ interactivity: 'disabled' });
+  }
 
-  @matchesState({ interactivity: 'unknown' })
-  isInteractivityUnknown!: boolean;
+  get isInteractivityUnknown() {
+    return this.statechart.state.matches({ interactivity: 'unknown' });
+  }
 
-  get showAsDisabled(): boolean {
+  get showAsDisabled() {
     const { isDisabled, isBusy, isInteractivityUnknown } = this;
 
     return isDisabled || isBusy || isInteractivityUnknown;
@@ -54,9 +49,11 @@ export default class TypedButton extends Component<ButtonArgs> {
           })
           .withConfig({
             actions: {
-              handleSubmit: this.performSubmitTask,
               handleSuccess: this.onSuccess,
               handleError: this.onError,
+            },
+            services: {
+              handleSubmit: this.onClick,
             },
           }),
         update: ({ machine, send }) => {
@@ -72,44 +69,28 @@ export default class TypedButton extends Component<ButtonArgs> {
     }
   );
 
-  @task *submitTask(): TaskGenerator<void> {
-    try {
-      const result = yield this.onClick();
-
-      this.statechart.send('SUCCESS', { result });
-    } catch (e) {
-      this.statechart.send('ERROR', { error: e });
-    }
-  }
-
-  @action
-  handleClick(): void {
+  handleClick = () => {
     this.statechart.send('SUBMIT');
-  }
+  };
 
-  @action
-  onSuccess(
+  onSuccess = (
     _context: ButtonContext,
-    { result }: Extract<ButtonEvent, { type: 'SUCCESS ' }>
-  ): any {
+    { data: result }: Extract<ButtonEvent, { type: 'done.invoke.handleSubmit' }>
+  ): any => {
     const functionToCall = this.args.onSuccess || noop;
 
     return functionToCall(result);
-  }
+  };
 
-  @action
-  onError(
+  onError = (
     _context: ButtonContext,
-    { error }: Extract<ButtonEvent, { type: 'ERROR' }>
-  ): any {
+    {
+      data: error,
+    }: Extract<ButtonEvent, { type: 'error.platform.handleSubmit' }>
+  ): any => {
     const functionToCall = this.args.onError || noop;
 
     return functionToCall(error);
-  }
-
-  @action
-  performSubmitTask(): void {
-    taskFor(this.submitTask).perform();
-  }
+  };
 }
 // END-SNIPPET

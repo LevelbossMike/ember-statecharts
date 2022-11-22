@@ -3,8 +3,6 @@ import { tracked } from '@glimmer/tracking';
 
 import { action } from '@ember/object';
 
-import { task, timeout } from 'ember-concurrency';
-
 export default class extends Component {
   // BEGIN-SNIPPET quickstart-button-used
 
@@ -12,14 +10,15 @@ export default class extends Component {
   @tracked
   failRequest = false;
 
-  @(task(function* () {
-    yield timeout(1000);
+  doSomethingAsync = () => {
+    const promise = new Promise((resolve, reject) => {
+      const fn = this.failRequest ? reject : resolve;
 
-    if (this.failRequest) {
-      throw 'wat';
-    }
-  }).drop())
-  submitTask;
+      setTimeout(fn, 1000);
+    });
+
+    return promise;
+  };
 
   @action
   onSuccess() {

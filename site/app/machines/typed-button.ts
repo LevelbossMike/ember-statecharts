@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 // BEGIN-SNIPPET typed-button-machine
 import { createMachine } from 'xstate';
 
@@ -8,16 +7,19 @@ export interface ButtonContext {
 
 export type ButtonEvent =
   | { type: 'SUBMIT' }
-  | { type: 'SUCCESS'; result: any }
-  | { type: 'ERROR'; error: any }
+  | { type: 'done.invoke.handleSubmit'; data: any }
+  | { type: 'error.platform.handleSubmit'; data: any }
   | { type: 'ENABLE' }
   | { type: 'DISABLE' };
 
 export type ButtonState =
-  | { value: 'idle'; context: { disabled?: boolean } }
-  | { value: 'busy'; context: { disabled?: boolean } }
-  | { value: 'success'; context: { disabled?: boolean } }
-  | { value: 'error'; context: { disabled?: boolean } };
+  | { value: { activity: 'idle' }; context: { disabled?: boolean } }
+  | { value: { activity: 'busy' }; context: { disabled?: boolean } }
+  | { value: { activity: 'success' }; context: { disabled?: boolean } }
+  | { value: { activity: 'error' }; context: { disabled?: boolean } }
+  | { value: { interactivity: 'disabled' }; context: { disabled?: boolean } }
+  | { value: { interactivity: 'unknown' }; context: { disabled?: boolean } }
+  | { value: { interactivity: 'enabled' }; context: { disabled?: boolean } };
 
 export default createMachine<ButtonContext, ButtonEvent, ButtonState>(
   {
@@ -58,10 +60,10 @@ export default createMachine<ButtonContext, ButtonEvent, ButtonState>(
             },
           },
           busy: {
-            entry: ['handleSubmit'],
-            on: {
-              SUCCESS: 'success',
-              ERROR: 'error',
+            invoke: {
+              src: 'handleSubmit',
+              onDone: 'success',
+              onError: 'error',
             },
           },
           success: {
@@ -88,13 +90,17 @@ export default createMachine<ButtonContext, ButtonEvent, ButtonState>(
   },
   {
     actions: {
-      handleSubmit() {},
       handleSuccess() {},
       handleError() {},
     },
     guards: {
       isEnabled(context) {
         return !context.disabled;
+      },
+    },
+    services: {
+      handleSubmit: async () => {
+        return new Promise((resolve) => resolve);
       },
     },
   }

@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
 
 export default class extends Component {
   @tracked
@@ -14,14 +13,15 @@ export default class extends Component {
 
   // ...
 
-  @(task(function* () {
-    yield timeout(1000);
+  doSomethingAsync = () => {
+    const promise = new Promise((resolve, reject) => {
+      const fn = this.failRequest ? reject : resolve;
 
-    if (this.failRequest) {
-      throw 'wat';
-    }
-  }).drop())
-  submitTask;
+      setTimeout(fn, 1000);
+    });
+
+    return promise;
+  };
 
   @action
   onSuccess() {

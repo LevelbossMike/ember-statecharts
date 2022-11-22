@@ -2,7 +2,7 @@
   <div class='lg:flex item-center'>
     {{! BEGIN-SNIPPET typed-button-used }}
     <TypedButton
-      @onClick={{perform this.submitTask}}
+      @onClick={{this.doSomethingAsync}}
       @onSuccess={{this.onSuccess}}
       @onError={{this.onError}}
       @disabled={{this.disabled}}

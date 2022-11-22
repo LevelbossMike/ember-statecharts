@@ -278,6 +278,56 @@ we simply add a new transition to both states:
 
 <iframe class="w-full h-64 my-12 prose" src="https://xstate.js.org/viz/?gist=ea9c345de6903dd1d3eb4992c85bb92a&embed=1" />
 
+### Handling async interaction via `invoke`
+
+The current way of using a XState action to handle submission is fine, but because the submission will probably be asynchronous we can make use of the [invoking promises](https://xstate.js.org/docs/guides/communication.html#invoking-promises)-feature from XState. This cleans up our statechart configuration slightly.
+
+```js
+{
+
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        SUBMIT: 'busy'
+      }
+    },
+    busy: {
+      invoke: {
+        src: 'handleSubmit',
+        onDone: 'success',
+        onError: 'error'
+      }
+    },
+    success: {
+      entry: ['handleSuccess'],
+      on: {
+        SUBMIT: 'busy'
+      }
+    },
+    error: {
+      entry: ['handleError'],
+      on: {
+        SUBMIT: 'busy'
+      }
+    }
+  }
+}, {
+  actions: {
+    handleSuccess() {},
+    handleError() {}
+  },
+  services: {
+    handleSubmit: async () => {}
+  }
+}
+```
+
+<iframe class="w-full h-64 my-12 prose" src="https://xstate.js.org/viz/?gist=83359fae52c3620c35ab91802a8c24ca&embed=1" />
+
+
+Using an action to trigger submission isn't wrong, we are just making use of `invoke` because it cleans up the statechart configuration slightly. There are multiple ways of writing a "correct" statechart configuration, the important part is that you begin modelling your application's behavior explicitly.
+
 ### Executing the modeled statechart
 
 Modeling the statechart for our button component is complete now. But how do we actually use this in our Ember.js application?
@@ -285,7 +335,7 @@ Modeling the statechart for our button component is complete now. But how do we 
 It's pretty easy actually. We take the statechart (XState calls them
 `Machine`s) we modeled in the statechart-visualizer, create an instance of it
 and use it in our component via the
-`useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567)´that `ember-statecharts` provides.
+`useMachine`-[resource](https://github.com/NullVoxPopuli/ember-resources#what-is-a-resource)´that `ember-statecharts` provides.
 
 In our example application, we decided to create a `machines`-folder that holds all the XState-`machine`s that we plan to use in our components. We can copy and paste these out of the statechart-visualizer directly and paste them back into the visualizer when we want to see how they work.
 
@@ -298,7 +348,7 @@ component implementation. The component that decides to use the statechart
 defines what it expects to happen as external effects when the statechart
 executes its behavior - we use the `withConfig`- hook to do this.
 
-In our case, we tell the statechart to trigger the `performSubmitTask`-function and what
+In our case, we tell the statechart to trigger the `onClick`-handler and what
 should happen when the async action triggered succeeds or errors. Because we
 define these functions on the statechart itself we need to bind them to the
 component instance - we do this by using the `@action`-decorator that Ember
@@ -325,17 +375,17 @@ export default class MyComponent extends Component {
 }
 ```
 
-If a state doesn't understand an event nothing happens. You can see this while the `submitTask` is performed. If the user clicks the button repeatedly nothing happens. Because the `busy` state does not handle the `SUBMIT`-event it won't trigger the `submitTask` again.
+If a state doesn't understand an event nothing happens. You can see this while the `onClick` is executed. If the user clicks the button repeatedly nothing happens. Because the `busy` state does not handle the `SUBMIT`-event it won't trigger the `submitTask` again.
 
-When we want to keep the UI in sync with the statechart's state we can do this by using the `matchesState`-decorator.
+When we want to keep the UI in sync with the statechart's state we declare regular getters that access the `statechart`'s `state`.
 
 ```js
 // ...
 export default class MyComponent extends Component {
   // ...
-  // the second param is optional if the statechart is called `statechart`
-  @matchesState('busy', 'statechart')
-  isBusy;
+  get isBusy() {
+    return this.statechart.state.matches('busy');
+  }
 
   statechart = useMachine(this, () => {
     // ...
@@ -344,11 +394,7 @@ export default class MyComponent extends Component {
 }
 ```
 
-The `matchesState`-decorator will be `true` if the passed state matches the
-statechart's current state. You can match against a singular state, an array of
-states and even match against nested and parallel states with this
-decorator - please refer to the [working with
-statecharts](/docs/statecharts)-section for details.
+The `statechart` returned from `useMachine` is a reactive resource. So it will update whenever the internal statechart state changes.
 
 ## Refining behavior
 
@@ -416,11 +462,11 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
           },
         },
         busy: {
-          entry: ['handleSubmit'],
-          on: {
-            SUCCESS: 'success',
-            ERROR: 'error',
-          },
+          invoke: {
+            src: 'handleSubmit',
+            onDone: 'success',
+            onError: 'error'
+          }
         },
         success: {
           entry: ['handleSuccess'],
@@ -446,9 +492,11 @@ with a [parallel state](https://xstate.js.org/docs/guides/parallel.html):
 },
 {
   actions: {
-    handleSubmit() {},
     handleSuccess() {},
     handleError() {},
+  },
+  services: {
+    handleSubmit: async () => {}
   },
   guards: {
     isEnabled(context) {
@@ -466,10 +514,7 @@ You can play with the `context`-property on the statechart visualization to
 simulate a `disabled`-property that would be set from the outside in your Ember.js
 application.
 
-<iframe
-  class="w-full my-12 h-128 prose"
- src="https://xstate.js.org/viz/?gist=1b7e330cb49ccc3367b293651fa89377&embed=1"
-/>
+<iframe class="w-full h-96 my-12 prose" src="https://xstate.js.org/viz/?gist=6642fb6fb6163f2ef6e8b90eddc7906d&embed=1" />
 
 This is great! To refine this behavior we barely had to touch the existing
 statechart - we only extended existing behavior. We created a parallel state
@@ -514,9 +559,11 @@ export default class QuickstartButton extends Component {
         })
         .withConfig({
           actions: {
-            handleSubmit: this.performSubmitTask,
             handleSuccess: this.onSuccess,
             handleError: this.onError,
+          },
+          services: {
+            handleSubmit: this.onClick,
           },
           guards: {
             isEnabled({ disabled }) {
@@ -556,7 +603,6 @@ changes. `update` will be passed an object with the following structure:
 ```
 send: Function - a function to send an event to the statechart
 restart:  Function - a function to teardown the old and restart a new interpreter with the new configuration
-machine: The machine-property passed to `useMachine` - you can destructue the evaluated `config` and `context` out of this property
 ```
 
 As you can see we can either `send` an event to the statechart or decide to `restart` the entire statechart. In our case we decided to model the `args`-change explicitly and because we don't want to throw away the existing state of the statechart we opted not to use `restart`.
@@ -573,16 +619,19 @@ to display the button correctly to our users:
 
 export default class QuickstartButton extends Component {
   // ...
-  @matchesState({ activity: 'busy' })
-  isBusy;
+  get isBusy() {
+    return this.statechart.state.matches({ activity: 'busy' });
+  }
 
-  @matchesState({ interactivity: 'disabled' })
-  isDisabled;
+  get isDisabled() {
+    return this.statechart.state.matches({ interactivity: 'disabled' });
+  }
 
   // we are not sure if the button is enabled or disabled because we have yet
   // to receive a `DISABLE` or `ENABLE` event
-  @matchesState({ interactivity: 'unknown' })
-  isInteractivityUnknown;
+  get isInteractivityUnknown() {
+    return this.statechart.state.matches({ interactivity: 'unknown' });
+  }
 
   get showAsDisabled() {
     const { isDisabled, isBusy, isInteractivityUnknown } = this;
@@ -604,7 +653,7 @@ In this tutorial, you learned how you can use statecharts to explicitly model
 behavior in your Ember.js applications. You have seen how you can make use of the
 [XState-visualizer](https://xstate.js.org/viz/) to help you visualize what your components will
 be doing. We also walked through how you can make your statechart executable via
-the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567) and how you can use the `matchesState`-decorator to
+the `useMachine`-[usable](https://github.com/emberjs/rfcs/pull/567) and how you can use regular getters to
 declaratively adapt the looks of your component based on state changes.
 
 The rest of the guides will go into more detail about [how to work](/docs/statecharts)

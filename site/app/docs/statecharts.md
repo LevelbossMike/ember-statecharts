@@ -1,7 +1,7 @@
 ---
 order: 3
 ---
-# Working with statecharts
+# How-To Guides
 
 ## `XState`
 Everything that `ember-statecharts` is doing is powered by the wonderful [`XState`-library](https://xstate.js.org/). The [`XState`-guides](https://xstate.js.org/docs/) provide extensive documentation about how to write statechart-configurations - please make use of this invaluable resource.
@@ -196,7 +196,7 @@ export default class MyComponent extends Component {
       machine: buttonMachine
         .withConfig({
           services: {
-            handleSubmit: doSometingAsync
+            handleSubmit: doSomethingAsync
           }
         })
     }
@@ -242,10 +242,11 @@ const buttonMachine = Machine({
       }
     },
     busy: {
-      entry: ['handleSubmit'],
-      on: {
-        RESOLVE: 'success',
-        REJECT: 'error'
+      invoke: {
+        src: 'handleSubmit',
+        onDone: 'success',
+        onError: 'error'
+
       }
     },
     success: {},
@@ -255,9 +256,9 @@ const buttonMachine = Machine({
   actions: {
     handleSubmit(context) {
       // `context` is set to whatever object we pass to `withContext`
-      const { buttonClickedTask } = context;
+      const { doSomethingAsync } = context;
 
-      buttonClickedTask.perform();
+      return doSomethingAsync();
     }
   }
 });
@@ -265,20 +266,15 @@ const buttonMachine = Machine({
 export default class MyComponent extends Component {
   // ...
   statechart = useMachine(this, () => {
-    const { buttonClickedTask } = this;
+    const { doSomethingAsync } = this;
 
     return {
       machine: buttonMachine
         .withContext({
-          buttonClickedTask
+          doSomethingAsync
         })
     }
   })
-
-  @task(function*() {
-    // ...
-  })
-  buttonClickedTask;
 
   @action
   buttonClicked() {
@@ -450,12 +446,12 @@ export default class MyComponent extends Component {
 ## Matching state
 
 You can declaratively react to state changes in your statechart by making use
-of the `matchesState`-decorator. This means that when you want to for
+of regular getters. This means that when you want to for
 example display a button component differently based on the state it finds
 itself in this is very easy to do with `ember-statecharts`:
 
 ```js
-import { matchesState, useMachine} from 'ember-statecharts';
+import { useMachine} from 'ember-statecharts';
 
 export default class MyComponent extends Component {
   // ...
@@ -483,10 +479,12 @@ export default class MyComponent extends Component {
     }
   })
 
-  @matchesState('error', 'statechart')
-  didError;
+  get didError() {
+    return this.statechart.state.matches('error');
+  }
 }
 ```
+<br>
 
 ```hbs
 <button class="{{if this.didError "btn btn__error" "btn"}}">
@@ -495,28 +493,24 @@ export default class MyComponent extends Component {
 ```
 
 You can pass a [`StateValue`](https://xstate.js.org/api/globals.html#statevalue)
-to `matchesState`. This means you can also match
+to `matches`. This means you can also match
 against nested or [parallel](https://xstate.js.org/docs/guides/parallel.html)
 states:
 
 ```js
 // atomic state node
-@matchesState('idle', 'statechart')
+this.statechart.matches('idle');
 
 // nested state
-@matchesState({ error: 'apiError' }, 'statechart')
+this.statechart.state.matches({ error: 'apiError' });
 
 // parallel state
-@matchesState({
+this.statechart.matches({
   validity: 'invalid',
   interaction: {
     changed: 'fieldBlurred'
   }
-}, 'statechart')
-
-// the second param to `matchesState` is optional when the statechart property
-// is called `statechart`
-@matchesState('idle')
+})
 ```
 
 ## `.update` - Reacting to changes to `useMachine`

@@ -6,12 +6,14 @@ import CounterMachine from '../machines/counter-machine';
 
 export default class CounterComponent extends Component {
   statechart = useMachine(this, () => {
+    const machine = CounterMachine.withContext({
+      count: this.args.count,
+    });
+
     return {
-      machine: CounterMachine.withContext({
-        count: this.args.count,
-      }),
-      update: ({ send, machine: { context } }) => {
-        send('RESET_COUNT', { count: context.count });
+      machine,
+      update: ({ send }) => {
+        send('RESET_COUNT', { count: machine.context.count });
       },
     };
   });
