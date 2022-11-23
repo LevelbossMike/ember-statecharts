@@ -1,3 +1,4 @@
+/* eslint-disable node/no-missing-require */
 const path = require('path');
 const autolinkHeadings = require('remark-autolink-headings');
 const docfyWithProse = require('@docfy/plugin-with-prose');

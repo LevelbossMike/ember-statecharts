@@ -113,8 +113,8 @@ importers:
 
   site:
     specifiers:
-      '@docfy/ember': ^0.4.3
-      '@docfy/plugin-with-prose': ^0.4.2
+      '@docfy/ember': ^0.5.0
+      '@docfy/plugin-with-prose': ^0.5.0
       '@ember/optional-features': ^2.0.0
       '@ember/render-modifiers': ^1.0.2
       '@ember/test-helpers': ^2.6.0
@@ -204,8 +204,8 @@ importers:
       ember-cli-typescript: 3.1.4
       ember-statecharts: link:../ember-statecharts
     devDependencies:
-      '@docfy/ember': 0.4.8
-      '@docfy/plugin-with-prose': 0.4.4
+      '@docfy/ember': 0.5.0
+      '@docfy/plugin-with-prose': 0.5.0
       '@ember/optional-features': 2.0.0
       '@ember/render-modifiers': 1.0.2
       '@ember/test-helpers': 2.8.1_ember-source@3.28.10
@@ -1799,8 +1799,8 @@ packages:
     dev: true
     optional: true
 
-  /@docfy/core/0.4.4:
-    resolution: {integrity: sha512-m1q0KsRQZepXO5xZouOPXH9K8KJS7lnM6eDutHbYJsiUOG8e4ZpYYGJ+ckOTGzLKSXJGYFoRJRxO82Y9yaPhMA==}
+  /@docfy/core/0.5.0:
+    resolution: {integrity: sha512-4SBim8DAveFju1CiUfiHXGiWc+zC7CMWKid+jbwPW1AiVlwitrY2KJYGe+LN1dNxd3EcIVV8QULl7Po7ZTqxgg==}
     engines: {node: '>= 12.*'}
     dependencies:
       debug: 4.3.4
@@ -1827,11 +1827,11 @@ packages:
       - supports-color
     dev: true
 
-  /@docfy/ember/0.4.8:
-    resolution: {integrity: sha512-IxkLQJp4/pn4HvW6mxnd9ezErbrKM5i/maNUPCa3ixxFgPFMWRmwn05EP+6Y2ZAqOHaJXtkDMxllCg6tdFFFBQ==}
+  /@docfy/ember/0.5.0:
+    resolution: {integrity: sha512-kgBGrryYXTQ5pB5q8X1R6IoJMwka6W6Z/+NFYbrxv6r2BY+4pR+P8Of7rBDf/ViPRMCYIU0BtZcQWZFPeN45KA==}
     engines: {node: '>= 12'}
     dependencies:
-      '@docfy/core': 0.4.4
+      '@docfy/core': 0.5.0
       broccoli-bridge: 1.0.0
       broccoli-file-creator: 2.1.1
       broccoli-funnel: 3.0.8
@@ -1842,9 +1842,9 @@ packages:
       calculate-cache-key-for-tree: 2.0.0
       debug: 4.3.4
       ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 5.7.2
+      ember-cli-htmlbars: 6.1.1
       ember-cli-typescript: 4.2.1
-      ember-get-config: 0.3.0
+      ember-get-config: 1.1.0
       mdast-util-to-string: 2.0.0
       remark-hbs: 0.4.1
       unist-builder: 2.0.3
@@ -1854,11 +1854,11 @@ packages:
       - supports-color
     dev: true
 
-  /@docfy/plugin-with-prose/0.4.4:
-    resolution: {integrity: sha512-x+7jj08QxA3RpFx2urd/dH2lGa9jJ4NOnTOz/zB5A7Hj219jTnqofbqU0sD75JO2NBtvlMRvkvH5kLMo1tzaew==}
+  /@docfy/plugin-with-prose/0.5.0:
+    resolution: {integrity: sha512-/vaMAOWI0ra80SsPAdlR9yEQ3+ZiJr8bEUvxcRw3P2cd/J855DvqInQVT99WEb1LFLm71VaKG2e/cxIIfnf7tg==}
     engines: {node: '>= 12.*'}
     dependencies:
-      '@docfy/core': 0.4.4
+      '@docfy/core': 0.5.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3326,6 +3326,9 @@ packages:
     resolution: {integrity: sha512-7+Lpgcsa/gjGZtUN0JfQoLzUStCT68p8o6t1e4LBXyC+a5DHg2NJYFZ0U3f8F8TgQJcgtFoUAuv8p77XY6FxwQ==}
     dependencies:
       '@types/ember__object': 4.0.5
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
     dev: true
 
   /@types/ember__controller/4.0.3_@babel+core@7.20.2:
@@ -3376,9 +3379,6 @@ packages:
     dependencies:
       '@types/ember__object': 4.0.5
       '@types/ember__owner': 4.0.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
     dev: true
 
   /@types/ember__engine/4.0.4_@babel+core@7.20.2:
@@ -5937,13 +5937,6 @@ packages:
       tree-sync: 1.4.0
     transitivePeerDependencies:
       - supports-color
-
-  /broccoli-file-creator/1.2.0:
-    resolution: {integrity: sha512-l9zthHg6bAtnOfRr/ieZ1srRQEsufMZID7xGYRW3aBDv3u/3Eux+Iawl10tAGYE5pL9YB4n5X4vxkp6iNOoZ9g==}
-    dependencies:
-      broccoli-plugin: 1.3.1
-      mkdirp: 0.5.6
-    dev: true
 
   /broccoli-file-creator/2.1.1:
     resolution: {integrity: sha512-YpjOExWr92C5vhnK0kmD81kM7U09kdIRZk9w4ZDCDHuHXW+VE/x6AGEOQQW3loBQQ6Jk+k+TSm8dESy4uZsnjw==}
@@ -9646,11 +9639,11 @@ packages:
       - supports-color
     dev: true
 
-  /ember-get-config/0.3.0:
-    resolution: {integrity: sha512-0e2pKzwW5lBZ4oJnvu9qHOht4sP1MWz/m3hyz8kpSoMdrlZVf62LDKZ6qfKgy8drcv5YhCMYE6QV7MhnqlrzEQ==}
-    engines: {node: ^4.5 || 6.* || >= 7.*}
+  /ember-get-config/1.1.0:
+    resolution: {integrity: sha512-diD+HwwY8QqpEk5DnDYfH7onYwl6NOgr1qv1ENbXih+/iiWYUVS/e0S/PlM7A4gdorD9spn1bnisnTLTf49Wpw==}
+    engines: {node: 12.* || 14.* || >= 16}
     dependencies:
-      broccoli-file-creator: 1.2.0
+      '@embroider/macros': 1.9.0
       ember-cli-babel: 7.26.11
     transitivePeerDependencies:
       - supports-color
