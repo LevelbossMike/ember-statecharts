@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { createMachine, assign } from 'xstate';
-import { useMachine, matchesState } from 'ember-statecharts';
+import { useMachine } from 'ember-statecharts';
 import config from 'site/config/environment';
 
 const versionsMachine = createMachine(
@@ -54,8 +54,9 @@ export default class VersionsDropdown extends Component {
     };
   });
 
-  @matchesState('success')
-  isSuccess;
+  get isSuccess() {
+    return this.statechart.state.matches('success');
+  }
 
   get rootURL() {
     return config.rootURL;

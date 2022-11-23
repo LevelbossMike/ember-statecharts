@@ -136,7 +136,9 @@ explicitly. But async interactions with APIs are not the only complex reactive b
 want to model in your applications explicitly. If you want to model a complex sign-up flow for example
 it might include async interaction with your backend API but you will still want to model
 the rest of the sign-up flow explicitly and `ember-statecharts` will help you with that.
-You can see examples of how to use `ember-concurrency` and `ember-statecharts` in combination in the [tutorial](/docs/tutorial).
+
+Generally speaking `ember-statecharts` can do all the things `ember-concurrency` can do, but not the other way around.
+If you so desire, you can continue using `ember-concurrency` in combination with `ember-statecharts`, but you will be surprised how far [XState's invoking promises feature](https://xstate.js.org/docs/guides/communication.html#invoking-promises) will get you.
 
 ## References
 

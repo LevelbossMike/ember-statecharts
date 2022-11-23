@@ -9,6 +9,17 @@ You can install `ember-statecharts` like any other ember addon:
 ember install ember-statecharts
 ```
 
+Because `ember-statecharts` implements its behavior based on the concept of
+[resources](https://github.com/NullVoxPopuli/ember-resources) and the popular
+[XState](https://xstate.js.org/)-library you will need to install both as a
+dependency as well.
+
+```sh
+ember install ember-resources
+# depending on your package manager, e.g. with yarn
+yarn add -D xstate
+```
+
 ## A button component
 
 To help you get started with `ember-statecharts` we will walk through an
