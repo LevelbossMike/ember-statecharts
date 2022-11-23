@@ -1,7 +1,7 @@
 // BEGIN-SNIPPET quickstart-button
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { useMachine } from 'ember-statecharts/-private/usables';
+import { useMachine } from 'ember-statecharts';
 
 import quickstartButtonMachine from '../machines/quickstart-button';
 
