@@ -1,6 +1,5 @@
 {
   "name": "ember-statecharts",
-  "version": "0.0.0",
   "private": true,
   "repository": "",
   "license": "MIT",
@@ -20,8 +19,7 @@
     "concurrently": "^7.2.1",
     "prettier": "^2.5.1"
   },
-  "workspaces": [
-    "ember-statecharts",
-    "test-app"
-  ]
+  "dependencies": {
+    "@changesets/cli": "^2.25.2"
+  }
 }
