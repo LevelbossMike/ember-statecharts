@@ -1,109 +1,90 @@
-# This workflow is largely based on
-# https://github.com/salsify/ember-css-modules/blob/master/.github/workflows/ci.yml
-
 name: CI
 
-# These trigger patterns courtesy of https://github.com/broccolijs/broccoli/pull/436
 on:
-  pull_request:
   push:
-    # filtering branches here prevents duplicate builds from pull_request and push
     branches:
+      - main
       - master
-      - 'v*'
-    # always run CI for tags
-    tags:
-      - '*'
+      - v2-addon
+  pull_request: {}
 
-  # early issue detection: run CI weekly on Sundays
-  schedule:
-    - cron: '0 6 * * 0'
-
-env:
-  CI: true
+concurrency:
+   group: ci-${{ github.head_ref || github.ref }}
+   cancel-in-progress: true
 
 jobs:
   test:
-    name: Test
+    name: "Tests"
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 14
+          version: 7
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: pnpm
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
+        run: pnpm install --frozen-lockfile
       - name: Lint
-        run: yarn run lerna run lint
-      - name: Tests
-        run: yarn run lerna run test:ember
+        run: pnpm lint
+      - name: Run Tests
+        run: pnpm test
 
-  test-locked-deps:
-    name: Locked Deps
+  floating:
+    name: "Floating Dependencies"
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 14
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
-      - name: Lint
-        run: yarn run lerna run lint
-      - name: Browser Tests
-        run: yarn run lerna run test:ember
-
-  test-old-dependencies:
-    name: Oldest Supported Env
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
+          version: 7
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 14.x
+          cache: pnpm
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
-      - name: Browser Tests
-        run: yarn run lerna run test:ember
+        run: pnpm install --no-lockfile
+      - name: Run Tests
+        run: pnpm --filter="test-app" test
 
-  test-try:
-    name: Ember Try (${{ matrix.scenario }})
+  try-scenarios:
+    name: ${{ matrix.try-scenario }}
     runs-on: ubuntu-latest
+    needs: 'test'
+
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - scenario: ember-lts-3.24
-            allow-failure: false
-          - scenario: ember-release
-            allow-failure: false
-          - scenario: ember-beta
-            allow-failure: false
-          - scenario: ember-canary
-            allow-failure: false
+        try-scenario:
+          - ember-lts-3.28
+          - ember-lts-4.4
+          - ember-release
+          - ember-beta
+          - ember-canary
+          - ember-classic
+          - embroider-safe
+          - embroider-optimized
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-      - name: Install Node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 14
+          version: 7
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: pnpm
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lerna Bootstrap
-        run: yarn run lerna bootstrap
-      - name: Try Scenario
-        run: yarn run lerna exec --stream --scope test-app ember try:one ${{ matrix.scenario }}
-        continue-on-error: ${{ matrix.allow-failure }}
+        run: pnpm install --frozen-lockfile
+      - name: Run Tests
+        run: ./node_modules/.bin/ember try:one ${{ matrix.try-scenario }}
+        working-directory: test-apps/test-app
