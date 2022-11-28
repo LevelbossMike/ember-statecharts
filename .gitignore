@@ -26,3 +26,4 @@ node_modules/
 /package.json.ember-try
 /yarn.lock.ember-try
 
+/deploy-site
