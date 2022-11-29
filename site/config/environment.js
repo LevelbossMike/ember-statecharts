@@ -1,13 +1,5 @@
 'use strict';
 
-function matomoSiteIdForDeployTarget(deployTarget) {
-  if (deployTarget === 'production') {
-    return '3';
-  }
-
-  return '2';
-}
-
 module.exports = function (environment) {
   const deployTarget = process.env.DEPLOY_TARGET || 'development';
 
