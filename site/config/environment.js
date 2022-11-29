@@ -1,13 +1,5 @@
 'use strict';
 
-function matomoSiteIdForDeployTarget(deployTarget) {
-  if (deployTarget === 'production') {
-    return '3';
-  }
-
-  return '2';
-}
-
 module.exports = function (environment) {
   const deployTarget = process.env.DEPLOY_TARGET || 'development';
 
@@ -32,18 +24,10 @@ module.exports = function (environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
-    metricsAdapters: [
-      {
-        name: 'Matomo',
-        environments: ['development', 'production'],
-        config: {
-          scriptUrl: '//cdn.matomo.cloud/effective-ember.matomo.cloud',
-          trackerUrl: 'https://effective-ember.matomo.cloud',
-          siteId: matomoSiteIdForDeployTarget(deployTarget),
-          disableCookies: true,
-        },
-      },
-    ],
+    plausible: {
+      src: 'https://analytics.effective-ember.com/js/plausible.js',
+      domain: null,
+    },
   };
 
   if (process.env.DEPLOY_TARGET) {
@@ -73,6 +57,7 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    ENV.plausible.domain = 'ember-statecharts.com';
   }
 
   return ENV;
