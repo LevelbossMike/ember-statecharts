@@ -48,6 +48,10 @@ order: 1
 * **Discussing behavior is very difficult with other stakeholders**. There's no shared language between developers, designers, and other stakeholders like product owners. Thus **a lot of requirements are left unidentified in the requirements phase** of a development iteration - _loading-states_ are often forgotten and nobody on the team really can answer questions about how the application should behave when certain events have happened in the application lifecycle - _"What happens when the user loses the server connection during upload?"_ and similar are questions that come up during development but not before. This leads to **frustration on teams and missed deadlines** because so much of the implicit requirements have not been accounted for during the planning phase.
 
 ## Statecharts to the rescue
+<div class="flex items-center justify-center my-6">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/bzkYV3AeYm4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
 A way to deal with the difficulties of  client-side application development is to **use `statecharts` to model your application's behaviors explicitly**:
 
 * The literature has been conclusive in that dynamic **complex behavior is best modeled as a set of states that react to events** - statecharts are a way of modeling behavior explicitly in a scalable way even for the most complex behaviors. [[Harel 87]](#harel)
