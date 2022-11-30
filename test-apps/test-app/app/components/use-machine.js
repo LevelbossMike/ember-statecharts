@@ -20,4 +20,17 @@ export default class UseMachineTest extends Component {
   toggle = () => {
     this.statechart.send('TOGGLE');
   };
+
+  self = () => {
+    this.statechart.send('SELF');
+  };
+
+  number = 0;
+
+  get numberOfChanges() {
+    this.number++;
+    // consume the state tracked property
+    this.statechart.state;
+    return this.number;
+  }
 }

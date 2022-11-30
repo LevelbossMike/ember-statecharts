@@ -19,4 +19,18 @@ module('Integration | Component | use-machine', function (hooks) {
       .dom('[data-test-content]')
       .hasText('On', 'After clicking the toggle the state is `on`');
   });
+
+  test('self-transitions do not trigger reactive getters', async function (assert) {
+    await render(hbs`<UseMachine />`);
+
+    assert
+      .dom('[data-test-number-of-changes]')
+      .hasText('1', 'Initially only 1 call');
+
+    await click('[data-test-self-button]');
+
+    assert
+      .dom('[data-test-number-of-changes]')
+      .hasText('1', 'It should still have 1 call');
+  });
 });

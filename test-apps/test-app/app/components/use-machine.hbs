@@ -5,6 +5,10 @@
   <button type='button' data-test-toggle-button {{on 'click' this.toggle}}>
     Toggle
   </button>
+
+  <button type='button' data-test-self-button {{on 'click' this.self}}>
+    Self-transition
+  </button>
   <div data-test-content>
     {{#if this.isOn}}
       On
@@ -12,5 +16,8 @@
     {{#if this.isOff}}
       Off
     {{/if}}
+  </div>
+  <div data-test-number-of-changes>
+    {{this.numberOfChanges}}
   </div>
 </section>

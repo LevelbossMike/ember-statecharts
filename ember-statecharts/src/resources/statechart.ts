@@ -229,7 +229,9 @@ export class Statechart<
     const { machine, initialState, onTransition } = named;
 
     const interpreter = interpret(machine).onTransition((state) => {
-      this.state = state;
+      if (state.changed || state.changed === undefined) {
+        this.state = state;
+      }
     });
 
     if (onTransition) {
