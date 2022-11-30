@@ -6,7 +6,6 @@ export const toggleConfig = {
     off: {
       on: {
         TOGGLE: 'on',
-        SELF: {},
       },
     },
     on: {

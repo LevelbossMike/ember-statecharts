@@ -21,7 +21,7 @@ module('Integration | Component | use-machine', function (hooks) {
   });
 
   test('self-transitions do not trigger reactive getters', async function (assert) {
-    await render(hbs`<UseMachine />`);
+    await render(hbs`<SelfTransition />`);
 
     assert
       .dom('[data-test-number-of-changes]')
@@ -32,5 +32,28 @@ module('Integration | Component | use-machine', function (hooks) {
     assert
       .dom('[data-test-number-of-changes]')
       .hasText('1', 'It should still have 1 call');
+  });
+
+  test('self-transitions that assign to context trigger reactive getters', async function (assert) {
+    await render(hbs`<SelfTransitionAssign />`);
+
+    assert
+      .dom('[data-test-number-of-changes]')
+      .hasText('1', 'Initially only 1 call');
+
+    assert.dom('[data-test-context-count]').hasText('0', 'count starts at 0');
+
+    await click('[data-test-self-button]');
+
+    assert
+      .dom('[data-test-context-count]')
+      .hasText('1', 'Context was updated via self-transition');
+
+    assert
+      .dom('[data-test-number-of-changes]')
+      .hasText(
+        '2',
+        'reactive getter was updated because we assigned to context'
+      );
   });
 });
