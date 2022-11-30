@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "site",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "Site for ember-statecharts",
   "homepage": "https://ember-statecharts.com/",
   "repository": "https://github.com/LevelbossMike/ember-statecharts",
