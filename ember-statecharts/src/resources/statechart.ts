@@ -2,6 +2,8 @@ import { Resource } from 'ember-resources';
 import { tracked } from '@glimmer/tracking';
 import { registerDestructor } from '@ember/destroyable';
 import { action } from '@ember/object';
+import { getOwner } from '@ember/application';
+import { later, cancel } from '@ember/runloop';
 import {
   Event,
   EventData,
@@ -23,6 +25,7 @@ import type {
   NoInfer,
   BaseActionObject,
   ServiceMap,
+  InterpreterOptions,
 } from 'xstate';
 
 import type Owner from '@ember/owner';
@@ -104,6 +107,7 @@ interface StatechartArgs<
         >
       >
     ) => void;
+    interpreterOptions?: InterpreterOptions;
   };
 }
 
@@ -169,6 +173,47 @@ export class Statechart<
     registerDestructor(this, () => this.#interpreter?.stop());
   }
 
+  get config() {
+    const owner = getOwner(this);
+    if (owner) {
+      // eslint-disable-next-line
+      // @ts-ignore
+      const config = owner.resolveRegistration('config:environment') as {
+        [key: string]: unknown;
+      };
+
+      const statechartConfig = config['ember-statecharts'] as {
+        runloopClockService: boolean;
+      };
+
+      if (statechartConfig) {
+        return statechartConfig;
+      }
+    }
+    return {
+      runloopClockService: false,
+    };
+  }
+
+  get _defaultInterpreterOptions() {
+    console.log('Config: ', JSON.stringify(this.config));
+
+    if (this.config.runloopClockService) {
+      return <InterpreterOptions>{
+        clock: {
+          setTimeout(fn, timeout) {
+            later(fn, timeout);
+          },
+          clearTimeout(id) {
+            cancel(id);
+          },
+        },
+      };
+    } else {
+      return <InterpreterOptions>{};
+    }
+  }
+
   modify(
     positional: [],
     named: ExpandArgs<
@@ -226,9 +271,15 @@ export class Statechart<
       >
     >['Named']
   ) {
-    const { machine, initialState, onTransition } = named;
+    const { machine, initialState, onTransition, interpreterOptions } = named;
 
-    const interpreter = interpret(machine).onTransition((state) => {
+    const _interpreterOptions =
+      interpreterOptions || this._defaultInterpreterOptions;
+
+    console.log('default interpreter options');
+    const interpreter = interpret(machine, {
+      ..._interpreterOptions,
+    }).onTransition((state) => {
       if (state.changed || state.changed === undefined) {
         this.state = state;
       }

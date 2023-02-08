@@ -2,6 +2,8 @@ import { assert, module, test } from 'qunit';
 import { assign, createMachine } from 'xstate';
 import { useMachine } from 'ember-statecharts';
 import { tracked } from '@glimmer/tracking';
+import { later, cancel } from '@ember/runloop';
+import { settled } from '@ember/test-helpers';
 
 const toggleMachine = createMachine({
   initial: 'off',
@@ -545,6 +547,68 @@ module('Unit | statechart', function () {
             restartTest.statechart.state.value,
             'c',
             'restarted in correct, passed `initialState`'
+          );
+        });
+      });
+      module('interpreterOptions', function () {
+        test('it is possible to pass interpreterOptions to `useMachine`', async function (assert) {
+          class DelayedToggle {
+            statechart = useMachine(this, () => {
+              return {
+                machine: createMachine({
+                  initial: 'off',
+                  states: {
+                    off: {
+                      on: {
+                        TOGGLE: 'on',
+                      },
+                    },
+                    on: {
+                      after: {
+                        500: { target: 'off' },
+                      },
+                    },
+                  },
+                }),
+                interpreterOptions: {
+                  clock: {
+                    setTimeout(fn, timeout) {
+                      later.call(null, fn, timeout);
+                    },
+                    clearTimeout(id) {
+                      cancel.call(null, id);
+                    },
+                  },
+                },
+              };
+            });
+          }
+
+          const delayedTest = new DelayedToggle();
+
+          assert.strictEqual(
+            delayedTest.statechart.state.value,
+            'off',
+            'initial state is correct'
+          );
+
+          delayedTest.statechart.send('TOGGLE');
+
+          assert.strictEqual(
+            delayedTest.statechart.state.value,
+            'on',
+            'state switched to on as expected'
+          );
+
+          // make sure we await runloop - this makes sure we actually schedule
+          // on the runloop via the custom clock service and test-waiters will
+          // automatically wait for xState delays etc.
+          await settled();
+
+          assert.strictEqual(
+            delayedTest.statechart.state.value,
+            'off',
+            'state switched to off after delay'
           );
         });
       });

@@ -1,0 +1,12 @@
+<button
+  type='button'
+  {{on 'click' (fn this.statechart.send 'TOGGLE')}}
+  ...attributes
+>
+  Toggle
+</button>
+{{#if this.isOn}}
+  <div data-test-on>On</div>
+{{else}}
+  <div data-test-off>Off</div>
+{{/if}}
