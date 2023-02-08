@@ -1,5 +1,12 @@
 # site
 
+## 0.13.5
+
+### Patch Changes
+
+- Updated dependencies [9ee0ef3]
+  - ember-statecharts@0.16.0
+
 ## 0.13.4
 
 ### Patch Changes
