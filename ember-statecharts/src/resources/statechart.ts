@@ -176,6 +176,7 @@ export class Statechart<
   get config() {
     const owner = getOwner(this);
     if (owner) {
+      // eslint-disable-next-line
       // @ts-ignore
       const config = owner.resolveRegistration('config:environment') as {
         [key: string]: unknown;
