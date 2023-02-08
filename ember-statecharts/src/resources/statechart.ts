@@ -23,6 +23,7 @@ import type {
   NoInfer,
   BaseActionObject,
   ServiceMap,
+  InterpreterOptions,
 } from 'xstate';
 
 import type Owner from '@ember/owner';
@@ -104,6 +105,7 @@ interface StatechartArgs<
         >
       >
     ) => void;
+    interpreterOptions?: InterpreterOptions;
   };
 }
 
@@ -226,9 +228,13 @@ export class Statechart<
       >
     >['Named']
   ) {
-    const { machine, initialState, onTransition } = named;
+    const { machine, initialState, onTransition, interpreterOptions } = named;
 
-    const interpreter = interpret(machine).onTransition((state) => {
+    const _interpreterOptions = interpreterOptions || {};
+
+    const interpreter = interpret(machine, {
+      ..._interpreterOptions,
+    }).onTransition((state) => {
       if (state.changed || state.changed === undefined) {
         this.state = state;
       }
