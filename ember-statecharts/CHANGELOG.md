@@ -1,8 +1,15 @@
+## 0.16.1
+
+### Patch Changes
+
+- 1997100: [#394](https://github.com/LevelbossMike/ember-statecharts/pull/394) Remove console log statements in interpreter setup - [LevelbossMike](https://github.com/levelbossmike)
+
 ## 0.16.0
 
 ### Minor Changes
 
 - 9ee0ef3: [#393 Allow passing interpreterOptions to useMachine](https://github.com/LevelbossMike/ember-statecharts/pull/393) - [LevelbossMike](https://github.com/levelbossmike)
+
   ## 🥁 Features
 
   ### InterpreterOptions
