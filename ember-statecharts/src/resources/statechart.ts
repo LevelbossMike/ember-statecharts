@@ -196,8 +196,6 @@ export class Statechart<
   }
 
   get _defaultInterpreterOptions() {
-    console.log('Config: ', JSON.stringify(this.config));
-
     if (this.config.runloopClockService) {
       return <InterpreterOptions>{
         clock: {
@@ -276,7 +274,6 @@ export class Statechart<
     const _interpreterOptions =
       interpreterOptions || this._defaultInterpreterOptions;
 
-    console.log('default interpreter options');
     const interpreter = interpret(machine, {
       ..._interpreterOptions,
     }).onTransition((state) => {
