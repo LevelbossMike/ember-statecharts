@@ -189,7 +189,7 @@ const buttonMachine = createMachine(
 export default class MyComponent extends Component {
   // ...
 
-  @use statechart = useMachine(this, () => {
+  statechart = useMachine(this, () => {
     const { doSomethingAsync } = this;
 
     return {
